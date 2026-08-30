@@ -38,8 +38,11 @@ addEventListener("DOMContentLoaded", () => {
    IntersectionObserver rather than a scroll handler: the browser does the
    hit-testing, and it costs nothing while you are not scrolling.
    rootMargin (px only — it rejects rem) pulls the trigger line up under the
-   sticky toolbar, so a heading counts as "current" once it reaches the top
-   of the reading area. */
+   sticky toolbar, so a heading counts as "current" once it reaches the top of
+   the reading area. It is deliberately shorter than the sections'
+   scroll-margin-top of 72px: matching it exactly puts a jumped-to heading
+   right on the boundary, where sub-pixel rounding decides whether it counts,
+   and the section above gets marked instead. */
 addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll('.sidebar a[href^="#"]');
   if (!links.length) return;
@@ -59,14 +62,32 @@ addEventListener("DOMContentLoaded", () => {
     current = a;
   };
 
-  const seen = new Set();
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => e.isIntersecting ? seen.add(e.target) : seen.delete(e.target));
-    /* the topmost section still in view wins, so scrolling up is symmetric */
-    const first = [...seen].sort((a, b) =>
-      a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
-    if (first) mark(byId.get(first));
-  }, { rootMargin: "-72px 0px -70% 0px", threshold: 0 });
+  /* The current section is the last one whose top has passed the trigger line —
+     not the topmost one still on screen. A section you have scrolled past has a
+     negative top, so "topmost visible" always picks the one above the one you
+     are actually reading. The observer is only a cheap trigger; the decision is
+     this comparison, which is what makes clicking a link mark the right entry. */
+  const LINE = 80;
+  const pick = () => {
+    let current = null;
+    byId.forEach((link, el) => {              // Map keeps document order
+      if (el.getBoundingClientRect().top <= LINE) current = link;
+    });
+    mark(current || byId.values().next().value);
+  };
+
+  const io = new IntersectionObserver(pick, {
+    rootMargin: "0px 0px -40% 0px", threshold: [0, 1],
+  });
+  /* an anchor jump can land without changing what intersects, so listen to
+     scrolling too — throttled to one check per frame, since the work is a
+     read of every section's box */
+  let queued = false;
+  addEventListener("scroll", () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; pick(); });
+  }, { passive: true });
 
   byId.forEach((_, el) => io.observe(el));
 });

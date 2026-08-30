@@ -6,6 +6,76 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
+## [Unreleased]
+
+An audit pass. Everything here came out of `docs/known-flaws.md`, which lists
+what was found, what was verified in a browser, and what was left alone on
+purpose.
+
+### Fixed
+
+- **The shell survives a framework wrapper.** The page shell was `body > *`, so
+  a React, Vue, Svelte or Next app rendering into `<div id="root">` lost the
+  measure, the paper surface and the gutters with nothing on screen to say why.
+  The shell now also matches the children of a single `#root`, `#app`,
+  `#__next` or `[data-fertig]` wrapper. Every added selector sits inside
+  `:where()`, so specificity is unchanged.
+- **A floor under the floor.** Every colour token was an unguarded
+  `light-dark()`. In an engine without it the tokens were invalid at
+  computed-value time, so backgrounds went transparent and colour was
+  inherited — a page could land unreadable rather than plain. A
+  `@supports not (color: light-dark(…))` block at the end of the layer restates
+  the palette in flat sRGB, in both schemes.
+- **`data-size`, `data-variant` and `data-block` are scoped to controls.** As
+  bare attribute selectors they restyled any element carrying those very common
+  attribute names — a `<span data-size="sm">` picked up button padding.
+- **The focus ring no longer reshapes what it rings.** `:focus-visible` set
+  `border-radius: var(--r)`, which is the element's own radius, not the ring's:
+  a focused `<dialog>` snapped from `--rw` (14px) to `--r` (9px). Outlines
+  already follow the element's corners, so the declaration is simply gone.
+- **`<svg>` stays inline.** It was in the `display: block` rule with `img`,
+  `video` and `iframe`, which dropped every inline icon onto its own line.
+- **Toasts can stack.** Two `[popover][data-toast]` elements shared one set of
+  corner coordinates and overlapped, and an open popover is in the top layer so
+  no ordinary wrapper could stack them. `<div popover="manual"
+  data-toast-region>` is now the popover, with a `<div data-toast>` per message.
+- **A selected tab is visible in Windows High Contrast.** Its cue was a
+  `box-shadow` that the forced-colors layer removes, and the replacement set
+  `border-color` on an element with `border: 0`. It now sets a real
+  `border-bottom`.
+- **`--on-ac` survives a custom `--ac` in shipping browsers.** The
+  `contrast-color()` guard is real but almost nothing implements it. A relative
+  colour branch reaches the same black-or-white decision from the accent's own
+  lightness, and has been cross-engine since 2024.
+- **`interpolate-size: allow-keywords` is set on `details`, not `:root`.** It is
+  inherited, so the old placement changed how *your* `height: auto` transitions
+  behaved as a side effect of animating a disclosure.
+- **Two universal rules narrowed to what the sheet actually styles.**
+  `scrollbar-width: thin` no longer thins the page's own scrollbar (a
+  target-size problem for imprecise pointers), and `corner-shape: squircle` no
+  longer reshapes your components.
+- **`input[type=image]` is a button, not a text field.** It was missing from the
+  `:not()` list and got full-width sunken-field treatment.
+- **The tooltip is flow-relative and reachable on touch** — logical inset
+  properties with a `:dir(rtl)` offset, and `:active` alongside `:hover`. It is
+  still decorative, and now says so in the sheet, the README and the docs.
+- **`a[target=_blank]`** no longer appends an arrow to a link wrapping an image.
+- **Print keeps the footer.** It was hidden along with the toolbar, which drops
+  the legal line, the contact and the citations from every printout.
+- **The small variant stays small on touch.** `(pointer: coarse)` forced
+  `min-height: 44px` on everything; `data-size="sm"` opts down to 32px, still
+  above the 24px WCAG 2.5.8 floor.
+- `package.json`'s size claim, the one string `tools/sizes.py` does not reach.
+
+### Changed
+
+- **`--a1` / `--a2` are now `--fertig-a1` / `--fertig-a2`.** These are
+  `@property` registrations, and a registration is global — it cannot be
+  layered, scoped or overridden. Two-character names meant a consumer's own
+  `--a1` was silently retyped to `<number>`. The other token names are
+  deliberately short and are unchanged; they are ordinary custom properties and
+  the documented API.
+
 ## [1.1.0] — 2026-08-31
 
 A visual refresh and a component-first repositioning. No API breaks — the same
@@ -42,6 +112,12 @@ tokens, classes and attributes — but the default look changes visibly.
 
 ### Fixed
 
+- The tone bar on `.card[data-tone]` follows the corner radius again. It was an
+  inset shadow, which does not track the curve cleanly at the larger radius —
+  it read as a detached line with gaps at both top corners. It is a background
+  layer now, which the radius clips. The duplicate indicator on
+  `.card > header` is gone with it: the filled header used to hide it, and
+  without the fill both were painting.
 - Navigation lists. `[data-layout=sidebar]` shipped without any styling for the
   nav inside it, so the obvious markup — a `<menu>` in a `<nav>` — came out as
   a boxed list group. It is navigation now: no rules between items, no bullets,

@@ -926,10 +926,15 @@ nav menu :is(a, button)[aria-current] {
   aspect-ratio: 16 / 9; object-fit: cover;
   border: 0; border-radius: var(--r) var(--r) 0 0; box-shadow: none;
 }
-/* inset, not a border, so a tone never shifts the card geometry */
-.card[data-tone] { box-shadow: var(--up2), inset 0 2px 0 var(--ac) }
-/* a header paints over the card inset, so it carries the rule itself */
-.card[data-tone] > header:first-child { box-shadow: inset 0 2px 0 var(--ac) }
+/* A background layer rather than a border or an inset shadow: a border would
+   shift the card's geometry, and an inset shadow does not follow the corner
+   radius cleanly at this size — it reads as a detached bar with gaps at the
+   top corners. A gradient is clipped by the radius, so the tone hugs the curve. */
+.card[data-tone] {
+  background: linear-gradient(var(--ac), var(--ac)) top / 100% 3px no-repeat,
+              var(--el);
+}
+
 /* a card that is itself a link or button reacts like one */
 :is(a, button).card {
   display: flex; width: 100%;                 /* keep the column from .card */
