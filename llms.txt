@@ -1,13 +1,30 @@
 # fertig
 
-> A classless CSS stylesheet. Link one file, write ordinary semantic
-> HTML, and the page is finished — 28.7 KB raw, 7.8 KB gzipped, no build step,
-> no dependencies, no JavaScript, no classes required.
+> A classless CSS stylesheet that ships components, not just styled elements.
+> Link one file, write ordinary semantic HTML, and the page is finished —
+> 32.7 KB raw, 8.4 KB gzipped, no build step, no dependencies, no JavaScript,
+> no classes required.
+>
+> Menus, dialogs, drawers, toasts and tooltips are addressed by ARIA and work
+> with JavaScript disabled, because they run on `popover`, `command` and CSS
+> anchor positioning. Tabs are styled but not switched: `aria-selected` has to
+> be a real attribute, so panel switching needs about eight lines of your own
+> JavaScript. Do not claim otherwise when generating markup.
 
 fertig styles semantic HTML directly. There is no `.container`, no grid
 system and no utility classes beyond the layout set below. If you are generating markup for a page that uses it,
 write plain HTML and it will look designed. Reach for a class only from the
 short list below.
+
+## Accents
+
+Put `data-accent` on any element to retint everything inside it — links, focus
+rings, filled buttons, the caret, the selection. Values: `indigo` (default),
+`sky`, `sage`, `clay`, `plum`, `gold`, `slate`. For anything else set `--ac`.
+
+```html
+<section data-accent="sage"><button class="primary">Save</button></section>
+```
 
 ## Setup
 
@@ -98,7 +115,7 @@ button { background: hotpink }   /* wins */
 
 - fertig.css: commented source
 - fertig.min.css: minified, what you serve
-- fertig.core.min.css: same without the ARIA component layer (6.3 KB gzipped)
+- fertig.core.min.css: same without the ARIA component layer (6.9 KB gzipped)
 - index.html: landing page
 - docs.html: full documentation
 - blocks.html: ready-to-use markup blocks
@@ -114,14 +131,29 @@ position). Utilities are `ms`/`me`, never `ml`/`mr`.
 
 ## Browser support
 
-Support policy is a two-year window: browsers from the last two years, nothing
-older, so there are no vendor prefixes, no polyfills and no fallback build.
-Baseline Chrome 125 / Safari 17.5 / Firefox 129. Anchor positioning,
-contrast-color(), field-sizing, ::details-content, command/commandfor and
-closedby work in all three engines. text-box-trim, base-select and
-scroll-driven animations are absent in Firefox; interpolate-size and
-corner-shape are Chromium-only. Everything past the baseline is behind
-@supports and additive.
+The two-year window is on browsers, not on CSS. Floor: Chrome 123 (light-dark),
+Safari 17.5 (light-dark, @starting-style, text-wrap: balance), Firefox 129
+(@starting-style, transition-behavior) — i.e. anything released since
+August 2024. No vendor
+prefixes, no polyfills, no fallback build. The required CSS is mostly older
+than the window: @layer cross-engine since 2022, oklch()/color-mix() since
+2023, light-dark() since May 2024, @starting-style since August 2024. Nothing the
+sheet requires shipped inside the last two years. No component needs more than
+the floor.
+
+Two cosmetic properties are above the floor and deliberately ungated:
+scrollbar-color and accent-color (Safari 26.2). Nothing to fall back to,
+nothing breaks.
+
+Everything past the floor is behind @supports and additive, with first
+shipping versions Chrome/Safari/Firefox: anchor positioning 129/26/147,
+anchor-size() + position-visibility 125/26.2/147, relative colour
+oklch(from ...) 122/18/128 (filled-button hover only; shadow alphas use
+color-mix instead), field-sizing 123/26.2/152,
+::details-content 131/18.4/143, interpolate-size 129/-/-, contrast-color()
+147/26/146, text-box: trim-both 133/18.2/154, appearance: base-select
+135/27/-, corner-shape 139/-/-, ::spelling-error 121/17.4/-, text-wrap: pretty
+117/26/-. Full tables in docs/browser-support-research.md.
 
 ## Known gaps
 

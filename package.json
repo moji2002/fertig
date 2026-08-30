@@ -1,7 +1,7 @@
 {
   "name": "fertig",
-  "version": "1.0.3",
-  "description": "A classless CSS stylesheet with no legacy in it: no prefixes, no polyfills, no classes. Link one file, write ordinary HTML, done — 7.8 KB gzipped, no build step, no dependencies.",
+  "version": "1.1.0",
+  "description": "A classless CSS stylesheet with no legacy in it: no prefixes, no polyfills, no classes. Link one file, write ordinary HTML, done — 8.4 KB gzipped, no build step, no dependencies.",
   "keywords": [
     "fertig",
     "fertig.css",
@@ -64,6 +64,7 @@
   "scripts": {
     "build": "node build.js",
     "dev": "python3 -m http.server 8899",
-    "prepublishOnly": "node build.js"
+    "prepublishOnly": "node build.js",
+    "sizes": "python3 tools/sizes.py"
   }
 }

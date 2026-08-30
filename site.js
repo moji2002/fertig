@@ -116,8 +116,8 @@ addEventListener("DOMContentLoaded", () => {
   /* fertig ships a different accent per theme, so the controls have to start
      from the one actually in force — otherwise the panel opens in dark mode
      showing the light accent, which genuinely does fail on dark paper. */
-  const DEFAULTS = { light: { l: 48, c: 0.095, h: 250 },
-                     dark:  { l: 78, c: 0.085, h: 245 } };
+  const DEFAULTS = { light: { l: 50, c: 0.19, h: 275 },
+                     dark:  { l: 78, c: 0.11, h: 275 } };
   let touched = false;
 
   const seed = () => {
@@ -239,19 +239,15 @@ addEventListener("DOMContentLoaded", () => {
     next.focus();
   }));
 
-  /* fertig ships a different accent per theme, so each dot carries both: a
-     700-level swatch that reads on paper goes muddy on a dark ground. */
+  /* The dots carry data-accent themselves, so CSS paints each one with the
+     accent it represents — no colour is restated in JavaScript, and the swatch
+     cannot drift from what the sheet actually does. Clicking copies that
+     attribute onto the stage, which is exactly what you would write by hand. */
   const dots = [...document.querySelectorAll("#accent-dots button")];
-  const tone = d => d.dataset[isDarkTheme() ? "dark" : "light"];
-  const paint = () => dots.forEach(d => {
-    d.style.setProperty("--swatch", `oklch(${tone(d)})`);
-    if (d.getAttribute("aria-pressed") === "true")
-      stage.style.setProperty("--ac", `oklch(${tone(d)})`);
-  });
   dots.forEach(d => d.addEventListener("click", () => {
     dots.forEach(o => o.setAttribute("aria-pressed", String(o === d)));
-    paint();
+    stage.dataset.accent = d.dataset.accent;
   }));
-  addEventListener("themechange", paint);
-  paint();
+  stage.dataset.accent = dots[0].dataset.accent;
+
 });

@@ -1,10 +1,49 @@
 # fertig
 
-A classless CSS file for developers who want a project to look presentable in
-the ten seconds before they start building it. Link it, write ordinary HTML,
-and the page is finished.
+A classless CSS file that gives you **components**, not just styled elements —
+menus, dialogs, drawers, toasts and tooltips from plain semantic HTML,
+addressed by the ARIA that makes them accessible, and working with JavaScript
+switched off.
 
-**28.7 KB raw · 7.8 KB gzipped · no build step · no dependencies · no JavaScript.**
+Link it, write ordinary HTML, and the page is finished.
+
+**32.7 KB raw · 8.4 KB gzipped · no build step · no dependencies · no JavaScript.**
+
+### What makes it different
+
+Surveyed across the eleven most-used classless stylesheets on 2026-08-31
+([working notes](docs/classless-landscape-2026.md)):
+
+- **Components addressed by ARIA.** Only one other classless sheet ships a
+  single ARIA-addressed component. None ships tabs, a segmented control, or an
+  anchored popover menu.
+- **Behaviour without JavaScript.** Others style `<dialog>` and leave the open
+  and close to you. Here `popover`, `command` and anchor positioning do it —
+  [audited with scripting disabled](#components-that-work-without-javascript).
+- **Modern CSS.** Zero of the eleven use `oklch()`, `light-dark()`, `@layer`,
+  `@property`, container queries or anchor positioning. This sheet uses all of
+  them.
+- **Cascade-layered.** It lives in `@layer fertig`, so your own unlayered CSS
+  wins at any specificity and overriding never needs `!important`. No other
+  classless sheet does this.
+- **RTL by construction.** Written in logical properties throughout, not
+  patched with `[dir=rtl]` overrides afterwards.
+
+It is *not* the smallest — Concrete.css is 1.2 KB gzipped and does far less.
+Size here is a constraint, not the pitch.
+
+## Components that work without JavaScript
+
+Audited in a browser with scripting disabled:
+
+| | |
+|---|---|
+| Popover menu, dialog, drawer, toast, tooltip, disclosure | **work with no script** |
+| Tabs | **styled only** — switching panels needs ~8 lines of your own |
+
+Tabs are the one gap, and it is deliberate: `aria-selected` must be a real
+attribute for a screen reader to announce the right tab, and CSS cannot set
+attributes. The snippet is in the docs.
 
 ```html
 <link rel="stylesheet" href="fertig.css">
@@ -35,7 +74,7 @@ Opinions, so you don't have to have them: system type, one accent, one
 measure, a window on a desktop. The structure is classic — a title bar, sunken
 fields, raised buttons — and the finish is macOS: vibrancy, hairlines, soft
 radii, the blue focus ring. None of it is a period costume, and none of it is
-a picture of an OS: it is all CSS that shipped in the last two years.
+a picture of an OS: it is all CSS that every current engine already ships.
 
 - **System type, set properly** — 16px on a 1.65 line height across roughly
   seventy characters. Code keeps a monospace face, where it earns its place.
@@ -61,9 +100,25 @@ Direct children of `<body>` are the containers:
 </body>
 ```
 
-Using a framework where `body` is not the semantic parent? Re-point the four
-container rules at your root element (`#root`, `#__next`) — they are the only
-place `body >` appears.
+One wrapper is fine. React, Vue, Svelte and Next render into a mount node, so
+the shell matches `body`'s children *or* the children of a single `#root`,
+`#app`, `#__next`, or `[data-fertig]` wrapper:
+
+```html
+<body>
+  <div id="root">
+    <nav>…</nav>
+    <main>…</main>
+  </div>
+</body>
+```
+
+Deeper than that, or a differently named mount node, and you re-point the shell
+yourself — it is the only place `body >` appears:
+
+```css
+#shell > *, #shell > header, #shell > main, #shell > footer { /* … */ }
+```
 
 ## Components
 
@@ -79,8 +134,8 @@ accessible by construction.
 | Breadcrumb | `<nav aria-label="Breadcrumb"><ol>` |
 | Dialog | `<dialog>` — animates in, blurs the page behind; optional `<header>`/`<footer>` pin while the body scrolls |
 | Loading | `aria-busy="true"` (inline spinner) |
-| Tooltip | `data-tooltip="…"` |
-| Button variants | `data-variant="ghost\|link"`, `data-size="sm\|lg"`, `data-icon`, `data-block` |
+| Tooltip | `data-tooltip="…"` — decorative; put the same words in `aria-label` too |
+| Button variants | `data-variant="ghost\|link"`, `data-size="sm\|lg"`, `data-icon`, `data-block` — on controls only, so they cannot catch a `<span data-size>` of yours |
 | Card anatomy | `<header>` / `<footer>` inside `.card`; `<a class="card">` lifts on hover |
 | Tones | `data-tone="ok\|warn\|err"` retints any component |
 
@@ -92,7 +147,7 @@ no classes:
 | Avatar | `data-avatar` on an `<img>` or on initials in a `<span>`; `="sm\|lg"` |
 | Skeleton | `data-skeleton` on the element that is still loading |
 | Sheet / drawer | `<dialog data-side="left\|right\|bottom">` — the same dialog, docked to an edge |
-| Toast | `[popover][data-toast]` — non-modal, parked in a corner |
+| Toast | `[popover][data-toast]` — non-modal, parked in a corner. Several at once: `<div popover="manual" data-toast-region>` with a `<div data-toast>` per message |
 | List group | a plain `<menu>` outside a popover becomes a bordered list |
 | Nav menu | a `<menu>` inside a `<nav>` is navigation instead — no rules, no bullets, `aria-current` marks the page |
 | Sidebar layout | `data-layout="sidebar"` on a wrapper of two children; the first sticks |
@@ -149,8 +204,9 @@ Override the four tokens you'd actually want to change:
 
 If you change `--ac`, check `--on-ac` too — that is the text colour sitting on
 the accent, and a light accent needs dark text to stay legible.
-`--up` / `--up2` / `--dn` are the elevation scale, `--a1` / `--a2` the shadow
-alphas, `--rw` the window radius, and `--nw` the column the toolbar's contents
+`--up` / `--up2` / `--dn` are the elevation scale, `--fertig-a1` /
+`--fertig-a2` the shadow alphas (these two are `@property` registrations, and
+a registration is global — hence the prefix), `--rw` the window radius, and `--nw` the column the toolbar's contents
 line up with. `--nw` follows `--w`, so nothing moves by default; `<nav
 class="wide">` re-points it at the wide column, which is what an app screen
 built on `.wide` wants so its wordmark doesn't float in the middle of the
@@ -208,7 +264,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **28.7 KB** | **7.8 KB** |
+| **fertig** | **32.7 KB** | **8.4 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -228,17 +284,21 @@ button { background: hotpink }   /* wins, no !important needed */
 
 ## Modern CSS, used deliberately
 
-Everything past the baseline sits behind `@supports` and is additive:
+Everything past the floor sits behind `@supports` and is additive:
 `contrast-color()` picks the text colour on your accent so an override cannot
 fail contrast; anchor positioning attaches popover menus to their button;
 `::details-content` with `interpolate-size` animates disclosures open;
 `field-sizing` grows textareas; `corner-shape: squircle` gives continuous
 corners; `text-box: trim-both` sits headings on their cap height; and
-`@property` types the shadow alphas so elevation can transition;
-`appearance: base-select` styles the dropdown picker itself; and `.card` is a
-container you can write `@container` queries against. Without any of it,
-nothing breaks. Relative colour (`oklch(from …)`) is not in that list — it is
-baseline here, deriving both the shadow ink and the filled-button hover.
+`appearance: base-select` styles the dropdown picker itself. Without any of it,
+nothing breaks. Relative colour (`oklch(from …)`) is on that list too, for one
+job only: lightening the filled button on hover in OKLCH. The shadow alphas
+that used to need it are taken with `color-mix` against `transparent` instead —
+pixel-identical, and three years older, which is what keeps Safari 17.5 inside
+the floor. Two things are *not* on the list because they are part of the floor:
+`@property`, which types the shadow alphas so elevation can transition, and
+`container-type` on `.card`, which makes every card a container you can write
+`@container` queries against.
 
 It also answers to the OS: `prefers-reduced-motion`,
 `prefers-reduced-transparency`, `prefers-contrast`, `forced-colors`,
@@ -254,14 +314,29 @@ margins with no stranded lines.
 
 ## Browser support
 
-The policy is a two-year window: fertig targets browsers released in the last
-two years and carries nothing for the ones before them — no vendor prefixes, no
-polyfills, no fallback build. Needs `light-dark()`, `color-mix()`, `:has()`,
-`@starting-style` and relative colour — Chrome 125+, Safari 17.5+,
-Firefox 129+. Anchor positioning is
-Chromium-only for now and is wrapped in `@supports`; without it, `[popover]`
-menus centre on screen instead of sitting under their button. Everything else
-degrades to unstyled-but-readable HTML.
+The two-year window is on *browsers*, not on CSS. fertig runs in anything
+released since August 2024 and carries nothing for the ones before it — no
+vendor prefixes, no polyfills, no fallback build. The CSS it uses is mostly
+older than that: `@layer` has been cross-engine since 2022, `oklch()` and
+`color-mix()` since 2023, `light-dark()` since May 2024. The newest thing it
+*requires* is `@starting-style`, cross-engine since August 2024 — nothing it
+needs shipped inside the last two years.
+
+| Engine | Minimum | Set by |
+|---|---|---|
+| Chrome / Edge | **123** | `light-dark()` |
+| Safari | **17.5** | `light-dark()`, `@starting-style`, `text-wrap: balance` |
+| Firefox | **129** | `@starting-style`, `transition-behavior` |
+
+No component needs more than that floor — anything a component would *like* to
+have it asks for through `@supports`. Anchor positioning, for instance, is
+gated; without it `[popover]` menus centre on screen instead of sitting under
+their button. Below the floor everything degrades to unstyled-but-readable
+HTML.
+
+Per-component and per-enhancement version tables, with the shipping dates
+behind them, are in [`docs/browser-support-research.md`](docs/browser-support-research.md)
+and on the [docs site](https://moji2002.github.io/fertig/docs.html#support).
 
 ## Development
 
@@ -274,8 +349,8 @@ npm run build    # regenerate fertig.min.css and print sizes
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 28.7 KB | 7.8 KB | everything |
-| `fertig.core.min.css` | 21.8 KB | 6.3 KB | without the ARIA component layer |
+| `fertig.min.css` | 32.7 KB | 8.4 KB | everything |
+| `fertig.core.min.css` | 25.0 KB | 6.9 KB | without the ARIA component layer |
 
 Dropping the component layer saves 1.4 KB gzipped — worth knowing, rarely worth
 doing. The weight is in the element coverage and forms, not the components.

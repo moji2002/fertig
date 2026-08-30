@@ -130,8 +130,8 @@
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>28.7 KB</td><td>7.8 KB</td></tr>
-            <tr><td><code>fertig.core.min.css</code></td><td>21.8 KB</td><td>6.3 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>32.7 KB</td><td>8.4 KB</td></tr>
+            <tr><td><code>fertig.core.min.css</code></td><td>25.0 KB</td><td>6.9 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -153,11 +153,22 @@
           out to the edges.</p>
 
         <h3>Frameworks</h3>
-        <p>If your app renders into <code>#root</code> or <code>#__next</code>,
-          <code>body</code> is no longer the semantic parent. Re-point the
-          container rules — the only place <code>body &gt;</code> appears:</p>
-        <pre><code>#root > * { max-width: var(--w); margin-inline: auto; padding-inline: 1.9rem }
-#root > header, #root > main, #root > footer { background: var(--el) }</code></pre>
+        <p>One wrapper is fine. React, Vue, Svelte and Next render into a mount
+          node, so the shell matches <code>body</code>&rsquo;s children
+          <em>or</em> the children of a single <code>#root</code>,
+          <code>#app</code>, <code>#__next</code> or
+          <code>[data-fertig]</code> wrapper &mdash; no configuration:</p>
+        <pre><code>&lt;body&gt;
+  &lt;div id="root"&gt;
+    &lt;nav&gt;&hellip;&lt;/nav&gt;
+    &lt;main&gt;&hellip;&lt;/main&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+        <p>Deeper than that, or a mount node named something else, and you
+          re-point the shell yourself &mdash; it is the only place
+          <code>body &gt;</code> appears:</p>
+        <pre><code>#shell > * { max-width: var(--w); margin-inline: auto; padding-inline: 1.9rem }
+#shell > header, #shell > main, #shell > footer { background: var(--el) }</code></pre>
 
         <h3>Width</h3>
         <p>One measure, <code>--w</code> at 38rem — about seventy characters. Add <code>.wide</code> to a container for 66rem when a
@@ -313,7 +324,7 @@
           <caption>Size against comparable sheets</caption>
           <thead><tr><th>Sheet</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td>fertig</td><td>28.7 KB</td><td>7.8 KB</td></tr>
+            <tr><td>fertig</td><td>32.7 KB</td><td>8.4 KB</td></tr>
             <tr><td>Pico 2.1.1 classless</td><td>69.4 KB</td><td>10.1 KB</td></tr>
           </tbody>
         </table>
@@ -361,7 +372,35 @@
         </div>
         <p class="muted">The sheet styles the tabs; wiring which panel shows is
           yours, and takes about five lines of JavaScript.</p>
-      </section>
+      
+        <h3>Switching panels</h3>
+        <p>fertig styles tabs from their ARIA, but it cannot switch them.
+          <code>aria-selected</code> has to be a real attribute for a screen
+          reader to announce the right tab, and CSS cannot set attributes — so
+          anything CSS-only here would look right and announce wrong. This is
+          the whole of it:</p>
+        <pre><code class="language-javascript">document.querySelectorAll('[role=tablist]').forEach(list =&gt; {
+  const tabs = [...list.querySelectorAll('[role=tab]')];
+  const show = tab =&gt; tabs.forEach(t =&gt; {
+    const on = t === tab;
+    t.setAttribute('aria-selected', on);
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+  });
+  tabs.forEach((t, i) =&gt; {
+    t.addEventListener('click', () =&gt; show(t));
+    t.addEventListener('keydown', e =&gt; {          // arrows, as the role promises
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      const next = tabs[(i + d + tabs.length) % tabs.length];
+      show(next); next.focus();
+    });
+  });
+});</code></pre>
+        <p>Every other component in the sheet — menus, dialogs, drawers,
+          toasts, tooltips, disclosures — needs none of this.
+          <a href="index.html#nojs">The audit is on the homepage.</a></p>
+</section>
 
       <section id="switch">
         <h2>Switch</h2>
@@ -448,12 +487,18 @@
             </nav>
           </div>
           <pre><code>&lt;button aria-busy="true"&gt;Saving&lt;/button&gt;
-&lt;button data-tooltip="Explain it"&gt;Hover&lt;/button&gt;
+&lt;button data-tooltip="Explain it" aria-label="Hover — Explain it"&gt;Hover&lt;/button&gt;
 
 &lt;nav aria-label="Breadcrumb"&gt;
   &lt;ol&gt;&lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;
 &lt;/nav&gt;</code></pre>
         </div>
+        <p class="muted">The tooltip is decorative and stays that way:
+          generated content is not reliably exposed to assistive tech, and
+          there is no way to dismiss it without script (WCAG 1.4.13). Put the
+          same words in <code>aria-label</code> or <code>aria-describedby</code>,
+          and never say anything in a tooltip that is said nowhere else. A
+          scroll container clips it &mdash; <code>[role=group]</code> is one.</p>
       </section>
 
       <section id="tones">
@@ -553,6 +598,28 @@
             <tr><td><code>--fm</code></td><td>ui-monospace…</td><td>Code font</td></tr>
           </tbody>
         </table>
+        <h3 id="accents">Named accents</h3>
+        <p>Seven accents ship as a mapping table over the ramps. Put
+          <code>data-accent</code> on any element and everything inside it —
+          links, focus rings, filled buttons, the caret, the selection — follows.
+          It is scoped, so one section can differ from the rest of the page.</p>
+        <div class="example">
+          <div class="demo">
+            <p class="row" data-accent="sage"><button class="primary">sage</button></p>
+            <p class="row" data-accent="clay"><button class="primary">clay</button></p>
+            <p class="row" data-accent="plum"><button class="primary">plum</button></p>
+          </div>
+          <pre><code class="language-html">&lt;section data-accent="sage"&gt;
+  &lt;button class="primary"&gt;Save&lt;/button&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+        <p>The values are <code>indigo</code> (the default), <code>sky</code>,
+          <code>sage</code>, <code>clay</code>, <code>plum</code>,
+          <code>gold</code> and <code>slate</code>. Each pair is measured: the
+          light tone clears WCAG AA as link text on paper, the dark tone clears
+          it on the dark ground. For anything else, set <code>--ac</code>
+          yourself — that is all these rules do.</p>
+
         <p><a href="index.html#customize">Try these live on the homepage →</a>
           Move the accent, the radius and the measure and watch real components
           restyle, with the contrast measured as you go.</p>
@@ -686,22 +753,66 @@
 
       <section id="support">
         <h2>Browser support</h2>
-        <p>The policy is a two-year window: fertig targets browsers released
-          in the last two years and carries nothing for the ones before them.
-          The baseline is <code>light-dark()</code>, <code>color-mix()</code>,
-          <code>:has()</code>, <code>@starting-style</code> and relative colour
-          — Chrome 125+, Safari 17.5+, Firefox 129+. Below that you get
-          unstyled but perfectly readable HTML. There is no polyfill, no
+        <p>The policy is a two-year window on <em>browsers</em>, not on CSS:
+          fertig runs in anything released since August 2024 and carries
+          nothing for the ones before it. The CSS itself is older and duller
+          than that — <code>@layer</code> has been cross-engine since 2022,
+          <code>oklch()</code> and <code>color-mix()</code> since 2023,
+          <code>light-dark()</code> since May 2024. The newest thing the sheet
+          <em>requires</em> is <code>@starting-style</code>, cross-engine since
+          August 2024 — nothing it needs shipped inside the last two years.
+          Floor: <strong>Chrome 123+, Safari 17.5+, Firefox 129+</strong>. Below that you
+          get unstyled but perfectly readable HTML. There is no polyfill, no
           fallback build and no vendor prefix, with three exceptions that no
           engine has replaced yet: <code>-webkit-text-size-adjust</code>,
           the <code>-webkit-text-fill-color</code> autofill repaint, and the
           <code>progress</code> pseudo-elements.</p>
 
+        <h3>Where the floor comes from</h3>
+        <table>
+          <thead><tr><th>Engine</th><th align="center">Minimum</th><th>Set by</th></tr></thead>
+          <tbody>
+            <tr><td>Chrome / Edge</td><td align="center">123</td><td><code>light-dark()</code> (123)</td></tr>
+            <tr><td>Safari</td><td align="center">17.5</td><td><code>light-dark()</code>, <code>@starting-style</code>, <code>text-wrap: balance</code> (17.5)</td></tr>
+            <tr><td>Firefox</td><td align="center">129</td><td><code>@starting-style</code>, <code>transition-behavior</code> (129)</td></tr>
+          </tbody>
+        </table>
+        <p>Two cosmetic properties sit above that floor on purpose and are not
+          gated: <code>scrollbar-color</code> and <code>accent-color</code> only
+          reached Safari in 26.2. An engine without them paints its own
+          scrollbar and its own checkbox tick, so there is nothing to fall back
+          to and nothing to break.</p>
+
+        <h3>Which component needs which version</h3>
+        <p>No component asks for more than the floor. Anything a component
+          would <em>like</em> to have, it asks for through <code>@supports</code>,
+          so this table is short on purpose:</p>
+        <table>
+          <thead><tr><th>Component</th><th align="center">Chrome</th><th align="center">Safari</th><th align="center">Firefox</th><th>Because</th></tr></thead>
+          <tbody>
+            <tr><td>Type, tables, cards, badges, avatars, skeletons, tones, layout utilities</td>
+                <td align="center">123</td><td align="center">17.5</td><td align="center">129</td><td>floor only</td></tr>
+            <tr><td>Forms, buttons, switch, segmented control, tabs</td>
+                <td align="center">123</td><td align="center">17.5</td><td align="center">129</td><td>floor only — <code>:dir()</code> is 120 / 16.4 / 49</td></tr>
+            <tr><td><code>.card</code> as a query container</td>
+                <td align="center">123</td><td align="center">17.5</td><td align="center">129</td><td>container queries: 105 / 16 / 110</td></tr>
+            <tr><td><code>&lt;dialog&gt;</code>, drawer, sheet</td>
+                <td align="center">123</td><td align="center">17.5</td><td align="center">129</td><td><code>dialog</code>: 37 / 15.4 / 98</td></tr>
+            <tr><td><code>[popover]</code> menu, tooltip, toast</td>
+                <td align="center">123</td><td align="center">17.5</td><td align="center">129</td><td><code>popover</code>: 114 / 17 / 125</td></tr>
+            <tr><td>Carousel</td>
+                <td align="center">123</td><td align="center">17.5</td><td align="center">129</td><td>scroll snapping: 69 / 11 / 99; <code>overscroll-behavior-x</code> (144 / 16 / 150) is a nicety</td></tr>
+            <tr><td>Sticky-sidebar app layout</td>
+                <td align="center">123</td><td align="center">17.5</td><td align="center">129</td><td>media range syntax: 104 / 16.4 / 102</td></tr>
+          </tbody>
+        </table>
+
         <h3>Tested, not assumed</h3>
         <p>Every release is loaded in Chromium, WebKit and Firefox, every button
           on every page is clicked, and each page is checked for overflow,
           broken anchors, duplicate ids, unlabelled inputs and console errors.
-          This is what those three engines report today:</p>
+          This is what the current three engines — Chrome 152, Safari 26.6,
+          Firefox 154 — report today:</p>
         <table>
           <thead><tr><th>Feature</th><th align="center">Chromium</th><th align="center">WebKit</th><th align="center">Firefox</th></tr></thead>
           <tbody>
@@ -710,7 +821,8 @@
             <tr><td>Anchor positioning, <code>position-area</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
             <tr><td><code>contrast-color()</code>, <code>field-sizing</code>, <code>::details-content</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
             <tr><td><code>command</code>/<code>commandfor</code>, <code>closedby</code>, popover</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
-            <tr><td><code>text-box: trim-both</code>, <code>appearance: base-select</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
+            <tr><td><code>text-box: trim-both</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+            <tr><td><code>appearance: base-select</code></td><td align="center">✓</td><td align="center">—</td><td align="center">—</td></tr>
             <tr><td>Scroll-driven animations</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
             <tr><td><code>interpolate-size</code>, <code>corner-shape</code></td><td align="center">✓</td><td align="center">—</td><td align="center">—</td></tr>
           </tbody>
@@ -728,59 +840,84 @@
 button { background: hotpink }</code></pre>
 
         <h3>Progressive enhancement</h3>
-        <p>Everything newer than that baseline sits behind
-          <code>@supports</code> and is strictly additive — if the browser has
-          it the page is better, and if not nothing breaks.</p>
+        <p>Everything newer than that floor is strictly additive — if the
+          browser has it the page is better, and if not nothing breaks. Most of
+          it sits behind <code>@supports</code>; the last two rows do not,
+          because an engine that lacks them simply ignores the declaration. The
+          versions are the first release of each engine to ship the feature; a
+          dash means it has not shipped there yet.</p>
         <table>
-          <thead><tr><th>Feature</th><th>Buys</th><th>Without it</th></tr></thead>
+          <thead><tr><th>Feature</th><th align="center">Ch</th><th align="center">Sa</th><th align="center">Ff</th><th>Buys</th><th>Without it</th></tr></thead>
           <tbody>
-            <tr><td><code>contrast-color()</code></td>
-                <td>Text on the accent is chosen automatically, so overriding
-                    <code>--ac</code> cannot silently fail contrast</td>
-                <td>Falls back to the hand-picked <code>--on-ac</code></td></tr>
-            <tr><td>Anchor positioning</td>
+            <tr><td>Anchor positioning<br>(<code>anchor-name</code>, <code>position-area</code>)</td>
+                <td align="center">129</td><td align="center">26</td><td align="center">147</td>
                 <td><code>[popover]</code> menus sit under their button</td>
                 <td>Menu centres on screen</td></tr>
-            <tr><td><code>::details-content</code> +<br><code>interpolate-size</code></td>
-                <td>Disclosures animate open and closed</td>
-                <td>They snap, as they always have</td></tr>
-            <tr><td><code>field-sizing</code></td>
-                <td>Textareas grow with their content</td>
-                <td>Fixed height, drag to resize</td></tr>
-            <tr><td><code>corner-shape: squircle</code></td>
-                <td>Continuous corners rather than circular arcs</td>
-                <td>Ordinary rounded corners</td></tr>
-            <tr><td><code>text-box: trim-both</code></td>
-                <td>Headings sit on their cap height, optically not metrically</td>
-                <td>The font’s built-in half-leading stays</td></tr>
-            <tr><td><code>@property</code></td>
-                <td>Shadow alphas are typed, so elevation can transition</td>
-                <td>Shadows change without interpolating</td></tr>
-            <tr><td><code>appearance: base-select</code></td>
-                <td>The <code>&lt;select&gt;</code> dropdown is styled like the
-                    rest of the sheet instead of OS chrome</td>
-                <td>Native dropdown, CSS-drawn chevron</td></tr>
             <tr><td>Relative colour<br>(<code>oklch(from …)</code>)</td>
-                <td>Filled-button hover is derived from your accent
-                    perceptually</td>
-                <td><code>brightness()</code> filter</td></tr>
-            <tr><td><code>container-type</code> on <code>.card</code></td>
-                <td>You can write <code>@container</code> queries against a
-                    card’s own width</td>
-                <td>Cards still lay out normally</td></tr>
+                <td align="center">122</td><td align="center">18</td><td align="center">128</td>
+                <td>The filled-button hover is lightened in OKLCH, holding hue
+                    and chroma exactly</td>
+                <td><code>color-mix</code> with white — same lightness, a shade
+                    flatter</td></tr>
             <tr><td><code>anchor-size()</code> +<br><code>position-visibility</code></td>
+                <td align="center">125</td><td align="center">26.2</td><td align="center">147</td>
                 <td>Menus are never narrower than the button that opened them,
                     and hide when it scrolls away</td>
                 <td>Fixed minimum width</td></tr>
+            <tr><td><code>field-sizing: content</code></td>
+                <td align="center">123</td><td align="center">26.2</td><td align="center">152</td>
+                <td>Textareas grow with their content</td>
+                <td>Fixed height, drag to resize</td></tr>
+            <tr><td><code>::details-content</code></td>
+                <td align="center">131</td><td align="center">18.4</td><td align="center">143</td>
+                <td>Disclosures animate open and closed</td>
+                <td>They snap, as they always have</td></tr>
+            <tr><td><code>interpolate-size</code></td>
+                <td align="center">129</td><td align="center">—</td><td align="center">—</td>
+                <td>Lets that animation run to <code>auto</code> height</td>
+                <td>As above</td></tr>
+            <tr><td><code>contrast-color()</code></td>
+                <td align="center">147</td><td align="center">26</td><td align="center">146</td>
+                <td>Text on the accent is chosen automatically, so overriding
+                    <code>--ac</code> cannot silently fail contrast</td>
+                <td>Falls back to the hand-picked <code>--on-ac</code></td></tr>
+            <tr><td><code>text-box: trim-both</code></td>
+                <td align="center">133</td><td align="center">18.2</td><td align="center">154</td>
+                <td>Headings sit on their cap height, optically not metrically</td>
+                <td>The font’s built-in half-leading stays</td></tr>
+            <tr><td><code>appearance: base-select</code></td>
+                <td align="center">135</td><td align="center">27</td><td align="center">—</td>
+                <td>The <code>&lt;select&gt;</code> dropdown is styled like the
+                    rest of the sheet instead of OS chrome</td>
+                <td>Native dropdown, CSS-drawn chevron</td></tr>
+            <tr><td><code>corner-shape: squircle</code></td>
+                <td align="center">139</td><td align="center">—</td><td align="center">—</td>
+                <td>Continuous corners rather than circular arcs</td>
+                <td>Ordinary rounded corners</td></tr>
             <tr><td><code>::spelling-error</code></td>
+                <td align="center">121</td><td align="center">17.4</td><td align="center">—</td>
                 <td>Spellcheck squiggles follow the palette</td>
                 <td>Platform squiggles</td></tr>
+            <tr><td><code>text-wrap: pretty</code></td>
+                <td align="center">117</td><td align="center">26</td><td align="center">—</td>
+                <td>No orphans or bad rags in body copy</td>
+                <td>Ordinary line breaking</td></tr>
             <tr><td><code>&lt;input switch&gt;</code></td>
+                <td align="center">—</td><td align="center">17.4</td><td align="center">—</td>
                 <td>Safari’s native switch is styled identically to
                     <code>role="switch"</code></td>
                 <td>Renders as a checkbox</td></tr>
           </tbody>
         </table>
+        <p>Two things people expect to find in that table are not in it,
+          because they are part of the floor rather than enhancements on top of
+          it: <code>@property</code> types the shadow alphas so elevation can
+          transition, and
+          <code>container-type</code> on <code>.card</code> makes every card a
+          query container. Both of the latter are cross-engine and used
+          unguarded; relative colour is in the table above, because the sheet
+          takes its shadow alphas with <code>color-mix</code> instead — same
+          pixels, and three years older.</p>
         <h3>It answers to the OS</h3>
         <ul>
           <li><code>prefers-reduced-motion</code> — all transitions and the

@@ -23,9 +23,9 @@
     swap on prefers-color-scheme.
   -->
   <style>
-    :root { --ink: oklch(22% .008 75); --ac: oklch(48% .095 250) }
+    :root { --ink: oklch(22% .008 75); --ac: oklch(50% .19 275) }
     @media (prefers-color-scheme: dark) {
-      :root { --ink: oklch(95% .004 75); --ac: oklch(78% .085 245) }
+      :root { --ink: oklch(95% .004 75); --ac: oklch(78% .11 275) }
     }
   </style>
 

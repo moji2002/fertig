@@ -50,7 +50,10 @@ body > main { padding-bottom: 0 }
 /* the rail: a mono label in the margin, content beside it. The one structural
    idea the whole site is built from. */
 .rail { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: var(--space-md); align-items: start }
-.rail > .tag { font: var(--label); letter-spacing: .08em; text-transform: uppercase; color: var(--mut); padding-top: .5rem; margin: 0 }
+.rail > .tag {
+  font: 600 .8rem/1.4 var(--font-body); letter-spacing: 0; text-transform: none;
+  color: var(--ac); padding-top: .35rem; margin: 0;
+}
 @media (width <= 46rem) {
   .rail { grid-template-columns: minmax(0, 1fr); gap: .5rem }
   .rail > .tag { padding-top: 0 }
@@ -175,7 +178,8 @@ body > nav {
 .dots button {
   inline-size: 1.5rem; block-size: 1.5rem; padding: 0; min-width: 0;
   border-radius: 999px; border: 2px solid transparent; box-shadow: none;
-  background: var(--swatch); cursor: pointer;
+  /* each dot carries its own data-accent, so the sheet paints it */
+  background: var(--ac); cursor: pointer;
 }
 .dots button:hover { transform: scale(1.12) }
 .dots button[aria-pressed=true] { border-color: var(--fg) }
@@ -184,7 +188,7 @@ body > nav {
 }
 
 .stage {
-  border: var(--rule); border-radius: var(--rw);
+  border: var(--rule); border-radius: calc(var(--rw) + 4px);
   background: var(--bg); padding: clamp(1.2rem, 3vw, 2rem);
   container: stage / inline-size;
 }
@@ -202,15 +206,16 @@ body > nav {
 .head p { color: var(--mut); margin-bottom: 0; line-height: 1.6 }
 .page-title { font: 500 clamp(1.9rem, 5vw, 2.6rem)/1.05 var(--font-display); letter-spacing: -.04em; margin: 0 0 var(--space-sm) }
 .page-intro { max-width: 44rem; color: var(--mut); line-height: 1.6; margin: 0 }
-.eyebrow { font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin: 0 0 .8rem }
+.eyebrow { font: 600 .8rem/1.4 var(--font-body); color: var(--ac); margin: 0 0 .7rem }
 
 /* ---- the spec table: the signature move ------------------------ */
 .spec { border-collapse: collapse; inline-size: 100%; margin: 0; box-shadow: none; border: 0 }
 .spec tr { border-bottom: var(--rule); background: none }
-.spec tr:first-child { border-top: var(--rule) }
+.spec tr:first-child { border-top: 0 }
+.spec tr:last-child { border-bottom: 0 }
 .spec :is(th, td) { border: 0; background: none }
 .spec th {
-  text-align: start; font: var(--label); letter-spacing: .07em; text-transform: uppercase;
+  text-align: start; font: 500 .9rem/1.5 var(--font-body); letter-spacing: 0;
   color: var(--mut); padding: .85rem 0; inline-size: 14rem; vertical-align: baseline;
 }
 .spec td { padding: .85rem 0; font-family: var(--font-mono); font-size: .9rem; vertical-align: baseline }
@@ -221,15 +226,24 @@ body > nav {
 }
 
 /* ---- labelled rows, used instead of card grids ----------------- */
-.rows { display: grid; gap: 0 }
+/* A card grid, not hairline-separated rows. The rows read as a spec sheet,
+   which fought the showcase above them — this is the same information with the
+   same restraint, but it belongs to the same page. */
+.rows { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)) }
 .rows > * {
-  display: grid; grid-template-columns: var(--rail) minmax(0, 1fr);
-  gap: var(--space-md); padding-block: 1.1rem; border-top: var(--rule); align-items: baseline;
+  border: var(--rule); border-radius: var(--rw); padding: 1.3rem;
+  background: var(--el); min-width: 0;
 }
-.rows > :last-child { border-bottom: var(--rule) }
-.rows h3 { font: var(--label); letter-spacing: .07em; text-transform: uppercase; color: var(--fg); margin: 0 }
-.rows p { margin: 0; color: var(--mut); font-size: .92rem; line-height: 1.6; max-width: 46rem }
-@media (width <= 46rem) { .rows > * { grid-template-columns: minmax(0, 1fr); gap: .4rem } }
+.rows h3 {
+  display: flex; align-items: center; gap: .55em;
+  font: 600 1rem/1.3 var(--font-body); letter-spacing: -.01em;
+  margin: 0 0 .5rem; color: var(--fg);
+}
+.rows h3 .icon { inline-size: 1.15em; block-size: 1.15em; color: var(--ac) }
+.rows p { margin: 0; color: var(--mut); font-size: .93rem; line-height: 1.6 }
+.rows p + p { margin-top: .5rem }
+/* a row that wants the full width — a table or a wide figure */
+.rows > .span { grid-column: 1 / -1 }
 
 /* ---- grids ----------------------------------------------------- */
 .cols-2 { display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: minmax(0, 1fr); align-items: start }
@@ -255,14 +269,20 @@ body > nav {
 .bar-row > b { font-weight: 600 }
 /* --len is the bar's length, passed in from the markup as data.
    Not --w: that is fertig's measure token, and it inherits into this rule. */
-.bar-meter { display: block; inline-size: var(--len, 100%); block-size: 1.1rem; background: var(--ac) }
+.bar-meter { display: block; inline-size: var(--len, 100%); block-size: 1.1rem; background: var(--ac); border-radius: 999px }
 .bar-alt { background: color-mix(in srgb, var(--fg) 22%, transparent) }
 
 /* ---- palette showcase ------------------------------------------ */
+.panel {
+  border: var(--rule); border-radius: var(--rw);
+  background: var(--el); padding: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+.panel > :first-child { margin-top: 0 }
+.panel > :last-child { margin-bottom: 0 }
 .swatches { display: grid; gap: .45rem }
 .ramp { display: grid; grid-template-columns: 5rem repeat(5, minmax(0,1fr)); gap: .3rem; align-items: center }
 .ramp > b { font: var(--label); letter-spacing: .07em; text-transform: uppercase }
-.ramp span { display: block; block-size: 2.6rem; border: var(--rule); position: relative }
+.ramp span { display: block; block-size: 2.6rem; border: var(--rule); border-radius: var(--rs); position: relative }
 .ramp span::after { content: attr(data-step); position: absolute; inset: auto .35rem .25rem auto; font: 400 .6rem/1 var(--font-mono); color: var(--mut) }
 @media (width <= 46rem) {
   .ramp { grid-template-columns: minmax(0,1fr); gap: .15rem }
@@ -376,6 +396,31 @@ body > footer {
    and the toolbar is carried across instead of being torn down */
 @view-transition { navigation: auto }
 body > nav { view-transition-name: toolbar }
+
+/* Sections arrive as they are scrolled into view. A scroll-driven animation,
+   so there is no observer and no JavaScript — the browser runs it off the
+   scroll position. Behind @supports because where it is missing the content
+   must simply be there, not stuck at opacity 0. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .band > .wrap, .hero-center > .wrap {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 22%;
+    }
+    /* the first screen is already in view on load; animating it just delays it */
+    .hero-center > .wrap { animation: none }
+  }
+}
+/* translate only, deliberately no opacity. A scroll-driven animation sits at
+   its start position until the timeline advances, so fading in from 0 leaves
+   content invisible wherever the timeline never runs — a window taller than
+   the range, a zoomed-out page, a screenshot. Moving it 1rem is the same
+   effect to look at and cannot hide anything. */
+@keyframes rise {
+  from { translate: 0 1rem }
+  to   { translate: 0 0 }
+}
 
 /* reading progress, driven by scroll position with no JavaScript */
 .reading-progress {

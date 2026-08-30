@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fertig — classless CSS framework, no JavaScript, 7.8 KB</title>
-<meta name="description" content="fertig is a classless CSS framework built only on CSS that shipped in the last two years. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 7.8 KB gzipped, no build step, MIT.">
+<title>fertig — classless CSS framework, no JavaScript, 8.4 KB</title>
+<meta name="description" content="fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.4 KB gzipped, no build step, MIT.">
 <link rel="canonical" href="https://moji2002.github.io/fertig/">
 <meta name="theme-color" content="#111315" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
@@ -13,12 +13,12 @@
 <meta property="og:site_name" content="fertig">
 <meta property="og:url" content="https://moji2002.github.io/fertig/">
 <meta property="og:title" content="fertig — classless CSS framework, no JavaScript">
-<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS from the last two years. 7.8 KB gzipped, no build step, no runtime.">
+<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.4 KB gzipped, no build step, no runtime.">
 <meta property="og:image" content="https://moji2002.github.io/fertig/preview-dark.png">
 <meta property="og:image:alt" content="A page styled by fertig: form controls, a data table and cards on a dark background.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="fertig — classless CSS framework, no JavaScript">
-<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. 7.8 KB gzipped, no build step, no runtime.">
+<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. 8.4 KB gzipped, no build step, no runtime.">
 <meta name="twitter:image" content="https://moji2002.github.io/fertig/preview-dark.png">
 
 <script type="application/ld+json">
@@ -27,7 +27,7 @@
   "@type": "SoftwareApplication",
   "name": "fertig",
   "applicationCategory": "DeveloperApplication",
-  "description": "A classless CSS framework built only on CSS that shipped in the last two years. Semantic HTML in, a designed page out, with no JavaScript and no build step.",
+  "description": "A classless CSS framework built only on CSS that every current engine already ships. Semantic HTML in, a designed page out, with no JavaScript and no build step.",
   "url": "https://moji2002.github.io/fertig/",
   "downloadUrl": "https://www.npmjs.com/package/fertig",
   "codeRepository": "https://github.com/moji2002/fertig",
@@ -75,11 +75,11 @@
   <div class="wrap">
     <a class="pill" href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">
       <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
-      v1.0.3 — live customiser
+      v1.1.0 — modern refresh
     </a>
     <h1>Modern HTML and CSS.<br><span class="dim">No JavaScript at all.</span></h1>
-    <p class="lede">A classless stylesheet built only on CSS that shipped in the
-      last two years. Dialogs, popovers and tooltips run on native HTML
+    <p class="lede">A classless stylesheet built only on CSS that every current
+      engine already ships. Dialogs, popovers and tooltips run on native HTML
       attributes — no prefixes, no polyfills, no build step, no runtime. Link
       one file and the page is finished.</p>
     <p class="row cta-row">
@@ -89,7 +89,7 @@
         <svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>View blocks</a>
     </p>
     <p class="proof">
-      <span>7.8 KB gzipped</span>
+      <span>8.4 KB gzipped</span>
       <span>0 JavaScript</span>
       <span>0 dependencies</span>
       <span>0 required classes</span>
@@ -107,12 +107,12 @@
         <button role="tab" aria-selected="false" aria-controls="s-feedback" id="tab-feedback">Feedback</button>
       </div>
       <p class="dots" id="accent-dots" aria-label="Accent colour">
-        <button type="button" aria-pressed="true" data-light="48% .095 250" data-dark="78% .085 245" aria-label="Ink blue"></button>
-        <button type="button" aria-pressed="false" data-light="47% .055 155" data-dark="80% .075 155" aria-label="Sage"></button>
-        <button type="button" aria-pressed="false" data-light="50% .09 40" data-dark="80% .085 45" aria-label="Clay"></button>
-        <button type="button" aria-pressed="false" data-light="47% .065 320" data-dark="80% .065 320" aria-label="Plum"></button>
-        <button type="button" aria-pressed="false" data-light="55% .085 80" data-dark="84% .090 85" aria-label="Gold"></button>
-        <button type="button" aria-pressed="false" data-light="35% .01 250" data-dark="86% .006 250" aria-label="Graphite"></button>
+        <button type="button" aria-pressed="true" data-accent="indigo" aria-label="Indigo"></button>
+        <button type="button" aria-pressed="false" data-accent="sage" aria-label="Sage"></button>
+        <button type="button" aria-pressed="false" data-accent="clay" aria-label="Clay"></button>
+        <button type="button" aria-pressed="false" data-accent="plum" aria-label="Plum"></button>
+        <button type="button" aria-pressed="false" data-accent="gold" aria-label="Gold"></button>
+        <button type="button" aria-pressed="false" data-accent="slate" aria-label="Slate"></button>
       </p>
     </div>
 
@@ -227,18 +227,51 @@
 
 <main>
   <section class="band" style="border-top:0">
-    <div class="wrap rail">
-      <p class="tag">Specification</p>
+    <div class="wrap">
+      <div class="panel">
       <table class="spec">
         <tbody>
-          <tr><th>Transfer size</th><td>7.8 KB <span>— fertig.min.css, gzipped</span></td></tr>
-          <tr><th>Core build</th><td>6.3 KB <span>— without the component layer</span></td></tr>
+          <tr><th>Transfer size</th><td>8.4 KB <span>— fertig.min.css, gzipped</span></td></tr>
+          <tr><th>Core build</th><td>6.9 KB <span>— without the component layer</span></td></tr>
           <tr><th>Dependencies</th><td>0 <span>— no build step, no configuration</span></td></tr>
           <tr><th>Required classes</th><td>0 <span>— seven components and a layout set, all optional</span></td></tr>
           <tr><th>Contrast</th><td>AA <span>— every pair, both themes, measured</span></td></tr>
-          <tr><th>Browser policy</th><td>2 years <span>— nothing carried for the ones before</span></td></tr>
+          <tr><th>Browser floor</th><td>Chrome 123, Safari 17.5, Firefox 129 <span>— anything since Aug 2024; nothing carried for the ones before</span></td></tr>
         </tbody>
       </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="nojs">
+    <div class="wrap">
+      <div class="head">
+        <h2>Switch JavaScript off. It still works.</h2>
+        <p>Every other classless sheet that styles a <code>&lt;dialog&gt;</code>
+          leaves you to write the open and close yourself. fertig leans on what
+          the platform now ships — <code>popover</code>, <code>command</code>,
+          anchor positioning — so these are behaviour-complete with no script at
+          all. The table is an audit run in a browser with JavaScript disabled,
+          not a claim.</p>
+      </div>
+      <div class="panel">
+      <table class="spec">
+        <tbody>
+          <tr><th>Popover menu</th><td>works <span>— anchored to its button</span></td></tr>
+          <tr><th>Dialog</th><td>works <span>— opens and closes through <code>command</code></span></td></tr>
+          <tr><th>Drawer</th><td>works <span>— the same dialog, docked to an edge</span></td></tr>
+          <tr><th>Toast</th><td>works <span>— a non-modal popover in the corner</span></td></tr>
+          <tr><th>Tooltip</th><td>works <span>— one attribute, pure CSS</span></td></tr>
+          <tr><th>Disclosure</th><td>works <span>— native <code>&lt;details&gt;</code>, animated to auto height</span></td></tr>
+          <tr><th>Tabs</th><td>styled only <span>— switching panels needs about eight lines of your own</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="spaced"><small class="muted">Tabs are the one gap, and saying so
+        is better than faking it: <code>aria-selected</code> has to be a real
+        attribute for a screen reader to announce the right thing, and CSS
+        cannot set attributes. The snippet is in
+        <a href="docs.html#tabs">the docs</a>.</small></p>
     </div>
   </section>
 
@@ -389,6 +422,7 @@
           in every hue. Chroma is deliberately low — these are colours meant
           to sit under text all day, not to shout from a marketing page.</p>
       </div>
+      <div class="panel">
       <div class="swatches">
         <div class="ramp"><b>stone</b>
           <span data-step="100" style="background:var(--stone-100)"></span>
@@ -426,6 +460,7 @@
           <span data-step="500" style="background:var(--gold-500)"></span>
           <span data-step="700" style="background:var(--gold-700)"></span>
           <span data-step="900" style="background:var(--gold-900)"></span></div>
+      </div>
       </div>
     </div>
   </section>
@@ -512,11 +547,11 @@
           Three builds ship; pick the smallest one that has what you need.</p>
         <div class="bars">
           <div class="bar-row"><b>fertig.css</b>
-            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>13.2 KB</span></div>
+            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>16.4 KB</span></div>
           <div class="bar-row"><b>fertig.min.css</b>
-            <span><span class="bar-meter" style="--len:59%"></span></span><span>7.8 KB</span></div>
+            <span><span class="bar-meter" style="--len:59%"></span></span><span>8.4 KB</span></div>
           <div class="bar-row"><b>fertig.core.min.css</b>
-            <span><span class="bar-meter" style="--len:48%"></span></span><span>6.3 KB</span></div>
+            <span><span class="bar-meter" style="--len:48%"></span></span><span>6.9 KB</span></div>
         </div>
         <p class="spaced"><small class="muted">Gzipped transfer size, measured
           with <code>gzip -9</code> at v1.0.3. The core build drops the
@@ -535,35 +570,35 @@
       </div>
       <div class="rows">
         <div>
-          <h3>Example app</h3>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Example app</h3>
           <p>A real product screen: sticky sidebar navigation, breadcrumb, KPI
             row, filter toolbar, a data table with row menus, and a New invoice
             dialog. <a href="app.html">Open the app →</a></p>
         </div>
         <div>
-          <h3>Invoice detail</h3>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Invoice detail</h3>
           <p>The screen behind a row in that table — line items, totals,
             activity and two dialogs, on the same shell.
             <a href="app-invoice.html">Open the invoice →</a></p>
         </div>
         <div>
-          <h3>Dashboard</h3>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Dashboard</h3>
           <p>The overview screen: KPIs, a share-of-balance table drawn with
             <code>&lt;meter&gt;</code> rather than a chart library, and a cash
             forecast. <a href="templates/dashboard.html">Open the dashboard →</a></p>
         </div>
         <div>
-          <h3>Article</h3>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Article</h3>
           <p>Long-form reading: headings, quotes, tables, figures, code and a
             subscribe form. <a href="templates/article.html">Open the article →</a></p>
         </div>
         <div>
-          <h3>Pricing</h3>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#scale"></use></svg>Pricing</h3>
           <p>Three tiers, a comparison table and an FAQ built from
             disclosures. <a href="templates/pricing.html">Open the pricing page →</a></p>
         </div>
         <div>
-          <h3>Sign in</h3>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#accessibility"></use></svg>Sign in</h3>
           <p>A centred auth card with proper autocomplete hints and required
             field marking. <a href="templates/signin.html">Open sign in →</a></p>
         </div>
@@ -591,9 +626,10 @@
         </details>
         <details>
           <summary>What about older browsers?</summary>
-          <p>They get unstyled but readable HTML. The sheet targets browsers
-            from the last two years and carries nothing for the ones before
-            them — that policy is the reason it is 7.8 KB rather than 20.</p>
+          <p>They get unstyled but readable HTML. The sheet runs in any
+            browser released since August 2024 — Chrome 123, Safari 17.5,
+            Firefox 129 — and carries nothing for the ones before them. That
+            policy is the reason it is 8.4 KB rather than 20.</p>
         </details>
         <details>
           <summary>Can I change the colours?</summary>
@@ -663,7 +699,7 @@
     <p class="foot-note">
       <span>MIT licensed</span>
       <span>v1.0.3</span>
-      <span>7.8 KB gzipped</span>
+      <span>8.4 KB gzipped</span>
       <span>No dependencies</span>
     </p>
   </div>

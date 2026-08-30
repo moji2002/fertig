@@ -1,4 +1,4 @@
-/*! fertig v1.0.3 — a classless CSS stylesheet. MIT */
+/*! fertig v1.1.0 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
    system type · one accent · one measure · a window on a desktop.
@@ -7,8 +7,10 @@
    Override the tokens marked "yours"; the rest is the point of view. */
 
 /* typed so they interpolate; untyped custom properties cannot animate */
-@property --a1 { syntax: "<number>"; inherits: true; initial-value: .08 }
-@property --a2 { syntax: "<number>"; inherits: true; initial-value: .06 }
+/* Registrations are global: they cannot be layered, scoped or overridden.
+   Hence the prefix — a bare --a1 would silently retype a property of yours. */
+@property --fertig-a1 { syntax: "<number>"; inherits: true; initial-value: .08 }
+@property --fertig-a2 { syntax: "<number>"; inherits: true; initial-value: .06 }
 
 /* Two layers, in this order. Your own unlayered CSS wins over both regardless
    of specificity, so overriding never needs !important — and neither does this
@@ -30,8 +32,9 @@
   --fm: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
         "Liberation Mono", monospace;                                /* code */
   --w: 38rem;                            /* ~70 characters — yours */
-  --r: 6px;                              /* control radius */
-  --rw: 10px;                            /* window radius */
+  --r: 9px;                              /* control radius */
+  --rs: 5px;                             /* small radius: inline chips and code */
+  --rw: 14px;                            /* window radius */
 
   /* ---- palette ------------------------------------------------
      Low chroma on purpose. Vivid palettes shout; these are meant to sit
@@ -73,29 +76,64 @@
   --mut: light-dark(oklch(47% .009 75),   oklch(73% .008 75));
   --bd:  light-dark(oklch(22% .008 75 / .13), oklch(95% .004 75 / .13));
   --tb:  light-dark(oklch(97.2% .005 75 / .85), oklch(25% .007 75 / .85));
-  --ac:  light-dark(var(--sky-700), oklch(78% .085 245));       /* yours */
+  /* indigo, not the azure every other classless sheet lands on. Measured:
+     6.28:1 as link text on paper and 6.39:1 for a white label on the fill in
+     light; 8.72:1 and 10.26:1 in dark. Both sit inside sRGB. */
+  --ac:  light-dark(oklch(50% .19 275), oklch(78% .11 275));    /* yours */
   --on-ac: light-dark(#fff, #06121f);    /* text on the accent, both themes */
 
   /* depth: hairline + soft shadow, macOS weight.
-     --sh is an ordinary colour — override it with any notation you like;
-     the alphas come off it through relative colour syntax. */
+     --sh is an ordinary colour — override it with any notation you like, and
+     every shadow in the sheet retints. The alphas are taken with color-mix
+     against transparent rather than relative colour: same result, and it is
+     three years older, which keeps Safari 17.5 inside the floor. */
   --sh:  oklch(23.1% .007 286);
-  --a1: .08; --a2: .06;
-  --sh1: oklch(from var(--sh) l c h / var(--a1));
-  --sh2: oklch(from var(--sh) l c h / var(--a2));
+  --fertig-a1: .08; --fertig-a2: .06;
+  --sh1: color-mix(in srgb, var(--sh) calc(var(--fertig-a1) * 100%), transparent);
+  --sh2: color-mix(in srgb, var(--sh) calc(var(--fertig-a2) * 100%), transparent);
   --up:  0 1px 1px var(--sh1);
   --up2: 0 1px 2px var(--sh1), 0 6px 16px -6px var(--sh2);
-  --dn:  inset 0 1px 2px oklch(from var(--sh) l c h / .08);
+  --dn:  inset 0 1px 2px color-mix(in srgb, var(--sh) 8%, transparent);
   --caps: .74em/1.4 var(--f);
+
+  /* motion. One decelerating curve for things arriving, one accelerating for
+     things leaving, and a symmetric one for state that toggles in place. */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-in:  cubic-bezier(.55, 0, 1, .45);
+  --ease:     cubic-bezier(.4, 0, .2, 1);
+  --dur-1: .12s;   /* a control reacting under the pointer */
+  --dur-2: .2s;    /* something appearing or leaving */
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme=light]) { --a1: .5; --a2: .45 }
+  :root:not([data-theme=light]) { --fertig-a1: .5; --fertig-a2: .45 }
+}
+/* --on-ac has to survive any --ac override, or a custom accent ships an
+   unreadable label. contrast-color() does that properly but has almost no
+   support; relative colour reaches the same black-or-white decision from the
+   accent's own lightness, and has been cross-engine since 2024. Both are
+   additive — the measured light-dark() pair above stands if neither exists. */
+@supports (color: oklch(from red l c h)) {
+  :root { --on-ac: oklch(from var(--ac) clamp(0, (l - .62) * -100, 1) 0 h) }
 }
 @supports (color: contrast-color(red)) {
-  :root { --on-ac: contrast-color(var(--ac)) }   /* survives any --ac override */
+  :root { --on-ac: contrast-color(var(--ac)) }
 }
-[data-theme=light] { color-scheme: light; --a1: .08; --a2: .06 }
-[data-theme=dark]  { color-scheme: dark;  --a1: .5;  --a2: .45 }
+[data-theme=light] { color-scheme: light; --fertig-a1: .08; --fertig-a2: .06 }
+[data-theme=dark]  { color-scheme: dark;  --fertig-a1: .5;  --fertig-a2: .45 }
+
+/* Named accents. The ramps already exist, so this is a mapping table: put
+   data-accent on any element and everything inside it — links, focus rings,
+   filled buttons, the caret, the selection — follows. Scoped rather than
+   global, so one section of a page can differ from the rest.
+   Each pair is measured: the light tone clears AA as link text on paper, the
+   dark tone clears it on the dark ground. */
+[data-accent=indigo] { --ac: light-dark(oklch(50% .19 275),  oklch(78% .11 275)) }
+[data-accent=sky]    { --ac: light-dark(var(--sky-700),      oklch(78% .085 245)) }
+[data-accent=sage]   { --ac: light-dark(var(--sage-700),     oklch(80% .075 155)) }
+[data-accent=clay]   { --ac: light-dark(var(--clay-700),     oklch(80% .085 45)) }
+[data-accent=plum]   { --ac: light-dark(var(--plum-700),     oklch(80% .065 320)) }
+[data-accent=gold]   { --ac: light-dark(oklch(55% .085 80),  oklch(84% .09 85)) }
+[data-accent=slate]  { --ac: light-dark(oklch(35% .01 250),  oklch(86% .006 250)) }
 
 /* ---- base --------------------------------------------------- */
 *, ::before, ::after { box-sizing: border-box }
@@ -110,28 +148,44 @@ body {
   font-variant-numeric: slashed-zero tabular-nums;
 }
 ::selection { background: color-mix(in srgb, var(--ac) 28%, transparent) }
-:focus-visible {                          /* the macOS ring */
+/* The macOS ring. No border-radius here: an outline already follows the
+   element's own corners, and setting one would reshape whatever takes focus —
+   a focused dialog would snap from --rw to --r for as long as it is focused. */
+:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--ac) 45%, transparent);
-  outline-offset: 1px; border-radius: var(--r);
+  outline-offset: 1px;
 }
-img, svg, video, iframe { display: block; max-width: 100%; height: auto }
+img, video, iframe { display: block; max-width: 100%; height: auto }
+/* svg is left inline: it is as often an icon inside a sentence or a button as
+   it is a standalone figure, and display:block drops the icon onto its own row */
+svg { max-width: 100%; vertical-align: middle }
 img, video { border-radius: var(--r); box-shadow: var(--up2) }
 
 /* ---- layout: a window on a desktop --------------------------- */
-body > * { max-width: var(--w); margin-inline: auto; padding-inline: 1.9rem }
-body > header, body > main, body > footer {
+/* The shell is body's own children — or the children of the single wrapper a
+   framework insists on (#root, #app, #__next, or your own [data-fertig]).
+   Without this a React page silently loses the measure, the paper and the
+   gutters, and nothing on screen says why. The wrapper list sits inside
+   :where() so every selector keeps the specificity it had as `body > *`. */
+body > *,
+body > :where(#root, #app, #__next, [data-fertig]) > * {
+  max-width: var(--w); margin-inline: auto; padding-inline: 1.9rem;
+}
+/* the wrapper is not itself a shell element; it just gets out of the way */
+body > :where(#root, #app, #__next, [data-fertig]) { max-width: none; padding-inline: 0 }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > :is(header, main, footer) {
   background: var(--el); border-inline: 1px solid var(--bd);
 }
-body > header { padding-block: 2.4rem .8rem }
-body > main { padding-bottom: 2.8rem }
-body > footer {
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > header { padding-block: 2.4rem .8rem }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > main { padding-bottom: 2.8rem }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > footer {
   padding-block: 1.2rem 2rem; color: var(--mut); font-size: .85em;
   border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd);
   border-radius: 0 0 var(--rw) var(--rw); margin-bottom: 2.5rem;
-  box-shadow: 0 18px 30px -22px oklch(from var(--sh) l c h / .5);
+  box-shadow: 0 18px 30px -22px color-mix(in srgb, var(--sh) 50%, transparent);
 }
 /* nav = unified toolbar: full-bleed, vibrant, contents on the measure */
-body > nav {
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav {
   position: sticky; top: 0; z-index: 9; max-width: none;
   /* the toolbar is full-bleed but its contents line up with the page column.
      --nw is that column: it follows --w, so overriding the measure moves the
@@ -145,10 +199,10 @@ body > nav {
   backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--bd); font-size: .92em;
 }
-body > nav a { color: var(--fg); text-decoration: none; opacity: .75 }
-body > nav a:hover { opacity: 1 }
-body > nav :is(strong, b) a { opacity: 1 }        /* the wordmark is not a link among links */
-body > nav ul {
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav a { color: var(--fg); text-decoration: none; opacity: .75 }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav a:hover { opacity: 1 }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav :is(strong, b) a { opacity: 1 }        /* the wordmark is not a link among links */
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav ul {
   display: flex; flex-wrap: wrap; gap: 1.1rem; list-style: none; padding: 0; margin: 0;
   flex: 1;                       /* takes the slack, so a trailing control sits at the end */
 }
@@ -192,11 +246,11 @@ figcaption { font-size: .85em; color: var(--mut); text-align: center }
 code, kbd, samp, pre { font-family: var(--fm); font-size: .9em }
 :not(pre) > code, samp {
   background: var(--face); border: 1px solid var(--bd);
-  border-radius: var(--r); padding: .08em .35em;
+  border-radius: var(--rs); padding: .08em .35em;
 }
 kbd {
   background: var(--face); border: 1px solid var(--bd); border-bottom-width: 2px;
-  border-radius: var(--r); padding: .08em .4em; box-shadow: var(--up);
+  border-radius: var(--rs); padding: .08em .4em; box-shadow: var(--up);
 }
 pre {
   background: var(--face); border: 1px solid var(--bd); border-radius: var(--r);
@@ -279,9 +333,9 @@ textarea { width: 100%; min-height: 5rem; resize: vertical }
 @supports (field-sizing: content) {
   textarea { field-sizing: content; max-height: 24rem }
 }
-input:not([type=checkbox],[type=radio],[type=range],[type=color],[type=file],[type=submit],[type=button],[type=reset]),
+input:not([type=checkbox],[type=radio],[type=range],[type=color],[type=file],[type=image],[type=submit],[type=button],[type=reset]),
 select, textarea {
-  display: block; width: 100%; padding: .4em .6em; background: var(--el);
+  display: block; width: 100%; padding: .52em .7em; background: var(--el);
   border: 1px solid var(--bd); border-radius: var(--r); box-shadow: var(--dn);
 }
 select {
@@ -305,14 +359,14 @@ select[multiple] { background-image: none; padding-inline-end: .6em }
     content: ""; inline-size: .45em; block-size: .45em; flex: none;
     border: solid currentColor; border-width: 0 1px 1px 0;
     rotate: 45deg; translate: 0 -.15em; opacity: .7;
-    transition: rotate .15s ease, translate .15s ease;
+    transition: rotate var(--dur-1) var(--ease), translate var(--dur-1) var(--ease);
   }
   select:open::picker-icon { rotate: 225deg; translate: 0 .1em }
   ::picker(select) {
     min-width: anchor-size(width);            /* never narrower than the field */
     border: 1px solid var(--bd); border-radius: var(--r); padding: .3rem;
     background: var(--el); margin-block-start: .35rem;
-    box-shadow: var(--up2), 0 20px 40px -14px oklch(from var(--sh) l c h / .4);
+    box-shadow: var(--up2), 0 20px 40px -14px color-mix(in srgb, var(--sh) 40%, transparent);
   }
   option {
     display: flex; align-items: center; gap: .5em; padding: .4em .6em;
@@ -363,7 +417,7 @@ legend + * { clear: left }
 button, [type=submit], [type=button], [type=reset],
 :where(a.primary, a[role=button]), ::file-selector-button {
   display: inline-block; text-decoration: none; text-align: center;
-  padding: .38em 1.1em; background: var(--el); color: var(--fg); cursor: pointer;
+  padding: .48em 1.1em; background: var(--el); color: var(--fg); cursor: pointer;
   border: 1px solid var(--bd); border-radius: var(--r); box-shadow: var(--up);
   font: inherit; min-width: 5rem;
 }
@@ -372,22 +426,34 @@ button, [type=submit], [type=button], [type=reset],
   box-shadow: var(--dn); translate: 0 .5px;
 }
 [type=submit], .primary { background: var(--ac); border-color: transparent; color: var(--on-ac) }
+/* The filled button lightens on hover. color-mix does that in oklab, which is
+   close enough and is Baseline; relative colour does it by adding to L
+   directly, which holds the hue exactly when --ac is a wide-gamut override.
+   Both derive from --ac, so a custom accent never needs a second declaration. */
 :is([type=submit], .primary, a.primary):hover:not(:disabled) {
-  background: oklch(from var(--ac) calc(l + .05) c h);
+  background: color-mix(in oklab, var(--ac), #fff 9%);
+}
+@supports (color: oklch(from red l c h)) {
+  :is([type=submit], .primary, a.primary):hover:not(:disabled) {
+    background: oklch(from var(--ac) calc(l + .05) c h);
+  }
 }
 
 /* button detail: sizes, variants, toggles, icon and block forms */
-[data-size=sm] { padding: .2em .7em; font-size: .85em; min-width: 0 }
-[data-size=lg] { padding: .55em 1.5em; font-size: 1.05em }
+/* Scoped to controls. data-size, data-block and data-variant are names other
+   component libraries and framework wrappers use too, and a bare attribute
+   selector would restyle a stranger's <span data-size="sm"> on contact. */
+:is(button, a, input, select, label)[data-size=sm] { padding: .2em .7em; font-size: .85em; min-width: 0 }
+:is(button, a, input, select, label)[data-size=lg] { padding: .55em 1.5em; font-size: 1.05em }
 button[data-icon] { min-width: 0; padding: .38em .62em; line-height: 1 }
-[data-block] { display: block; width: 100%; min-width: 0 }
-[data-variant=ghost] { background: none; border-color: transparent; box-shadow: none }
-[data-variant=ghost]:hover:not(:disabled) { background: var(--face); border-color: var(--bd) }
-[data-variant=link] {
+:is(button, a, input, select, label)[data-block] { display: block; width: 100%; min-width: 0 }
+:is(button, a, input)[data-variant=ghost] { background: none; border-color: transparent; box-shadow: none }
+:is(button, a, input)[data-variant=ghost]:hover:not(:disabled) { background: var(--face); border-color: var(--bd) }
+:is(button, a, input)[data-variant=link] {
   background: none; border: 0; box-shadow: none; min-width: 0; padding-inline: .2em;
   color: var(--ac); text-decoration: underline; text-underline-offset: 3px;
 }
-[data-variant=link]:hover:not(:disabled) { background: none; text-decoration-thickness: 2px }
+:is(button, a, input)[data-variant=link]:hover:not(:disabled) { background: none; text-decoration-thickness: 2px }
 button[aria-pressed=true] { background: var(--face); color: var(--ac); font-weight: 700 }
 button[aria-pressed=true]:hover:not(:disabled) {
   background: color-mix(in srgb, var(--fg) 7%, var(--face));
@@ -397,7 +463,13 @@ button[aria-pressed=true]:hover:not(:disabled) {
 :is([type=submit], .primary):active:not(:disabled) { box-shadow: inset 0 1px 3px #0006 }
 
 @supports (corner-shape: squircle) {
-  * { corner-shape: squircle }        /* inert wherever the radius is 0 */
+  /* the surfaces this sheet rounds, not `*` — a universal rule would reshape
+     your components too, and this one is a taste, not a repair */
+  :is(button, [type=submit], [type=button], [type=reset], input, select, textarea,
+      fieldset, details, dialog, [popover], pre, kbd, code, samp, img, video,
+      menu, aside, [data-avatar], [data-skeleton], .card, .badge) {
+    corner-shape: squircle;
+  }
 }
 
 /* ---- disclosure / misc -------------------------------------- */
@@ -412,11 +484,11 @@ details[open] > summary { margin-bottom: .6rem }
 dialog {
   background: var(--el); color: var(--fg); border: 1px solid var(--bd);
   border-radius: var(--rw); padding: 1.4rem; max-width: min(30rem, 92dvw);
-  box-shadow: 0 32px 64px -16px oklch(from var(--sh) l c h / .45);
+  box-shadow: 0 32px 64px -16px color-mix(in srgb, var(--sh) 45%, transparent);
 }
 dialog > :last-child:not(footer) { margin-bottom: 0 }
 dialog, [popover] { overscroll-behavior: contain }
-dialog::backdrop { background: oklch(from var(--sh) l c h / .35); backdrop-filter: blur(3px) }
+dialog::backdrop { background: color-mix(in srgb, var(--sh) 35%, transparent); backdrop-filter: blur(3px) }
 
 /* dialog anatomy: an optional header and footer, pinned while the body scrolls.
    Sticky rather than a grid, because a classless sheet has no wrapper around
@@ -445,7 +517,8 @@ dialog > footer > :is(p, span):first-child { margin: 0; margin-inline-end: auto;
 /* sheets come up, they do not appear */
 @media (prefers-reduced-motion: no-preference) and (update: fast) {
   dialog, dialog::backdrop {
-    transition: opacity .2s, translate .2s, display .2s allow-discrete, overlay .2s allow-discrete;
+    transition: opacity var(--dur-2) var(--ease-out), translate var(--dur-2) var(--ease-out),
+                display var(--dur-2) allow-discrete, overlay var(--dur-2) allow-discrete;
   }
   dialog { opacity: 0; translate: 0 10px }
   dialog[open] { opacity: 1; translate: 0 }
@@ -455,7 +528,8 @@ dialog > footer > :is(p, span):first-child { margin: 0; margin-inline-end: auto;
   @starting-style { dialog[open]::backdrop { opacity: 0 } }
   [popover] {
     opacity: 0; translate: 0 -4px;
-    transition: opacity .13s, translate .13s, display .13s allow-discrete, overlay .13s allow-discrete;
+    transition: opacity .13s var(--ease-out), translate .13s var(--ease-out),
+                display .13s allow-discrete, overlay .13s allow-discrete;
   }
   [popover]:popover-open { opacity: 1; translate: 0 }
   @starting-style { [popover]:popover-open { opacity: 0; translate: 0 -4px } }
@@ -476,10 +550,13 @@ progress::-moz-progress-bar { background: var(--ac); border-radius: calc(infinit
 /* details can only animate to auto height once keywords interpolate */
 @supports selector(::details-content) {
   @media (prefers-reduced-motion: no-preference) and (update: fast) {
-    :root { interpolate-size: allow-keywords }
+    /* on details, not :root: allow-keywords is inherited, and setting it
+       document-wide would quietly change how your own height:auto
+       transitions behave */
+    details { interpolate-size: allow-keywords }
     details::details-content {
       block-size: 0; overflow: clip;
-      transition: block-size .28s ease, content-visibility .28s allow-discrete;
+      transition: block-size .28s var(--ease), content-visibility .28s allow-discrete;
     }
     details[open]::details-content { block-size: auto }
   }
@@ -523,7 +600,7 @@ input[type=checkbox][role=switch] {
 input[switch]::after, input[role=switch]::after {
   content: ""; position: absolute; inset-block-start: .14em; inset-inline-start: .14em;
   width: 1.02em; height: 1.02em; border-radius: 50%; background: #fff; box-shadow: var(--up);
-  transition: translate .16s ease;
+  transition: translate .16s var(--ease-out);
 }
 input[switch]:checked, input[role=switch]:checked { background: var(--ac) }
 /* translate is physical, so the knob is told which way to travel */
@@ -535,7 +612,7 @@ input[switch]:checked::after, input[role=switch]:checked::after { translate: .9e
   background: var(--el); color: var(--fg); border: 1px solid var(--bd);
   border-radius: var(--r); padding: .3rem; min-width: 12rem;
   max-block-size: 60dvh; overflow: auto; font-size: .95em;
-  box-shadow: var(--up2), 0 20px 40px -14px oklch(from var(--sh) l c h / .4);
+  box-shadow: var(--up2), 0 20px 40px -14px color-mix(in srgb, var(--sh) 40%, transparent);
 }
 /* anchor to the invoking button; without support it centres, which is fine.
    Deliberately NOT scoped to :popover-open — the close is transitioned, so a
@@ -583,14 +660,21 @@ nav[aria-label] ol li + li::before { content: "/"; margin-inline-end: .5em; colo
 }
 @keyframes fertig-spin { to { rotate: 360deg } }
 
-/* tooltip: [data-tooltip] */
+/* tooltip: [data-tooltip]. Decorative only, and deliberately so: generated
+   content is not reliably exposed to assistive tech and there is no way to
+   dismiss it without script (WCAG 1.4.13), so put the same words in aria-label
+   or aria-describedby and never say anything here that is said nowhere else.
+   A scroll container clips it — [role=group] is one. */
 [data-tooltip] { position: relative }
-[data-tooltip]:is(:hover, :focus-visible)::after {
-  content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50%;
+[data-tooltip]:is(:hover, :focus-visible, :active)::after {
+  content: attr(data-tooltip); position: absolute;
+  inset-block-end: 100%; inset-inline-start: 50%;
   translate: -50% -.45em; z-index: 10; white-space: nowrap; pointer-events: none;
   background: light-dark(#1d1d1f, #3a3a40); color: #fff; font-size: .8em;
   padding: .25em .55em; border-radius: var(--r); box-shadow: var(--up2);
 }
+/* translate is physical; the offset has to be told which way to go */
+[data-tooltip]:dir(rtl)::after { translate: 50% -.45em }
 
 /* tones: retint any component by redefining its accent */
 [data-tone=ok]   { --ac: light-dark(var(--sage-700), oklch(76% .085 155)) }
@@ -662,6 +746,27 @@ dialog[data-side=bottom] {
     position-area: none; inset: auto 1rem 1rem auto; min-width: 16rem;
   }
 }
+/* Two open toasts land on the same corner coordinates and sit on top of each
+   other, and an open popover is in the top layer so no ordinary wrapper can
+   stack them. Make the region the popover instead and the toasts plain
+   children of it: <div popover=manual data-toast-region> with a
+   <div data-toast> per message. */
+[popover][data-toast-region] {
+  position: fixed; inset: auto 1rem 1rem auto; margin: 0;
+  display: flex; flex-direction: column; align-items: flex-end; gap: .6rem;
+  background: none; border: 0; box-shadow: none; padding: 0;
+  max-block-size: none; overflow: visible; pointer-events: none;
+}
+[popover][data-toast-region] > [data-toast] {
+  pointer-events: auto; position: static; inset: auto;
+  min-width: 16rem; max-width: min(24rem, 92dvw); padding: .8rem 1rem;
+  background: var(--el); color: var(--fg); border: 1px solid var(--bd);
+  border-radius: var(--r); font-size: .95em;
+  box-shadow: var(--up2), 0 20px 40px -14px color-mix(in srgb, var(--sh) 40%, transparent);
+}
+@supports (position-area: block-end span-inline-end) {
+  [popover][data-toast-region] { position-area: none; inset: auto 1rem 1rem auto }
+}
 
 /* list group: a plain <menu> outside a popover is a bordered list */
 menu {
@@ -718,7 +823,7 @@ nav menu :is(a, button)[aria-current] {
 /* on the toolbar .wide cannot mean "be 66rem wide" — the bar stays full-bleed
    and its contents move out to the wide column, so an app screen's wordmark
    lines up with the app's own content rather than floating mid-screen. */
-body > nav.wide { max-width: none; --nw: 66rem }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav.wide { max-width: none; --nw: 66rem }
 .row { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center }
 /* Form controls are full-width blocks by default, which is right in a form and
    wrong in a toolbar. Inside a .row they size to the row instead. */
@@ -736,7 +841,7 @@ body > nav.wide { max-width: none; --nw: 66rem }
 .grid + * { margin-top: 1.1rem }
 .card {
   container-type: inline-size;                 /* query it: @container (min-width: …) */
-  border: 1px solid var(--bd); border-radius: var(--r); padding: .9rem;
+  border: 1px solid var(--bd); border-radius: var(--r); padding: 1.1rem;
   background: var(--el); box-shadow: var(--up2);
   display: flex; flex-direction: column;      /* so footers line up across a row */
   gap: .85rem;                                /* spacing is the container's job */
@@ -803,20 +908,21 @@ body > nav.wide { max-width: none; --nw: 66rem }
 }
 
 /* card anatomy: an optional header, footer, and full-bleed media */
-.card > :is(header, footer) {
-  margin-inline: -.9rem; padding: .55rem .9rem; background: var(--face);
-}
+/* No fill on the header and footer. A tinted strip across the top of a card is
+   the old panel-heading pattern and it is what dates a sheet on sight; a
+   hairline does the same separating job and lets the card read as one surface. */
+.card > :is(header, footer) { margin-inline: -1.1rem; padding-inline: 1.1rem }
 .card > header {
-  margin-top: -.9rem; font-weight: 700;
-  border-bottom: 1px solid var(--bd); border-radius: var(--r) var(--r) 0 0;
+  margin-top: -.25rem; padding-bottom: .7rem; font-weight: 600;
+  border-bottom: 1px solid var(--bd);
 }
 .card > footer {
-  margin-top: auto; margin-bottom: -.9rem;    /* pinned to the bottom edge */
+  margin-top: auto; margin-bottom: -.25rem; padding-top: .7rem;
   color: var(--mut); font-size: .85em;
-  border-top: 1px solid var(--bd); border-radius: 0 0 var(--r) var(--r);
+  border-top: 1px solid var(--bd);
 }
 .card > :is(img, video):first-child {
-  align-self: stretch; width: auto; max-width: none; margin: -.9rem -.9rem 0;
+  align-self: stretch; width: auto; max-width: none; margin: -1.1rem -1.1rem 0;
   aspect-ratio: 16 / 9; object-fit: cover;
   border: 0; border-radius: var(--r) var(--r) 0 0; box-shadow: none;
 }
@@ -832,7 +938,7 @@ body > nav.wide { max-width: none; --nw: 66rem }
 }
 :is(a, button).card:hover:not(:disabled) {
   border-color: color-mix(in srgb, var(--ac) 45%, var(--bd));
-  box-shadow: var(--up2), 0 12px 26px -14px oklch(from var(--sh) l c h / .4);
+  box-shadow: var(--up2), 0 12px 26px -14px color-mix(in srgb, var(--sh) 40%, transparent);
   translate: 0 -2px;
 }
 :is(a, button).card:active:not(:disabled) { translate: 0 0 }
@@ -844,7 +950,7 @@ body > nav.wide { max-width: none; --nw: 66rem }
 @media (prefers-reduced-motion: no-preference) and (update: fast) { html { scroll-behavior: smooth } }
 :target { scroll-margin-top: 4rem }                 /* clears the toolbar */
 :is(h1,h2,h3,h4):target { background: color-mix(in srgb, var(--ac) 12%, transparent) }
-a[target=_blank]::after { content: " ↗"; font-size: .85em; opacity: .6 }
+a[target=_blank]:not(:has(> img, > svg))::after { content: " ↗"; font-size: .85em; opacity: .6 }
 a:has(> img), a:has(> code) { text-decoration: none }
 sup, sub { line-height: 0; font-size: .75em }       /* stop them stretching lines */
 q { quotes: "“" "”" "‘" "’" }
@@ -863,13 +969,28 @@ input:user-invalid, textarea:user-invalid { border-color: light-dark(#c0392b, #f
 input:user-invalid + small { color: light-dark(#c0392b, #ff6b6b) }
 summary:hover { color: var(--ac) }
 /* thin scrollbars, macOS weight */
-* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--fg) 25%, transparent) transparent }
+/* scrollbar-width is Safari 18.2, scrollbar-color Safari 26.2 — both younger
+   than the floor, and both left ungated on purpose: there is no fallback to
+   write. An engine without them paints its own scrollbar, which is exactly
+   what a scrollbar should look like there anyway. Same reasoning for
+   accent-color at the top of the sheet. */
+/* Not `*`: the page's own scrollbar keeps the width the OS gave it. Thinning
+   every scroller on the page narrows hit targets the sheet never made, which
+   is a target-size problem for anyone using a pointer imprecisely. */
+:is(pre, table, textarea, dialog, [popover], menu, fieldset,
+    [role=group], [data-carousel], [data-layout=sidebar] > *) {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--fg) 25%, transparent) transparent;
+}
 
 @page { margin: 2cm }
 @media print {
   :root { --bg: #fff; --el: #fff; --fg: #000; --bd: #999 }
-  body > nav, body > footer { display: none }
-  body > * { border: 0; max-width: none }
+  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav { display: none }
+  /* the footer stays: the legal line, the contact and the citations live there,
+     and a printout without them is missing the part people keep */
+  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > footer { box-shadow: none; margin-bottom: 0 }
+  body > *, body > :where(#root, #app, #__next, [data-fertig]) > * { border: 0; max-width: none }
   p, blockquote, li { orphans: 3; widows: 3 }   /* no stranded single lines */
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555 }
   pre, table, figure, details, tr, img { break-inside: avoid }
@@ -884,6 +1005,9 @@ summary:hover { color: var(--ac) }
     min-height: 44px;
   }
   input[type=checkbox], input[type=radio] { width: 1.4em; height: 1.4em }
+  /* 44px is the AAA target (2.5.5). The small variant opts down to the 24px
+     AA floor (2.5.8) rather than stopping being small on a phone. */
+  :is(button, a, input, select, label)[data-size=sm] { min-height: 32px }
 }
 
 /* the OS is already inverting; stop images being inverted twice */
@@ -916,8 +1040,45 @@ summary:hover { color: var(--ac) }
 
 @media (prefers-reduced-motion: no-preference) and (update: fast) {
   a, button, input, select, textarea, summary, tr,
-  [type=submit], [type=button], [type=reset] {
-    transition: box-shadow .15s, background-color .15s, border-color .15s, translate .08s;
+  [type=submit], [type=button], [type=reset], .card, .badge,
+  [role=tab], [role=group] > *, [popover] :is(a, button) {
+    transition: box-shadow var(--dur-1) var(--ease),
+                background-color var(--dur-1) var(--ease),
+                border-color var(--dur-1) var(--ease),
+                color var(--dur-1) var(--ease),
+                translate .08s var(--ease-out);
+  }
+  /* the ring must never be animated — it has to be there the instant focus
+     lands, not fade in after it */
+  :focus-visible { transition: none }
+}
+
+
+/* ---- below the floor ---------------------------------------
+   Everything above assumes light-dark(). An engine without it does not
+   degrade to "unstyled but readable" — every colour token becomes invalid at
+   computed-value time, so backgrounds go transparent and colour is inherited,
+   and the page can land unreadable rather than plain. These are the same
+   colours flattened to sRGB. Last in the layer, so it wins on order over the
+   token block at the top. Nothing else needs a twin: an invalid --ac on a
+   [data-tone] or [data-accent] element just inherits the one from :root. */
+@supports not (color: light-dark(#000, #fff)) {
+  :root {
+    --bg: #ece9e5; --el: #fefdfc; --face: #f8f5f2; --fg: #1d1a17;
+    --mut: #5e5a55; --bd: #1d1a1721; --tb: #f8f5f2d9;
+    --ac: #494fcc; --on-ac: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme=light]) {
+      --bg: #0f0d0a; --el: #1a1815; --face: #24211e; --fg: #f0eeec;
+      --mut: #aba7a2; --bd: #f0eeec21; --tb: #24211ed9;
+      --ac: #a3b2fe; --on-ac: #06121f;
+    }
+  }
+  [data-theme=dark] {
+    --bg: #0f0d0a; --el: #1a1815; --face: #24211e; --fg: #f0eeec;
+    --mut: #aba7a2; --bd: #f0eeec21; --tb: #24211ed9;
+    --ac: #a3b2fe; --on-ac: #06121f;
   }
 }
 
@@ -932,6 +1093,9 @@ summary:hover { color: var(--ac) }
     .card, .badge, details, dialog, [popover], fieldset, table {
       border: 1px solid CanvasText;
     }
-    [role=tab][aria-selected=true], button[aria-pressed=true] { border-color: Highlight }
+    /* [role=tab] sets border:0, so there is nothing for border-color to land
+       on, and the rule above just removed the box-shadow that marked it */
+    [role=tab][aria-selected=true] { border-bottom: 2px solid Highlight }
+    button[aria-pressed=true] { border-color: Highlight }
   }
 }

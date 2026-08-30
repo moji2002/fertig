@@ -6,6 +6,49 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
+## [1.1.0] — 2026-08-31
+
+A visual refresh and a component-first repositioning. No API breaks — the same
+tokens, classes and attributes — but the default look changes visibly.
+
+### Added
+
+- **Named accents.** `data-accent="indigo|sky|sage|clay|plum|gold|slate"` on any
+  element retints everything inside it: links, focus rings, filled buttons, the
+  caret, the selection. Scoped rather than global, so one section can differ
+  from the rest of a page. Each pair is measured — the light tone clears AA as
+  link text on paper, the dark tone clears it on the dark ground.
+- **Motion tokens.** `--ease-out`, `--ease-in`, `--ease` and the durations
+  `--dur-1` / `--dur-2`. The sheet had been animating with a bare `ease`, which
+  is the browser default and the flattest curve available.
+- `--rs`, a small radius for inline chips and code, so they do not inherit the
+  larger control radius and read as lozenges.
+
+### Changed
+
+- **The default accent is indigo**, not the desaturated navy it was. Measured
+  6.28:1 as link text on paper and 6.39:1 for a white label on the fill in
+  light; 8.72:1 and 10.26:1 in dark. Both sit inside sRGB.
+- **Cards no longer paint a tinted strip behind their header and footer.** A
+  filled bar across the top of a card is the old panel-heading pattern and is
+  what dated the sheet on sight; a hairline separates just as well and lets the
+  card read as one surface.
+- Radii up: `--r` 6px → 9px, `--rw` 10px → 14px. Controls have more room —
+  buttons and fields gained roughly a tenth of an em of padding.
+- More things transition, on the named curves: tabs, badges, cards, segmented
+  controls and popover items, alongside the controls that already did.
+  `:focus-visible` is explicitly excluded — a focus ring has to be there the
+  instant focus lands, not fade in after it.
+
+### Fixed
+
+- Navigation lists. `[data-layout=sidebar]` shipped without any styling for the
+  nav inside it, so the obvious markup — a `<menu>` in a `<nav>` — came out as
+  a boxed list group. It is navigation now: no rules between items, no bullets,
+  and the link fills the row.
+- `aside` and `search` are block landmarks that had no vertical rhythm of their
+  own, so whatever followed sat flush against them.
+
 ## [1.0.3] — 2026-08-30
 
 ### Changed
