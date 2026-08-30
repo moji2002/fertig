@@ -521,9 +521,12 @@ input[switch]:checked::after, input[role=switch]:checked::after { translate: .9e
   max-block-size: 60dvh; overflow: auto; font-size: .95em;
   box-shadow: var(--up2), 0 20px 40px -14px oklch(from var(--sh) l c h / .4);
 }
-/* anchor to the invoking button; without support it centres, which is fine */
+/* anchor to the invoking button; without support it centres, which is fine.
+   Deliberately NOT scoped to :popover-open — the close is transitioned, so a
+   closing popover still paints for 130ms. Scoped, it would drop back to the
+   UA's inset:0 centring on that frame and visibly fly across the viewport. */
 @supports (position-area: block-end span-inline-end) {
-  [popover]:popover-open {
+  [popover] {
     position: fixed;
     inset: auto;                           /* clear the UA inset:0 centring */
     position-anchor: auto;                 /* the button that opened it */
@@ -532,7 +535,7 @@ input[switch]:checked::after, input[role=switch]:checked::after { translate: .9e
     margin: .35rem 0 0;
   }
   @supports (min-width: anchor-size(width)) {
-    [popover]:popover-open {
+    [popover] {
       min-width: max(12rem, anchor-size(width));
       position-visibility: anchors-visible;   /* hide with its anchor */
     }
@@ -637,7 +640,9 @@ dialog[data-side=bottom] {
   min-width: 16rem; max-width: min(24rem, 92dvw); padding: .8rem 1rem;
 }
 @supports (position-area: block-end span-inline-end) {
-  [popover][data-toast]:popover-open {
+  /* base selector, for the same reason as the menu above: a toast that only
+     un-anchored while open would jump to the anchor as it faded out */
+  [popover][data-toast] {
     position-area: none; inset: auto 1rem 1rem auto; min-width: 16rem;
   }
 }

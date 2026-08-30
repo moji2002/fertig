@@ -6,6 +6,17 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
+## [Unreleased]
+
+### Fixed
+
+- Menus and toasts no longer jump across the viewport as they close. The anchor
+  positioning was scoped to `[popover]:popover-open`, but the close is
+  transitioned (`display .13s allow-discrete`), so for those 130ms the popover
+  still painted while no longer matching the selector — falling back to the UA's
+  centred `inset: 0` and visibly flying to the middle of the screen. Both the
+  menu and the `[data-toast]` corner override now sit on the base selector.
+
 ## [1.0.0] — 2026-08-30
 
 First release. The project and the npm package are `fertig`. The stylesheet

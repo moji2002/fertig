@@ -4,30 +4,31 @@
     sheet is about — furniture you did not have to build, and a page that is
     already finished. Colours are the sheet's own tokens, written in oklch
     because that is what the stylesheet uses; a favicon gets no legacy either.
+
+    Proportions are tuned for 16px, where a favicon actually lives: a heavy
+    check, a title bar thin enough to read as a bar rather than a lid, and no
+    outline — at that size an outline is one detail too many, and the title
+    bar already tells you where the window edge is.
   -->
   <style>
     :root {
       --ac: oklch(48% .095 250);
       --paper: oklch(99.4% .002 75);
-      --line: oklch(80% .006 75);
     }
     @media (prefers-color-scheme: dark) {
       :root {
         --ac: oklch(78% .085 245);
         --paper: oklch(21% .006 75);
-        --line: oklch(38% .006 75);
       }
     }
   </style>
 
-  <!-- the paper -->
-  <rect x="2.5" y="4.5" width="27" height="23" rx="4.5"
-        fill="var(--paper)" stroke="var(--line)" stroke-width="1"/>
-  <!-- the title bar, clipped to the window's top corners -->
-  <path d="M2.5 9a4.5 4.5 0 0 1 4.5-4.5h18A4.5 4.5 0 0 1 29.5 9v1.5h-27Z"
-        fill="var(--ac)"/>
+  <!-- the window: paper below, title bar above, one shape -->
+  <rect x="2" y="4" width="28" height="24" rx="5" fill="var(--ac)"/>
+  <path d="M2 11h28v12a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5Z" fill="var(--paper)"/>
+
   <!-- fertig: done -->
-  <path d="M10 19.5 14.5 24 23 15"
-        fill="none" stroke="var(--ac)" stroke-width="3.2"
+  <path d="M9.5 19.5 14 24l8.5-9"
+        fill="none" stroke="var(--ac)" stroke-width="4"
         stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
