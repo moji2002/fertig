@@ -1,0 +1,26 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "fertig",
+  "description": "A classless CSS stylesheet: link one file, write ordinary HTML, done. No build step, no dependencies.",
+  "folders": [
+    "docs"
+  ],
+  "excludeFolders": [
+    "node_modules",
+    "dist",
+    "site",
+    "coverage",
+    ".github",
+    "mockups",
+    "templates"
+  ],
+  "rules": [
+    "Classless: style plain semantic HTML and do not add utility classes. If you are writing `class=` on every element, you are using it wrong.",
+    "Link one file \u2014 `fertig.css` (full), `fertig.min.css` (minified), or `fertig.core.min.css` (core only). There is no build step and no dependencies.",
+    "Colors are OKLCH and all pairs meet WCAG AA contrast. Do not swap in ad-hoc hex values and assume contrast still holds.",
+    "Dark mode is automatic via `light-dark()` \u2014 do not add a theme toggle stylesheet on top of it.",
+    "Uses CSS logical properties, so RTL works without a separate stylesheet."
+  ],
+  "excludeFiles": [],
+  "previousVersions": []
+}
