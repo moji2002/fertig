@@ -1,8 +1,10 @@
 {
   "name": "fertig",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A classless CSS stylesheet with no legacy in it: no prefixes, no polyfills, no classes. Link one file, write ordinary HTML, done — 7.6 KB gzipped, no build step, no dependencies.",
   "keywords": [
+    "fertig",
+    "fertig.css",
     "css",
     "classless",
     "classless-css",
@@ -22,7 +24,7 @@
   ],
   "license": "MIT",
   "author": "Mojtaba Beheshti <info@rublex.io>",
-  "homepage": "https://github.com/moji2002/fertig.css#readme",
+  "homepage": "https://moji2002.github.io/fertig.css/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moji2002/fertig.css.git"

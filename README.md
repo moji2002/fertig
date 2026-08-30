@@ -1,4 +1,4 @@
-# fertig.css
+# fertig
 
 A classless CSS file for developers who want a project to look presentable in
 the ten seconds before they start building it. Link it, write ordinary HTML,
@@ -107,7 +107,7 @@ thing here, so nothing new has to be learned.
 Layout and width only. No colour or type scale, and no responsive
 variants — those need a build step, and this file does not have one. The
 margins are flow-relative (`ms`/`me`, not `ml`/`mr`), so a toolbar still lands
-correctly in Persian or Arabic. `.grid` is fertig.css's own auto-fit grid;
+correctly in Persian or Arabic. `.grid` is fertig's own auto-fit grid;
 adding `.grid-cols-3` pins it to three columns.
 
 The `max-w-*` scale is Tailwind's, whole rather than partial — a half-scale
@@ -184,7 +184,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig.css** | **28.0 KB** | **7.6 KB** |
+| **fertig** | **28.0 KB** | **7.6 KB** |
 | Pico 2 classless | 71.0 KB | 10.1 KB |
 
 Measured with `gzip -9` via `npm run build`. Most of the gap is Pico's full
@@ -230,7 +230,7 @@ margins with no stranded lines.
 
 ## Browser support
 
-The policy is a two-year window: fertig.css targets browsers released in the last
+The policy is a two-year window: fertig targets browsers released in the last
 two years and carries nothing for the ones before them — no vendor prefixes, no
 polyfills, no fallback build. Needs `light-dark()`, `color-mix()`, `:has()`,
 `@starting-style` and relative colour — Chrome 125+, Safari 17.5+,

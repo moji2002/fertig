@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    A window with its title bar, and a check in the paper: the two things the
+    sheet is about — furniture you did not have to build, and a page that is
+    already finished. Colours are the sheet's own tokens, written in oklch
+    because that is what the stylesheet uses; a favicon gets no legacy either.
+  -->
+  <style>
+    :root {
+      --ac: oklch(48% .095 250);
+      --paper: oklch(99.4% .002 75);
+      --line: oklch(80% .006 75);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ac: oklch(78% .085 245);
+        --paper: oklch(21% .006 75);
+        --line: oklch(38% .006 75);
+      }
+    }
+  </style>
+
+  <!-- the paper -->
+  <rect x="2.5" y="4.5" width="27" height="23" rx="4.5"
+        fill="var(--paper)" stroke="var(--line)" stroke-width="1"/>
+  <!-- the title bar, clipped to the window's top corners -->
+  <path d="M2.5 9a4.5 4.5 0 0 1 4.5-4.5h18A4.5 4.5 0 0 1 29.5 9v1.5h-27Z"
+        fill="var(--ac)"/>
+  <!-- fertig: done -->
+  <path d="M10 19.5 14.5 24 23 15"
+        fill="none" stroke="var(--ac)" stroke-width="3.2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

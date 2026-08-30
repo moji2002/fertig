@@ -1,15 +1,15 @@
-/* site.css — layout for fertig.css's own website.
+/* site.css — layout for fertig's own website.
    NOT part of the library and not shipped in the npm package.
-   fertig.css keeps everything on a 42rem measure; a marketing site needs
+   fertig keeps everything on a 42rem measure; a marketing site needs
    to break out of that, so this file widens the containers and adds the
-   page furniture. Components, type and colour still come from fertig.css. */
+   page furniture. Components, type and colour still come from fertig. */
 
 :root {
   --wrap: 72rem;          /* site content width */
   --gut: clamp(1.2rem, 4vw, 3rem);
 }
 
-/* let the page go full width; fertig.css's paper column is re-created
+/* let the page go full width; fertig's paper column is re-created
    inside the demo mock-up instead */
 body > header, body > main, body > footer {
   max-width: none; padding-inline: 0; background: none;
@@ -103,7 +103,8 @@ body { background: var(--el) }
 }
 .mock-body { padding: 1.4rem; font-size: .95em }
 .mock-body > :first-child { margin-top: 0 }
-.mock-body > :last-child { margin-bottom: 0 }
+/* :not(dialog) — a modal is centred by margin:auto, so it must keep its own */
+.mock-body > :last-child:not(dialog) { margin-bottom: 0 }
 
 /* ---- stat row ------------------------------------------------ */
 .stats { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); text-align: center }
@@ -114,7 +115,7 @@ body { background: var(--el) }
 .bars { display: grid; gap: .7rem; margin-top: 1.5rem }
 .bar-row { display: grid; grid-template-columns: minmax(7rem, auto) 1fr auto; gap: .8rem; align-items: center; font-size: .9em }
 /* --len is the bar's length, passed in from the markup as data.
-   Not --w: that is fertig.css's measure token, and it inherits into this rule. */
+   Not --w: that is fertig's measure token, and it inherits into this rule. */
 .bar { display: block; inline-size: var(--len, 100%); height: 1.4rem; border-radius: 3px; background: var(--ac) }
 .bar-alt { background: color-mix(in srgb, var(--fg) 22%, transparent) }
 
@@ -140,7 +141,7 @@ body { background: var(--el) }
   padding: 1.1rem; background: var(--el);
 }
 .example > .demo > :first-child { margin-top: 0 }
-.example > .demo > :last-child { margin-bottom: 0 }
+.example > .demo > :last-child:not(dialog) { margin-bottom: 0 }
 .example pre { margin: 0; height: 100% }
 
 /* ---- footer -------------------------------------------------- */
@@ -189,7 +190,7 @@ body > nav { view-transition-name: toolbar }
   padding: 1.2rem; background: var(--el); margin-bottom: .6rem;
 }
 .block-preview > :first-child { margin-top: 0 }
-.block-preview > :last-child { margin-bottom: 0 }
+.block-preview > :last-child:not(dialog) { margin-bottom: 0 }
 .block-code { position: relative }
 .block-code pre { margin: 0; max-height: 22rem }
 .block-code button { position: absolute; inset-block-start: .5rem; inset-inline-end: .5rem; z-index: 2 }
