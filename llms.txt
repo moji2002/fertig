@@ -1,7 +1,7 @@
 # fertig
 
 > A classless CSS stylesheet. Link one file, write ordinary semantic
-> HTML, and the page is finished — 28.1 KB raw, 7.6 KB gzipped, no build step,
+> HTML, and the page is finished — 28.7 KB raw, 7.8 KB gzipped, no build step,
 > no dependencies, no classes required.
 
 fertig styles semantic HTML directly. There is no `.container`, no grid

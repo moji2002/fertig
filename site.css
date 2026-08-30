@@ -96,11 +96,22 @@ body > nav {
                   display: inline-flex; align-items: center; gap: .45em }
 /* the mark is an <img>, so it keeps its own two tones rather than
    inheriting the wordmark's colour the way an icon does */
-.mark { inline-size: 1.35em; block-size: 1.35em; border-radius: 0; box-shadow: none }
-.bar ul { display: flex; gap: 1.3rem; list-style: none; margin: 0; padding: 0; margin-inline-start: auto; flex-wrap: wrap; flex: 0 0 auto }
+/* the mark is an <img>, so it keeps its own two tones rather than inheriting
+   the wordmark's colour the way an icon does */
+.mark { border-radius: 0; box-shadow: none; flex: none }
+.bar .mark { inline-size: 1.9em; block-size: 1.9em }
+/* the hero sets it in the label rail, where it reads as a masthead device
+   rather than decoration */
+.hero .mark { inline-size: clamp(3rem, 7vw, 4.5rem); block-size: auto; margin-bottom: .8rem }
+.foot-mark { inline-size: 2.4rem; block-size: auto; margin-bottom: .9rem; opacity: .85 }
+.bar ul { display: flex; gap: 1.3rem; list-style: none; margin: 0; padding: 0;
+          margin-inline-start: auto; flex-wrap: wrap; flex: 0 1 auto; min-width: 0 }
 /* flex: 0 would set flex-basis:0 and squeeze the list until every link wrapped
-   onto its own line — fertig's own toolbar rule sets flex:1, so this has to
-   say "natural width" explicitly rather than just turn the growing off. */
+   onto its own line — fertig's own toolbar rule sets flex:1, so this has to say
+   "natural width" explicitly rather than just turn the growing off. It must
+   still be allowed to SHRINK (0 1, not 0 0) or the row runs off a narrow
+   screen; overflow-x:clip on the root then hides the last link entirely rather
+   than scrolling to it. */
 .bar li { margin: 0 }
 .bar a { font: var(--label); letter-spacing: .05em; text-transform: uppercase; color: var(--mut); text-decoration: none; white-space: nowrap; opacity: 1 }
 .bar a:hover { color: var(--fg) }
@@ -119,6 +130,70 @@ body > nav {
 .hero pre { margin: 0 0 var(--space-md); max-width: 36rem; font-size: .82rem }
 .hero .row { margin: 0 }
 .hero .row > * { white-space: nowrap }
+
+/* ---- landing hero: centred, announcement pill, dimmed second line ----
+   The shape component-library landings converge on, because it works: one
+   claim, one qualifier, two ways in, and the proof underneath. */
+.hero-center { text-align: center; border-bottom: 0; padding-block: clamp(3rem, 7vw, 5.5rem) clamp(2rem, 4vw, 3rem) }
+.hero-center .lede { margin-inline: auto; text-align: center }
+.hero-center .row { justify-content: center }
+
+.pill {
+  display: inline-flex; align-items: center; gap: .5em;
+  padding: .35em .9em; border: var(--rule); border-radius: 999px;
+  background: var(--el); color: var(--mut);
+  font: var(--label); letter-spacing: .04em; text-transform: uppercase;
+  text-decoration: none; margin-bottom: var(--space-md);
+}
+.pill:hover { color: var(--fg) }
+.pill .icon { color: var(--ac) }
+
+.hero-center h1 {
+  font: 500 clamp(2.3rem, 6.4vw, 4.2rem)/1.04 var(--font-display);
+  letter-spacing: -.05em; margin: 0 0 var(--space-md);
+}
+/* the qualifier, set back rather than shouted */
+.hero-center h1 .dim { color: var(--mut); display: block }
+
+/* pill actions — site chrome only. The showcase below keeps fertig's real
+   6px controls, because that is the thing being demonstrated. */
+.cta-row a[role=button], .cta-row button { border-radius: 999px; padding-inline: 1.4em }
+.proof {
+  margin: var(--space-md) 0 0; color: var(--mut);
+  font: var(--label); letter-spacing: .06em; text-transform: uppercase;
+  display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center;
+}
+
+/* ---- the showcase: real components, restyled live -------------------- */
+.showcase { padding-block: 0 var(--space-lg) }
+.showcase-bar {
+  display: flex; align-items: center; gap: var(--space-md);
+  flex-wrap: wrap; margin-bottom: var(--space-md);
+}
+.showcase-bar [role=tablist] { flex: 1 1 auto; min-width: 0 }
+.dots { display: flex; gap: .5rem; align-items: center; margin: 0; flex-wrap: wrap }
+.dots button {
+  inline-size: 1.5rem; block-size: 1.5rem; padding: 0; min-width: 0;
+  border-radius: 999px; border: 2px solid transparent; box-shadow: none;
+  background: var(--swatch); cursor: pointer;
+}
+.dots button:hover { transform: scale(1.12) }
+.dots button[aria-pressed=true] { border-color: var(--fg) }
+@media (prefers-reduced-motion: no-preference) {
+  .dots button { transition: transform .12s var(--ease-out, ease-out) }
+}
+
+.stage {
+  border: var(--rule); border-radius: var(--rw);
+  background: var(--bg); padding: clamp(1.2rem, 3vw, 2rem);
+  container: stage / inline-size;
+}
+.stage-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr) }
+@container stage (width >= 44rem) {
+  .stage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+}
+.stage .card { margin: 0 }
+.stage [hidden] { display: none }
 
 /* ---- section headers ------------------------------------------- */
 .band h2 { font: 600 clamp(1.15rem, 2.4vw, 1.4rem)/1.2 var(--font-display); letter-spacing: -.025em; margin: 0 0 var(--space-md) }

@@ -4,7 +4,7 @@ A classless CSS file for developers who want a project to look presentable in
 the ten seconds before they start building it. Link it, write ordinary HTML,
 and the page is finished.
 
-**28.1 KB raw · 7.6 KB gzipped · no build step · no dependencies.**
+**28.7 KB raw · 7.8 KB gzipped · no build step · no dependencies.**
 
 ```html
 <link rel="stylesheet" href="fertig.css">
@@ -169,12 +169,15 @@ themes, measured in-browser from the computed token values:
 
 | Pair | Light | Dark |
 |---|---:|---:|
-| Body text on paper | 16.83 | 14.94 |
-| Muted text on paper | 5.07 | 5.92 |
-| Links on paper | 5.37 | 6.17 |
-| Muted on chrome | 4.65 | 5.24 |
-| Text on accent | 5.37 | 7.63 |
-| Tones (ok / warn / err) | 4.87–5.44 | 6.13–6.74 |
+| Body text on paper | 17.05 | 15.31 |
+| Muted text on paper | 6.73 | 7.41 |
+| Links on paper | 6.38 | 8.97 |
+| Muted on chrome | 6.30 | 6.70 |
+| Muted on the desktop ground | 5.65 | 8.11 |
+| Text on accent | 6.48 | 10.63 |
+| Tones (ok / warn / err) | 4.80–6.55 | 7.63–9.43 |
+
+The tightest pair in the sheet is the warn tone on paper in light, at 4.80:1.
 
 Motion is gated behind `prefers-reduced-motion`, focus uses a visible ring at
 `:focus-visible`, and the component layer is driven by the same ARIA attributes
@@ -184,7 +187,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **28.1 KB** | **7.6 KB** |
+| **fertig** | **28.7 KB** | **7.8 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -250,10 +253,10 @@ npm run build    # regenerate fertig.min.css and print sizes
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 28.1 KB | 7.6 KB | everything |
-| `fertig.core.min.css` | 21.7 KB | 6.3 KB | without the ARIA component layer |
+| `fertig.min.css` | 28.7 KB | 7.8 KB | everything |
+| `fertig.core.min.css` | 21.8 KB | 6.3 KB | without the ARIA component layer |
 
-Dropping the component layer saves 0.8 KB gzipped — worth knowing, rarely worth
+Dropping the component layer saves 1.4 KB gzipped — worth knowing, rarely worth
 doing. The weight is in the element coverage and forms, not the components.
 
 ## Files

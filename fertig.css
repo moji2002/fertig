@@ -65,10 +65,11 @@
   --el:  light-dark(oklch(99.4% .002 75), oklch(21% .006 75));  /* paper */
   --face:light-dark(oklch(97.2% .005 75), oklch(25% .007 75));  /* chrome */
   --fg:  light-dark(oklch(22% .008 75),   oklch(95% .004 75));
-  /* lifted from 50%/70%: the weakest pairing (muted on chrome) was 4.96:1,
-     a hair over AA. 47%/73% takes it to 5.64:1 and 6.69:1 while keeping a
-     clear step down from --fg — AAA would need 41.5%, which is close
-     enough to --fg that "muted" stops reading as secondary at all. */
+  /* lifted from 50%/70%: the weakest pairing (muted on the desktop ground in
+     light, muted on chrome in dark) was 4.96:1 and 5.99:1, a hair over AA.
+     47%/73% takes them to 5.65:1 and 6.70:1 while keeping a clear step down
+     from --fg — AAA would need 41.5%, which is close enough to --fg that
+     "muted" stops reading as secondary at all. */
   --mut: light-dark(oklch(47% .009 75),   oklch(73% .008 75));
   --bd:  light-dark(oklch(22% .008 75 / .13), oklch(95% .004 75 / .13));
   --tb:  light-dark(oklch(97.2% .005 75 / .85), oklch(25% .007 75 / .85));
@@ -459,12 +460,13 @@ dialog > footer > :is(p, span):first-child { margin: 0; margin-inline-end: auto;
   [popover]:popover-open { opacity: 1; translate: 0 }
   @starting-style { [popover]:popover-open { opacity: 0; translate: 0 -4px } }
 }
-search { display: block }
+search { display: block; margin-block: 1.1rem }   /* a landmark needs its own rhythm */
 ::target-text { background: color-mix(in srgb, var(--ac) 28%, transparent) }
 aside {
   border: 1px solid var(--bd); border-inline-start: 3px solid var(--ac);
   border-radius: var(--r); border-start-start-radius: 0; border-end-start-radius: 0;
   background: var(--el); padding: .7rem 1.1rem;
+  margin-block: 1.1rem;          /* or the next block sits flush against it */
 }
 progress { width: 100%; height: .5rem; border: 0; border-radius: calc(infinity * 1px); background: var(--face) }
 progress::-webkit-progress-bar { background: var(--face); border-radius: calc(infinity * 1px) }
@@ -671,6 +673,26 @@ menu > li + li { border-top: 1px solid var(--bd) }
 [popover] menu { border: 0; padding: 0; margin: 0; background: none }
 [popover] menu > li { padding: 0 }
 [popover] menu > li + li { border-top: 0 }
+
+/* navigation lists: a <menu> inside a <nav> is navigation, not a list group.
+   No rules between items, no bullets, and the link fills the row so the whole
+   band is the hit target. This is what [data-layout=sidebar] below is for —
+   the layout shipped without it, which left the obvious markup looking boxed. */
+nav menu {
+  border: 0; background: none; padding: 0; margin-block: 0 1.2rem;
+}
+nav menu > li { padding: 0 }
+nav menu > li + li { border-top: 0 }
+nav menu :is(a, button) {
+  display: block; inline-size: 100%; text-align: start;
+  padding: .38rem .6rem; border: 0; border-radius: var(--r);
+  background: none; box-shadow: none; font: inherit;
+  color: var(--fg); text-decoration: none; opacity: .72;
+}
+nav menu :is(a, button):hover { background: var(--face); opacity: 1 }
+nav menu :is(a, button)[aria-current] {
+  background: var(--face); color: var(--ac); font-weight: 600; opacity: 1;
+}
 
 /* app layout: a sticky sidebar beside the content */
 [data-layout=sidebar] { display: grid; gap: 1.5rem; align-items: start }

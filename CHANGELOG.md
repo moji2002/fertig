@@ -10,9 +10,9 @@ are breaking.
 
 ### Changed
 
-- `--mut` lifted from 50%/70% lightness to 47%/73%. The weakest pairing in the
-  sheet — muted text on chrome — was 4.96:1, a hair over AA; it is 5.64:1 in
-  light and 6.69:1 in dark now. Not taken to AAA, which would need 41.5%: that
+- `--mut` lifted from 50%/70% lightness to 47%/73%. The weakest muted pairing
+  — on the desktop ground in light, on chrome in dark — was 4.96:1 and 5.99:1,
+  a hair over AA; it is 5.65:1 and 6.70:1 now. Not taken to AAA, which would need 41.5%: that
   is close enough to `--fg` that muted text stops reading as secondary at all.
 
 ### Added

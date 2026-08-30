@@ -10,6 +10,13 @@
      This is the overview screen of the same product as app.html, not a
      second copy of the invoice list. -->
 <link rel="stylesheet" href="../fertig.css">
+<script>
+  /* match the site's theme choice; the sheet itself still follows the OS */
+  try { document.documentElement.dataset.theme =
+          localStorage.getItem("fertig-theme") || "dark"; }
+  catch { document.documentElement.dataset.theme = "dark" }
+</script>
+
 
 <nav class="wide">
   <strong>Ledger</strong>
@@ -18,6 +25,7 @@
     <li><a href="dashboard.html" aria-current="page">Overview</a></li>
     <li><a href="../blocks.html">Blocks</a></li>
   </ul>
+  <button data-size="sm" data-theme-toggle>theme</button>
   <button popovertarget="acct" data-size="sm">MB ▾</button>
   <div popover id="acct">
     <menu>
@@ -34,7 +42,7 @@
 
     <nav aria-label="Sections">
       <menu>
-        <li><a href="dashboard.html"><strong>Overview</strong></a></li>
+        <li><a href="dashboard.html" aria-current="page">Overview</a></li>
         <li><a href="../app.html">Invoices</a></li>
         <li><a href="#">Estimates</a></li>
         <li><a href="#">Payments</a></li>
@@ -157,5 +165,11 @@
 
 <script>
   addEventListener("submit", e => e.preventDefault());
+  addEventListener("click", e => {
+    if (!e.target.closest("[data-theme-toggle]")) return;
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === "dark" ? "light" : "dark";
+    try { localStorage.setItem("fertig-theme", r.dataset.theme); } catch {}
+  });
 </script>
 </html>

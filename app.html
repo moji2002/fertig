@@ -11,6 +11,13 @@
      fertig's [data-layout=sidebar]; the detail view is a separate document,
      app-invoice.html, reached by clicking an invoice number. -->
 <link rel="stylesheet" href="fertig.css">
+<script>
+  /* match the site's theme choice; the sheet itself still follows the OS */
+  try { document.documentElement.dataset.theme =
+          localStorage.getItem("fertig-theme") || "dark"; }
+  catch { document.documentElement.dataset.theme = "dark" }
+</script>
+
 
 <nav class="wide">
   <strong>Ledger</strong>
@@ -19,6 +26,7 @@
     <li><a href="templates/dashboard.html">Overview</a></li>
     <li><a href="blocks.html">Blocks</a></li>
   </ul>
+  <button data-size="sm" data-theme-toggle>theme</button>
   <button popovertarget="acct" data-size="sm">MB ▾</button>
   <div popover id="acct">
     <menu>
@@ -37,7 +45,7 @@
     <nav aria-label="Sections">
       <menu>
         <li><a href="templates/dashboard.html">Overview</a></li>
-        <li><a href="app.html"><strong>Invoices</strong></a></li>
+        <li><a href="app.html" aria-current="page">Invoices</a></li>
         <li><a href="#">Estimates</a></li>
         <li><a href="#">Payments</a></li>
       </menu>
@@ -182,5 +190,11 @@
 <script>
   /* the forms on this page are a demo with nowhere to submit to */
   addEventListener("submit", e => e.preventDefault());
+  addEventListener("click", e => {
+    if (!e.target.closest("[data-theme-toggle]")) return;
+    const r = document.documentElement;
+    r.dataset.theme = r.dataset.theme === "dark" ? "light" : "dark";
+    try { localStorage.setItem("fertig-theme", r.dataset.theme); } catch {}
+  });
 </script>
 </html>

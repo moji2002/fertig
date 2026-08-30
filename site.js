@@ -194,3 +194,51 @@ addEventListener("DOMContentLoaded", () => {
   seed();
   apply();
 });
+
+/* The docs and blocks sidebar is a <details>. It ships open, so it works with
+   no JavaScript at any width — but open-by-default on a phone means scrolling
+   past the whole section list to reach the content. Collapse it there, and
+   keep it in step if the window is resized across the breakpoint. */
+addEventListener("DOMContentLoaded", () => {
+  const panel = document.querySelector(".sidebar details");
+  if (!panel) return;
+  const wide = matchMedia("(width >= 60rem)");
+  const sync = () => { panel.open = wide.matches };
+  wide.addEventListener("change", sync);
+  sync();
+});
+
+/* The showcase under the hero: real components, restyled live.
+   Tabs swap which set is on stage; the colour dots set --ac on the stage only,
+   so you are looking at the actual sheet reacting to the one token people
+   change, not at a picture of it. */
+addEventListener("DOMContentLoaded", () => {
+  const stage = document.getElementById("stage");
+  if (!stage) return;
+
+  const tabs = [...document.querySelectorAll('.showcase-bar [role=tab]')];
+  const show = tab => {
+    tabs.forEach(t => {
+      const on = t === tab;
+      t.setAttribute("aria-selected", String(on));
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+  };
+  tabs.forEach(t => t.addEventListener("click", () => show(t)));
+
+  /* left/right arrows move between tabs, which is what a tablist promises */
+  tabs.forEach((t, i) => t.addEventListener("keydown", e => {
+    const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (!step) return;
+    e.preventDefault();
+    const next = tabs[(i + step + tabs.length) % tabs.length];
+    show(next);
+    next.focus();
+  }));
+
+  const dots = [...document.querySelectorAll("#accent-dots button")];
+  dots.forEach(d => d.addEventListener("click", () => {
+    dots.forEach(o => o.setAttribute("aria-pressed", String(o === d)));
+    stage.style.setProperty("--ac", `oklch(${d.dataset.ac})`);
+  }));
+});

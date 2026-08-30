@@ -4,7 +4,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>fertig — classless CSS with no legacy in it</title>
-<meta name="description" content="A classless CSS stylesheet built only on CSS that shipped in the last two years. 7.6 KB gzipped. No prefixes, no polyfills, no build step.">
+<meta name="description" content="A classless CSS stylesheet built only on CSS that shipped in the last two years. 7.8 KB gzipped. No prefixes, no polyfills, no build step.">
 <script>
   /* before first paint: dark by default, or whatever was chosen last time.
      Inline and synchronous on purpose — a deferred script would repaint. */
@@ -29,6 +29,7 @@
     <strong><a href="index.html"><img src="favicon.svg" alt="" width="16" height="16" class="mark">fertig</a></strong>
     <ul>
       <li><a href="index.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
+      <li><a href="index.html#customize"><svg class="icon" aria-hidden="true"><use href="icons.svg#palette"></use></svg>Customise</a></li>
       <li><a href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Docs</a></li>
       <li><a href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
       <li><a href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Example app</a></li>
@@ -38,23 +39,157 @@
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap rail">
-    <p class="tag">v1.0.3 / MIT</p>
-    <div>
-      <h1>Link one file.<br>The page is <em>finished</em>.</h1>
-      <p class="lede">A classless stylesheet built only on CSS that shipped in
-        the last two years. No prefixes, no polyfills, no build step — semantic
-        HTML goes in, a designed page comes out.</p>
-      <pre><code>&lt;link rel="stylesheet" href="fertig.css"&gt;</code></pre>
-      <p class="row">
-        <a class="primary" role="button" href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Read the docs</a>
-        <a role="button" href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Browse blocks</a>
-        <a role="button" data-variant="ghost" href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>See a real app</a>
-      </p>
-    </div>
+<header class="hero hero-center">
+  <div class="wrap">
+    <a class="pill" href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">
+      <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
+      v1.0.3 — live customiser
+    </a>
+    <h1>Link one file.<br><span class="dim">The page is finished.</span></h1>
+    <p class="lede">A classless stylesheet built only on CSS that shipped in the
+      last two years. No prefixes, no polyfills, no build step — semantic HTML
+      goes in, a designed page comes out.</p>
+    <p class="row cta-row">
+      <a class="primary" data-size="lg" role="button" href="docs.html">
+        <svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Get started</a>
+      <a role="button" data-size="lg" href="blocks.html">
+        <svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>View blocks</a>
+    </p>
+    <p class="proof">
+      <span>7.6 KB gzipped</span>
+      <span>0 dependencies</span>
+      <span>0 required classes</span>
+      <span>MIT</span>
+    </p>
   </div>
 </header>
+
+<section class="band showcase" style="border-top:0">
+  <div class="wrap">
+    <div class="showcase-bar">
+      <div role="tablist" aria-label="Showcase">
+        <button role="tab" aria-selected="true" aria-controls="s-form" id="tab-form">Forms</button>
+        <button role="tab" aria-selected="false" aria-controls="s-data" id="tab-data">Data</button>
+        <button role="tab" aria-selected="false" aria-controls="s-feedback" id="tab-feedback">Feedback</button>
+      </div>
+      <p class="dots" id="accent-dots" aria-label="Accent colour">
+        <button type="button" aria-pressed="true"  data-ac="48% .095 250" style="--swatch:oklch(48% .095 250)" aria-label="Ink blue"></button>
+        <button type="button" aria-pressed="false" data-ac="47% .055 155" style="--swatch:oklch(47% .055 155)" aria-label="Sage"></button>
+        <button type="button" aria-pressed="false" data-ac="50% .09 40"   style="--swatch:oklch(50% .09 40)"   aria-label="Clay"></button>
+        <button type="button" aria-pressed="false" data-ac="47% .065 320" style="--swatch:oklch(47% .065 320)" aria-label="Plum"></button>
+        <button type="button" aria-pressed="false" data-ac="55% .085 80"  style="--swatch:oklch(55% .085 80)"  aria-label="Gold"></button>
+        <button type="button" aria-pressed="false" data-ac="35% .01 250"  style="--swatch:oklch(35% .01 250)"  aria-label="Graphite"></button>
+      </p>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="stage-grid" id="s-form" role="tabpanel" aria-labelledby="tab-form">
+        <div class="card">
+          <header>Sign in</header>
+          <form>
+            <label for="s-email">Email <abbr title="required">*</abbr></label>
+            <input id="s-email" type="email" placeholder="you@example.com" required>
+            <label for="s-pw">Password <abbr title="required">*</abbr></label>
+            <input id="s-pw" type="password" required>
+            <p><label><input type="checkbox" checked> Remember me</label></p>
+            <button class="primary" data-block>Sign in</button>
+          </form>
+        </div>
+        <div class="card">
+          <header>Settings</header>
+          <p><label><input type="checkbox" role="switch" checked> Email digests</label></p>
+          <p><label><input type="checkbox" role="switch"> Push notifications</label></p>
+          <label for="s-freq">Frequency</label>
+          <select id="s-freq"><option>Daily</option><option>Weekly</option></select>
+          <label for="s-rng">Threshold</label>
+          <input id="s-rng" type="range" value="60">
+          <footer>Switches read as switches to assistive tech.</footer>
+        </div>
+        <div class="card">
+          <header>Controls</header>
+          <p class="row">
+            <span role="group">
+              <button aria-pressed="true">Day</button>
+              <button aria-pressed="false">Week</button>
+            </span>
+          </p>
+          <p class="row">
+            <button class="primary">Primary</button>
+            <button>Default</button>
+          </p>
+          <p class="row">
+            <button data-variant="ghost">Ghost</button>
+            <button popovertarget="s-menu">Menu ▾</button>
+          </p>
+          <div popover id="s-menu">
+            <menu>
+              <li><button>New file</button></li>
+              <li><button>Duplicate</button></li>
+            </menu>
+          </div>
+          <p class="row">
+            <span class="badge">default</span>
+            <span class="badge" data-tone="ok">paid</span>
+            <span class="badge" data-tone="err">overdue</span>
+          </p>
+          <footer>No classes on any of it.</footer>
+        </div>
+      </div>
+
+      <div class="stage-grid" id="s-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+        <div class="card"><header>Outstanding</header><h3>$48,200</h3><footer>12 invoices</footer></div>
+        <div class="card" data-tone="err"><header>Overdue</header><h3>$9,400</h3><footer>3 invoices</footer></div>
+        <div class="card" data-tone="ok"><header>Collected</header><h3>94%</h3><footer>up from 91%</footer></div>
+        <div class="card" style="grid-column:1/-1">
+          <header>Invoices</header>
+          <table>
+            <thead><tr><th>Invoice</th><th>Client</th><th align="right">Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><a href="app-invoice.html">INV-0231</a></td><td>Acme Corp</td><td align="right">$4,200.00</td><td><span class="badge" data-tone="err">overdue</span></td></tr>
+              <tr><td><a href="app-invoice.html">INV-0232</a></td><td>Globex</td><td align="right">$12,850.00</td><td><span class="badge" data-tone="ok">paid</span></td></tr>
+              <tr><td><a href="app-invoice.html">INV-0233</a></td><td>Initech</td><td align="right">$980.00</td><td><span class="badge">sent</span></td></tr>
+            </tbody>
+            <tfoot><tr><td colspan="2">Total</td><td align="right">$18,030.00</td><td></td></tr></tfoot>
+          </table>
+          <footer>A plain <code>&lt;table&gt;</code>, scrolling itself on a narrow screen.</footer>
+        </div>
+      </div>
+
+      <div class="stage-grid" id="s-feedback" role="tabpanel" aria-labelledby="tab-feedback" hidden>
+        <div class="card">
+          <header>Alerts</header>
+          <aside data-tone="ok"><strong>Payment received.</strong> INV-0232 is settled.</aside>
+          <aside data-tone="warn"><strong>Three invoices overdue.</strong> Send reminders.</aside>
+          <aside data-tone="err"><strong>Sync failed.</strong> Check your connection.</aside>
+          <footer>One attribute retints the whole callout.</footer>
+        </div>
+        <div class="card">
+          <header>Progress</header>
+          <p class="row"><button aria-busy="true">Saving</button>
+            <button data-tooltip="One attribute, no JavaScript">Tooltip</button></p>
+          <label for="s-up">Uploading</label>
+          <progress id="s-up" value="0.6"></progress>
+          <p data-skeleton>This paragraph is a skeleton placeholder.</p>
+          <footer>Spinners, tooltips and skeletons, no library.</footer>
+        </div>
+        <div class="card">
+          <header>Dialog</header>
+          <p>Opens and closes with no JavaScript at all.</p>
+          <p class="row"><button data-tone="err" commandfor="s-dlg" command="show-modal">Delete invoice</button></p>
+          <dialog id="s-dlg" closedby="any">
+            <header><h3>Delete INV-0231?</h3></header>
+            <p>This cannot be undone.</p>
+            <footer>
+              <button commandfor="s-dlg" command="close">Cancel</button>
+              <button data-tone="err" commandfor="s-dlg" command="close">Delete</button>
+            </footer>
+          </dialog>
+          <footer>The <code>command</code> attribute does the work.</footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <main>
   <section class="band" style="border-top:0">
@@ -62,10 +197,10 @@
       <p class="tag">Specification</p>
       <table class="spec">
         <tbody>
-          <tr><th>Transfer size</th><td>7.6 KB <span>— fertig.min.css, gzipped</span></td></tr>
+          <tr><th>Transfer size</th><td>7.8 KB <span>— fertig.min.css, gzipped</span></td></tr>
           <tr><th>Core build</th><td>6.3 KB <span>— without the component layer</span></td></tr>
           <tr><th>Dependencies</th><td>0 <span>— no build step, no configuration</span></td></tr>
-          <tr><th>Required classes</th><td>0 <span>— seven exist, all optional</span></td></tr>
+          <tr><th>Required classes</th><td>0 <span>— seven components and a layout set, all optional</span></td></tr>
           <tr><th>Contrast</th><td>AA <span>— every pair, both themes, measured</span></td></tr>
           <tr><th>Browser policy</th><td>2 years <span>— nothing carried for the ones before</span></td></tr>
         </tbody>
@@ -78,7 +213,7 @@
       <div class="head">
         <h2>Why another classless sheet</h2>
         <p>Most are either too plain to ship or too heavy to justify. fertig
-          aims at the gap: opinionated enough to look finished, small enough
+          sits between them: opinionated enough to look finished, small enough
           that you never think about it again.</p>
       </div>
       <div class="rows">
@@ -105,7 +240,7 @@
           <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#accessibility"></use></svg>Accessible</h3>
           <p>Every colour pair the sheet uses clears WCAG AA in both themes,
             at rest and on hover — measured, not assumed. The tightest pairing
-            is muted text on chrome at 4.65:1.</p>
+            is the warn tone on paper at 4.80:1.</p>
         </div>
         <div>
           <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#layers"></use></svg>Overridable</h3>
@@ -343,11 +478,11 @@
           Three builds ship; pick the smallest one that has what you need.</p>
         <div class="bars">
           <div class="bar-row"><b>fertig.css</b>
-            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>12.2 KB</span></div>
+            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>13.2 KB</span></div>
           <div class="bar-row"><b>fertig.min.css</b>
-            <span><span class="bar-meter" style="--len:62%"></span></span><span>7.6 KB</span></div>
+            <span><span class="bar-meter" style="--len:59%"></span></span><span>7.8 KB</span></div>
           <div class="bar-row"><b>fertig.core.min.css</b>
-            <span><span class="bar-meter" style="--len:51%"></span></span><span>6.3 KB</span></div>
+            <span><span class="bar-meter" style="--len:48%"></span></span><span>6.3 KB</span></div>
         </div>
         <p class="spaced"><small class="muted">Gzipped transfer size, measured
           with <code>gzip -9</code> at v1.0.3. The core build drops the
@@ -424,7 +559,7 @@
           <summary>What about older browsers?</summary>
           <p>They get unstyled but readable HTML. The sheet targets browsers
             from the last two years and carries nothing for the ones before
-            them — that policy is the reason it is 7.6 KB rather than 20.</p>
+            them — that policy is the reason it is 7.8 KB rather than 20.</p>
         </details>
         <details>
           <summary>Can I change the colours?</summary>
@@ -461,6 +596,7 @@
 
 <footer>
   <div class="wrap">
+    <img src="favicon.svg" alt="fertig" class="foot-mark" width="64" height="64">
     <div class="foot-cols">
       <div>
         <strong><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Documentation</strong>
@@ -493,7 +629,7 @@
     <p class="foot-note">
       <span>MIT licensed</span>
       <span>v1.0.3</span>
-      <span>7.6 KB gzipped</span>
+      <span>7.8 KB gzipped</span>
       <span>No dependencies</span>
     </p>
   </div>
