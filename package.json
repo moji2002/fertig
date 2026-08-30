@@ -24,13 +24,13 @@
   ],
   "license": "MIT",
   "author": "Mojtaba Beheshti <info@rublex.io>",
-  "homepage": "https://moji2002.github.io/fertig.css/",
+  "homepage": "https://moji2002.github.io/fertig/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moji2002/fertig.css.git"
+    "url": "git+https://github.com/moji2002/fertig.git"
   },
   "bugs": {
-    "url": "https://github.com/moji2002/fertig.css/issues"
+    "url": "https://github.com/moji2002/fertig/issues"
   },
   "main": "fertig.css",
   "style": "fertig.css",
