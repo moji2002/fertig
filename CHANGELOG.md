@@ -6,7 +6,7 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
-## [Unreleased]
+## [1.0.2] — 2026-08-30
 
 ### Fixed
 
@@ -16,6 +16,17 @@ are breaking.
   still painted while no longer matching the selector — falling back to the UA's
   centred `inset: 0` and visibly flying to the middle of the screen. Both the
   menu and the `[data-toast]` corner override now sit on the base selector.
+
+## [1.0.1] — 2026-08-30
+
+Packaging only; the stylesheet is unchanged apart from its version banner.
+
+### Changed
+
+- `homepage` points at the documentation site rather than the README, and the
+  repository URLs follow the repo's rename to `moji2002/fertig`.
+- `fertig` and `fertig.css` added as keywords: the package is `fertig`, but
+  people search npm for the project's name.
 
 ## [1.0.0] — 2026-08-30
 
