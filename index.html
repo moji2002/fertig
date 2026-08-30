@@ -6,96 +6,104 @@
 <title>fertig — classless CSS with no legacy in it</title>
 <meta name="description" content="A classless CSS stylesheet built only on CSS that shipped in the last two years. 7.6 KB gzipped. No prefixes, no polyfills, no build step.">
 <link rel="stylesheet" href="fertig.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/javascript.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js"></script>
 <script src="site.js" defer></script>
 
 <nav>
-  <strong>fertig</strong>
-  <ul>
-    <li><a href="#why">Why</a></li>
-    <li><a href="#preview">Preview</a></li>
-    <li><a href="#components">Components</a></li>
-    <li><a href="docs.html">Docs</a></li>
-    <li><a href="blocks.html">Blocks</a></li>
-  </ul>
-  <button data-size="sm" data-theme-toggle>theme</button>
+  <div class="bar wrap">
+    <strong><a href="index.html"><img src="favicon.svg" alt="" width="16" height="16" class="mark">fertig</a></strong>
+    <ul>
+      <li><a href="index.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
+      <li><a href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Docs</a></li>
+      <li><a href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
+      <li><a href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Example app</a></li>
+      <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>GitHub</a></li>
+    </ul>
+    <button data-size="sm" data-theme-toggle>theme</button>
+  </div>
 </nav>
 
-<header class="hero hero-mega">
-  <div class="wrap">
-    <p class="eyebrow">Classless CSS · v1.0.0</p>
-    <h1>fertig<span class="dot-css">.css</span></h1>
-    <p class="lede">No prefixes. No polyfills. No classes. Link one file, write
-      ordinary HTML, and the page is finished — on CSS that shipped in the last
-      two years, with nothing left over for the browsers before them.</p>
-    <p class="row badges justify-center">
-      <span class="badge">7.6 KB gzip</span>
-      <span class="badge" data-tone="ok">WCAG AA</span>
-      <span class="badge">0 dependencies</span>
-      <span class="badge">MIT</span>
-    </p>
-    <pre><code>&lt;link rel="stylesheet" href="fertig.css"&gt;</code></pre>
-    <p class="row">
-      <a class="primary" data-size="lg" href="docs.html">Read the docs</a>
-      <a data-size="lg" role="button" href="blocks.html">Browse blocks</a>
-      <button data-size="lg" data-variant="ghost" commandfor="dlg" command="show-modal">See it move</button>
-    </p>
-    <p><small>One line. Fertig. No classes, no
-      build step, no configuration.</small></p>
+<header class="hero">
+  <div class="wrap rail">
+    <p class="tag">v1.0.3 / MIT</p>
+    <div>
+      <h1>Link one file.<br>The page is <em>finished</em>.</h1>
+      <p class="lede">A classless stylesheet built only on CSS that shipped in
+        the last two years. No prefixes, no polyfills, no build step — semantic
+        HTML goes in, a designed page comes out.</p>
+      <pre><code>&lt;link rel="stylesheet" href="fertig.css"&gt;</code></pre>
+      <p class="row">
+        <a class="primary" role="button" href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Read the docs</a>
+        <a role="button" href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Browse blocks</a>
+        <a role="button" data-variant="ghost" href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>See a real app</a>
+      </p>
+    </div>
   </div>
 </header>
 
 <main>
-  <section class="band">
-    <div class="wrap">
-      <div class="stats">
-        <div class="stat"><b>7.6 KB</b><span>gzipped</span></div>
-        <div class="stat"><b>0</b><span>dependencies</span></div>
-        <div class="stat"><b>7</b><span>core classes</span></div>
-        <div class="stat"><b>AA</b><span>contrast, both themes</span></div>
-      </div>
+  <section class="band" style="border-top:0">
+    <div class="wrap rail">
+      <p class="tag">Specification</p>
+      <table class="spec">
+        <tbody>
+          <tr><th>Transfer size</th><td>7.6 KB <span>— fertig.min.css, gzipped</span></td></tr>
+          <tr><th>Core build</th><td>6.3 KB <span>— without the component layer</span></td></tr>
+          <tr><th>Dependencies</th><td>0 <span>— no build step, no configuration</span></td></tr>
+          <tr><th>Required classes</th><td>0 <span>— seven exist, all optional</span></td></tr>
+          <tr><th>Contrast</th><td>AA <span>— every pair, both themes, measured</span></td></tr>
+          <tr><th>Browser policy</th><td>2 years <span>— nothing carried for the ones before</span></td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <section class="band band-sage" id="why">
+  <section class="band band-quiet" id="why">
     <div class="wrap">
       <div class="head">
         <h2>Why another classless sheet</h2>
-        <p>Most are either too plain to ship or too heavy to justify.
-          fertig aims at the gap: opinionated enough to look finished,
-          small enough that you never think about it again.</p>
+        <p>Most are either too plain to ship or too heavy to justify. fertig
+          aims at the gap: opinionated enough to look finished, small enough
+          that you never think about it again.</p>
       </div>
-      <div class="cols-4">
-        <div class="card">
-          <header>Bidirectional</header>
-          <p class="muted">Written in logical properties throughout, so
-            <code>dir="rtl"</code> mirrors the whole sheet — Persian and Arabic
-            get the same layout, not a patched one.</p>
-          <footer>tested in both directions</footer>
+      <div class="rows">
+        <div>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#languages"></use></svg>Bidirectional</h3>
+          <p>Written in logical properties throughout, so <code>dir="rtl"</code>
+            mirrors the whole sheet — Persian and Arabic get the same layout,
+            not a patched one. Verified by rendering a Persian page in both
+            directions.</p>
         </div>
-        <div class="card">
-          <header>Classless</header>
-          <p class="muted">Semantic tags are styled directly. Seven optional
-            classes and a handful of Tailwind-named layout utilities exist if
-            you want them — you can ignore every one.</p>
-          <footer>0 required classes</footer>
+        <div>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Classless</h3>
+          <p>Semantic tags are styled directly. Seven optional classes and a
+            set of Tailwind-named layout utilities exist if you want them —
+            you can ignore every one and the page still looks finished.</p>
         </div>
-        <div class="card">
-          <header>Small</header>
-          <p class="muted">7.6 KB gzipped against Pico classless at 10.1 KB,
-            and that includes a whole component layer.</p>
-          <footer>28.0 KB raw</footer>
+        <div>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Modern only</h3>
+          <p>OKLCH, <code>light-dark()</code>, cascade layers, anchor
+            positioning, container queries, <code>@property</code>. No vendor
+            prefixes except the three no engine has replaced.</p>
         </div>
-        <div class="card" data-tone="ok">
-          <header>Accessible</header>
-          <p class="muted">Every colour pair clears WCAG AA in both themes,
-            measured in a browser rather than assumed.</p>
-          <footer>4.65:1 at the tightest</footer>
+        <div>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#accessibility"></use></svg>Accessible</h3>
+          <p>Every colour pair the sheet uses clears WCAG AA in both themes,
+            at rest and on hover — measured, not assumed. The tightest pairing
+            is muted text on chrome at 4.65:1.</p>
+        </div>
+        <div>
+          <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#layers"></use></svg>Overridable</h3>
+          <p>The sheet is wrapped in <code>@layer fertig</code>, so your own
+            unlayered CSS wins at any specificity. There is no
+            <code>!important</code> anywhere in it.</p>
         </div>
       </div>
     </div>
@@ -109,42 +117,47 @@
           is what the browser renders with the sheet linked.</p>
       </div>
       <div class="cols-2">
-        <pre><code>&lt;body&gt;
+        <pre><code class="language-html">&lt;body&gt;
   &lt;nav&gt;
     &lt;strong&gt;Ledger&lt;/strong&gt;
-    &lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Reports&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+    &lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Invoices&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
   &lt;/nav&gt;
   &lt;main&gt;
-    &lt;h2&gt;Invoices&lt;/h2&gt;
-    &lt;p&gt;Three are overdue.&lt;/p&gt;
-    &lt;table&gt;…&lt;/table&gt;
-    &lt;button type="submit"&gt;Send&lt;/button&gt;
+    &lt;hgroup&gt;
+      &lt;h3&gt;Invoices&lt;/h3&gt;
+      &lt;p&gt;Three overdue, two awaiting approval.&lt;/p&gt;
+    &lt;/hgroup&gt;
+    &lt;p class="row"&gt;
+      &lt;button class="primary"&gt;New invoice&lt;/button&gt;
+      &lt;button&gt;Import&lt;/button&gt;
+    &lt;/p&gt;
   &lt;/main&gt;
 &lt;/body&gt;</code></pre>
-
         <div class="mock">
-          <div class="mock-bar">
-            <span>Ledger</span>
-          </div>
+          <div class="mock-bar">Ledger</div>
           <div class="mock-body">
-            <h3>Invoices</h3>
-            <p class="muted">Three are overdue.</p>
+            <hgroup>
+              <h3>Invoices</h3>
+              <p>Three overdue, two awaiting approval.</p>
+            </hgroup>
+            <p class="row">
+              <button class="primary">New invoice</button>
+              <button>Import</button>
+            </p>
             <table>
-              <thead><tr><th>Client</th><th>Due</th><th>Status</th></tr></thead>
+              <thead><tr><th>Client</th><th align="right">Amount</th><th>Status</th></tr></thead>
               <tbody>
-                <tr><td>Acme</td><td>Mar 4</td><td><span class="badge" data-tone="err">overdue</span></td></tr>
-                <tr><td>Globex</td><td>Mar 18</td><td><span class="badge" data-tone="ok">paid</span></td></tr>
+                <tr><td>Acme</td><td align="right">$4,200.00</td><td><span class="badge" data-tone="err">overdue</span></td></tr>
+                <tr><td>Globex</td><td align="right">$12,850.00</td><td><span class="badge" data-tone="ok">paid</span></td></tr>
               </tbody>
             </table>
-            <p class="row"><button type="submit">Send reminder</button>
-              <button>Export</button></p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="band band-sky" id="components">
+  <section class="band band-quiet" id="components">
     <div class="wrap">
       <div class="head">
         <h2>A component layer, addressed by ARIA</h2>
@@ -152,7 +165,6 @@
           attributes that make them accessible in the first place — so a
           component can only look right if it is also announced right.</p>
       </div>
-
       <div class="cols-2">
         <div class="card">
           <header>Segmented control &amp; tabs</header>
@@ -173,9 +185,11 @@
         <div class="card">
           <header>Switches &amp; menus</header>
           <p><label><input type="checkbox" role="switch" checked> Run migrations</label></p>
-          <p class="row"><button popovertarget="menu">Menu ▾</button>
+          <p class="row">
+            <button popovertarget="menu">Menu ▾</button>
             <button data-tooltip="One attribute, no JavaScript">Tooltip</button>
-            <button aria-busy="true">Saving</button></p>
+            <button aria-busy="true">Saving</button>
+          </p>
           <div popover id="menu">
             <menu>
               <li><button>New file</button></li>
@@ -186,23 +200,17 @@
           <footer><code>role="switch"</code> · <code>[popover]</code></footer>
         </div>
       </div>
-
-      <div class="cols-4 spaced">
-        <div class="card"><strong>Buttons</strong><p class="muted">Variants, sizes, icon and block forms.</p></div>
-        <div class="card"><strong>Dialogs</strong><p class="muted">Animate in, blur the page behind.</p></div>
-        <div class="card"><strong>Tones</strong><p class="muted">Retint anything with one attribute.</p></div>
-        <div class="card"><strong>Forms</strong><p class="muted">Every control, plus validation states.</p></div>
-      </div>
+      <p class="spaced"><a href="blocks.html">Browse all sixteen blocks →</a></p>
     </div>
   </section>
 
-  <section class="band band-plum">
+  <section class="band" id="palette">
     <div class="wrap">
       <div class="head">
         <h2>A palette that stays quiet</h2>
         <p>Six hues, five steps each, in OKLCH so a step means the same thing
-          in every hue. Chroma is deliberately low — these are colours meant to
-          sit under text all day, not to shout from a marketing page.</p>
+          in every hue. Chroma is deliberately low — these are colours meant
+          to sit under text all day, not to shout from a marketing page.</p>
       </div>
       <div class="swatches">
         <div class="ramp"><b>stone</b>
@@ -242,93 +250,29 @@
           <span data-step="700" style="background:var(--gold-700)"></span>
           <span data-step="900" style="background:var(--gold-900)"></span></div>
       </div>
-      <p class="muted spaced">Every pair the sheet actually
-        uses clears WCAG AA in both themes — body text at 17:1, the tightest
-        pairing at 4.8:1.</p>
     </div>
   </section>
 
-  <section class="band">
-    <div class="wrap">
-      <div class="head">
+  <section class="band band-quiet" id="size">
+    <div class="wrap rail">
+      <p class="tag">Transfer size</p>
+      <div>
         <h2>Small on purpose</h2>
-        <p>Most of a classless sheet's weight goes into a full colour palette
-          and base64-encoded control icons. fertig has one accent and draws
-          its chevrons in CSS.</p>
-      </div>
-      <div class="bars">
-        <div class="bar-row"><span>fertig</span>
-          <span><span class="bar" style="--len:70%"></span></span><span>7.6 KB</span></div>
-        <div class="bar-row"><span class="muted">Pico 2 classless</span>
-          <span><span class="bar bar-alt"></span></span><span class="muted">10.1 KB</span></div>
-      </div>
-      <p class="spaced"><small>Gzipped transfer
-        size, measured with <code>gzip -9</code>.</small></p>
-    </div>
-  </section>
-
-  <section class="band band-gold" id="showcase">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Everything below is plain HTML</p>
-        <h2>The whole kit, on one page</h2>
-        <p>No page CSS, no framework, no JavaScript except where a demo needs
-          to open something. This is what semantic markup looks like with the
-          sheet linked.</p>
-      </div>
-
-      <div class="feature-row">
-        <div>
-          <h3 class="rule">People</h3>
-          <p class="row">
-            <span data-avatar>MB</span>
-            <span data-avatar data-tone="ok">JR</span>
-            <span data-avatar="lg">AK</span>
-            <span data-avatar="sm">TW</span>
-          </p>
-          <h3 class="rule">Still loading</h3>
-          <p data-skeleton>This paragraph is a skeleton placeholder.</p>
-          <p data-skeleton class="skeleton-short">Shorter line.</p>
+        <p class="page-intro" style="margin-bottom:1.5rem">Most of a classless
+          sheet's weight goes into a full colour palette and base64-encoded
+          control icons. fertig has one accent and draws its chevrons in CSS.
+          Three builds ship; pick the smallest one that has what you need.</p>
+        <div class="bars">
+          <div class="bar-row"><b>fertig.css</b>
+            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>12.2 KB</span></div>
+          <div class="bar-row"><b>fertig.min.css</b>
+            <span><span class="bar-meter" style="--len:62%"></span></span><span>7.6 KB</span></div>
+          <div class="bar-row"><b>fertig.core.min.css</b>
+            <span><span class="bar-meter" style="--len:51%"></span></span><span>6.3 KB</span></div>
         </div>
-        <div>
-          <h3 class="rule">A list group</h3>
-          <menu>
-            <li><strong>Invoices</strong> — 12 open</li>
-            <li><strong>Clients</strong> — 48 active</li>
-            <li><strong>Reports</strong> — 3 scheduled</li>
-          </menu>
-        </div>
-      </div>
-
-      <h3 class="rule">Overlays</h3>
-      <p class="row">
-        <button commandfor="sheet" command="show-modal">Open a sheet</button>
-        <button popovertarget="toast" data-variant="ghost">Show a toast</button>
-        <button commandfor="dlg" command="show-modal" data-tone="err" class="primary">Destructive dialog</button>
-      </p>
-
-      <dialog id="sheet" data-side="right" closedby="any">
-        <h3>Filters</h3>
-        <p class="muted">A sheet is the same <code>&lt;dialog&gt;</code>, docked
-          to an edge with one attribute.</p>
-        <label for="sq">Status</label>
-        <select id="sq"><option>All</option><option>Open</option><option>Paid</option></select>
-        <p class="row spaced">
-          <button commandfor="sheet" command="close">Cancel</button>
-          <button class="primary" commandfor="sheet" command="close">Apply</button>
-        </p>
-      </dialog>
-
-      <div popover id="toast" data-toast>
-        <strong>Saved.</strong> Your changes are live.
-      </div>
-
-      <h3 class="rule">A carousel that is just a scroll container</h3>
-      <div data-carousel>
-        <div class="card"><header>Scroll snap</header><p class="muted">No JavaScript, no library.</p></div>
-        <div class="card"><header>Keyboard</header><p class="muted">Arrow keys work because it is a real scroller.</p></div>
-        <div class="card"><header>Touch</header><p class="muted">Momentum and snapping come free.</p></div>
-        <div class="card"><header>Accessible</header><p class="muted">It is content in the flow, not a widget.</p></div>
+        <p class="spaced"><small class="muted">Gzipped transfer size, measured
+          with <code>gzip -9</code> at v1.0.3. The core build drops the
+          component layer and keeps the elements, tokens and layout.</small></p>
       </div>
     </div>
   </section>
@@ -336,158 +280,111 @@
   <section class="band" id="templates">
     <div class="wrap">
       <div class="head">
-        <p class="eyebrow">Start from a page, not a blank file</p>
-        <h2>Full templates</h2>
-        <p>Complete pages you can copy wholesale. Each one is a single HTML
-          file that links the stylesheet and nothing else.</p>
+        <h2>Six pages that prove it</h2>
+        <p>Each of these is a single HTML file that links the stylesheet and
+          nothing else — no page CSS, no framework, no build. If something
+          looks wrong in one of them, the library is missing it.</p>
       </div>
-      <div class="cols-3">
-        <a class="card" href="templates/dashboard.html">
-          <header>Dashboard</header>
-          <p class="muted">Stat cards, a filter toolbar, a data table with
-            totals, pagination and a payment form.</p>
-          <footer>Open →</footer>
-        </a>
-        <a class="card" href="templates/article.html">
-          <header>Article</header>
-          <p class="muted">Long-form reading: headings, quotes, tables,
-            figures, code and a subscribe form.</p>
-          <footer>Open →</footer>
-        </a>
-        <a class="card" href="templates/pricing.html">
-          <header>Pricing</header>
-          <p class="muted">Three tiers, a comparison table and an FAQ built
-            from exclusive accordions.</p>
-          <footer>Open →</footer>
-        </a>
-        <a class="card" href="templates/signin.html">
-          <header>Sign in</header>
-          <p class="muted">A centred auth card with proper autocomplete and
-            required-field marking.</p>
-          <footer>Open →</footer>
-        </a>
-        <a class="card" href="app.html">
-          <header>Example app</header>
-          <p class="muted">The stress test: a full product screen built with
-            no page CSS at all.</p>
-          <footer>Open →</footer>
-        </a>
-        <a class="card" href="blocks.html">
-          <header>16 blocks</header>
-          <p class="muted">Copy-paste snippets for toolbars, empty states,
-            alerts, menus and more.</p>
-          <footer>Open →</footer>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band-sage">
-    <div class="wrap">
-      <div class="head head-center">
-        <p class="eyebrow">Why people use it</p>
-        <h2>Opinions, so you do not need any</h2>
-      </div>
-      <div class="cols-3">
-        <div class="card quote-card">
-          <blockquote>“I linked it and stopped thinking about CSS for the rest
-            of the weekend. That was the entire point.”</blockquote>
-          <div class="byline"><span data-avatar="sm">DR</span>
-            <span><b>D. Reyes</b><span>weekend project</span></span></div>
-        </div>
-        <div class="card quote-card">
-          <blockquote>“The accessibility work is already done. Contrast passes
-            in both themes without me auditing anything.”</blockquote>
-          <div class="byline"><span data-avatar="sm" data-tone="ok">PN</span>
-            <span><b>P. Nwosu</b><span>internal tools</span></span></div>
-        </div>
-        <div class="card quote-card">
-          <blockquote>“Components addressed by ARIA means I cannot style a tab
-            without making it a real tab. I like being forced.”</blockquote>
-          <div class="byline"><span data-avatar="sm" data-tone="warn">SK</span>
-            <span><b>S. Kim</b><span>design systems</span></span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band-clay">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Questions</p>
-        <h2>Before you link it</h2>
-      </div>
-      <details name="faq">
-        <summary>Does it really need no classes?</summary>
-        <p>None. Seven exist if you want them, and a page that uses zero of
-          them still looks finished.</p>
-      </details>
-      <details name="faq">
-        <summary>How do I override something?</summary>
-        <p>Write ordinary CSS. The sheet sits in its own cascade layers, so
-          anything unlayered beats it at any specificity — no
-          <code>!important</code>, ever, on either side.</p>
-      </details>
-      <details name="faq">
-        <summary>What about older browsers?</summary>
-        <p>The baseline is Chrome 125, Safari 17.5 and Firefox 129. Everything
-          newer sits behind <code>@supports</code> and is additive, so nothing
-          breaks when it is missing.</p>
-      </details>
-      <details name="faq">
-        <summary>Can I change the colours?</summary>
-        <p>Set <code>--ac</code>. Where <code>contrast-color()</code> exists,
-          the text on top corrects itself automatically.</p>
-      </details>
-    </div>
-  </section>
-
-  <section class="band band-tint">
-    <div class="wrap">
-      <div class="head head-center">
-        <h2>Install</h2>
-        <p>Ship it from npm, or pin it from a CDN and skip tooling entirely.</p>
-      </div>
-      <div class="cols-2 cols-narrow">
+      <div class="rows">
         <div>
-          <h5>Package</h5>
-          <pre><code>npm install fertig</code></pre>
+          <h3>Example app</h3>
+          <p>A real product screen: sticky sidebar navigation, breadcrumb, KPI
+            row, filter toolbar, a data table with row menus, and a New invoice
+            dialog. <a href="app.html">Open the app →</a></p>
         </div>
         <div>
-          <h5>CDN</h5>
-          <pre><code>&lt;link rel="stylesheet" href="https://cdn
-  .jsdelivr.net/npm/fertig@1
-  /fertig.min.css"&gt;</code></pre>
+          <h3>Invoice detail</h3>
+          <p>The screen behind a row in that table — line items, totals,
+            activity and two dialogs, on the same shell.
+            <a href="app-invoice.html">Open the invoice →</a></p>
+        </div>
+        <div>
+          <h3>Dashboard</h3>
+          <p>The overview screen: KPIs, a share-of-balance table drawn with
+            <code>&lt;meter&gt;</code> rather than a chart library, and a cash
+            forecast. <a href="templates/dashboard.html">Open the dashboard →</a></p>
+        </div>
+        <div>
+          <h3>Article</h3>
+          <p>Long-form reading: headings, quotes, tables, figures, code and a
+            subscribe form. <a href="templates/article.html">Open the article →</a></p>
+        </div>
+        <div>
+          <h3>Pricing</h3>
+          <p>Three tiers, a comparison table and an FAQ built from
+            disclosures. <a href="templates/pricing.html">Open the pricing page →</a></p>
+        </div>
+        <div>
+          <h3>Sign in</h3>
+          <p>A centred auth card with proper autocomplete hints and required
+            field marking. <a href="templates/signin.html">Open sign in →</a></p>
         </div>
       </div>
-      <p class="center spaced">
-        <a class="primary" data-size="lg" href="docs.html">Read the documentation</a>
-      </p>
     </div>
   </section>
 
-  <dialog id="dlg" closedby="any">
-    <h3>It moves, a little</h3>
-    <p class="muted">Dialogs animate in and blur the page behind them. Menus
-      anchor to the button that opened them. All of it stops if the OS asks for
-      reduced motion.</p>
-    <p class="row justify-end">
-      <button commandfor="dlg" command="close">Close</button>
-      <button class="primary" commandfor="dlg" command="close">Nice</button>
-    </p>
-  </dialog>
+  <section class="band band-quiet" id="questions">
+    <div class="wrap rail">
+      <p class="tag">Questions</p>
+      <div>
+        <details>
+          <summary>Does it really need no classes?</summary>
+          <p>None. Every element in the semantic set is styled by its tag. The
+            seven classes and the layout utilities are there for the cases
+            where HTML has no element for what you mean — a row of buttons, a
+            card — and you can build a whole site without touching them.</p>
+        </details>
+        <details>
+          <summary>How do I override something?</summary>
+          <p>Write ordinary CSS. The sheet lives in <code>@layer fertig</code>,
+            so any unlayered rule of yours wins regardless of specificity. Most
+            customisation is a token: set <code>--ac</code> for the accent,
+            <code>--w</code> for the measure, <code>--f</code> for the type.</p>
+        </details>
+        <details>
+          <summary>What about older browsers?</summary>
+          <p>They get unstyled but readable HTML. The sheet targets browsers
+            from the last two years and carries nothing for the ones before
+            them — that policy is the reason it is 7.6 KB rather than 20.</p>
+        </details>
+        <details>
+          <summary>Can I change the colours?</summary>
+          <p>Yes. The palette is six OKLCH ramps of five steps, and the
+            semantic tokens are built from them with <code>light-dark()</code>.
+            Override <code>--ac</code> alone and the buttons, focus rings,
+            links, selection and caret all follow.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="install">
+    <div class="wrap rail">
+      <p class="tag">Install</p>
+      <div>
+        <h2>Ship it from npm, or link it from a CDN</h2>
+        <div class="cols-2 spaced">
+          <div>
+            <p class="eyebrow">Package</p>
+            <pre><code class="language-bash">npm install fertig</code></pre>
+          </div>
+          <div>
+            <p class="eyebrow">CDN</p>
+            <pre><code class="language-html">&lt;link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/fertig/fertig.min.css"&gt;</code></pre>
+          </div>
+        </div>
+        <p class="spaced"><a class="primary" role="button" href="docs.html">Read the documentation<svg class="icon" aria-hidden="true"><use href="icons.svg#arrow-right"></use></svg></a></p>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="wrap">
     <div class="foot-cols">
       <div>
-        <strong>fertig</strong>
-        <p class="muted"><small>A classless CSS
-          stylesheet. MIT licensed.</small></p>
-      </div>
-      <div>
-        <h5>Documentation</h5>
+        <strong><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Documentation</strong>
         <ul>
           <li><a href="docs.html#install">Install</a></li>
           <li><a href="docs.html#layout">Layout</a></li>
@@ -496,14 +393,30 @@
         </ul>
       </div>
       <div>
-        <h5>Project</h5>
+        <strong><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Examples</strong>
         <ul>
-          <li><a href="https://github.com/moji2002/fertig">Source</a></li>
+          <li><a href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
+          <li><a href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Example app</a></li>
+          <li><a href="templates/dashboard.html">Dashboard</a></li>
+          <li><a href="templates/article.html">Article</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong><svg class="icon" aria-hidden="true"><use href="icons.svg#package"></use></svg>Project</strong>
+        <ul>
+          <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>Source</a></li>
           <li><a href="https://www.npmjs.com/package/fertig">npm</a></li>
-          <li><a href="docs.html#a11y">Accessibility</a></li>
-          <li><a href="docs.html#support">Browser support</a></li>
+          <li><a href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">Changelog</a></li>
+          <li><a href="llms.txt">llms.txt</a></li>
         </ul>
       </div>
     </div>
+    <p class="foot-note">
+      <span>MIT licensed</span>
+      <span>v1.0.3</span>
+      <span>7.6 KB gzipped</span>
+      <span>No dependencies</span>
+    </p>
   </div>
 </footer>
+</html>

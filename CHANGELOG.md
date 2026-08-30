@@ -6,6 +6,32 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
+## [1.0.3] — 2026-08-30
+
+### Added
+
+- `--nw`, the column the toolbar's contents line up with. It follows `--w`, so
+  nothing changes by default, and `<nav class="wide">` re-points it at the wide
+  column — an app screen built on `.wide` no longer gets a wordmark floating in
+  the middle of the viewport while its content spans the full width.
+
+### Fixed
+
+- Breadcrumb separators no longer leak into other navigation. The `/` was on
+  `nav[aria-label] li + li`, so any labelled `<nav>` containing a `<ul>` — an
+  ordinary sidebar — got breadcrumb slashes between its links. Scoped to `ol`,
+  matching the layout rule directly above it and the documented markup.
+- A `.grid` no longer collides with the block that follows it. It is a
+  block-level container and nothing gave it vertical rhythm. The space is on
+  `.grid + *` rather than a margin on `.grid` itself, which would collapse out
+  through the top of a padding-less container and open a seam above it.
+- A segmented control (`role="group"`) with four or more buttons no longer
+  pushes the page sideways on a narrow screen. It scrolls within its own width
+  instead of wrapping, which would break the joined run of corner radii.
+- A `<dl>` with a long value no longer widens the page. The value column was
+  a bare `1fr`, whose automatic minimum is its content, so it could not shrink;
+  it is `minmax(0, 1fr)` now.
+
 ## [1.0.2] — 2026-08-30
 
 ### Fixed
@@ -27,6 +53,15 @@ Packaging only; the stylesheet is unchanged apart from its version banner.
   repository URLs follow the repo's rename to `moji2002/fertig`.
 - `fertig` and `fertig.css` added as keywords: the package is `fertig`, but
   people search npm for the project's name.
+
+## [1.0.1] - 2026-08-30
+
+### Changed
+
+- npm keywords only: added `css-framework`, `lightweight`, `minimalist`, `html`,
+  `frontend`, `ui` and `responsive`. `css-framework` is the term the rest of the
+  category (Pico, Water.css) registers under, and it was missing. No stylesheet
+  changes — the CSS is byte-identical to 1.0.0.
 
 ## [1.0.0] — 2026-08-30
 

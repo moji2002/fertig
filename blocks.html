@@ -6,6 +6,9 @@
 <title>fertig — blocks</title>
 <meta name="description" content="Ready-to-use HTML blocks built with fertig. Copy the markup, no CSS needed.">
 <link rel="stylesheet" href="fertig.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
@@ -15,17 +18,20 @@
 <script src="site.js" defer></script>
 
 <nav>
-  <strong><a href="index.html">fertig</a></strong>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="docs.html">Docs</a></li>
-    <li><a href="blocks.html">Blocks</a></li>
-    <li><a href="app.html">Example app</a></li>
-  </ul>
-  <button data-size="sm" data-theme-toggle>theme</button>
+  <div class="bar wrap">
+    <strong><a href="index.html"><img src="favicon.svg" alt="" width="16" height="16" class="mark">fertig</a></strong>
+    <ul>
+      <li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
+      <li><a href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Docs</a></li>
+      <li><a href="blocks.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
+      <li><a href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Example app</a></li>
+      <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>GitHub</a></li>
+    </ul>
+    <button data-size="sm" data-theme-toggle>theme</button>
+  </div>
 </nav>
 
-<header class="band band-flush">
+<header class="band" style="border-top:0;padding-bottom:0">
   <div class="wrap">
     <h1 class="page-title">Blocks</h1>
     <p class="muted page-intro">Ready-to-use markup for the things
@@ -35,15 +41,44 @@
   </div>
 </header>
 
-<main class="band">
-  <div class="wrap">
+<main class="band" style="border-top:0">
+  <div class="wrap blocks-layout">
 
-  <h2>Layout</h2>
-  <div class="block-grid">
+    <nav class="sidebar" aria-label="Block categories">
+      <details open>
+        <summary>Categories</summary>
+        <strong>Blocks</strong>
+        <ul>
+          <li><a href="#layout">Layout</a></li>
+          <li><a href="#data">Data</a></li>
+          <li><a href="#forms">Forms</a></li>
+          <li><a href="#feedback">Feedback</a></li>
+          <li><a href="#navigation">Navigation</a></li>
+        </ul>
+        <strong>Elsewhere</strong>
+        <ul>
+          <li><a href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Documentation</a></li>
+          <li><a href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Example app</a></li>
+          <li><a href="templates/dashboard.html">Dashboard</a></li>
+          <li><a href="app-invoice.html">Invoice detail</a></li>
+        </ul>
+      </details>
+    </nav>
+
+    <div class="doc-body">
+
+  <section class="block-group">
+  <h2 id="layout">Layout</h2>
+  <p>The containers a page is assembled from, and the controls that sit at the top of one.</p>
 
     <article class="block">
-      <h3>Page shell</h3>
-      <p class="muted">The four containers. Everything else sits inside them.</p>
+      <div class="rail">
+        <p class="tag">01</p>
+        <div>
+          <h3>Page shell</h3>
+          <p>The four containers. Everything else sits inside them.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <nav aria-label="Breadcrumb"><ol><li><a href="#">Home</a></li><li>Billing</li></ol></nav>
         <hgroup>
@@ -55,12 +90,17 @@
           <button>Import</button>
         </p>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Filter toolbar</h3>
-      <p class="muted">Controls inside <code>.row</code> lay out horizontally.</p>
+      <div class="rail">
+        <p class="tag">02</p>
+        <div>
+          <h3>Filter toolbar</h3>
+          <p>Controls inside <code>.row</code> lay out horizontally.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <search>
           <div class="row">
@@ -74,29 +114,39 @@
           </div>
         </search>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
+  </section>
 
-  </div>
-
-  <h2>Data</h2>
-  <div class="block-grid">
+  <section class="block-group">
+  <h2 id="data">Data</h2>
+  <p>Numbers, tables and the states a table is in when it has nothing to show.</p>
 
     <article class="block">
-      <h3>Stat row</h3>
-      <p class="muted">Cards with a header and footer. Footers align across the row.</p>
+      <div class="rail">
+        <p class="tag">03</p>
+        <div>
+          <h3>Stat row</h3>
+          <p>Cards with a header and footer. Footers align across the row.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <div class="grid">
           <div class="card"><header>Outstanding</header><h3>$48,200</h3><footer>12 invoices</footer></div>
           <div class="card" data-tone="err"><header>Overdue</header><h3>$9,400</h3><footer>3 invoices</footer></div>
         </div>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Table with statuses</h3>
-      <p class="muted">Right-align numbers with <code>align</code>; totals go in <code>tfoot</code>.</p>
+      <div class="rail">
+        <p class="tag">04</p>
+        <div>
+          <h3>Table with statuses</h3>
+          <p>Right-align numbers with <code>align</code>; totals go in <code>tfoot</code>.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <table>
           <thead><tr><th>Invoice</th><th>Client</th><th align="right">Amount</th><th>Status</th></tr></thead>
@@ -109,12 +159,17 @@
           <tfoot><tr><td colspan="2">Total</td><td align="right">$17,050.00</td><td></td></tr></tfoot>
         </table>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Pagination</h3>
-      <p class="muted">Buttons and a progress bar, inline in a row.</p>
+      <div class="rail">
+        <p class="tag">05</p>
+        <div>
+          <h3>Pagination</h3>
+          <p>Buttons and a progress bar, inline in a row.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <p class="row">
           <button data-size="sm">← Previous</button>
@@ -123,12 +178,17 @@
           <progress value="0.33" aria-label="Page 1 of 3"></progress>
         </p>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Empty state</h3>
-      <p class="muted">A centred card with the action that fills it.</p>
+      <div class="rail">
+        <p class="tag">06</p>
+        <div>
+          <h3>Empty state</h3>
+          <p>A centred card with the action that fills it.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <div class="card center">
           <h3>No invoices yet</h3>
@@ -139,17 +199,22 @@
           </p>
         </div>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
+  </section>
 
-  </div>
-
-  <h2>Forms</h2>
-  <div class="block-grid">
+  <section class="block-group">
+  <h2 id="forms">Forms</h2>
+  <p>Inputs with their labels, their required marks and their assistive-tech wiring intact.</p>
 
     <article class="block">
-      <h3>Sign in</h3>
-      <p class="muted">Required fields mark themselves.</p>
+      <div class="rail">
+        <p class="tag">07</p>
+        <div>
+          <h3>Sign in</h3>
+          <p>Required fields mark themselves.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <form>
           <fieldset>
@@ -163,12 +228,17 @@
           </fieldset>
         </form>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Settings</h3>
-      <p class="muted">Switches read as switches to assistive tech.</p>
+      <div class="rail">
+        <p class="tag">08</p>
+        <div>
+          <h3>Settings</h3>
+          <p>Switches read as switches to assistive tech.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <fieldset>
           <legend>Notifications</legend>
@@ -178,28 +248,38 @@
           <select id="bfreq"><option>Daily</option><option>Weekly</option></select>
         </fieldset>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
+  </section>
 
-  </div>
-
-  <h2>Feedback</h2>
-  <div class="block-grid">
+  <section class="block-group">
+  <h2 id="feedback">Feedback</h2>
+  <p>Telling someone what happened, what is happening, and what is about to happen.</p>
 
     <article class="block">
-      <h3>Alerts</h3>
-      <p class="muted">One attribute retints the whole callout.</p>
+      <div class="rail">
+        <p class="tag">09</p>
+        <div>
+          <h3>Alerts</h3>
+          <p>One attribute retints the whole callout.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <aside data-tone="ok"><strong>Payment received.</strong> INV-0232 is settled.</aside>
         <aside data-tone="warn"><strong>Three invoices overdue.</strong> Send reminders in bulk.</aside>
         <aside data-tone="err"><strong>Sync failed.</strong> Check your bank connection.</aside>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Confirm dialog</h3>
-      <p class="muted">Opens and closes with no JavaScript at all.</p>
+      <div class="rail">
+        <p class="tag">10</p>
+        <div>
+          <h3>Confirm dialog</h3>
+          <p>Opens and closes with no JavaScript at all.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <button commandfor="bdlg" command="show-modal">Delete invoice</button>
         <dialog id="bdlg" closedby="any">
@@ -211,23 +291,33 @@
           </footer>
         </dialog>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Loading and progress</h3>
-      <p class="muted"><code>aria-busy</code> spins; <code>progress</code> fills.</p>
+      <div class="rail">
+        <p class="tag">11</p>
+        <div>
+          <h3>Loading and progress</h3>
+          <p><code>aria-busy</code> spins; <code>progress</code> fills.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <p class="row"><button aria-busy="true">Saving</button><button disabled>Disabled</button></p>
         <label for="bup">Uploading</label>
         <progress id="bup" value="0.6"></progress>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Activity timeline</h3>
-      <p class="muted">An ordered list and <code>&lt;time&gt;</code>.</p>
+      <div class="rail">
+        <p class="tag">12</p>
+        <div>
+          <h3>Activity timeline</h3>
+          <p>An ordered list and <code>&lt;time&gt;</code>.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <ol>
           <li>Reminder sent — <time datetime="2026-03-12">Mar 12</time></li>
@@ -235,17 +325,22 @@
           <li>Issued — <time datetime="2026-02-04">Feb 4</time></li>
         </ol>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
+  </section>
 
-  </div>
-
-  <h2>Navigation</h2>
-  <div class="block-grid">
+  <section class="block-group">
+  <h2 id="navigation">Navigation</h2>
+  <p>Moving between views, and the menus and shortcuts that get you there faster.</p>
 
     <article class="block">
-      <h3>Tabs</h3>
-      <p class="muted">Styling follows the ARIA that makes them accessible.</p>
+      <div class="rail">
+        <p class="tag">13</p>
+        <div>
+          <h3>Tabs</h3>
+          <p>Styling follows the ARIA that makes them accessible.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <div role="tablist">
           <button role="tab" aria-selected="true">Summary</button>
@@ -253,12 +348,17 @@
           <button role="tab" aria-selected="false">History</button>
         </div>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Account menu</h3>
-      <p class="muted">A native popover, anchored to its button.</p>
+      <div class="rail">
+        <p class="tag">14</p>
+        <div>
+          <h3>Account menu</h3>
+          <p>A native popover, anchored to its button.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <button popovertarget="bmenu">Account ▾</button>
         <div popover id="bmenu">
@@ -270,12 +370,17 @@
           </menu>
         </div>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Keyboard shortcuts</h3>
-      <p class="muted">A description list and <code>&lt;kbd&gt;</code>.</p>
+      <div class="rail">
+        <p class="tag">15</p>
+        <div>
+          <h3>Keyboard shortcuts</h3>
+          <p>A description list and <code>&lt;kbd&gt;</code>.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <dl>
           <dt><kbd>⌘</kbd> <kbd>K</kbd></dt><dd>Search</dd>
@@ -283,12 +388,17 @@
           <dt><kbd>Esc</kbd></dt><dd>Close dialog</dd>
         </dl>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
 
     <article class="block">
-      <h3>Pricing</h3>
-      <p class="muted">Cards, one toned to mark the recommended plan.</p>
+      <div class="rail">
+        <p class="tag">16</p>
+        <div>
+          <h3>Pricing</h3>
+          <p>Cards, one toned to mark the recommended plan.</p>
+        </div>
+      </div>
       <div class="block-preview">
         <div class="grid">
           <div class="card">
@@ -305,17 +415,23 @@
           </div>
         </div>
       </div>
-      <div class="block-code"><pre><code></code></pre></div>
+      <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
+  </section>
 
-  </div>
+    </div>
   </div>
 </main>
 
 <footer>
   <div class="wrap">
-    <p>MIT licensed. <a href="index.html">Home</a> · <a href="docs.html">Docs</a> ·
-      <a href="app.html">Example app</a></p>
+    <p class="foot-note">
+      <span>MIT licensed</span>
+      <span><a href="index.html">Home</a></span>
+      <span><a href="docs.html">Docs</a></span>
+      <span><a href="app.html">Example app</a></span>
+      <span><a href="https://github.com/moji2002/fertig">GitHub</a></span>
+    </p>
   </div>
 </footer>
 
@@ -329,24 +445,24 @@ const tidy = html => {
 };
 document.querySelectorAll('.block').forEach(block => {
   const preview = block.querySelector('.block-preview');
-  const code = block.querySelector('code');
+  const code = block.querySelector('.block-code code');  // scoped: a description may contain <code> too
   code.textContent = tidy(preview.innerHTML);
   code.classList.add("language-html");
   if (window.hljs) hljs.highlightElement(code);
   const copy = document.createElement('button');
   copy.type = 'button';
   copy.dataset.size = 'sm';
-  copy.textContent = 'Copy';
+  copy.innerHTML = '<svg class="icon" aria-hidden="true"><use href="icons.svg#copy"></use></svg>Copy';
   copy.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(code.textContent);
-      copy.textContent = 'Copied';
+      copy.innerHTML = '<svg class="icon" aria-hidden="true"><use href="icons.svg#check"></use></svg>Copied';
     } catch {
       copy.textContent = 'Press ⌘C';
       getSelection().selectAllChildren(code);
     }
-    setTimeout(() => (copy.textContent = 'Copy'), 1400);
+    setTimeout(() => (copy.innerHTML = '<svg class="icon" aria-hidden="true"><use href="icons.svg#copy"></use></svg>Copy'), 1400);
   });
-  block.querySelector('.block-code').prepend(copy);
+  block.querySelector('.block-code').append(copy);  // not prepend: <summary> must stay first
 });
 </script>

@@ -1,34 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="fertig">
   <!--
-    A window with its title bar, and a check in the paper: the two things the
-    sheet is about — furniture you did not have to build, and a page that is
-    already finished. Colours are the sheet's own tokens, written in oklch
-    because that is what the stylesheet uses; a favicon gets no legacy either.
+    [f — an attribute selector holding the initial.
 
-    Proportions are tuned for 16px, where a favicon actually lives: a heavy
-    check, a title bar thin enough to read as a bar rather than a lid, and no
-    outline — at that size an outline is one detail too many, and the title
-    bar already tells you where the window edge is.
+    Not a checkmark: every to-do app owns that shape, and at 16px a tick in a
+    box reads as a checkbox rather than a stylesheet. The square bracket is
+    this library's own idiom — its component layer is addressed by attribute
+    selectors (role=switch, popover, data-tone), not by class names — so the
+    mark says what the sheet actually is.
+
+    Drawn with the bracket pulled clear of the f's stem. At 16px a brace that
+    touches the stem closes up into a blob; the clearance is the whole reason
+    this reads at favicon size. Stroke weight is deliberately heavy for the
+    same reason — thinning is what kills a mark when it is small.
+
+    Colours are the sheet's own tokens, written in oklch because that is what
+    the stylesheet uses; a favicon gets no legacy either. currentColor is
+    meaningless in a file loaded as an image, so both tones are explicit and
+    swap on prefers-color-scheme.
   -->
   <style>
-    :root {
-      --ac: oklch(48% .095 250);
-      --paper: oklch(99.4% .002 75);
-    }
+    :root { --ink: oklch(22% .008 75); --ac: oklch(48% .095 250) }
     @media (prefers-color-scheme: dark) {
-      :root {
-        --ac: oklch(78% .085 245);
-        --paper: oklch(21% .006 75);
-      }
+      :root { --ink: oklch(95% .004 75); --ac: oklch(78% .085 245) }
     }
   </style>
 
-  <!-- the window: paper below, title bar above, one shape -->
-  <rect x="2" y="4" width="28" height="24" rx="5" fill="var(--ac)"/>
-  <path d="M2 11h28v12a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5Z" fill="var(--paper)"/>
-
-  <!-- fertig: done -->
-  <path d="M9.5 19.5 14 24l8.5-9"
-        fill="none" stroke="var(--ac)" stroke-width="4"
-        stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- the selector -->
+    <path d="M19 18H13V46h6" stroke="var(--ink)" stroke-width="5.5"/>
+    <!-- fertig -->
+    <g stroke="var(--ac)" stroke-width="7.5">
+      <path d="M49 20c0-5-3.5-8-7.5-8S35 15 35 20v32"/>
+      <path d="M29 31h16"/>
+    </g>
+  </g>
 </svg>

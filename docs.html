@@ -6,6 +6,9 @@
 <title>fertig — documentation</title>
 <meta name="description" content="Full reference for fertig: layout, elements, components, tokens, recipes and accessibility.">
 <link rel="stylesheet" href="fertig.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
@@ -17,21 +20,23 @@
 <div class="reading-progress" aria-hidden="true"></div>
 
 <nav>
-  <strong><a href="index.html">fertig</a></strong>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="blocks.html">Blocks</a></li>
-    <li><a href="#install">Install</a></li>
-    <li><a href="#components">Components</a></li>
-    <li><a href="#tokens">Tokens</a></li>
-  </ul>
-  <button data-size="sm" data-theme-toggle>theme</button>
+  <div class="bar wrap">
+    <strong><a href="index.html"><img src="favicon.svg" alt="" width="16" height="16" class="mark">fertig</a></strong>
+    <ul>
+      <li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
+      <li><a href="docs.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Docs</a></li>
+      <li><a href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
+      <li><a href="app.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#layout-dashboard"></use></svg>Example app</a></li>
+      <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>GitHub</a></li>
+    </ul>
+    <button data-size="sm" data-theme-toggle>theme</button>
+  </div>
 </nav>
 
-<header class="band band-flush">
+<header class="band" style="border-top:0;padding-bottom:0">
   <div class="wrap">
     <nav aria-label="Breadcrumb">
-      <ol><li><a href="index.html">Home</a></li><li>Documentation</li></ol>
+      <ol><li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li><li>Documentation</li></ol>
     </nav>
     <h1 class="page-title">Documentation</h1>
     <p class="muted page-intro">Everything fertig styles, every
@@ -42,7 +47,9 @@
 
 <main class="band">
   <div class="wrap docs">
-    <nav class="toc">
+    <nav class="sidebar" aria-label="Documentation sections">
+      <details open>
+      <summary>On this page</summary>
       <strong>Getting started</strong>
       <ul>
         <li><a href="#install">Install</a></li>
@@ -78,6 +85,7 @@
         <li><a href="#app">Building an app</a></li>
         <li><a href="#support">Browser support</a></li>
       </ul>
+      </details>
     </nav>
 
     <div class="doc-body">
@@ -105,7 +113,7 @@
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>28.0 KB</td><td>7.6 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>28.1 KB</td><td>7.6 KB</td></tr>
             <tr><td><code>fertig.core.min.css</code></td><td>21.7 KB</td><td>6.3 KB</td></tr>
           </tbody>
         </table>
@@ -288,8 +296,8 @@
           <caption>Size against comparable sheets</caption>
           <thead><tr><th>Sheet</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td>fertig</td><td>28.0 KB</td><td>7.6 KB</td></tr>
-            <tr><td>Pico 2 classless</td><td>71.0 KB</td><td>10.1 KB</td></tr>
+            <tr><td>fertig</td><td>28.1 KB</td><td>7.6 KB</td></tr>
+            <tr><td>Pico 2.1.1 classless</td><td>69.4 KB</td><td>10.1 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -541,6 +549,7 @@
             <tr><td><code>--up</code> / <code>--up2</code> / <code>--dn</code></td><td>Elevation scale</td></tr>
             <tr><td><code>--a1</code> / <code>--a2</code></td><td>Shadow alphas, per theme</td></tr>
             <tr><td><code>--rw</code></td><td>Window radius</td></tr>
+            <tr><td><code>--nw</code></td><td>The column the toolbar's contents line up with (follows <code>--w</code>; <code>&lt;nav class="wide"&gt;</code> re-points it at 66rem)</td></tr>
           </tbody>
         </table>
         <aside data-tone="warn">Change <code>--ac</code> and check
@@ -818,8 +827,8 @@ button { background: hotpink }</code></pre>
       <div>
         <h5>Project</h5>
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="https://github.com/moji2002/fertig">Source</a></li>
+          <li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
+          <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>Source</a></li>
           <li><a href="https://www.npmjs.com/package/fertig">npm</a></li>
         </ul>
       </div>

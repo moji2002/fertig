@@ -1,4 +1,4 @@
-/*! fertig v1.0.2 — a classless CSS stylesheet. MIT */
+/*! fertig v1.0.3 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
    system type · one accent · one measure · a window on a desktop.
@@ -128,7 +128,11 @@ body > footer {
 /* nav = unified toolbar: full-bleed, vibrant, contents on the measure */
 body > nav {
   position: sticky; top: 0; z-index: 9; max-width: none;
-  padding-inline: max(1.9rem, calc(50% - var(--w) / 2 + 1.9rem),
+  /* the toolbar is full-bleed but its contents line up with the page column.
+     --nw is that column: it follows --w, so overriding the measure moves the
+     toolbar with it, and .wide re-points it at the wide column instead. */
+  --nw: var(--w);
+  padding-inline: max(1.9rem, calc(50% - var(--nw) / 2 + 1.9rem),
                   env(safe-area-inset-left), env(safe-area-inset-right));
   display: flex; flex-wrap: wrap; gap: 1.1rem; align-items: center;
   padding-block: calc(.6rem + env(safe-area-inset-top, 0px)) .6rem;
@@ -172,7 +176,9 @@ blockquote {
 }
 ul, ol { padding-inline-start: 1.5rem }
 li::marker { color: var(--mut) }
-dl { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem }
+/* minmax(0, 1fr), not 1fr: a bare 1fr track has min-width:auto, so a long
+   value cannot shrink and pushes the page sideways on a narrow screen. */
+dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .35rem 1rem }
 dt { color: var(--mut) }
 dd { margin: 0 }
 figcaption { font-size: .85em; color: var(--mut); text-align: center }
@@ -477,7 +483,11 @@ progress::-moz-progress-bar { background: var(--ac); border-radius: calc(infinit
 /* ---- components, addressed by ARIA rather than by class ----- */
 
 /* segmented control: <div role=group> of buttons */
-[role=group] { display: inline-flex; vertical-align: middle }
+/* max-inline-size + scroll, or a group of four or more buttons pushes the
+   whole page sideways on a narrow screen. It scrolls rather than wraps:
+   wrapping would break the joined-pill run of radii into separate rows. */
+[role=group] { display: inline-flex; vertical-align: middle;
+               max-inline-size: 100%; overflow-x: auto; overscroll-behavior-x: contain }
 [role=group] > * { border-radius: 0; margin-inline-start: -1px; box-shadow: none; min-width: 0 }
 [role=group] > :first-child {
   margin-inline-start: 0;
@@ -553,7 +563,7 @@ input[switch]:checked::after, input[role=switch]:checked::after { translate: .9e
 
 /* breadcrumbs: <nav aria-label="Breadcrumb"><ol> */
 nav[aria-label] ol { display: flex; flex-wrap: wrap; gap: .5em; list-style: none; padding: 0; font-size: .9em }
-nav[aria-label] li + li::before { content: "/"; margin-inline-end: .5em; color: var(--mut) }
+nav[aria-label] ol li + li::before { content: "/"; margin-inline-end: .5em; color: var(--mut) }
 
 /* busy: [aria-busy=true] */
 [aria-busy=true] { cursor: progress }
@@ -679,6 +689,10 @@ menu > li + li { border-top: 1px solid var(--bd) }
 .muted  { color: var(--mut) }
 .center { text-align: center }
 .wide   { max-width: 66rem }
+/* on the toolbar .wide cannot mean "be 66rem wide" — the bar stays full-bleed
+   and its contents move out to the wide column, so an app screen's wordmark
+   lines up with the app's own content rather than floating mid-screen. */
+body > nav.wide { max-width: none; --nw: 66rem }
 .row { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center }
 /* Form controls are full-width blocks by default, which is right in a form and
    wrong in a toolbar. Inside a .row they size to the row instead. */
@@ -689,6 +703,11 @@ menu > li + li { border-top: 1px solid var(--bd) }
 .row :is(progress, meter) { width: auto; flex: 1 1 6rem }
 .row > label { flex: none; margin-top: 0 }
 .grid   { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)) }
+/* a .grid is a block-level container that nothing else gives vertical rhythm
+   to, so whatever follows one collides with it. Spacing the next sibling
+   rather than the grid itself: a margin on .grid would collapse out through
+   the top of a padding-less container and open a seam above it. */
+.grid + * { margin-top: 1.1rem }
 .card {
   container-type: inline-size;                 /* query it: @container (min-width: …) */
   border: 1px solid var(--bd); border-radius: var(--r); padding: .9rem;

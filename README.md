@@ -4,7 +4,7 @@ A classless CSS file for developers who want a project to look presentable in
 the ten seconds before they start building it. Link it, write ordinary HTML,
 and the page is finished.
 
-**28.0 KB raw · 7.6 KB gzipped · no build step · no dependencies.**
+**28.1 KB raw · 7.6 KB gzipped · no build step · no dependencies.**
 
 ```html
 <link rel="stylesheet" href="fertig.css">
@@ -184,10 +184,10 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **28.0 KB** | **7.6 KB** |
-| Pico 2 classless | 71.0 KB | 10.1 KB |
+| **fertig** | **28.1 KB** | **7.6 KB** |
+| Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
-Measured with `gzip -9` via `npm run build`. Most of the gap is Pico's full
+Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
 colour palette and its base64-SVG control icons; see
 `docs/classless-css-research.md`.
 
@@ -250,7 +250,7 @@ npm run build    # regenerate fertig.min.css and print sizes
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 28.0 KB | 7.6 KB | everything |
+| `fertig.min.css` | 28.1 KB | 7.6 KB | everything |
 | `fertig.core.min.css` | 21.7 KB | 6.3 KB | without the ARIA component layer |
 
 Dropping the component layer saves 0.8 KB gzipped — worth knowing, rarely worth

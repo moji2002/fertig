@@ -1,156 +1,301 @@
-/* site.css — layout for fertig's own website.
-   NOT part of the library and not shipped in the npm package.
-   fertig keeps everything on a 42rem measure; a marketing site needs
-   to break out of that, so this file widens the containers and adds the
-   page furniture. Components, type and colour still come from fertig. */
+/* Hallmark · macrostructure: Workbench · tone: technical/austere · anchor hue: 250 (ink blue)
+ * nav: N9 edge-aligned · footer: Ft1 hairline · enrichment: none (typography only)
+ * pre-emit critique: P5 H4 E4 S5 R5 V4
+ *
+ * site.css — layout for fertig's own website.
+ * NOT part of the library and not shipped in the npm package.
+ *
+ * The house style is a spec sheet: set from the start edge on a label rail,
+ * separated by hairlines rather than boxes, numbers in tabular mono. fertig
+ * keeps prose on a 38rem measure; a documentation site has to break out of
+ * that, so this file widens the containers and adds the page furniture.
+ * Components, colour and the dark theme still come from fertig.
+ *
+ * app.html and templates/ deliberately do NOT load this file. They are the
+ * proof that the library on its own is enough; keep them that way.
+ */
 
+/* ---- tokens ---------------------------------------------------- */
 :root {
-  --wrap: 72rem;          /* site content width */
-  --gut: clamp(1.2rem, 4vw, 3rem);
+  --font-display: "IBM Plex Mono", var(--fm);
+  --font-body:    "IBM Plex Sans", var(--f);
+  --font-mono:    "IBM Plex Mono", var(--fm);
+
+  --wrap: 74rem;                /* site content width */
+  --rail: 11rem;                /* the label column, everywhere */
+  --gut: clamp(1.25rem, 4vw, 2.5rem);
+
+  --space-sm: .75rem; --space-md: 1.5rem;
+  --space-lg: clamp(2.5rem, 6vw, 4rem);
+
+  --rule: 1px solid var(--bd);
+  --label: 600 .68rem/1.4 var(--font-mono);   /* the uppercase mono label */
 }
 
-/* let the page go full width; fertig's paper column is re-created
-   inside the demo mock-up instead */
-body > header, body > main, body > footer {
+/* ---- page shell ------------------------------------------------ */
+html, body { overflow-x: clip }
+body { font-family: var(--font-body); background: var(--el) }
+
+/* let the page go full width; fertig's paper column is re-created inside the
+   demo mock-up instead. body > * rather than the three landmarks, because the
+   site also uses bare <div> bands at the top level. */
+body > * {
   max-width: none; padding-inline: 0; background: none;
-  border-inline: 0; border-radius: 0;
+  border-inline: 0; border-radius: 0; margin: 0; box-shadow: none;
 }
-body > footer { border-top: 1px solid var(--bd); margin: 0; padding-block: 3rem }
 body > main { padding-bottom: 0 }
-body { background: var(--el) }
 
 .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gut) }
-.wrap-narrow { max-width: 46rem; margin-inline: auto; padding-inline: var(--gut) }
 
-/* full-bleed bands, alternating so long pages keep a rhythm */
-.band { padding-block: clamp(3rem, 7vw, 5.5rem) }
-.band-flush { padding-bottom: 0 }        /* a page header, sitting on the band below */
-.band + .band { border-top: 1px solid var(--bd) }
-/* Tinted bands: one rule each, carrying both the wash and the accent that
-   section's components inherit. Mixed against the paper, so both themes work. */
-.band-tint { background: color-mix(in oklab, var(--stone-500) 10%, var(--el)) }
-.band-sage {
-  background: color-mix(in oklab, var(--sage-500) 10%, var(--el));
-  --ac: light-dark(var(--sage-700), oklch(80% .075 155));
+/* the rail: a mono label in the margin, content beside it. The one structural
+   idea the whole site is built from. */
+.rail { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: var(--space-md); align-items: start }
+.rail > .tag { font: var(--label); letter-spacing: .08em; text-transform: uppercase; color: var(--mut); padding-top: .5rem; margin: 0 }
+@media (width <= 46rem) {
+  .rail { grid-template-columns: minmax(0, 1fr); gap: .5rem }
+  .rail > .tag { padding-top: 0 }
 }
-.band-sky {
-  background: color-mix(in oklab, var(--sky-500) 10%, var(--el));
-  --ac: light-dark(var(--sky-700), oklch(80% .080 245));
-}
-.band-clay {
-  background: color-mix(in oklab, var(--clay-500) 10%, var(--el));
-  --ac: light-dark(var(--clay-700), oklch(80% .085 45));
-}
-.band-plum {
-  background: color-mix(in oklab, var(--plum-500) 10%, var(--el));
-  --ac: light-dark(var(--plum-700), oklch(80% .065 320));
-}
-.band-gold {
-  background: color-mix(in oklab, var(--gold-500) 10%, var(--el));
-  --ac: light-dark(oklch(49% .082 78), oklch(84% .090 85));
-}
+
+/* full-bleed bands, separated by hairlines. No tints: the rhythm comes from
+   the rules and the spacing, not from a wash of colour behind every section. */
+.band { padding-block: var(--space-lg); border-top: var(--rule) }
+.band-quiet { background: var(--bg) }      /* the one alternate surface */
 :is(section, article) + :is(section, article) { margin-top: 0 }   /* bands own the spacing */
 
-/* ---- hero ---------------------------------------------------- */
-.hero {
-  padding-block: clamp(3.5rem, 10vw, 7rem) clamp(3rem, 7vw, 5rem);
-  text-align: center; background: var(--bg);
-  border-bottom: 1px solid var(--bd);
+/* ---- icons ------------------------------------------------------
+   A local sprite (icons.svg, built by tools/build-icons.py from Lucide),
+   referenced with <use>. No icon font, no runtime library, no third-party
+   request: the file is served from this origin and cached like any asset.
+   Sized in em so an icon tracks the type it sits in, and stroked with
+   currentColor so it inherits the link or button colour it is placed in. */
+.icon {
+  inline-size: 1em; block-size: 1em; display: inline-block;
+  vertical-align: -.135em;                  /* optical baseline, not geometric */
+  flex: none; stroke: currentColor; fill: none;
 }
+.icon-lg { inline-size: 1.15em; block-size: 1.15em }
+/* Space an icon from its label with gap on the parent, not a margin on the
+   icon. The label is a text node, so :first-child / :last-child / :only-child
+   all match the icon whether it leads or trails — structural selectors cannot
+   tell the two apart, but a flex gap does not need to. */
+:is(a, button):has(> .icon) { display: inline-flex; align-items: center; gap: .45em }
+/* summary keeps display:list-item so it keeps its marker; margin instead */
+summary > .icon { margin-inline-end: .45em }
+.rows h3 > .icon, .foot-cols strong > .icon { margin-inline-end: .4em; color: var(--ac) }
+
+/* ---- toolbar: N9, edge-aligned, hairline ----------------------- */
+body > nav {
+  position: sticky; inset-block-start: 0; z-index: 10;
+  border-bottom: var(--rule); background: var(--tb);
+  backdrop-filter: blur(10px) saturate(1.8);
+  display: block; padding: 0;
+}
+.bar { display: flex; align-items: baseline; gap: var(--space-md); padding-block: .85rem; flex-wrap: wrap }
+.bar > strong { font: 600 .95rem/1 var(--font-mono); letter-spacing: -.02em }
+.bar > strong a { color: inherit; text-decoration: none; opacity: 1;
+                  display: inline-flex; align-items: center; gap: .45em }
+/* the mark is an <img>, so it keeps its own two tones rather than
+   inheriting the wordmark's colour the way an icon does */
+.mark { inline-size: 1.05em; block-size: 1.05em; border-radius: 0; box-shadow: none }
+.bar ul { display: flex; gap: 1.3rem; list-style: none; margin: 0; padding: 0; margin-inline-start: auto; flex-wrap: wrap; flex: 0 0 auto }
+/* flex: 0 would set flex-basis:0 and squeeze the list until every link wrapped
+   onto its own line — fertig's own toolbar rule sets flex:1, so this has to
+   say "natural width" explicitly rather than just turn the growing off. */
+.bar li { margin: 0 }
+.bar a { font: var(--label); letter-spacing: .05em; text-transform: uppercase; color: var(--mut); text-decoration: none; white-space: nowrap; opacity: 1 }
+.bar a:hover { color: var(--fg) }
+.bar a[aria-current] { color: var(--fg); text-decoration: underline; text-underline-offset: .35em }
+
+/* ---- hero ------------------------------------------------------ */
+.hero { border-bottom: var(--rule); padding-block: clamp(3rem, 8vw, 5rem) }
 .hero h1 {
-  font-size: clamp(2.6rem, 8vw, 4.6rem); letter-spacing: -.05em;
-  line-height: 1; margin: 0 0 1.2rem;
+  font: 500 clamp(2rem, 5.4vw, 3.5rem)/1.06 var(--font-display);
+  letter-spacing: -.045em; margin: 0 0 var(--space-md);
+  overflow-wrap: anywhere; min-width: 0; text-wrap: initial;
 }
-.hero p.lede {
-  font-size: clamp(1rem, 2.2vw, 1.2rem); color: var(--mut);
-  max-width: 44rem; margin: 0 auto 1.8rem; line-height: 1.6;
-}
-.hero .row { justify-content: center }
-.hero pre { text-align: start; max-width: 34rem; margin-inline: auto }
+.hero h1 em { font-style: normal; color: var(--ac) }
+.dot-css { color: var(--mut); font-weight: 400 }
+.hero .lede { font-size: 1.05rem; line-height: 1.55; color: var(--mut); max-width: 40rem; margin: 0 0 var(--space-md) }
+.hero pre { margin: 0 0 var(--space-md); max-width: 36rem; font-size: .82rem }
+.hero .row { margin: 0 }
+.hero .row > * { white-space: nowrap }
 
-/* ---- section headers ----------------------------------------- */
-.band > .wrap > h2, .band > .wrap > .head h2 {
-  font-size: clamp(1.5rem, 3.5vw, 2.1rem); letter-spacing: -.02em; margin-top: 0;
-}
-.head { max-width: 42rem; margin-bottom: clamp(1.8rem, 4vw, 2.8rem) }
-.head p { color: var(--mut); margin-bottom: 0 }
-.head-center { margin-inline: auto; text-align: center }
-/* page headers on the docs and blocks pages */
-.page-title { font-size: clamp(2rem, 5vw, 2.8rem); letter-spacing: -.03em }
-.page-intro { max-width: 44rem }
+/* ---- section headers ------------------------------------------- */
+.band h2 { font: 600 clamp(1.15rem, 2.4vw, 1.4rem)/1.2 var(--font-display); letter-spacing: -.025em; margin: 0 0 var(--space-md) }
+.head { max-width: 44rem; margin-bottom: var(--space-md) }
+.head h2 { margin-bottom: .5rem }
+.head p { color: var(--mut); margin-bottom: 0; line-height: 1.6 }
+.page-title { font: 500 clamp(1.9rem, 5vw, 2.6rem)/1.05 var(--font-display); letter-spacing: -.04em; margin: 0 0 var(--space-sm) }
+.page-intro { max-width: 44rem; color: var(--mut); line-height: 1.6; margin: 0 }
+.eyebrow { font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin: 0 0 .8rem }
 
-/* ---- grids --------------------------------------------------- */
+/* ---- the spec table: the signature move ------------------------ */
+.spec { border-collapse: collapse; inline-size: 100%; margin: 0; box-shadow: none; border: 0 }
+.spec tr { border-bottom: var(--rule); background: none }
+.spec tr:first-child { border-top: var(--rule) }
+.spec :is(th, td) { border: 0; background: none }
+.spec th {
+  text-align: start; font: var(--label); letter-spacing: .07em; text-transform: uppercase;
+  color: var(--mut); padding: .85rem 0; inline-size: 14rem; vertical-align: baseline;
+}
+.spec td { padding: .85rem 0; font-family: var(--font-mono); font-size: .9rem; vertical-align: baseline }
+.spec td span { font-family: var(--font-body); color: var(--mut); font-size: .85rem }
+@media (width <= 40rem) {
+  .spec th { inline-size: auto; display: block; padding-bottom: 0 }
+  .spec td { display: block; padding-top: .2rem }
+}
+
+/* ---- labelled rows, used instead of card grids ----------------- */
+.rows { display: grid; gap: 0 }
+.rows > * {
+  display: grid; grid-template-columns: var(--rail) minmax(0, 1fr);
+  gap: var(--space-md); padding-block: 1.1rem; border-top: var(--rule); align-items: baseline;
+}
+.rows > :last-child { border-bottom: var(--rule) }
+.rows h3 { font: var(--label); letter-spacing: .07em; text-transform: uppercase; color: var(--fg); margin: 0 }
+.rows p { margin: 0; color: var(--mut); font-size: .92rem; line-height: 1.6; max-width: 46rem }
+@media (width <= 46rem) { .rows > * { grid-template-columns: minmax(0, 1fr); gap: .4rem } }
+
+/* ---- grids ----------------------------------------------------- */
+.cols-2 { display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: minmax(0, 1fr); align-items: start }
+@media (width >= 52rem) { .cols-2 { grid-template-columns: minmax(0,1fr) minmax(0,1fr) } }
 .cols-3 { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)) }
-.cols-2 { display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: 1fr; align-items: start }
-@media (min-width: 52rem) { .cols-2 { grid-template-columns: minmax(0,1fr) minmax(0,1fr) } }
-
+.cols-4 { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)) }
 /* grid items default to min-width:auto, so a long line inside <pre> can push a
    column past 1fr and scroll the whole page sideways. This is the fix. */
-:is(.cols-2, .cols-3, .cols-4, .example, .docs, .stats, .foot-cols) > * { min-width: 0 }
-.cols-4 { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)) }
-.cols-narrow { max-width: 52rem; margin-inline: auto }
+:is(.cols-2, .cols-3, .cols-4, .example, .docs, .blocks-layout, .foot-cols) > * { min-width: 0 }
 .spaced { margin-top: 1.2rem }           /* after a grid, whose items zero their margins */
 
-/* ---- the browser mock-up that shows the real sheet ----------- */
-.mock {
-  border: 1px solid var(--bd); border-radius: var(--rw); overflow: hidden;
-  background: var(--el); box-shadow: var(--up2), 0 30px 60px -30px oklch(from var(--sh) l c h / .4);
-}
-.mock-bar {
-  display: flex; align-items: center; gap: .5rem;
-  padding: .55rem .8rem; background: var(--tb);
-  border-bottom: 1px solid var(--bd); font-size: .8em; color: var(--mut);
-}
+/* ---- the browser mock-up that shows the real sheet ------------- */
+.mock { border: var(--rule); border-radius: var(--rw); overflow: hidden; background: var(--el) }
+.mock-bar { display: flex; align-items: center; gap: .5rem; padding: .55rem .8rem; background: var(--tb); border-bottom: var(--rule); font: var(--label); letter-spacing: .06em; text-transform: uppercase; color: var(--mut) }
 .mock-body { padding: 1.4rem; font-size: .95em }
 .mock-body > :first-child { margin-top: 0 }
 /* :not(dialog) — a modal is centred by margin:auto, so it must keep its own */
 .mock-body > :last-child:not(dialog) { margin-bottom: 0 }
 
-/* ---- stat row ------------------------------------------------ */
-.stats { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); text-align: center }
-.stat b { display: block; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -.03em; line-height: 1 }
-.stat span { color: var(--mut); font-size: .85em }
-
-/* ---- size comparison bars ------------------------------------ */
-.bars { display: grid; gap: .7rem; margin-top: 1.5rem }
-.bar-row { display: grid; grid-template-columns: minmax(7rem, auto) 1fr auto; gap: .8rem; align-items: center; font-size: .9em }
+/* ---- size comparison bars -------------------------------------- */
+.bars { display: grid; gap: .5rem; margin: 0 }
+.bar-row { display: grid; grid-template-columns: minmax(7rem, auto) minmax(0,1fr) auto; gap: .8rem; align-items: center; font: 400 .82rem/1.4 var(--font-mono) }
+.bar-row > b { font-weight: 600 }
 /* --len is the bar's length, passed in from the markup as data.
    Not --w: that is fertig's measure token, and it inherits into this rule. */
-.bar { display: block; inline-size: var(--len, 100%); height: 1.4rem; border-radius: 3px; background: var(--ac) }
+.bar-meter { display: block; inline-size: var(--len, 100%); block-size: 1.1rem; background: var(--ac) }
 .bar-alt { background: color-mix(in srgb, var(--fg) 22%, transparent) }
 
-/* ---- docs layout --------------------------------------------- */
-.docs { display: grid; gap: clamp(1.5rem, 5vw, 4rem); grid-template-columns: 1fr; align-items: start }
-@media (min-width: 60rem) { .docs { grid-template-columns: 15rem minmax(0, 1fr) } }
-.toc { position: sticky; top: 4.5rem; font-size: .9em }
-.toc ul { list-style: none; padding: 0; margin: 0 0 1.2rem }
-.toc li { margin: 0 }
-.toc a { display: block; padding: .22rem 0; color: var(--mut); text-decoration: none }
-.toc a:hover { color: var(--ac) }
-.toc strong { display: block; font-size: .8em; text-transform: uppercase; letter-spacing: .1em; color: var(--fg); margin: 1.2rem 0 .4rem }
-@media (max-width: 60rem) { .toc { position: static; border-bottom: 1px solid var(--bd); padding-bottom: 1rem } }
-.doc-body > section { scroll-margin-top: 5rem }
-.doc-body > section + section { margin-top: 3.2rem; padding-top: 3.2rem; border-top: 1px solid var(--bd) }
-.doc-body h2 { margin-top: 0 }
+/* ---- palette showcase ------------------------------------------ */
+.swatches { display: grid; gap: .45rem }
+.ramp { display: grid; grid-template-columns: 5rem repeat(5, minmax(0,1fr)); gap: .3rem; align-items: center }
+.ramp > b { font: var(--label); letter-spacing: .07em; text-transform: uppercase }
+.ramp span { display: block; block-size: 2.6rem; border: var(--rule); position: relative }
+.ramp span::after { content: attr(data-step); position: absolute; inset: auto .35rem .25rem auto; font: 400 .6rem/1 var(--font-mono); color: var(--mut) }
+@media (width <= 46rem) {
+  .ramp { grid-template-columns: minmax(0,1fr); gap: .15rem }
+  .ramp span { block-size: 1.5rem }
+}
+
+/* ================================================================
+   DOCS and BLOCKS — a persistent sidebar, not a table of contents
+   that scrolls away and leaves you with no idea where you are
+   ================================================================ */
+.docs, .blocks-layout {
+  display: grid; gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: minmax(0, 1fr); align-items: start;
+}
+@media (width >= 60rem) {
+  .docs, .blocks-layout { grid-template-columns: 15rem minmax(0, 1fr) }
+}
+
+.sidebar { font-size: .88rem }
+@media (width >= 60rem) {
+  .sidebar {
+    position: sticky; inset-block-start: 3.4rem;
+    max-block-size: calc(100dvh - 4.5rem); overflow-y: auto; overscroll-behavior: contain;
+    padding-block: var(--space-md); padding-inline-end: .5rem;
+    border-inline-end: var(--rule);
+  }
+  .sidebar > details { border: 0; padding: 0; background: none }
+  .sidebar > details > summary { display: none }        /* always open on desktop */
+}
+.sidebar ul { list-style: none; padding: 0; margin: 0 0 1rem }
+.sidebar li { margin: 0 }
+.sidebar a {
+  /* flex, not block: the icon rule above uses gap, and a later display:block
+     here would win the cascade and collapse the space beside a glyph */
+  display: flex; align-items: center; gap: .45em;
+  padding: .26rem 0 .26rem .7rem; color: var(--mut);
+  text-decoration: none; border-inline-start: 2px solid transparent;
+}
+.sidebar a:hover { color: var(--fg) }
+.sidebar a[aria-current="true"] { color: var(--ac); border-inline-start-color: var(--ac); font-weight: 500 }
+.sidebar strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--fg); margin: 1.2rem 0 .4rem }
+.sidebar > * > :first-child { margin-top: 0 }
+/* narrow screens: the nav collapses into a disclosure the reader opens */
+@media (width <= 60rem) {
+  .sidebar > details { border: var(--rule); border-radius: var(--r); padding: .2rem .9rem; background: var(--el) }
+  .sidebar > details > summary { font: var(--label); letter-spacing: .08em; text-transform: uppercase; padding-block: .7rem }
+}
+
+.doc-body > section { scroll-margin-top: 4.5rem }
+.doc-body > section + section { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: var(--rule) }
+.doc-body h2 { margin-top: 0; font: 600 1.35rem/1.2 var(--font-display); letter-spacing: -.03em }
+.doc-body h3 { font: 600 1rem/1.3 var(--font-display); letter-spacing: -.02em; margin-top: 1.8rem }
+.doc-body p { max-width: 44rem; line-height: 1.65 }
 
 /* example / code split */
-.example { display: grid; gap: 1rem; grid-template-columns: 1fr; margin: 1.1rem 0 }
-@media (min-width: 52rem) { .example { grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items: start } }
-.example > .demo {
-  border: 1px solid var(--bd); border-radius: var(--r);
-  padding: 1.1rem; background: var(--el);
-}
+.example { display: grid; gap: 1rem; grid-template-columns: minmax(0,1fr); margin: 1.1rem 0; align-items: start }
+.example > .demo { border: var(--rule); border-radius: var(--r); padding: 1.1rem; background: var(--el) }
 .example > .demo > :first-child { margin-top: 0 }
 .example > .demo > :last-child:not(dialog) { margin-bottom: 0 }
-.example pre { margin: 0; height: 100% }
+.example pre { margin: 0; block-size: 100% }
+/* size the split by its own container, not the viewport */
+@supports (container-type: inline-size) {
+  .doc-body { container: doc / inline-size }
+  @container doc (width >= 34rem) { .example { grid-template-columns: minmax(0,1fr) minmax(0,1fr) } }
+}
 
-/* ---- footer -------------------------------------------------- */
-.foot-cols { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)) }
+/* ---- blocks: one column, full width ---------------------------- */
+.block-group + .block-group { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: var(--rule) }
+.block-group > h2 { font: 600 1.35rem/1.2 var(--font-display); letter-spacing: -.03em; margin: 0 0 .5rem; scroll-margin-top: 4.5rem }
+.block-group > p { color: var(--mut); max-width: 44rem; margin-block: 0 var(--space-md) }
+
+/* one block: a rail-labelled header, a full-width preview, then its code.
+   Two columns squeezed both halves and scrolled the code sideways; the code
+   is the point, so it gets the whole measure. */
+.block { margin: 0; padding-block: var(--space-md); border-top: var(--rule); scroll-margin-top: 4.5rem }
+.block:first-of-type { border-top: 0; padding-top: 0 }
+.block > .rail { margin-bottom: var(--space-sm) }
+.block h3 { font: 600 .95rem/1.3 var(--font-display); letter-spacing: -.02em; margin: 0 0 .25rem }
+.block > .rail p { margin: 0; color: var(--mut); font-size: .88rem; line-height: 1.55; max-width: 44rem }
+.block-preview { border: var(--rule); border-radius: var(--r); padding: 1.4rem; background: var(--el); margin-bottom: .5rem }
+.block-preview > :first-child { margin-top: 0 }
+.block-preview > :last-child:not(dialog) { margin-bottom: 0 }
+/* the code is secondary to the preview — closed until it is asked for */
+.block-code { position: relative; border: 0; padding: 0; background: none; margin: 0 }
+.block-code > summary { font: var(--label); letter-spacing: .07em; text-transform: uppercase; color: var(--mut); padding-block: .4rem }
+.block-code > summary:hover { color: var(--fg) }
+.block-code[open] > summary { margin-bottom: .4rem }
+.block-code pre { margin: 0; max-block-size: 26rem }
+.block-code button { position: absolute; inset-block-start: 2.4rem; inset-inline-end: .5rem; z-index: 2 }
+
+/* ---- footer ---------------------------------------------------- */
+body > footer {
+  border-top: var(--rule); padding-block: var(--space-lg) var(--space-md);
+  background: var(--bg); color: var(--fg); font-size: 1rem;
+}
+.foot-cols { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)) }
+.foot-cols strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin-bottom: .6rem }
 .foot-cols ul { list-style: none; padding: 0; margin: 0 }
-.foot-cols a { color: var(--mut); text-decoration: none }
+.foot-cols li { margin: 0; padding-block: .18rem }
+.foot-cols a { color: var(--fg); text-decoration: none; font-size: .88rem }
 .foot-cols a:hover { color: var(--ac) }
+.foot-note {
+  margin: var(--space-md) 0 0; padding-top: var(--space-md); border-top: var(--rule);
+  font: var(--label); letter-spacing: .05em; color: var(--mut);
+  display: flex; gap: 1.2rem; flex-wrap: wrap;
+}
 
-/* ---- bleeding edge, site-only -------------------------------- */
+/* ---- bleeding edge, site-only ---------------------------------- */
 
 /* cross-document view transitions: navigating home <-> docs cross-fades,
    and the toolbar is carried across instead of being torn down */
@@ -159,84 +304,14 @@ body > nav { view-transition-name: toolbar }
 
 /* reading progress, driven by scroll position with no JavaScript */
 .reading-progress {
-  position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 20;
+  position: fixed; inset: 0 0 auto 0; block-size: 2px; z-index: 20;
   background: var(--ac); transform-origin: 0 50%; scale: 0 1;
 }
 @supports (animation-timeline: scroll()) {
-  .reading-progress {
-    animation: read-progress linear both;
-    animation-timeline: scroll(root block);
-  }
+  .reading-progress { animation: read-progress linear both; animation-timeline: scroll(root block) }
 }
 @keyframes read-progress { to { scale: 1 1 } }
 @media (prefers-reduced-motion: reduce) { .reading-progress { display: none } }
 
 /* the theme toggle is the one thing here that needs JavaScript */
-@media (scripting: none) { nav button { display: none } }
-
-/* size the example split by its own container, not the viewport */
-@supports (container-type: inline-size) {
-  .doc-body { container: doc / inline-size }
-  @container doc (min-width: 34rem) {
-    .example { grid-template-columns: minmax(0,1fr) minmax(0,1fr) }
-  }
-}
-
-/* ---- blocks gallery ------------------------------------------ */
-.block { margin: 0 0 2.5rem }
-.block > h3 { margin-top: 0 }
-.block-preview {
-  border: 1px solid var(--bd); border-radius: var(--r);
-  padding: 1.2rem; background: var(--el); margin-bottom: .6rem;
-}
-.block-preview > :first-child { margin-top: 0 }
-.block-preview > :last-child:not(dialog) { margin-bottom: 0 }
-.block-code { position: relative }
-.block-code pre { margin: 0; max-height: 22rem }
-.block-code button { position: absolute; inset-block-start: .5rem; inset-inline-end: .5rem; z-index: 2 }
-.block-grid { display: grid; gap: 2rem; grid-template-columns: 1fr }
-@media (min-width: 64rem) { .block-grid { grid-template-columns: repeat(2, minmax(0,1fr)) } }
-.block-grid > * { min-width: 0 }
-
-/* ---- palette showcase ---------------------------------------- */
-.swatches { display: grid; gap: 1.1rem }
-.ramp { display: grid; grid-template-columns: 5rem repeat(5, minmax(0,1fr)); gap: .4rem; align-items: center }
-.ramp > b { font-size: .85em; font-weight: 700; letter-spacing: .02em }
-.ramp span {
-  display: block; block-size: 3rem; border-radius: var(--r);
-  border: 1px solid var(--bd); position: relative;
-}
-.ramp span::after {
-  content: attr(data-step); position: absolute; inset: auto .4rem .3rem auto;
-  font-size: .62rem; color: var(--mut); opacity: .85;
-}
-@media (width <= 40rem) {
-  .ramp { grid-template-columns: 1fr; gap: .2rem }
-  .ramp span { block-size: 1.6rem }
-}
-
-/* ---- maximalist landing ---------------------------------------- */
-.hero-mega h1 { font-size: clamp(3rem, 11vw, 7rem); line-height: .92; letter-spacing: -.055em }
-.dot-css { color: var(--mut); font-weight: 400 }   /* the extension, said quietly */
-.hero-mega .lede { font-size: clamp(1.05rem, 2.4vw, 1.35rem); max-width: 40rem }
-.eyebrow {
-  font: 700 .74em/1.4 var(--f); text-transform: uppercase; letter-spacing: .14em;
-  color: var(--ac); margin-bottom: .8rem;
-}
-.rule { display: flex; align-items: center; gap: 1rem; margin: 0 0 1.6rem }
-.rule::after { content: ""; flex: 1; height: 1px; background: var(--bd) }
-.big-num { font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1; letter-spacing: -.04em; margin: 0 }
-.marquee-strip {
-  display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center;
-}
-.badges { gap: .4rem }                   /* a .row of badges, set tighter */
-.skeleton-short { max-width: 60% }
-.feature-row { display: grid; gap: clamp(1.5rem,4vw,3rem); align-items: center }
-@media (min-width: 56rem) {
-  .feature-row { grid-template-columns: minmax(0,1fr) minmax(0,1fr) }
-  .feature-row.flip > :first-child { order: 2 }
-}
-.quote-card blockquote { border: 0; padding: 0; color: var(--fg); font-size: 1.05em }
-.byline { display: flex; align-items: center; gap: .6rem; margin-top: .9rem }
-.byline b { display: block; font-size: .9em }
-.byline span { color: var(--mut); font-size: .82em }
+@media (scripting: none) { .bar button { display: none } }
