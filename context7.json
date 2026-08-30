@@ -1,7 +1,7 @@
 {
   "$schema": "https://context7.com/schema/context7.json",
   "projectTitle": "fertig",
-  "description": "A classless CSS stylesheet: link one file, write ordinary HTML, done. No build step, no dependencies.",
+  "description": "A classless CSS stylesheet: link one file, write ordinary HTML, done. No build step, no dependencies, no JavaScript.",
   "folders": [
     "docs"
   ],
