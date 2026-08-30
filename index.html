@@ -3,8 +3,40 @@
 <meta charset="utf-8">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fertig — classless CSS with no legacy in it</title>
-<meta name="description" content="A classless CSS stylesheet built only on CSS that shipped in the last two years. 7.8 KB gzipped. No prefixes, no polyfills, no build step.">
+<title>fertig — classless CSS framework, no JavaScript, 7.8 KB</title>
+<meta name="description" content="fertig is a classless CSS framework built only on CSS that shipped in the last two years. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 7.8 KB gzipped, no build step, MIT.">
+<link rel="canonical" href="https://moji2002.github.io/fertig/">
+<meta name="theme-color" content="#111315" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="fertig">
+<meta property="og:url" content="https://moji2002.github.io/fertig/">
+<meta property="og:title" content="fertig — classless CSS framework, no JavaScript">
+<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS from the last two years. 7.8 KB gzipped, no build step, no runtime.">
+<meta property="og:image" content="https://moji2002.github.io/fertig/preview-dark.png">
+<meta property="og:image:alt" content="A page styled by fertig: form controls, a data table and cards on a dark background.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="fertig — classless CSS framework, no JavaScript">
+<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. 7.8 KB gzipped, no build step, no runtime.">
+<meta name="twitter:image" content="https://moji2002.github.io/fertig/preview-dark.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "fertig",
+  "applicationCategory": "DeveloperApplication",
+  "description": "A classless CSS framework built only on CSS that shipped in the last two years. Semantic HTML in, a designed page out, with no JavaScript and no build step.",
+  "url": "https://moji2002.github.io/fertig/",
+  "downloadUrl": "https://www.npmjs.com/package/fertig",
+  "codeRepository": "https://github.com/moji2002/fertig",
+  "softwareVersion": "1.0.3",
+  "operatingSystem": "Any",
+  "license": "https://opensource.org/licenses/MIT",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
 <script>
   /* before first paint: dark by default, or whatever was chosen last time.
      Inline and synchronous on purpose — a deferred script would repaint. */
@@ -45,10 +77,11 @@
       <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
       v1.0.3 — live customiser
     </a>
-    <h1>Link one file.<br><span class="dim">The page is finished.</span></h1>
+    <h1>Modern HTML and CSS.<br><span class="dim">No JavaScript at all.</span></h1>
     <p class="lede">A classless stylesheet built only on CSS that shipped in the
-      last two years. No prefixes, no polyfills, no build step — semantic HTML
-      goes in, a designed page comes out.</p>
+      last two years. Dialogs, popovers and tooltips run on native HTML
+      attributes — no prefixes, no polyfills, no build step, no runtime. Link
+      one file and the page is finished.</p>
     <p class="row cta-row">
       <a class="primary" data-size="lg" role="button" href="docs.html">
         <svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Get started</a>
@@ -56,7 +89,8 @@
         <svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>View blocks</a>
     </p>
     <p class="proof">
-      <span>7.6 KB gzipped</span>
+      <span>7.8 KB gzipped</span>
+      <span>0 JavaScript</span>
       <span>0 dependencies</span>
       <span>0 required classes</span>
       <span>MIT</span>

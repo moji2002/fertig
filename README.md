@@ -4,7 +4,7 @@ A classless CSS file for developers who want a project to look presentable in
 the ten seconds before they start building it. Link it, write ordinary HTML,
 and the page is finished.
 
-**28.7 KB raw · 7.8 KB gzipped · no build step · no dependencies.**
+**28.7 KB raw · 7.8 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ```html
 <link rel="stylesheet" href="fertig.css">
@@ -31,8 +31,11 @@ npm install fertig
 
 ## What it is
 
-System type with macOS window furniture and a classic sense of depth —
-a nod to System 7 and Win98, not a costume.
+Opinions, so you don't have to have them: system type, one accent, one
+measure, a window on a desktop. The structure is classic — a title bar, sunken
+fields, raised buttons — and the finish is macOS: vibrancy, hairlines, soft
+radii, the blue focus ring. None of it is a period costume, and none of it is
+a picture of an OS: it is all CSS that shipped in the last two years.
 
 - **System type, set properly** — 16px on a 1.65 line height across roughly
   seventy characters. Code keeps a monospace face, where it earns its place.
@@ -80,6 +83,20 @@ accessible by construction.
 | Button variants | `data-variant="ghost\|link"`, `data-size="sm\|lg"`, `data-icon`, `data-block` |
 | Card anatomy | `<header>` / `<footer>` inside `.card`; `<a class="card">` lifts on hover |
 | Tones | `data-tone="ok\|warn\|err"` retints any component |
+
+And a second set, added for parity with the component libraries — same rule,
+no classes:
+
+| Component | Markup |
+|---|---|
+| Avatar | `data-avatar` on an `<img>` or on initials in a `<span>`; `="sm\|lg"` |
+| Skeleton | `data-skeleton` on the element that is still loading |
+| Sheet / drawer | `<dialog data-side="left\|right\|bottom">` — the same dialog, docked to an edge |
+| Toast | `[popover][data-toast]` — non-modal, parked in a corner |
+| List group | a plain `<menu>` outside a popover becomes a bordered list |
+| Nav menu | a `<menu>` inside a `<nav>` is navigation instead — no rules, no bullets, `aria-current` marks the page |
+| Sidebar layout | `data-layout="sidebar"` on a wrapper of two children; the first sticks |
+| Carousel | `data-carousel` — scroll snapping, with real scroll buttons where they exist |
 
 ## The seven optional classes
 
@@ -133,7 +150,11 @@ Override the four tokens you'd actually want to change:
 If you change `--ac`, check `--on-ac` too — that is the text colour sitting on
 the accent, and a light accent needs dark text to stay legible.
 `--up` / `--up2` / `--dn` are the elevation scale, `--a1` / `--a2` the shadow
-alphas, `--rw` the window radius.
+alphas, `--rw` the window radius, and `--nw` the column the toolbar's contents
+line up with. `--nw` follows `--w`, so nothing moves by default; `<nav
+class="wide">` re-points it at the wide column, which is what an app screen
+built on `.wide` wants so its wordmark doesn't float in the middle of the
+viewport.
 
 ## Also handled
 
@@ -261,14 +282,30 @@ doing. The weight is in the element coverage and forms, not the components.
 
 ## Files
 
+The sheet:
+
 - `fertig.css` — source, commented
 - `fertig.min.css` — minified, what you ship
-- `index.html` — landing page
-- `blocks.html` — ready-to-use markup blocks (16 of them)
-- `llms.txt` — machine-readable summary for LLMs, per llmstxt.org
-- `docs.html` — documentation
-- `app.html` — a full product screen built with no page CSS at all
+- `fertig.core.min.css` — the same without the ARIA component layer
 - `build.js` — minifier and size report
+
+The site:
+
+- `index.html` — landing page, with a live customiser that writes the token
+  block for you
+- `docs.html` — documentation
+- `blocks.html` — ready-to-use markup blocks (16 of them); the code shown is
+  generated from the live preview, so it cannot drift
+- `app.html`, `app-invoice.html` — full product screens built with no page CSS
+  at all
+- `templates/` — four whole pages: `dashboard`, `article`, `pricing`, `signin`
+- `site.css`, `site.js`, `icons.svg`, `favicon.svg` — the site's own chrome,
+  none of it part of the sheet
+
+Everything else:
+
+- `llms.txt` — machine-readable summary for LLMs, per llmstxt.org
+- `CHANGELOG.md` — what changed and why, per release
 - `docs/classless-css-research.md` — the research behind the decisions
 
 ## License

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moji2002.github.io/fertig/sitemap.xml
