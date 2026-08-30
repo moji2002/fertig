@@ -16,17 +16,17 @@ Open `index.html` for the full demo.
 ## Install
 
 ```sh
-npm install fertig.css
+npm install fertig
 ```
 
 ```html
 <!-- or from a CDN, pinned -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig.css@1/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@1/fertig.min.css">
 ```
 
 ```css
 /* or through a bundler */
-@import "fertig.css";
+@import "fertig";
 ```
 
 ## What it is

@@ -12,7 +12,7 @@ short list below.
 ## Setup
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig.css@1/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@1/fertig.min.css">
 ```
 
 ## Layout — the most important rule

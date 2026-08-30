@@ -8,9 +8,9 @@ are breaking.
 
 ## [1.0.0] — 2026-08-30
 
-First release. The package, the repo and the folder are all called `fertig.css`;
-the cascade layer stays `@layer fertig`, because a dot in a layer name would
-declare a sub-layer.
+First release. The project, the repo and the stylesheet are called
+`fertig.css`; the npm package is `fertig`, and the cascade layer is
+`@layer fertig` — a dot in a layer name would declare a sub-layer.
 
 ### Added
 
