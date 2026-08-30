@@ -1,0 +1,129 @@
+# fertig.css
+
+> A classless CSS stylesheet. Link one file, write ordinary semantic
+> HTML, and the page is finished — 28.0 KB raw, 7.6 KB gzipped, no build step,
+> no dependencies, no classes required.
+
+fertig.css styles semantic HTML directly. There is no `.container`, no grid
+system and no utility classes beyond the layout set below. If you are generating markup for a page that uses it,
+write plain HTML and it will look designed. Reach for a class only from the
+short list below.
+
+## Setup
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig.css@1/fertig.min.css">
+```
+
+## Layout — the most important rule
+
+Direct children of `<body>` are the containers. Do not add wrappers.
+
+```html
+<body>
+  <nav>…</nav>       <!-- becomes a sticky, full-bleed toolbar -->
+  <header>…</header> <!-- page heading and intro -->
+  <main>…</main>     <!-- the content -->
+  <footer>…</footer>
+</body>
+```
+
+Content sits on a 38rem measure. For an app screen, set `--w` wider or put
+`.wide` on the container.
+
+## The only classes (all optional)
+
+`.row` flex row, wrapping and gapped · `.grid` auto-fit columns · `.card`
+raised panel, takes an optional `<header>` and `<footer>` · `.badge` pill label
+· `.muted` secondary text · `.center` centre text · `.wide` widen a container.
+Plus `.primary` for a filled button, which `type="submit"` already gets.
+
+## Components are ARIA attributes, not classes
+
+- Segmented control: `<div role="group">` of buttons with `aria-pressed`
+- Tabs: `<div role="tablist">` + `<button role="tab" aria-selected>`
+- Switch: `<input type="checkbox" role="switch">`
+- Menu: `<button popovertarget="m">` + `<div popover id="m"><menu>…`
+- Dialog: `<dialog id="d" closedby="any">` opened with
+  `<button commandfor="d" command="show-modal">` — no JavaScript.
+  An optional `<header>` (the title) and `<footer>` (the actions) run
+  edge to edge and stay pinned while the body scrolls. A `<p>` first in the
+  footer becomes a note and pushes the buttons to the end edge.
+- Breadcrumb: `<nav aria-label="Breadcrumb"><ol>`
+- Loading: `aria-busy="true"` · Tooltip: `data-tooltip="…"`
+- Tone anything: `data-tone="ok|warn|err"` on a badge, aside, card or button
+- Buttons: `data-variant="ghost|link"`, `data-size="sm|lg"`, `data-icon`,
+  `data-block`
+- Layout utilities, Tailwind's names: `.flex` `.flex-col` `.flex-wrap`
+  `.flex-1` `.grid-cols-2|3|4` `.items-start|center|end`
+  `.justify-start|center|end|between` `.gap-0|1|2|3|4|6` `.mx-auto` `.ms-auto`
+  `.me-auto` `.w-full` `.hidden`, plus the whole max-width scale
+  `.max-w-xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|full|none|prose`.
+  Layout and width only — no colour/type scale, no responsive variants.
+  Margins are flow-relative, so RTL keeps working.
+- A `<nav>`'s first control after the `<ul>` sits at the far end by itself, and
+  a `<label>` following a field gets its own top margin — neither needs a style
+  attribute
+
+## Tokens worth overriding
+
+`--ac` accent · `--on-ac` text on the accent (computed automatically where
+`contrast-color()` exists) · `--w` the measure · `--r` control radius · `--f`
+font stack. Also `--bg` `--el` `--face` `--fg` `--mut` `--bd`, the elevation
+scale `--up` `--up2` `--dn`, and `--rw` window radius.
+
+Dark mode is one `light-dark()` token block. Add `data-theme="dark"` or
+`"light"` on `<html>` to override the OS.
+
+## Things that already work, so do not hand-roll them
+
+- Right-aligned numeric columns: `<td align="right">`; totals go in `<tfoot>`
+- Form controls inside `.row` size to the row, so filter bars lay out inline
+- Required and read-only fields, autofill, validation (`:user-invalid`)
+- Tables scroll themselves below 40rem
+- Print styles, `prefers-reduced-motion`, `prefers-contrast`, `forced-colors`,
+  `pointer: coarse` (44px targets), and safe-area insets
+
+## Overriding
+
+The sheet declares `@layer fertig, fertig-a11y` (the second holds the
+forced-colors block, so it wins on layer order rather than `!important`). Any
+unlayered CSS you write beats both regardless of specificity.
+
+```css
+button { background: hotpink }   /* wins */
+```
+
+## Files
+
+- fertig.css: commented source
+- fertig.min.css: minified, what you serve
+- fertig.core.min.css: same without the ARIA component layer (6.3 KB gzipped)
+- index.html: landing page
+- docs.html: full documentation
+- blocks.html: ready-to-use markup blocks
+- app.html: a complete product screen built with no page CSS at all
+
+## Right-to-left
+
+Set `dir="rtl"` and the sheet mirrors: it is written in logical properties
+(`padding-inline-start`, `border-inline-start`, `text-align: start`, logical
+border radii), with `:dir(rtl)` rules for the two things that cannot be
+logical (the switch knob's `translate`, the select chevron's background
+position). Utilities are `ms`/`me`, never `ml`/`mr`.
+
+## Browser support
+
+Support policy is a two-year window: browsers from the last two years, nothing
+older, so there are no vendor prefixes, no polyfills and no fallback build.
+Baseline Chrome 125 / Safari 17.5 / Firefox 129. Anchor positioning,
+contrast-color(), field-sizing, ::details-content, command/commandfor and
+closedby work in all three engines. text-box-trim, base-select and
+scroll-driven animations are absent in Firefox; interpolate-size and
+corner-shape are Chromium-only. Everything past the baseline is behind
+@supports and additive.
+
+## Known gaps
+
+No toasts, avatars, empty-state component, pagination component, sticky table
+header or icons. Compose those from the blocks above.

@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>fertig.css — documentation</title>
+<meta name="description" content="Full reference for fertig.css: layout, elements, components, tokens, recipes and accessibility.">
+<link rel="stylesheet" href="fertig.css">
+<link rel="stylesheet" href="site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js"></script>
+<script src="site.js" defer></script>
+
+<div class="reading-progress" aria-hidden="true"></div>
+
+<nav>
+  <strong><a href="index.html">fertig.css</a></strong>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blocks.html">Blocks</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#components">Components</a></li>
+    <li><a href="#tokens">Tokens</a></li>
+  </ul>
+  <button data-size="sm" data-theme-toggle>theme</button>
+</nav>
+
+<header class="band band-flush">
+  <div class="wrap">
+    <nav aria-label="Breadcrumb">
+      <ol><li><a href="index.html">Home</a></li><li>Documentation</li></ol>
+    </nav>
+    <h1 class="page-title">Documentation</h1>
+    <p class="muted page-intro">Everything fertig.css styles, every
+      component it ships, and every token you can override. Each example is
+      live — the markup shown is the markup rendering it.</p>
+  </div>
+</header>
+
+<main class="band">
+  <div class="wrap docs">
+    <nav class="toc">
+      <strong>Getting started</strong>
+      <ul>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#layout">Layout</a></li>
+      </ul>
+      <strong>Elements</strong>
+      <ul>
+        <li><a href="#type">Typography</a></li>
+        <li><a href="#forms">Forms</a></li>
+        <li><a href="#buttons">Buttons</a></li>
+        <li><a href="#cards">Cards</a></li>
+        <li><a href="#tables">Tables</a></li>
+      </ul>
+      <strong>Components</strong>
+      <ul>
+        <li><a href="#components">Overview</a></li>
+        <li><a href="#segmented">Segmented control</a></li>
+        <li><a href="#tabs">Tabs</a></li>
+        <li><a href="#switch">Switch</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#dialog">Dialog</a></li>
+        <li><a href="#feedback">Loading &amp; tooltips</a></li>
+        <li><a href="#tones">Tones</a></li>
+        <li><a href="#disclosure">Disclosure</a></li>
+      </ul>
+      <strong>Reference</strong>
+      <ul>
+        <li><a href="#classes">Classes &amp; utilities</a></li>
+        <li><a href="#tokens">Tokens</a></li>
+        <li><a href="#recipes">Recipes</a></li>
+        <li><a href="#rtl">Right-to-left</a></li>
+        <li><a href="#a11y">Accessibility</a></li>
+        <li><a href="#app">Building an app</a></li>
+        <li><a href="#support">Browser support</a></li>
+      </ul>
+    </nav>
+
+    <div class="doc-body">
+      <section id="install">
+        <h2>Install</h2>
+        <div class="cols-2">
+          <div>
+            <h5>From npm</h5>
+            <pre><code>npm install fertig.css</code></pre>
+            <p class="muted">Then import it through your bundler:</p>
+            <pre><code>@import "fertig.css";</code></pre>
+          </div>
+          <div>
+            <h5>From a CDN</h5>
+            <pre><code>&lt;link rel="stylesheet" href="https://cdn
+  .jsdelivr.net/npm/fertig.css@1
+  /fertig.min.css"&gt;</code></pre>
+            <p class="muted">No tooling required at all.</p>
+          </div>
+        </div>
+        <p>The package ships three files. <code>fertig.css</code> is commented
+          source meant to be read and edited; <code>fertig.min.css</code> is
+          what you serve; and <code>fertig.core.min.css</code> is the same sheet
+          without the ARIA component layer, if you only want the elements.</p>
+        <table>
+          <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
+          <tbody>
+            <tr><td><code>fertig.min.css</code></td><td>28.0 KB</td><td>7.6 KB</td></tr>
+            <tr><td><code>fertig.core.min.css</code></td><td>21.7 KB</td><td>6.3 KB</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="layout">
+        <h2>Layout</h2>
+        <p>fertig.css has no <code>.container</code>. Direct children of
+          <code>&lt;body&gt;</code> are the containers, so page structure
+          <em>is</em> layout.</p>
+        <pre><code>&lt;body&gt;
+  &lt;nav&gt;…&lt;/nav&gt;       &lt;!-- full-bleed toolbar, contents on the measure --&gt;
+  &lt;header&gt;…&lt;/header&gt;  &lt;!-- the paper starts here --&gt;
+  &lt;main&gt;…&lt;/main&gt;
+  &lt;footer&gt;…&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+        <p><code>&lt;nav&gt;</code> becomes a sticky toolbar with a vibrancy
+          blur. It spans the viewport while its contents stay on
+          the text measure, so the bar reads full-width without the text sliding
+          out to the edges.</p>
+
+        <h3>Frameworks</h3>
+        <p>If your app renders into <code>#root</code> or <code>#__next</code>,
+          <code>body</code> is no longer the semantic parent. Re-point the
+          container rules — the only place <code>body &gt;</code> appears:</p>
+        <pre><code>#root > * { max-width: var(--w); margin-inline: auto; padding-inline: 1.9rem }
+#root > header, #root > main, #root > footer { background: var(--el) }</code></pre>
+
+        <h3>Width</h3>
+        <p>One measure, <code>--w</code> at 38rem — about seventy characters. Add <code>.wide</code> to a container for 66rem when a
+          table or grid genuinely needs it.</p>
+      </section>
+
+      <section id="type">
+        <h2>Typography</h2>
+        <p>Body copy is 16px on a 1.65 line height, set on a measure of roughly
+          seventy characters. Code keeps a monospace face, where fixed width
+          actually earns its place.</p>
+        <div class="example">
+          <div class="demo">
+            <p>Text can be <strong>bold</strong>, <em>italic</em>,
+              <a href="#type">a link</a>, <mark>highlighted</mark>,
+              <s>struck</s>, <ins>inserted</ins>, an
+              <abbr title="abbreviation">abbr</abbr>, <code>inline code</code>,
+              <kbd>⌘K</kbd>, or <samp>sample output</samp>.</p>
+            <blockquote>Block quotes take an accent rule and mute their text.</blockquote>
+          </div>
+          <pre><code>&lt;strong&gt; &lt;em&gt; &lt;a&gt; &lt;mark&gt; &lt;s&gt; &lt;ins&gt;
+&lt;abbr title="…"&gt; &lt;code&gt; &lt;kbd&gt; &lt;samp&gt;
+&lt;blockquote&gt;…&lt;/blockquote&gt;</code></pre>
+        </div>
+
+        <h3>Headings</h3>
+        <p><code>h1</code>–<code>h4</code> descend in size; <code>h5</code> and
+          <code>h6</code> become small uppercase labels, which is how they are
+          usually used in practice.</p>
+
+        <h3>Lists</h3>
+        <div class="example">
+          <div class="demo">
+            <ul><li>Unordered</li><li>With nesting<ul><li>Nested item</li></ul></li></ul>
+            <dl><dt>size</dt><dd>26.2 KB raw</dd><dt>deps</dt><dd>none</dd></dl>
+          </div>
+          <pre><code>&lt;ul&gt;&lt;li&gt;Unordered&lt;/li&gt;&lt;/ul&gt;
+
+&lt;dl&gt;
+  &lt;dt&gt;size&lt;/dt&gt;&lt;dd&gt;26.2 KB raw&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+        </div>
+        <p>Description lists become a two-column grid. Code blocks sit recessed
+          below the page, so they read as a well rather than a card.</p>
+      </section>
+
+      <section id="forms">
+        <h2>Forms</h2>
+        <p>Fields sink, buttons rise. Checkboxes, radios, ranges and progress
+          bars inherit <code>accent-color</code>, so changing <code>--ac</code>
+          retints every control at once.</p>
+        <div class="example">
+          <div class="demo">
+            <form>
+              <label for="e">Email</label>
+              <input id="e" type="email" placeholder="you@example.com" required>
+              <label for="s">Plan</label>
+              <select id="s"><option>Free</option><option>Pro</option></select>
+              <label for="t">Notes</label>
+              <textarea id="t" placeholder="Grows as you type…"></textarea>
+              <p><label><input type="checkbox" checked> Checkbox</label>
+                 <label><input type="radio" name="r" checked> Radio</label></p>
+              <p class="row"><button type="submit">Submit</button>
+                <button type="button">Cancel</button></p>
+            </form>
+          </div>
+          <pre><code>&lt;label for="e"&gt;Email&lt;/label&gt;
+&lt;input id="e" type="email" required&gt;
+
+&lt;label for="s"&gt;Plan&lt;/label&gt;
+&lt;select id="s"&gt;…&lt;/select&gt;
+
+&lt;button type="submit"&gt;Submit&lt;/button&gt;</code></pre>
+        </div>
+        <p>Error states use <code>:user-invalid</code>, so they fire after
+          someone has actually typed rather than on page load. The
+          <code>&lt;legend&gt;</code> is styled as a panel title instead of
+          notching the fieldset border — the one piece of default form chrome
+          that always looks broken.</p>
+      </section>
+
+      <section id="buttons">
+        <h2>Buttons</h2>
+        <p>A plain <code>&lt;button&gt;</code> is already styled, and
+          <code>type="submit"</code> gets the filled treatment automatically —
+          most forms need no attributes at all.</p>
+        <div class="example">
+          <div class="demo">
+            <p class="row">
+              <button class="primary">Primary</button>
+              <button>Default</button>
+              <button data-variant="ghost">Ghost</button>
+              <button data-variant="link">Link</button>
+              <button data-icon>⌘</button>
+            </p>
+            <p class="row">
+              <button data-size="sm">Small</button>
+              <button>Medium</button>
+              <button data-size="lg">Large</button>
+            </p>
+            <p class="row">
+              <button class="primary" data-tone="err">Delete</button>
+              <button disabled>Disabled</button>
+            </p>
+          </div>
+          <pre><code>&lt;button class="primary"&gt;Primary&lt;/button&gt;
+&lt;button data-variant="ghost"&gt;Ghost&lt;/button&gt;
+&lt;button data-variant="link"&gt;Link&lt;/button&gt;
+&lt;button data-icon&gt;⌘&lt;/button&gt;
+
+&lt;button data-size="sm"&gt;Small&lt;/button&gt;
+&lt;button data-size="lg"&gt;Large&lt;/button&gt;
+&lt;button data-block&gt;Full width&lt;/button&gt;
+
+&lt;button class="primary" data-tone="err"&gt;
+  Delete
+&lt;/button&gt;</code></pre>
+        </div>
+        <p>Links can be buttons too — <code>&lt;a class="primary"&gt;</code> or
+          <code>&lt;a role="button"&gt;</code> pick up the same styling while
+          staying links.</p>
+      </section>
+
+      <section id="cards">
+        <h2>Cards</h2>
+        <p><code>.card</code> is a raised panel taking an optional
+          <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> that bleed
+          to its edges. Cards are columns, so footers align across a row.</p>
+        <div class="example">
+          <div class="demo">
+            <div class="card">
+              <header>Plain</header>
+              <p class="muted">A header and footer pick up the chrome fill.</p>
+              <footer>Updated 2 min ago</footer>
+            </div>
+          </div>
+          <pre><code>&lt;div class="card"&gt;
+  &lt;header&gt;Plain&lt;/header&gt;
+  &lt;p&gt;Body copy.&lt;/p&gt;
+  &lt;footer&gt;Updated 2 min ago&lt;/footer&gt;
+&lt;/div&gt;
+
+&lt;a class="card" href="#"&gt;…&lt;/a&gt;
+&lt;div class="card" data-tone="ok"&gt;…&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="tables">
+        <h2>Tables</h2>
+        <p>Editorial rather than boxed — a rule under the header, hairlines
+          between rows, a hover tint.</p>
+        <table>
+          <caption>Size against comparable sheets</caption>
+          <thead><tr><th>Sheet</th><th>Raw</th><th>Gzip</th></tr></thead>
+          <tbody>
+            <tr><td>fertig.css</td><td>28.0 KB</td><td>7.6 KB</td></tr>
+            <tr><td>Pico 2 classless</td><td>71.0 KB</td><td>10.1 KB</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="components">
+        <h2>Components</h2>
+        <p>The component layer is addressed by ARIA attributes rather than class
+          names. That is not only stylistic: a component can only be styled if it
+          is also announced correctly to assistive technology.</p>
+      </section>
+
+      <section id="segmented">
+        <h2>Segmented control</h2>
+        <div class="example">
+          <div class="demo">
+            <span role="group">
+              <button aria-pressed="true">Day</button>
+              <button aria-pressed="false">Week</button>
+              <button aria-pressed="false">Month</button>
+            </span>
+          </div>
+          <pre><code>&lt;div role="group"&gt;
+  &lt;button aria-pressed="true"&gt;Day&lt;/button&gt;
+  &lt;button aria-pressed="false"&gt;Week&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="tabs">
+        <h2>Tabs</h2>
+        <div class="example">
+          <div class="demo">
+            <div role="tablist">
+              <button role="tab" aria-selected="true">Preview</button>
+              <button role="tab" aria-selected="false">Code</button>
+              <button role="tab" aria-selected="false">Notes</button>
+            </div>
+          </div>
+          <pre><code>&lt;div role="tablist"&gt;
+  &lt;button role="tab" aria-selected="true"&gt;
+    Preview
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <p class="muted">The sheet styles the tabs; wiring which panel shows is
+          yours, and takes about five lines of JavaScript.</p>
+      </section>
+
+      <section id="switch">
+        <h2>Switch</h2>
+        <div class="example">
+          <div class="demo">
+            <label><input type="checkbox" role="switch" checked> Notifications</label>
+          </div>
+          <pre><code>&lt;label&gt;
+  &lt;input type="checkbox" role="switch" checked&gt;
+  Notifications
+&lt;/label&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="menu">
+        <h2>Menu</h2>
+        <p>Built on the native popover API and anchored to the button that
+          opened it — no JavaScript, no positioning library.</p>
+        <div class="example">
+          <div class="demo">
+            <button popovertarget="docmenu">Menu ▾</button>
+            <div popover id="docmenu">
+              <menu>
+                <li><button>New file</button></li>
+                <li><button>Duplicate</button></li>
+                <li><button>Rename…</button></li>
+              </menu>
+            </div>
+          </div>
+          <pre><code>&lt;button popovertarget="menu"&gt;Menu ▾&lt;/button&gt;
+&lt;div popover id="menu"&gt;
+  &lt;menu&gt;
+    &lt;li&gt;&lt;button&gt;New file&lt;/button&gt;&lt;/li&gt;
+  &lt;/menu&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <aside data-tone="ok">Anchoring uses CSS anchor positioning, which now
+          works in Chromium, WebKit and Firefox alike. Where it is missing the
+          menu centres on screen — usable, just not attached to its button.</aside>
+      </section>
+
+      <section id="dialog">
+        <h2>Dialog</h2>
+        <p>Opened and closed with the <code>command</code> and
+          <code>commandfor</code> attributes — no JavaScript — and
+          <code>closedby="any"</code> gives it light dismiss.</p>
+        <div class="example">
+          <div class="demo">
+            <button commandfor="d" command="show-modal">Open dialog</button>
+            <dialog id="d" closedby="any">
+              <header><h3>Delete this project?</h3></header>
+              <p class="muted">This cannot be undone. Closes on <kbd>Esc</kbd>.</p>
+              <footer>
+                <button commandfor="d" command="close">Cancel</button>
+                <button class="primary" data-tone="err" commandfor="d" command="close">Delete</button>
+              </footer>
+            </dialog>
+          </div>
+          <pre><code>&lt;dialog id="d" closedby="any"&gt;
+  &lt;header&gt;&lt;h3&gt;Delete this project?&lt;/h3&gt;&lt;/header&gt;
+  &lt;p&gt;This cannot be undone.&lt;/p&gt;
+  &lt;footer&gt;
+    &lt;button commandfor="d" command="close"&gt;Cancel&lt;/button&gt;
+    &lt;button class="primary" commandfor="d" command="close"&gt;Delete&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;/dialog&gt;
+
+&lt;button commandfor="d" command="show-modal"&gt;
+  Open
+&lt;/button&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="feedback">
+        <h2>Loading &amp; tooltips</h2>
+        <div class="example">
+          <div class="demo">
+            <p class="row">
+              <button aria-busy="true">Saving</button>
+              <button data-tooltip="One attribute, no JavaScript">Hover me</button>
+            </p>
+            <nav aria-label="Breadcrumb">
+              <ol><li><a href="#">Home</a></li><li><a href="#">Docs</a></li><li>Here</li></ol>
+            </nav>
+          </div>
+          <pre><code>&lt;button aria-busy="true"&gt;Saving&lt;/button&gt;
+&lt;button data-tooltip="Explain it"&gt;Hover&lt;/button&gt;
+
+&lt;nav aria-label="Breadcrumb"&gt;
+  &lt;ol&gt;&lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="tones">
+        <h2>Tones</h2>
+        <p><code>data-tone</code> redefines <code>--ac</code> on the element, so
+          anything inside it that uses the accent follows automatically.</p>
+        <div class="example">
+          <div class="demo">
+            <p class="row">
+              <span class="badge">default</span>
+              <span class="badge" data-tone="ok">passing</span>
+              <span class="badge" data-tone="warn">flaky</span>
+              <span class="badge" data-tone="err">failing</span>
+            </p>
+            <aside data-tone="ok">A toned aside.</aside>
+          </div>
+          <pre><code>&lt;span class="badge" data-tone="ok"&gt;passing&lt;/span&gt;
+&lt;aside data-tone="err"&gt;Went wrong.&lt;/aside&gt;
+&lt;div class="card" data-tone="warn"&gt;…&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="disclosure">
+        <h2>Disclosure</h2>
+        <p>A plain <code>&lt;details&gt;</code> is a bordered panel with a
+          rotating caret. Where the browser supports
+          <code>::details-content</code> it also animates open and closed,
+          which needs <code>interpolate-size</code> to reach a height of
+          <code>auto</code>.</p>
+        <div class="example">
+          <div class="demo">
+            <details>
+              <summary>What counts as a component?</summary>
+              <p>Anything styled through an ARIA attribute or a native element,
+                with no class required.</p>
+            </details>
+          </div>
+          <pre><code>&lt;details&gt;
+  &lt;summary&gt;Title&lt;/summary&gt;
+  &lt;p&gt;Body.&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="classes">
+        <h2>Classes &amp; utilities</h2>
+        <p>All optional. If you never type a class, nothing breaks.</p>
+        <table>
+          <thead><tr><th>Class</th><th>Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>.row</code></td><td>Flex row, wrapping, gapped</td></tr>
+            <tr><td><code>.grid</code></td><td>Auto-fit columns, min 11rem</td></tr>
+            <tr><td><code>.card</code></td><td>Raised panel with optional header/footer</td></tr>
+            <tr><td><code>.badge</code></td><td>Small pill label</td></tr>
+            <tr><td><code>.muted</code></td><td>Secondary text colour</td></tr>
+            <tr><td><code>.center</code></td><td>Centre text</td></tr>
+            <tr><td><code>.wide</code></td><td>Widen a container to 66rem</td></tr>
+          </tbody>
+        </table>
+        <p>Plus <code>.primary</code> for a filled button, which
+          <code>type="submit"</code> already gets.</p>
+
+        <h3>Layout utilities, borrowed from Tailwind</h3>
+        <p>The names are Tailwind's on purpose: if you know them there, they
+          mean the same thing here, so muscle memory carries over.</p>
+        <pre><code>.flex  .flex-col  .flex-wrap  .flex-1
+.grid-cols-2  .grid-cols-3  .grid-cols-4
+.items-start  .items-center  .items-end
+.justify-start  .justify-center  .justify-end  .justify-between
+.gap-0  .gap-1  .gap-2  .gap-3  .gap-4  .gap-6
+.mx-auto  .ms-auto  .me-auto  .w-full  .hidden</code></pre>
+        <p>Only the layout handful: no colour, type or sizing scale, and no
+          responsive variants, because those want a build step and this file
+          does not have one. The gap steps are <code>0</code>, .25, .5, .75, 1
+          and 1.5rem. The margins are flow-relative — <code>ms</code> and
+          <code>me</code>, never <code>ml</code>/<code>mr</code> — so a toolbar
+          still lands correctly in Persian or Arabic.
+          <code>.grid</code> is the auto-fit grid above; adding
+          <code>.grid-cols-3</code> pins it to three columns.</p>
+        <pre><code>&lt;p class="row justify-end"&gt;&lt;button&gt;Save&lt;/button&gt;&lt;/p&gt;
+&lt;div class="grid grid-cols-3 gap-4"&gt;…&lt;/div&gt;</code></pre>
+
+      </section>
+
+      <section id="tokens">
+        <h2>Tokens</h2>
+        <p>Five tokens cover most theming. Set them in your own
+          <code>:root</code> after the sheet.</p>
+        <table>
+          <thead><tr><th>Token</th><th>Default</th><th>Controls</th></tr></thead>
+          <tbody>
+            <tr><td><code>--ac</code></td><td>#0064e1 / #4a9eff</td><td>Accent: links, focus, filled buttons</td></tr>
+            <tr><td><code>--on-ac</code></td><td>#fff / #06121f</td><td>Text sitting on the accent</td></tr>
+            <tr><td><code>--w</code></td><td>38rem</td><td>The measure</td></tr>
+            <tr><td><code>--r</code></td><td>6px</td><td>Control radius</td></tr>
+            <tr><td><code>--f</code></td><td>system-ui…</td><td>Text font</td></tr>
+            <tr><td><code>--fm</code></td><td>ui-monospace…</td><td>Code font</td></tr>
+          </tbody>
+        </table>
+        <h3>The rest</h3>
+        <table>
+          <thead><tr><th>Token</th><th>Controls</th></tr></thead>
+          <tbody>
+            <tr><td><code>--bg</code></td><td>Desktop, behind the window</td></tr>
+            <tr><td><code>--el</code></td><td>Paper: page and field backgrounds</td></tr>
+            <tr><td><code>--face</code></td><td>Chrome: buttons, panels, code</td></tr>
+            <tr><td><code>--fg</code> / <code>--mut</code></td><td>Text and secondary text</td></tr>
+            <tr><td><code>--bd</code></td><td>Hairline colour</td></tr>
+            <tr><td><code>--tb</code></td><td>Toolbar fill (translucent)</td></tr>
+            <tr><td><code>--up</code> / <code>--up2</code> / <code>--dn</code></td><td>Elevation scale</td></tr>
+            <tr><td><code>--a1</code> / <code>--a2</code></td><td>Shadow alphas, per theme</td></tr>
+            <tr><td><code>--rw</code></td><td>Window radius</td></tr>
+          </tbody>
+        </table>
+        <aside data-tone="warn">Change <code>--ac</code> and check
+          <code>--on-ac</code> with it. A light accent needs dark text on top;
+          white on a pale accent is the easiest way to fail contrast.</aside>
+      </section>
+
+      <section id="recipes">
+        <h2>Recipes</h2>
+        <div class="cols-2">
+          <div>
+            <h5>Your brand accent</h5>
+            <pre><code>:root {
+  --ac:    light-dark(#c2410c, #fb923c);
+  --on-ac: light-dark(#fff,    #1a0b02);
+}</code></pre>
+            <h5>Sharp corners</h5>
+            <pre><code>:root { --r: 0; --rw: 0 }</code></pre>
+            <h5>Flat, no depth</h5>
+            <pre><code>:root { --up: none; --up2: none; --dn: none }</code></pre>
+          </div>
+          <div>
+            <h5>A different font</h5>
+            <pre><code>:root {
+  --f:  "Inter", system-ui, sans-serif;
+  --fm: "Berkeley Mono", ui-monospace, monospace;
+}</code></pre>
+            <h5>Wider measure</h5>
+            <pre><code>:root { --w: 52rem }</code></pre>
+            <h5>Force a theme</h5>
+            <pre><code>&lt;html data-theme="dark"&gt;
+&lt;!-- or "light"; omit to follow the OS --&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="rtl">
+        <h2>Right-to-left</h2>
+        <p>Set the direction and the sheet mirrors. There is nothing to
+          configure and no second file to load:</p>
+        <pre><code>&lt;html lang="fa" dir="rtl"&gt;</code></pre>
+        <p>Every inline-direction rule is flow-relative —
+          <code>padding-inline-start</code>, <code>border-inline-start</code>,
+          <code>margin-inline-end</code>, <code>text-align: start</code>,
+          <code>border-start-end-radius</code> — so list markers, blockquote
+          and <code>&lt;aside&gt;</code> accent bars, table gutters, breadcrumb
+          separators, the segmented control's rounded ends and the toolbar's
+          trailing control all move to the correct side.</p>
+        <p>Two things cannot be said logically: <code>translate</code>, which
+          moves the switch knob, and the fallback
+          <code>&lt;select&gt;</code> chevron's background position. Both carry
+          a <code>:dir(rtl)</code> rule. The layout utilities follow the same
+          discipline — <code>.ms-auto</code> and <code>.me-auto</code> exist,
+          <code>.ml-auto</code> deliberately does not.</p>
+        <p>Verified by rendering a Persian page in both directions and
+          measuring, not by reading the source.</p>
+      </section>
+
+      <section id="a11y">
+        <h2>Accessibility</h2>
+        <p>Every foreground and background pair clears WCAG 2.1 AA in both
+          themes, measured in a browser from the computed token values rather
+          than assumed from the palette.</p>
+        <table>
+          <thead><tr><th>Pair</th><th>Light</th><th>Dark</th></tr></thead>
+          <tbody>
+            <tr><td>Body text on paper</td><td>16.83</td><td>14.94</td></tr>
+            <tr><td>Muted text on paper</td><td>5.07</td><td>5.92</td></tr>
+            <tr><td>Links on paper</td><td>5.37</td><td>6.17</td></tr>
+            <tr><td>Muted on chrome</td><td>4.65</td><td>5.24</td></tr>
+            <tr><td>Text on accent</td><td>5.37</td><td>7.63</td></tr>
+          </tbody>
+        </table>
+        <ul>
+          <li>Motion sits behind <code>prefers-reduced-motion</code></li>
+          <li>Focus is visible via <code>:focus-visible</code>, never removed</li>
+          <li>Components read the same ARIA attributes screen readers do</li>
+          <li>Errors use <code>:user-invalid</code>, firing after input rather
+            than on load</li>
+        </ul>
+      </section>
+
+      <section id="app">
+        <h2>Building an app with it</h2>
+        <p>There is a full product screen at
+          <a href="app.html">app.html</a> — an invoices dashboard built with
+          this sheet and <em>no page CSS whatsoever</em>. It is the honest test:
+          anything that looks wrong there is missing from the library.</p>
+
+        <h3>Two things it taught us</h3>
+        <ul>
+          <li>Form controls are full-width blocks, which is right in a form and
+            wrong in a toolbar. Inside <code>.row</code> they now size to the
+            row, so filter bars and pagination lay out horizontally.</li>
+          <li>An app screen wants more than the 38rem reading measure. Set
+            <code>--w</code> or put <code>.wide</code> on the container.</li>
+        </ul>
+
+        <h3>Known gaps</h3>
+        <p>Things a product needs that this sheet does not ship, on purpose —
+          each is a component with real behaviour, not a style:</p>
+        <ul>
+          <li>No toasts, avatars, empty states or pagination component</li>
+          <li>No big-number treatment for KPIs — a heading in a card is heading
+            sized</li>
+          <li>No sticky table header, and no icons; the demo uses text glyphs</li>
+        </ul>
+        <p>Numeric columns do work: <code>&lt;td align="right"&gt;</code> is
+          honoured, and <code>tfoot</code> is emphasised as a totals row.</p>
+      </section>
+
+      <section id="support">
+        <h2>Browser support</h2>
+        <p>The policy is a two-year window: fertig.css targets browsers released
+          in the last two years and carries nothing for the ones before them.
+          The baseline is <code>light-dark()</code>, <code>color-mix()</code>,
+          <code>:has()</code>, <code>@starting-style</code> and relative colour
+          — Chrome 125+, Safari 17.5+, Firefox 129+. Below that you get
+          unstyled but perfectly readable HTML. There is no polyfill, no
+          fallback build and no vendor prefix, with three exceptions that no
+          engine has replaced yet: <code>-webkit-text-size-adjust</code>,
+          the <code>-webkit-text-fill-color</code> autofill repaint, and the
+          <code>progress</code> pseudo-elements.</p>
+
+        <h3>Tested, not assumed</h3>
+        <p>Every release is loaded in Chromium, WebKit and Firefox, every button
+          on every page is clicked, and each page is checked for overflow,
+          broken anchors, duplicate ids, unlabelled inputs and console errors.
+          This is what those three engines report today:</p>
+        <table>
+          <thead><tr><th>Feature</th><th align="center">Chromium</th><th align="center">WebKit</th><th align="center">Firefox</th></tr></thead>
+          <tbody>
+            <tr><td><code>light-dark()</code>, <code>color-mix()</code>, <code>:has()</code>, <code>oklch()</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+            <tr><td><code>@layer</code>, <code>@starting-style</code>, container queries</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+            <tr><td>Anchor positioning, <code>position-area</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+            <tr><td><code>contrast-color()</code>, <code>field-sizing</code>, <code>::details-content</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+            <tr><td><code>command</code>/<code>commandfor</code>, <code>closedby</code>, popover</td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
+            <tr><td><code>text-box: trim-both</code>, <code>appearance: base-select</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
+            <tr><td>Scroll-driven animations</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
+            <tr><td><code>interpolate-size</code>, <code>corner-shape</code></td><td align="center">✓</td><td align="center">—</td><td align="center">—</td></tr>
+          </tbody>
+        </table>
+        <p>A dash means that engine misses a flourish, not that anything breaks:
+          every one of those sits behind <code>@supports</code>.</p>
+
+        <h3>Cascade layers</h3>
+        <p>The sheet declares two layers,
+          <code>@layer fertig, fertig-a11y</code>. Anything you write outside a
+          layer beats both regardless of specificity, so overriding a rule
+          never turns into a specificity fight and never needs
+          <code>!important</code>:</p>
+        <pre><code>/* this wins over everything in the sheet */
+button { background: hotpink }</code></pre>
+
+        <h3>Progressive enhancement</h3>
+        <p>Everything newer than that baseline sits behind
+          <code>@supports</code> and is strictly additive — if the browser has
+          it the page is better, and if not nothing breaks.</p>
+        <table>
+          <thead><tr><th>Feature</th><th>Buys</th><th>Without it</th></tr></thead>
+          <tbody>
+            <tr><td><code>contrast-color()</code></td>
+                <td>Text on the accent is chosen automatically, so overriding
+                    <code>--ac</code> cannot silently fail contrast</td>
+                <td>Falls back to the hand-picked <code>--on-ac</code></td></tr>
+            <tr><td>Anchor positioning</td>
+                <td><code>[popover]</code> menus sit under their button</td>
+                <td>Menu centres on screen</td></tr>
+            <tr><td><code>::details-content</code> +<br><code>interpolate-size</code></td>
+                <td>Disclosures animate open and closed</td>
+                <td>They snap, as they always have</td></tr>
+            <tr><td><code>field-sizing</code></td>
+                <td>Textareas grow with their content</td>
+                <td>Fixed height, drag to resize</td></tr>
+            <tr><td><code>corner-shape: squircle</code></td>
+                <td>Continuous corners rather than circular arcs</td>
+                <td>Ordinary rounded corners</td></tr>
+            <tr><td><code>text-box: trim-both</code></td>
+                <td>Headings sit on their cap height, optically not metrically</td>
+                <td>The font’s built-in half-leading stays</td></tr>
+            <tr><td><code>@property</code></td>
+                <td>Shadow alphas are typed, so elevation can transition</td>
+                <td>Shadows change without interpolating</td></tr>
+            <tr><td><code>appearance: base-select</code></td>
+                <td>The <code>&lt;select&gt;</code> dropdown is styled like the
+                    rest of the sheet instead of OS chrome</td>
+                <td>Native dropdown, CSS-drawn chevron</td></tr>
+            <tr><td>Relative colour<br>(<code>oklch(from …)</code>)</td>
+                <td>Filled-button hover is derived from your accent
+                    perceptually</td>
+                <td><code>brightness()</code> filter</td></tr>
+            <tr><td><code>container-type</code> on <code>.card</code></td>
+                <td>You can write <code>@container</code> queries against a
+                    card’s own width</td>
+                <td>Cards still lay out normally</td></tr>
+            <tr><td><code>anchor-size()</code> +<br><code>position-visibility</code></td>
+                <td>Menus are never narrower than the button that opened them,
+                    and hide when it scrolls away</td>
+                <td>Fixed minimum width</td></tr>
+            <tr><td><code>::spelling-error</code></td>
+                <td>Spellcheck squiggles follow the palette</td>
+                <td>Platform squiggles</td></tr>
+            <tr><td><code>&lt;input switch&gt;</code></td>
+                <td>Safari’s native switch is styled identically to
+                    <code>role="switch"</code></td>
+                <td>Renders as a checkbox</td></tr>
+          </tbody>
+        </table>
+        <h3>It answers to the OS</h3>
+        <ul>
+          <li><code>prefers-reduced-motion</code> — all transitions and the
+            disclosure animation stop</li>
+          <li><code>prefers-reduced-transparency</code> — the toolbar loses its
+            vibrancy blur and goes opaque</li>
+          <li><code>prefers-contrast: more</code> — hairlines and secondary
+            text darken</li>
+          <li><code>forced-colors</code> — shadows drop and borders switch to
+            system colours for Windows High Contrast</li>
+          <li><code>pointer: coarse</code> — controls grow to a 44px minimum
+            target, per WCAG 2.5.8</li>
+          <li><code>env(safe-area-inset-*)</code> — the sticky toolbar clears
+            the notch</li>
+          <li><code>update: fast</code> — e-ink and other slow displays never
+            enter a transition in the first place</li>
+          <li><code>inverted-colors</code> — images are re-inverted so the OS
+            does not invert them twice</li>
+          <li><code>color-gamut: p3</code> — a cleaner accent on wide-gamut
+            displays</li>
+        </ul>
+
+        <h3>Content it cannot predict</h3>
+        <p>A classless sheet styles markup it has never seen, so it has to
+          survive the awkward cases:</p>
+        <ul>
+          <li>A pasted URL wraps instead of widening the page
+            (<code>overflow-wrap</code>)</li>
+          <li>Tables scroll themselves below 40rem rather than pushing the
+            layout sideways</li>
+          <li>Autofilled fields are repainted, so the browser’s yellow never
+            appears — least of all in dark mode</li>
+          <li>Required fields are marked, read-only fields look inert
+            (<code>:required</code>, <code>:read-only</code>)</li>
+          <li>Numerals are slashed and tabular, so <code>0</code> and
+            <code>O</code> never trade places</li>
+          <li>Print gets real page margins, no stranded lines, and URLs only
+            for external links</li>
+        </ul>
+
+        <p>The demo pages additionally use <code>command</code> /
+          <code>commandfor</code> and <code>closedby</code> to drive dialogs
+          with no JavaScript at all, plus cross-document
+          <code>@view-transition</code> and a scroll-driven reading bar.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <strong>fertig.css</strong>
+        <p class="muted"><small>A classless CSS
+          stylesheet. MIT licensed.</small></p>
+      </div>
+      <div>
+        <h5>Documentation</h5>
+        <ul>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#layout">Layout</a></li>
+          <li><a href="#components">Components</a></li>
+          <li><a href="#tokens">Tokens</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Project</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="https://github.com/moji2002/fertig.css">Source</a></li>
+          <li><a href="https://www.npmjs.com/package/fertig.css">npm</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

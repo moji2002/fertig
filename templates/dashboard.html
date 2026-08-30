@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Invoices — Ledger</title>
+<meta name="description" content="A dashboard template built with fertig.css and nothing else.">
+<link rel="stylesheet" href="../fertig.css">
+<style>
+  /* an app screen wants more than the 38rem reading measure */
+  :root { --w: 64rem }
+</style>
+
+<nav>
+  <strong>Ledger</strong>
+  <ul>
+    <li><a href="#">Invoices</a></li>
+    <li><a href="#">Clients</a></li>
+    <li><a href="#">Reports</a></li>
+  </ul>
+  <button popovertarget="acct" data-size="sm">Account ▾</button>
+  <div popover id="acct">
+    <menu>
+      <li><button>Profile</button></li>
+      <li><button>Billing</button></li>
+      <li><hr></li>
+      <li><button>Sign out</button></li>
+    </menu>
+  </div>
+</nav>
+
+<header>
+  <nav aria-label="Breadcrumb">
+    <ol><li><a href="#">Home</a></li><li>Invoices</li></ol>
+  </nav>
+  <hgroup>
+    <h1>Invoices</h1>
+    <p>Three overdue, two awaiting approval.</p>
+  </hgroup>
+  <p class="row">
+    <button class="primary" commandfor="new" command="show-modal">New invoice</button>
+    <button>Import</button>
+    <button data-variant="ghost">Export CSV</button>
+  </p>
+</header>
+
+<main>
+  <div class="grid">
+    <div class="card"><header>Outstanding</header><h3>$48,200</h3><footer>12 invoices</footer></div>
+    <div class="card" data-tone="err"><header>Overdue</header><h3>$9,400</h3><footer>3 invoices</footer></div>
+    <div class="card" data-tone="ok"><header>Paid (30d)</header><h3>$71,050</h3><footer>28 invoices</footer></div>
+    <div class="card"><header>Days to pay</header><h3>21</h3><footer>down from 26</footer></div>
+  </div>
+
+  <search>
+    <form>
+      <div class="row">
+        <span role="group">
+          <button aria-pressed="true">All</button>
+          <button aria-pressed="false">Open</button>
+          <button aria-pressed="false">Overdue</button>
+        </span>
+        <input type="search" placeholder="Search invoices…" aria-label="Search invoices" autocomplete="off">
+        <select aria-label="Client"><option>All clients</option><option>Acme</option></select>
+        <button type="submit">Filter</button>
+      </div>
+    </form>
+  </search>
+
+  <table>
+    <caption>12 invoices · sorted by due date</caption>
+    <thead>
+      <tr><th>Invoice</th><th>Client</th><th>Due</th><th align="right">Amount</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="#">INV-0231</a></td><td>Acme Corp</td>
+          <td><time datetime="2026-03-04">Mar 4</time></td>
+          <td align="right">$4,200.00</td>
+          <td><span class="badge" data-tone="err">overdue</span></td></tr>
+      <tr><td><a href="#">INV-0232</a></td><td>Globex</td>
+          <td><time datetime="2026-03-18">Mar 18</time></td>
+          <td align="right">$12,850.00</td>
+          <td><span class="badge" data-tone="ok">paid</span></td></tr>
+      <tr><td><a href="#">INV-0233</a></td><td>Initech</td>
+          <td><time datetime="2026-04-01">Apr 1</time></td>
+          <td align="right">$980.00</td>
+          <td><span class="badge" data-tone="warn">draft</span></td></tr>
+    </tbody>
+    <tfoot><tr><td colspan="3">Total</td><td align="right">$18,030.00</td><td></td></tr></tfoot>
+  </table>
+
+  <p class="row">
+    <button data-size="sm">← Previous</button>
+    <span class="muted">Page 1 of 3</span>
+    <button data-size="sm">Next →</button>
+    <progress value="0.33" aria-label="Page 1 of 3"></progress>
+  </p>
+
+  <aside data-tone="warn">
+    <strong>Three invoices are overdue.</strong> Send reminders in bulk from the
+    actions menu.
+  </aside>
+
+  <h2>Record a payment</h2>
+  <form>
+    <fieldset>
+      <legend>Payment</legend>
+      <label for="amt">Amount</label>
+      <input id="amt" type="number" value="4200" required>
+      <label for="dt">Date received</label>
+      <input id="dt" type="date" value="2026-03-20">
+      <label for="mth">Method</label>
+      <select id="mth"><option>Bank transfer</option><option>Card</option></select>
+      <p><label><input type="checkbox" role="switch"> Notify client</label></p>
+      <p class="row">
+        <button type="submit">Record payment</button>
+        <button type="button" data-variant="ghost">Cancel</button>
+      </p>
+    </fieldset>
+  </form>
+</main>
+
+<dialog id="new" closedby="any">
+  <header><h3>New invoice</h3></header>
+  <label for="cl">Client</label>
+  <select id="cl"><option>Acme Corp</option><option>Globex</option></select>
+  <label for="due">Due date</label>
+  <input id="due" type="date">
+  <footer>
+    <button commandfor="new" command="close">Cancel</button>
+    <button class="primary" commandfor="new" command="close">Create</button>
+  </footer>
+</dialog>
+
+<footer>
+  <p>Ledger — a dashboard template built with fertig.css and no page CSS.</p>
+</footer>
+
+<script>
+  /* the forms on this page are a demo with nowhere to submit to */
+  addEventListener("submit", e => e.preventDefault());
+</script>

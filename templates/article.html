@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Why monospace reads better than you think — Field Notes</title>
+<meta name="description" content="An article template: long-form reading, built with fertig.css and nothing else.">
+<link rel="stylesheet" href="../fertig.css">
+
+<nav>
+  <strong>Field Notes</strong>
+  <ul>
+    <li><a href="#">Archive</a></li>
+    <li><a href="#">Topics</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <a href="#subscribe" class="primary" data-size="sm">Subscribe</a>
+</nav>
+
+<header>
+  <nav aria-label="Breadcrumb">
+    <ol><li><a href="#">Archive</a></li><li><a href="#">Typography</a></li><li>This piece</li></ol>
+  </nav>
+  <hgroup>
+    <h1>Why monospace reads better than you think</h1>
+    <p>On fixed pitch, reading speed, and the difference between a preference
+      and a finding.</p>
+  </hgroup>
+  <p class="muted">
+    By <a href="#" rel="author">A. Writer</a> ·
+    <time datetime="2026-08-29">29 August 2026</time> ·
+    12 min read
+  </p>
+  <p class="row">
+    <span class="badge">typography</span>
+    <span class="badge">research</span>
+  </p>
+</header>
+
+<main>
+  <article>
+    <p>Monospace has spent forty years being the typeface of the terminal, and
+      almost none of that time being taken seriously for prose. The assumption
+      is that fixed-pitch text is slower to read. It is worth asking where that
+      assumption actually comes from.</p>
+
+    <p>The short answer is that it comes from studies of <em>typewriter output
+      on paper</em>, mostly conducted before 1990, on typefaces designed under
+      mechanical constraints that no longer apply. Whether those findings carry
+      to a well-drawn screen face at a comfortable measure is, at best, an open
+      question.</p>
+
+    <h2>What the research actually says</h2>
+    <p>Three things are reasonably well established, and it is worth separating
+      them from the folklore that surrounds them:</p>
+
+    <ul>
+      <li><strong>Measure matters more than pitch.</strong> Line length has a
+        larger measured effect on reading speed than the typeface does.</li>
+      <li><strong>Familiarity dominates.</strong> Readers are fastest with what
+        they read most, which makes typeface comparisons hard to isolate.</li>
+      <li><strong>Differences are small.</strong> Where effects appear at all,
+        they are usually a few percent — not the gulf the folklore implies.</li>
+    </ul>
+
+    <blockquote>
+      The typeface you read fastest is the one you have read most. Almost
+      everything else is a rounding error.
+      <cite>— paraphrasing a finding that gets quoted more than it gets read</cite>
+    </blockquote>
+
+    <h2>Where fixed pitch genuinely helps</h2>
+    <p>There are places where monospace is not a stylistic choice but a
+      functional one. Tabular data is the obvious case: every digit occupies
+      the same width, so columns align without effort.</p>
+
+    <table>
+      <caption>Reading speed, words per minute, by measure</caption>
+      <thead><tr><th>Measure</th><th align="right">Proportional</th><th align="right">Monospace</th></tr></thead>
+      <tbody>
+        <tr><td>45 characters</td><td align="right">238</td><td align="right">231</td></tr>
+        <tr><td>70 characters</td><td align="right">246</td><td align="right">243</td></tr>
+        <tr><td>110 characters</td><td align="right">219</td><td align="right">208</td></tr>
+      </tbody>
+      <tfoot><tr><td>Mean</td><td align="right">234</td><td align="right">227</td></tr></tfoot>
+    </table>
+    <p class="muted"><small>Illustrative figures for the purposes of this
+      template — not real data.</small></p>
+
+    <h3>A note on numerals</h3>
+    <p>A monospace face that slashes its zero removes an entire class of
+      transcription error. Compare <code>0</code> and <code>O</code>, then
+      compare them in a font that does not bother.</p>
+
+    <pre><code>const rate = 0.08;   // zero
+const RATE = "O8";   // letter</code></pre>
+
+    <aside>
+      <strong>Worth remembering.</strong> "Monospace is slower" is a claim about
+      1970s typewriters that quietly became a claim about screens. Ask for the
+      citation.
+    </aside>
+
+    <h2>So should you set prose in it?</h2>
+    <p>If the content is technical, if it contains code, identifiers, or
+      figures, then the consistency is worth more than the few percent you may
+      or may not lose. If it is a novel, probably not.</p>
+
+    <figure>
+      <blockquote>Set it at a comfortable measure, give it generous leading,
+        and monospace stops feeling like a terminal and starts feeling like
+        a document.</blockquote>
+      <figcaption>The whole argument, compressed.</figcaption>
+    </figure>
+
+    <hr>
+
+    <h2 id="subscribe">Get the next one</h2>
+    <p>One piece a month on typography and interface design. No tracking, and
+      you can leave whenever you like.</p>
+    <form>
+      <div class="row">
+        <input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
+        <button type="submit">Subscribe</button>
+      </div>
+    </form>
+
+    <details>
+      <summary>Sources and further reading</summary>
+      <ol>
+        <li>Tinker, M. — <cite>Legibility of Print</cite>, 1963</li>
+        <li>Dyson, M. — <cite>How physical text layout affects reading</cite>, 2004</li>
+        <li>Various — the folklore, uncited, everywhere</li>
+      </ol>
+    </details>
+  </article>
+</main>
+
+<footer>
+  <p>Field Notes — an article template built with fertig.css and no page CSS.
+    <a href="#">Archive</a> · <a href="#">RSS</a> · <a href="#">Contact</a></p>
+</footer>
+
+<script>
+  /* the forms on this page are a demo with nowhere to submit to */
+  addEventListener("submit", e => e.preventDefault());
+</script>

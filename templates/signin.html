@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign in — Ledger</title>
+<meta name="description" content="An authentication template built with fertig.css and nothing else.">
+<link rel="stylesheet" href="../fertig.css">
+<style>
+  /* the one thing a library cannot do for you: centre a card in the viewport */
+  :root { --w: 24rem }
+  body { display: grid; place-items: center; min-height: 100svh }
+  body > main { padding-block: 2rem }
+</style>
+
+<main>
+  <hgroup class="center">
+    <h1>Ledger</h1>
+    <p class="muted">Sign in to your account</p>
+  </hgroup>
+
+  <form>
+    <fieldset>
+      <legend>Sign in</legend>
+
+      <label for="email">Email</label>
+      <input id="email" type="email" required autocomplete="email"
+             placeholder="you@example.com">
+
+      <label for="pw">Password</label>
+      <input id="pw" type="password" required autocomplete="current-password">
+      <small class="muted"><a href="#">Forgot your password?</a></small>
+
+      <p><label><input type="checkbox" checked> Keep me signed in</label></p>
+
+      <p><button type="submit" data-block>Sign in</button></p>
+      <p><button type="button" data-block data-variant="ghost">Continue with SSO</button></p>
+    </fieldset>
+  </form>
+
+  <p class="center muted">
+    No account? <a href="#">Create one</a>
+  </p>
+
+  <aside data-tone="warn">
+    <strong>Demo only.</strong> This template does not submit anywhere.
+  </aside>
+</main>
+
+<footer class="center">
+  <p><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Status</a></p>
+</footer>
+
+<script>
+  /* the forms on this page are a demo with nowhere to submit to */
+  addEventListener("submit", e => e.preventDefault());
+</script>

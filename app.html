@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ledger — Invoices</title>
+<!-- Deliberately: fertig.css ONLY. No page CSS at all. If something here looks
+     wrong, the library is missing it. -->
+<link rel="stylesheet" href="fertig.css">
+
+<nav>
+  <strong>Ledger</strong>
+  <ul>
+    <li><a href="#">Invoices</a></li>
+    <li><a href="#">Clients</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="blocks.html">Blocks</a></li>
+  </ul>
+  <button popovertarget="acct" data-size="sm">MB ▾</button>
+  <div popover id="acct">
+    <menu>
+      <li><button>Profile</button></li>
+      <li><button>Billing</button></li>
+      <li><hr></li>
+      <li><button>Sign out</button></li>
+    </menu>
+  </div>
+</nav>
+
+<header>
+  <nav aria-label="Breadcrumb">
+    <ol><li><a href="#">Home</a></li><li><a href="#">Billing</a></li><li>Invoices</li></ol>
+  </nav>
+  <hgroup>
+    <h1>Invoices</h1>
+    <p>Three overdue, two awaiting approval.</p>
+  </hgroup>
+  <p class="row">
+    <button class="primary" commandfor="new" command="show-modal">New invoice</button>
+    <button>Import</button>
+    <button data-variant="ghost">Export CSV</button>
+  </p>
+</header>
+
+<main>
+  <!-- KPI row: four numbers side by side -->
+  <div class="grid">
+    <div class="card"><header>Outstanding</header><h2>$48,200</h2><footer>12 invoices</footer></div>
+    <div class="card" data-tone="err"><header>Overdue</header><h2>$9,400</h2><footer>3 invoices</footer></div>
+    <div class="card" data-tone="ok"><header>Paid (30d)</header><h2>$71,050</h2><footer>28 invoices</footer></div>
+    <div class="card"><header>Avg. days to pay</header><h2>21</h2><footer>down from 26</footer></div>
+  </div>
+
+  <!-- filter bar -->
+  <search>
+    <form>
+      <div class="row">
+        <span role="group">
+          <button aria-pressed="true">All</button>
+          <button aria-pressed="false">Open</button>
+          <button aria-pressed="false">Overdue</button>
+          <button aria-pressed="false">Paid</button>
+        </span>
+        <input type="search" placeholder="Search invoices…" aria-label="Search invoices">
+        <select aria-label="Client"><option>All clients</option><option>Acme</option><option>Globex</option></select>
+        <button type="submit">Filter</button>
+      </div>
+    </form>
+  </search>
+
+  <table>
+    <caption>12 invoices · sorted by due date</caption>
+    <thead>
+      <tr>
+        <th><input type="checkbox" aria-label="Select all"></th>
+        <th>Invoice</th><th>Client</th><th>Due</th><th>Amount</th><th>Status</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="checkbox" aria-label="Select INV-0231"></td>
+        <td><a href="#">INV-0231</a></td><td>Acme Corp</td><td><time datetime="2026-03-04">Mar 4</time></td>
+        <td>$4,200.00</td><td><span class="badge" data-tone="err">overdue</span></td>
+        <td><button data-size="sm" data-variant="ghost">⋯</button></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" aria-label="Select INV-0232"></td>
+        <td><a href="#">INV-0232</a></td><td>Globex</td><td><time datetime="2026-03-18">Mar 18</time></td>
+        <td>$12,850.00</td><td><span class="badge" data-tone="ok">paid</span></td>
+        <td><button data-size="sm" data-variant="ghost">⋯</button></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" aria-label="Select INV-0233"></td>
+        <td><a href="#">INV-0233</a></td><td>Initech</td><td><time datetime="2026-04-01">Apr 1</time></td>
+        <td>$980.00</td><td><span class="badge" data-tone="warn">draft</span></td>
+        <td><button data-size="sm" data-variant="ghost">⋯</button></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" aria-label="Select INV-0234"></td>
+        <td><a href="#">INV-0234</a></td><td>Umbrella Corporation International</td>
+        <td><time datetime="2026-04-09">Apr 9</time></td>
+        <td>$233,900.00</td><td><span class="badge">sent</span></td>
+        <td><button data-size="sm" data-variant="ghost">⋯</button></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="4">Total</td><td>$251,930.00</td><td colspan="2"></td></tr>
+    </tfoot>
+  </table>
+
+  <!-- pagination: no component for this, using what exists -->
+  <p class="row">
+    <button data-size="sm">← Previous</button>
+    <span class="muted">Page 1 of 3</span>
+    <button data-size="sm">Next →</button>
+    <progress value="0.33" aria-label="Page 1 of 3"></progress>
+  </p>
+
+  <aside data-tone="warn">
+    <strong>Three invoices are overdue.</strong>
+    Send reminders in bulk from the actions menu.
+  </aside>
+
+  <h2>Invoice detail</h2>
+  <div role="tablist">
+    <button role="tab" aria-selected="true">Summary</button>
+    <button role="tab" aria-selected="false">Line items</button>
+    <button role="tab" aria-selected="false">History</button>
+  </div>
+
+  <dl>
+    <dt>Invoice</dt><dd>INV-0231</dd>
+    <dt>Client</dt><dd>Acme Corp</dd>
+    <dt>Issued</dt><dd>2026-02-04</dd>
+    <dt>Terms</dt><dd>Net 30</dd>
+    <dt>Amount</dt><dd>$4,200.00</dd>
+  </dl>
+
+  <details>
+    <summary>Payment history</summary>
+    <ol><li>Reminder sent — Mar 12</li><li>Reminder sent — Mar 5</li><li>Issued — Feb 4</li></ol>
+  </details>
+
+  <h2>Record a payment</h2>
+  <form>
+    <fieldset>
+      <legend>Payment</legend>
+      <label for="amt">Amount</label>
+      <input id="amt" type="number" value="4200" required>
+      <label for="dt">Date received</label>
+      <input id="dt" type="date" value="2026-03-20">
+      <label for="mth">Method</label>
+      <select id="mth"><option>Bank transfer</option><option>Card</option><option>Cheque</option></select>
+      <label for="ref">Reference</label>
+      <input id="ref" readonly value="ACME-0231-REF">
+      <label for="note">Note</label>
+      <textarea id="note" placeholder="Optional…"></textarea>
+      <p><label><input type="checkbox" role="switch"> Notify client</label></p>
+      <p class="row">
+        <button type="submit">Record payment</button>
+        <button type="button" data-variant="ghost">Cancel</button>
+      </p>
+    </fieldset>
+  </form>
+</main>
+
+<dialog id="new" closedby="any">
+  <h3>New invoice</h3>
+  <label for="cl">Client</label>
+  <select id="cl"><option>Acme Corp</option><option>Globex</option></select>
+  <label for="due">Due date</label>
+  <input id="due" type="date">
+  <p class="row justify-end">
+    <button commandfor="new" command="close">Cancel</button>
+    <button class="primary" commandfor="new" command="close">Create</button>
+  </p>
+</dialog>
+
+<footer>
+  <p>Ledger — a fictional product built to stress-test the stylesheet.</p>
+</footer>
+
+<script>
+  /* the forms on this page are a demo with nowhere to submit to */
+  addEventListener("submit", e => e.preventDefault());
+</script>
