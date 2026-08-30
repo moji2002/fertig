@@ -73,12 +73,12 @@
         <button role="tab" aria-selected="false" aria-controls="s-feedback" id="tab-feedback">Feedback</button>
       </div>
       <p class="dots" id="accent-dots" aria-label="Accent colour">
-        <button type="button" aria-pressed="true"  data-ac="48% .095 250" style="--swatch:oklch(48% .095 250)" aria-label="Ink blue"></button>
-        <button type="button" aria-pressed="false" data-ac="47% .055 155" style="--swatch:oklch(47% .055 155)" aria-label="Sage"></button>
-        <button type="button" aria-pressed="false" data-ac="50% .09 40"   style="--swatch:oklch(50% .09 40)"   aria-label="Clay"></button>
-        <button type="button" aria-pressed="false" data-ac="47% .065 320" style="--swatch:oklch(47% .065 320)" aria-label="Plum"></button>
-        <button type="button" aria-pressed="false" data-ac="55% .085 80"  style="--swatch:oklch(55% .085 80)"  aria-label="Gold"></button>
-        <button type="button" aria-pressed="false" data-ac="35% .01 250"  style="--swatch:oklch(35% .01 250)"  aria-label="Graphite"></button>
+        <button type="button" aria-pressed="true" data-light="48% .095 250" data-dark="78% .085 245" aria-label="Ink blue"></button>
+        <button type="button" aria-pressed="false" data-light="47% .055 155" data-dark="80% .075 155" aria-label="Sage"></button>
+        <button type="button" aria-pressed="false" data-light="50% .09 40" data-dark="80% .085 45" aria-label="Clay"></button>
+        <button type="button" aria-pressed="false" data-light="47% .065 320" data-dark="80% .065 320" aria-label="Plum"></button>
+        <button type="button" aria-pressed="false" data-light="55% .085 80" data-dark="84% .090 85" aria-label="Gold"></button>
+        <button type="button" aria-pressed="false" data-light="35% .01 250" data-dark="86% .006 250" aria-label="Graphite"></button>
       </p>
     </div>
 
@@ -87,9 +87,9 @@
         <div class="card">
           <header>Sign in</header>
           <form>
-            <label for="s-email">Email <abbr title="required">*</abbr></label>
+            <label for="s-email">Email</label>
             <input id="s-email" type="email" placeholder="you@example.com" required>
-            <label for="s-pw">Password <abbr title="required">*</abbr></label>
+            <label for="s-pw">Password</label>
             <input id="s-pw" type="password" required>
             <p><label><input type="checkbox" checked> Remember me</label></p>
             <button class="primary" data-block>Sign in</button>

@@ -3,6 +3,10 @@
    Everything here is delegated from the document, so the markup stays free of
    event attributes and the pages work with a strict Content-Security-Policy. */
 
+/* Which theme is actually showing. Both the showcase and the customiser
+   need it, and the answer is the attribute, not the OS preference. */
+const isDarkTheme = () => document.documentElement.dataset.theme === "dark";
+
 /* The theme toggle is the one control on the site that needs scripting.
    The site is dark by default and remembers what you picked after that; the
    library itself still follows the OS, which is what a stylesheet should do.
@@ -112,13 +116,12 @@ addEventListener("DOMContentLoaded", () => {
   /* fertig ships a different accent per theme, so the controls have to start
      from the one actually in force — otherwise the panel opens in dark mode
      showing the light accent, which genuinely does fail on dark paper. */
-  const isDark = () => document.documentElement.dataset.theme === "dark";
   const DEFAULTS = { light: { l: 48, c: 0.095, h: 250 },
                      dark:  { l: 78, c: 0.085, h: 245 } };
   let touched = false;
 
   const seed = () => {
-    const d = DEFAULTS[isDark() ? "dark" : "light"];
+    const d = DEFAULTS[isDarkTheme() ? "dark" : "light"];
     $("t-l").value = d.l; $("t-c").value = d.c; $("t-h").value = d.h;
   };
 
@@ -153,7 +156,7 @@ addEventListener("DOMContentLoaded", () => {
 
     /* the accent has two jobs: it is link text on the paper, and it is the
        fill under button text. Both have to hold. */
-    const dark  = isDark();
+    const dark  = isDarkTheme();
     const paper = dark ? srgb(0.21, 0.006, 75) : srgb(0.994, 0.002, 75);
     const onAc  = dark ? srgb(0.07, 0.02, 250) : [255, 255, 255];
     const accent = srgb(v.l / 100, v.c, v.h);
@@ -236,9 +239,19 @@ addEventListener("DOMContentLoaded", () => {
     next.focus();
   }));
 
+  /* fertig ships a different accent per theme, so each dot carries both: a
+     700-level swatch that reads on paper goes muddy on a dark ground. */
   const dots = [...document.querySelectorAll("#accent-dots button")];
+  const tone = d => d.dataset[isDarkTheme() ? "dark" : "light"];
+  const paint = () => dots.forEach(d => {
+    d.style.setProperty("--swatch", `oklch(${tone(d)})`);
+    if (d.getAttribute("aria-pressed") === "true")
+      stage.style.setProperty("--ac", `oklch(${tone(d)})`);
+  });
   dots.forEach(d => d.addEventListener("click", () => {
     dots.forEach(o => o.setAttribute("aria-pressed", String(o === d)));
-    stage.style.setProperty("--ac", `oklch(${d.dataset.ac})`);
+    paint();
   }));
+  addEventListener("themechange", paint);
+  paint();
 });
