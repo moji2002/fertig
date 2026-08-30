@@ -65,7 +65,11 @@
   --el:  light-dark(oklch(99.4% .002 75), oklch(21% .006 75));  /* paper */
   --face:light-dark(oklch(97.2% .005 75), oklch(25% .007 75));  /* chrome */
   --fg:  light-dark(oklch(22% .008 75),   oklch(95% .004 75));
-  --mut: light-dark(oklch(50% .009 75),   oklch(70% .008 75));
+  /* lifted from 50%/70%: the weakest pairing (muted on chrome) was 4.96:1,
+     a hair over AA. 47%/73% takes it to 5.64:1 and 6.69:1 while keeping a
+     clear step down from --fg — AAA would need 41.5%, which is close
+     enough to --fg that "muted" stops reading as secondary at all. */
+  --mut: light-dark(oklch(47% .009 75),   oklch(73% .008 75));
   --bd:  light-dark(oklch(22% .008 75 / .13), oklch(95% .004 75 / .13));
   --tb:  light-dark(oklch(97.2% .005 75 / .85), oklch(25% .007 75 / .85));
   --ac:  light-dark(var(--sky-700), oklch(78% .085 245));       /* yours */

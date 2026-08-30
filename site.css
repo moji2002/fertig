@@ -96,7 +96,7 @@ body > nav {
                   display: inline-flex; align-items: center; gap: .45em }
 /* the mark is an <img>, so it keeps its own two tones rather than
    inheriting the wordmark's colour the way an icon does */
-.mark { inline-size: 1.05em; block-size: 1.05em; border-radius: 0; box-shadow: none }
+.mark { inline-size: 1.35em; block-size: 1.35em; border-radius: 0; box-shadow: none }
 .bar ul { display: flex; gap: 1.3rem; list-style: none; margin: 0; padding: 0; margin-inline-start: auto; flex-wrap: wrap; flex: 0 0 auto }
 /* flex: 0 would set flex-basis:0 and squeeze the list until every link wrapped
    onto its own line — fertig's own toolbar rule sets flex:1, so this has to

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="fertig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 5 55 55" role="img" aria-label="fertig">
   <!--
     [f — an attribute selector holding the initial.
 
@@ -12,6 +12,10 @@
     touches the stem closes up into a blob; the clearance is the whole reason
     this reads at favicon size. Stroke weight is deliberately heavy for the
     same reason — thinning is what kills a mark when it is small.
+
+    The viewBox is cropped to the ink rather than left at 0 0 64 64: the glyph
+    would otherwise sit in a third of empty box and render small beside a
+    wordmark, and waste pixels it cannot spare at 16px.
 
     Colours are the sheet's own tokens, written in oklch because that is what
     the stylesheet uses; a favicon gets no legacy either. currentColor is

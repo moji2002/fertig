@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>fertig — classless CSS with no legacy in it</title>
 <meta name="description" content="A classless CSS stylesheet built only on CSS that shipped in the last two years. 7.6 KB gzipped. No prefixes, no polyfills, no build step.">
+<script>
+  /* before first paint: dark by default, or whatever was chosen last time.
+     Inline and synchronous on purpose — a deferred script would repaint. */
+  try {
+    document.documentElement.dataset.theme =
+      localStorage.getItem("fertig-theme") || "dark";
+  } catch { document.documentElement.dataset.theme = "dark" }
+</script>
 <link rel="stylesheet" href="fertig.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -249,6 +257,77 @@
           <span data-step="500" style="background:var(--gold-500)"></span>
           <span data-step="700" style="background:var(--gold-700)"></span>
           <span data-step="900" style="background:var(--gold-900)"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-quiet" id="customize">
+    <div class="wrap">
+      <div class="head">
+        <h2>Make it yours, here</h2>
+        <p>Most theming is one token. Move these and the panel beside them is
+          restyled live — it is real markup with the real sheet, not a picture
+          of one. The contrast of whatever accent you land on is measured as
+          you go, so you cannot leave with an accent that fails AA.</p>
+      </div>
+
+      <div class="cols-2">
+        <form id="tune" aria-label="Theme controls">
+          <p class="eyebrow">Accent · oklch</p>
+          <label for="t-l">Lightness <output for="t-l" id="o-l">48%</output></label>
+          <input id="t-l" type="range" min="20" max="90" step="1" value="48">
+
+          <label for="t-c">Chroma <output for="t-c" id="o-c">0.095</output></label>
+          <input id="t-c" type="range" min="0" max="0.3" step="0.005" value="0.095">
+
+          <label for="t-h">Hue <output for="t-h" id="o-h">250</output></label>
+          <input id="t-h" type="range" min="0" max="360" step="1" value="250">
+
+          <p class="eyebrow spaced">Shape and measure</p>
+          <label for="t-r">Control radius <output for="t-r" id="o-r">6px</output></label>
+          <input id="t-r" type="range" min="0" max="16" step="1" value="6">
+
+          <label for="t-w">Measure <output for="t-w" id="o-w">38rem</output></label>
+          <input id="t-w" type="range" min="28" max="60" step="1" value="38">
+
+          <label for="t-f">Text font</label>
+          <select id="t-f">
+            <option value="">System stack (default)</option>
+            <option value="&quot;IBM Plex Sans&quot;, sans-serif">IBM Plex Sans</option>
+            <option value="Georgia, serif">Georgia</option>
+            <option value="&quot;IBM Plex Mono&quot;, monospace">IBM Plex Mono</option>
+          </select>
+
+          <p class="row spaced">
+            <button type="button" id="t-reset" data-variant="ghost">Reset</button>
+            <button type="button" id="t-copy" class="primary">Copy the CSS</button>
+          </p>
+        </form>
+
+        <div>
+          <div class="mock" id="t-preview">
+            <div class="mock-bar">Preview</div>
+            <div class="mock-body">
+              <hgroup>
+                <h3>Invoices</h3>
+                <p>Three overdue, two awaiting approval.</p>
+              </hgroup>
+              <p class="row">
+                <button class="primary">New invoice</button>
+                <button>Import</button>
+                <span class="badge" data-tone="ok">paid</span>
+              </p>
+              <p><label><input type="checkbox" role="switch" checked> Send reminders</label></p>
+              <label for="t-demo">Client</label>
+              <input id="t-demo" type="text" value="Acme Corp">
+              <p><a href="#customize">A link, in the accent</a></p>
+              <progress value="0.4"></progress>
+            </div>
+          </div>
+
+          <p id="t-contrast" class="spaced" role="status" aria-live="polite"></p>
+          <pre><code id="t-css" class="language-css"></code></pre>
+        </div>
       </div>
     </div>
   </section>

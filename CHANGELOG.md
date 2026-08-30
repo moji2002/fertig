@@ -8,6 +8,13 @@ are breaking.
 
 ## [1.0.3] — 2026-08-30
 
+### Changed
+
+- `--mut` lifted from 50%/70% lightness to 47%/73%. The weakest pairing in the
+  sheet — muted text on chrome — was 4.96:1, a hair over AA; it is 5.64:1 in
+  light and 6.69:1 in dark now. Not taken to AAA, which would need 41.5%: that
+  is close enough to `--fg` that muted text stops reading as secondary at all.
+
 ### Added
 
 - `--nw`, the column the toolbar's contents line up with. It follows `--w`, so

@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>fertig — documentation</title>
 <meta name="description" content="Full reference for fertig: layout, elements, components, tokens, recipes and accessibility.">
+<script>
+  /* before first paint: dark by default, or whatever was chosen last time.
+     Inline and synchronous on purpose — a deferred script would repaint. */
+  try {
+    document.documentElement.dataset.theme =
+      localStorage.getItem("fertig-theme") || "dark";
+  } catch { document.documentElement.dataset.theme = "dark" }
+</script>
 <link rel="stylesheet" href="fertig.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
