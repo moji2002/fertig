@@ -50,5 +50,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install -g npm@latest
-      - run: npm publish --provenance
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - run: npm publish
