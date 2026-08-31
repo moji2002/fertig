@@ -37,6 +37,11 @@
 /* ---- page shell ------------------------------------------------ */
 html, body { overflow-x: clip }
 body { font-family: var(--font-body); background: var(--fertig-el) }
+/* see the theme toggle in site.js: for the one frame the scheme flips in,
+   nothing transitions, or a light-dark() colour freezes on the old branch */
+[data-theme-switching] *, [data-theme-switching] *::before, [data-theme-switching] *::after {
+  transition: none !important;
+}
 
 /* let the page go full width; fertig's paper column is re-created inside the
    demo mock-up instead. body > * rather than the three landmarks, because the
@@ -258,7 +263,9 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   .cta-row .primary { transition: transform .18s var(--fertig-ease-out), box-shadow .18s var(--fertig-ease-out) }
 }
 .proof {
-  margin: var(--space-md) 0 0; color: var(--fertig-mut);
+  /* --fertig-fg, not --fertig-mut: muted on the glass measured 3.64:1 at
+     10.9px, and these are the claims the page is making. */
+  margin: var(--space-md) 0 0; color: var(--fertig-fg);
   font: var(--label); letter-spacing: .06em; text-transform: uppercase;
   display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center;
   position: relative; z-index: 1;
@@ -400,6 +407,9 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 
 /* ---- the browser mock-up that shows the real sheet ------------- */
 .mock {
+  /* the measure is a page-level token, so the preview behaves like a page:
+     drag --fertig-w below the column width and the panel narrows with it */
+  max-inline-size: var(--fertig-w);
   border: 1px solid var(--glass-border); border-radius: var(--fertig-rw);
   overflow: hidden; background: var(--fertig-el);
   box-shadow: 0 1px 2px var(--fertig-sh1), 0 16px 36px -16px var(--fertig-sh2);

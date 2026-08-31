@@ -44,7 +44,10 @@
   --fertig-r: 12px;                             /* control radius: fields, menu rows */
   --fertig-rs: calc(var(--fertig-r) * .5);      /* small: inline chips and code */
   --fertig-rw: calc(var(--fertig-r) * 1.33);    /* window: cards, dialogs, menus */
-  --fertig-rp: calc(infinity * 1px);            /* pill: buttons, badges, switches, meters */
+  --fertig-rp: calc(var(--fertig-r) * 1000);    /* pill: buttons, badges, switches, meters */
+  /* --fertig-rp multiplies rather than naming infinity: any non-zero radius
+     still clamps to a true pill, and --fertig-r: 0 squares the buttons with
+     it instead of leaving them the one round thing on a sharp-cornered page. */
 
   /* ---- palette ------------------------------------------------
      Low chroma on purpose. Vivid palettes shout; these are meant to sit

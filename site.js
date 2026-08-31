@@ -17,7 +17,16 @@ addEventListener("click", e => {
   if (!e.target.closest("[data-theme-toggle]")) return;
   const root = document.documentElement;
   const next = root.dataset.theme === "dark" ? "light" : "dark";
+  /* Transitions are cut for the frame the scheme flips in. A transitioned
+     `color` whose value comes from light-dark() holds the branch it started
+     on when the flip is a color-scheme change: measured on the nav, the links
+     stayed on the light branch (2.06:1 on the dark bar) until the transition
+     was taken out of the picture, at which point they resolved correctly. */
+  root.dataset.themeSwitching = "";
   root.dataset.theme = next;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    delete root.dataset.themeSwitching;
+  }));
   try { localStorage.setItem("fertig-theme", next); } catch {}
   /* the customiser's contrast readout depends on which theme is showing */
   dispatchEvent(new Event("themechange"));
@@ -165,6 +174,7 @@ addEventListener("DOMContentLoaded", () => {
     preview.style.setProperty("--fertig-r", v.r + "px");
     preview.style.setProperty("--fertig-rs", (v.r * 0.5) + "px");
     preview.style.setProperty("--fertig-rw", (v.r * 1.33) + "px");
+    preview.style.setProperty("--fertig-rp", (v.r * 1000) + "px");
     preview.style.setProperty("--fertig-w", v.w + "rem");
     v.f ? preview.style.setProperty("--fertig-f", v.f)
         : preview.style.removeProperty("--fertig-f");
