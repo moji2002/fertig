@@ -1,51 +1,17 @@
-<!doctype html>
-<html lang="en">
-<meta charset="utf-8">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fertig blocks — copy-paste HTML blocks with no classes</title>
-<meta name="description" content="Ready-to-use HTML blocks built with fertig — heroes, pricing, forms, tables, empty states. Copy the markup; the stylesheet does the rest. No classes, no JavaScript.">
-<link rel="canonical" href="https://moji2002.github.io/fertig/blocks.html">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="fertig">
-<meta property="og:url" content="https://moji2002.github.io/fertig/blocks.html">
-<meta property="og:title" content="fertig blocks — copy-paste HTML blocks with no classes">
-<meta property="og:description" content="Ready-to-use HTML blocks built with fertig — heroes, pricing, forms, tables, empty states. Copy the markup; the stylesheet does the rest. No classes, no JavaScript.">
-<meta property="og:image" content="https://moji2002.github.io/fertig/preview-dark.png">
-<meta name="twitter:card" content="summary_large_image">
-<script>
-  /* before first paint: dark by default, or whatever was chosen last time.
-     Inline and synchronous on purpose — a deferred script would repaint. */
-  try {
-    document.documentElement.dataset.theme =
-      localStorage.getItem("fertig-theme") || "dark";
-  } catch { document.documentElement.dataset.theme = "dark" }
-</script>
-<link rel="stylesheet" href="fertig.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js"></script>
-<script src="site.js" defer></script>
+---
+layout: layout.njk
+permalink: "blocks.html"
+title: "fertig blocks \u2014 copy-paste HTML blocks with no classes"
+description: "Ready-to-use HTML blocks built with fertig \u2014 heroes, pricing, forms, tables, empty states. Copy the markup; the stylesheet does the rest. No classes, no JavaScript."
+ogTitle: "fertig blocks \u2014 copy-paste HTML blocks with no classes"
+ogDescription: "Ready-to-use HTML blocks built with fertig \u2014 heroes, pricing, forms, tables, empty states. Copy the markup; the stylesheet does the rest. No classes, no JavaScript."
+canonical: "blocks.html"
+active: blocks
+langs:
+  - javascript
+  - bash
+---
 
-<nav>
-  <div class="bar wrap">
-    <strong><a href="index.html"><img src="favicon.svg" alt="" width="16" height="16" class="mark">fertig</a></strong>
-    <ul>
-      <li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
-      <li><a href="index.html#customize"><svg class="icon" aria-hidden="true"><use href="icons.svg#palette"></use></svg>Customise</a></li>
-      <li><a href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Docs</a></li>
-      <li><a href="blocks.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
-      <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>GitHub</a></li>
-    </ul>
-    <button data-size="sm" data-icon data-theme-toggle aria-label="Switch theme"><svg class="icon sun" aria-hidden="true"><use href="icons.svg#sun"></use></svg><svg class="icon moon" aria-hidden="true"><use href="icons.svg#moon"></use></svg></button>
-  </div>
-</nav>
 
 <header class="band page-head">
   <div class="wrap">

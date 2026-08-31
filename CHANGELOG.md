@@ -6,6 +6,50 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
+## [3.0.0] — 2026-08-31
+
+The breaking change is one mechanical line: **every public token now carries a
+`--fertig-` prefix, and the old names are gone** — no aliases, no shims. The
+classes, the layout utilities and the ARIA attributes the component layer reads
+are all untouched. The sheet does exactly what it did; the migration is a
+rename.
+
+`--fertig-a1` / `--fertig-a2` already carried the prefix for the reason the rest
+receive it now: a short, unprefixed custom property is a bet you only lose
+once. `--ac` collided with your own `--ac`; the prefix makes every token yours
+to override, and no future rename is ever needed again.
+
+**To migrate:** prefix whatever you override. `--w` → `--fertig-w`,
+`--ac` / `--on-ac` → `--fertig-ac` / `--fertig-on-ac`, the radii
+`--r` / `--rs` / `--rw` → `--fertig-*`, the surfaces (`--bg`, `--el`, `--face`,
+`--fg`, `--mut`, `--bd`, `--tb`, `--nw`), the depth tokens (`--up`, `--up2`,
+`--dn`, `--sh`, `--sh1`, `--sh2`, and the `@property` alphas `--a1` / `--a2`),
+the motion tokens (`--ease`, `--ease-in`, `--ease-out`, `--dur-1`, `--dur-2`),
+`--caps`, and the colour ramps (`--stone-*`, `--sage-*`, `--sky-*`, `--clay-*`,
+`--plum-*`, `--gold-*`). The rule is one line: **any `--name` you set becomes
+`--fertig-name`.** Nothing changed meaning.
+
+### Changed
+
+- **The palette moves to a cooler voice.** Neutrals are a cool graphite
+  (hue ≈ 258) with a faint violet cast, replacing the warm stone; the accent is
+  a violet-blue (hue 266), replacing indigo. Measured: the accent clears 6.21:1
+  as link text on paper and 6.39:1 for a white label on the fill in light,
+  8.62:1 in dark — both sit inside sRGB. The
+  `@supports not (color: light-dark(…))` flat-sRGB fallback is restated to match,
+  and every pair still clears WCAG AA in both schemes.
+- **Buttons are fully rounded.** The shared button rule now sets
+  `border-radius: 999px` instead of inheriting the control radius. It matches the
+  badge, the switch and the progress bar, which were already pills.
+- **The docs site is built with Eleventy.** The pages moved out of hand-edited
+  HTML at the repo root into `src/` templates that build to `dist/`, with the
+  version flowing from `package.json` as the single source of truth. This is how
+  the sheet's own site is maintained; it is not part of the npm package, which
+  ships the two CSS files plus the README and licence.
+- **The demo template pages are gone.** `app.html`, `app-invoice.html` and the
+  whole `templates/` set (`dashboard`, `article`, `pricing`, `signin`) are
+  removed from the site and repo; the docs no longer point at them.
+
 ## [2.0.0] — 2026-08-31
 
 ### Breaking

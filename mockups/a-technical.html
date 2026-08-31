@@ -13,19 +13,19 @@
  * pre-emit critique: P4 H4 E4 S5 R5 V4
  */
 :root{
-  --font-display:"IBM Plex Mono",var(--fm);
-  --font-body:"IBM Plex Sans",var(--f);
-  --font-mono:"IBM Plex Mono",var(--fm);
+  --font-display:"IBM Plex Mono",var(--fertig-fm);
+  --font-body:"IBM Plex Sans",var(--fertig-f);
+  --font-mono:"IBM Plex Mono",var(--fertig-fm);
   --rail:11rem;
   --wrap:74rem;
   --gut:clamp(1.25rem,4vw,2.5rem);
   --space-xs:.5rem; --space-sm:.75rem; --space-md:1.5rem;
   --space-lg:3rem; --space-xl:5rem;
-  --rule:1px solid var(--bd);
+  --rule:1px solid var(--fertig-bd);
   --label:600 .68rem/1.4 var(--font-mono);
 }
 html,body{overflow-x:clip}
-body{font-family:var(--font-body);background:var(--el);max-width:none;
+body{font-family:var(--font-body);background:var(--fertig-el);max-width:none;
      padding:0;border:0;border-radius:0;margin:0}
 body>*{max-width:none;padding-inline:0;background:none;border:0;border-radius:0;margin:0}
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
@@ -37,20 +37,20 @@ body>*{max-width:none;padding-inline:0;background:none;border:0;border-radius:0;
 .topbar b{font:600 .95rem/1 var(--font-mono);letter-spacing:-.02em}
 .topbar nav{margin-inline-start:auto;display:flex;gap:1.4rem}
 .topbar a{font:var(--label);letter-spacing:.04em;text-transform:uppercase;
-  color:var(--mut);text-decoration:none}
-.topbar a:hover{color:var(--fg)}
+  color:var(--fertig-mut);text-decoration:none}
+.topbar a:hover{color:var(--fertig-fg)}
 
 /* --- hero: left-set, rail-labelled, no centering --------------- */
 .hero{border-bottom:var(--rule);padding-block:clamp(2.5rem,7vw,4.5rem)}
 .rail{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);
   gap:var(--space-md);align-items:start}
 .rail>.tag{font:var(--label);letter-spacing:.08em;text-transform:uppercase;
-  color:var(--mut);padding-top:.55rem}
+  color:var(--fertig-mut);padding-top:.55rem}
 h1.display{font:500 clamp(2rem,5.2vw,3.4rem)/1.06 var(--font-display);
   letter-spacing:-.04em;margin:0 0 var(--space-md);
   overflow-wrap:anywhere;min-width:0}
-h1.display em{font-style:normal;color:var(--ac)}
-.lede{font-size:1.05rem;line-height:1.55;color:var(--mut);
+h1.display em{font-style:normal;color:var(--fertig-ac)}
+.lede{font-size:1.05rem;line-height:1.55;color:var(--fertig-mut);
   max-width:38rem;margin:0 0 var(--space-md)}
 .hero pre{margin:0 0 var(--space-md);max-width:36rem;font-size:.82rem}
 .actions{display:flex;gap:.6rem;flex-wrap:wrap;margin:0}
@@ -61,10 +61,10 @@ h1.display em{font-style:normal;color:var(--ac)}
 .spec tr{border-bottom:var(--rule)}
 .spec tr:first-child{border-top:var(--rule)}
 .spec th{text-align:start;font:var(--label);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--mut);padding:.85rem 0;width:14rem;font-weight:600}
+  text-transform:uppercase;color:var(--fertig-mut);padding:.85rem 0;width:14rem;font-weight:600}
 .spec td{padding:.85rem 0;font-family:var(--font-mono);font-size:.9rem;
   font-variant-numeric:tabular-nums}
-.spec td span{font-family:var(--font-body);color:var(--mut);font-size:.85rem}
+.spec td span{font-family:var(--font-body);color:var(--fertig-mut);font-size:.85rem}
 
 section{padding-block:var(--space-lg);border-bottom:var(--rule)}
 section h2{font:600 1.15rem/1.2 var(--font-display);letter-spacing:-.02em;margin:0 0 var(--space-md)}
@@ -75,11 +75,11 @@ section h2{font:600 1.15rem/1.2 var(--font-display);letter-spacing:-.02em;margin
   gap:var(--space-md);padding-block:1.1rem;border-top:var(--rule);align-items:baseline}
 .rows>div:last-child{border-bottom:var(--rule)}
 .rows h3{font:var(--label);letter-spacing:.07em;text-transform:uppercase;
-  color:var(--fg);margin:0}
-.rows p{margin:0;color:var(--mut);font-size:.92rem;line-height:1.6;max-width:44rem}
+  color:var(--fertig-fg);margin:0}
+.rows p{margin:0;color:var(--fertig-mut);font-size:.92rem;line-height:1.6;max-width:44rem}
 .rows code{font-size:.85em}
 
-footer.site{padding-block:var(--space-md);font:var(--label);color:var(--mut)}
+footer.site{padding-block:var(--space-md);font:var(--label);color:var(--fertig-mut)}
 footer.site .wrap{display:flex;gap:1.2rem;flex-wrap:wrap}
 @media (max-width:640px){
   .rail,.rows>div{grid-template-columns:minmax(0,1fr)}

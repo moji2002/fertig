@@ -7,7 +7,7 @@ switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**32.7 KB raw · 8.4 KB gzipped · no build step · no dependencies · no JavaScript.**
+**36.4 KB raw · 8.7 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -32,7 +32,7 @@ Surveyed across the eleven most-used classless stylesheets on 2026-08-31
 It is *not* the smallest — Concrete.css is 1.2 KB gzipped, and most of the
 field is a fraction of this because it styles elements and stops there. Against
 the two classless sheets that also ship a component layer, fertig is the
-lightest: 8.4 KB against matcha's 8.6 KB and Pico classless at 10.2 KB, and the
+lightest: 8.7 KB against matcha's 8.7 KB and Pico classless at 10.2 KB, and the
 only one of the three whose components work without JavaScript. Size is a
 constraint here, not the pitch.
 
@@ -56,17 +56,40 @@ attributes. The snippet is in the docs.
 That is the whole integration. Write semantic HTML; it looks finished.
 Open `index.html` for the full demo.
 
-## Upgrading from 1.x
+## Upgrading from 2.x
 
-One rename: `--a1` / `--a2` are now `--fertig-a1` / `--fertig-a2`. They are
-`@property` registrations, and a registration is global — a two-character name
-was silently retyping a `--a1` of your own. If you set them, rename them; the
-values mean the same thing. If you did not, there is nothing to do.
+3.0 is breaking for one reason: **every public token now carries a `--fertig-`
+prefix**, and the old names are gone — no aliases. The classes, the ARIA
+attributes the components read, and the layout utilities are all unchanged.
+The sheet's behaviour is the same; the migration is a rename.
 
-Every other token, class and attribute is unchanged. The default look does
-change visibly though — larger radii, no filled strip behind card headers, an
-indigo accent — so read it as a redesign, not a drop-in bump. Pin `fertig@1`
-if you need the old appearance.
+If you override tokens, prefix what you set. The common ones:
+
+| 2.x | 3.0 |
+|---|---|
+| `--ac` | `--fertig-ac` |
+| `--on-ac` | `--fertig-on-ac` |
+| `--w` | `--fertig-w` |
+| `--r` / `--rs` / `--rw` | `--fertig-r` / `--fertig-rs` / `--fertig-rw` |
+| `--bg` / `--el` / `--face` / `--fg` / `--mut` / `--bd` / `--tb` | `--fertig-*` (same short name) |
+| `--up` / `--up2` / `--dn` / `--sh` / `--sh1` / `--sh2` | `--fertig-up` / `--fertig-up2` / `--fertig-dn` / `--fertig-sh1` / `--fertig-sh{2}` |
+| fonts `--f` / `--fm`, measure `--w`, caps `--caps`, `--nw` | `--fertig-*` |
+| color ramps `--stone-*` / `--sage-*` / `--sky-*` / `--clay-*` / `--plum-*` / `--gold-*` | `--fertig-*` (same stop) |
+
+The rule is simple: **any `--name` you set becomes `--fertig-name`.** Nothing
+changed meaning; the prefix exists so the sheet never collides with a custom
+property of yours (it is the same reason `--fertig-a1` / `--fertig-a2` were
+already prefixed — those are `@property` registrations, which are global).
+
+Two defaults change visually, so pin `fertig@2` if you want the old look:
+
+- **Palette.** Accents and neutrals moved to a cooler voice — graphite
+  neutrals and a violet-blue accent — replacing the older indigo/warm scheme.
+- **Buttons.** Fully rounded (`border-radius: 999px`) instead of the moderate
+  radius.
+
+The docs site was also rebuilt and the two demo pages (`app.html` /
+`app-invoice.html`) are gone. None of that touches the sheet.
 
 ## Install
 
@@ -76,7 +99,7 @@ npm install fertig
 
 ```html
 <!-- or from a CDN, pinned -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@2/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@3/fertig.min.css">
 ```
 
 ```css
@@ -89,8 +112,9 @@ npm install fertig
 Opinions, so you don't have to have them: system type, one accent, one
 measure, a window on a desktop. The structure is classic — a title bar, sunken
 fields, raised buttons — and the finish is macOS: vibrancy, hairlines, soft
-radii, the blue focus ring. None of it is a period costume, and none of it is
-a picture of an OS: it is all CSS that every current engine already ships.
+radii, a violet-blue focus ring over cool graphite neutrals. None of it is a
+period costume, and none of it is a picture of an OS: it is all CSS that every
+current engine already ships.
 
 - **System type, set properly** — 16px on a 1.65 line height across roughly
   seventy characters. Code keeps a monospace face, where it earns its place.
@@ -207,26 +231,42 @@ one. `.max-w-prose` is that measure, as a class.
 
 ## Customising
 
-Override the four tokens you'd actually want to change:
+Override the tokens you'd actually want to change:
 
 ```css
 :root {
-  --ac: light-dark(#c2410c, #fb923c);  /* accent */
-  --w: 48rem;                          /* measure */
-  --r: 0px;                            /* control radius — go sharp */
-  --f: "Inter", system-ui, sans-serif; /* text font */
+  --fertig-ac: light-dark(oklch(50% .22 266), oklch(78% .13 266)); /* violet-blue accent */
+  --fertig-w: 48rem;                                              /* measure */
+  --fertig-r: 0px;                                                /* control radius — go sharp */
+  --fertig-f: "Inter", system-ui, sans-serif;                     /* text font */
 }
 ```
 
-If you change `--ac`, check `--on-ac` too — that is the text colour sitting on
-the accent, and a light accent needs dark text to stay legible.
-`--up` / `--up2` / `--dn` are the elevation scale, `--fertig-a1` /
-`--fertig-a2` the shadow alphas (these two are `@property` registrations, and
-a registration is global — hence the prefix), `--rw` the window radius, and `--nw` the column the toolbar's contents
-line up with. `--nw` follows `--w`, so nothing moves by default; `<nav
-class="wide">` re-points it at the wide column, which is what an app screen
-built on `.wide` wants so its wordmark doesn't float in the middle of the
-viewport.
+The accent is the only colour most people touch. In 3.0 the default is a
+violet-blue (`hue 266`) sitting on cool graphite neutrals (`hue 258`); the
+`data-accent` attribute retints a whole region without touching tokens:
+
+```html
+<section data-accent="sage">…</section>  <!-- or sky, clay, plum, gold, slate -->
+```
+
+Tones work the same way — `data-tone="ok|warn|err"` retints any component
+without a round trip through the tokens:
+
+```html
+<button data-tone="err">Delete</button>
+```
+
+If you change `--fertig-ac`, check `--fertig-on-ac` too — that is the text
+colour sitting on the accent, and a light accent needs dark text to stay
+legible. `--fertig-up` / `--fertig-up2` / `--fertig-dn` are the elevation
+scale, `--fertig-a1` / `--fertig-a2` the shadow alphas (these two are
+`@property` registrations, and a registration is global — hence the prefix),
+`--fertig-rw` the window radius, and `--fertig-nw` the column the toolbar's
+contents line up with. `--fertig-nw` follows `--fertig-w`, so nothing moves by
+default; `<nav class="wide">` re-points it at the wide column, which is what an
+app screen built on `.wide` wants so its wordmark doesn't float in the middle
+of the viewport.
 
 ## Also handled
 
@@ -280,7 +320,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **32.7 KB** | **8.4 KB** |
+| **fertig** | **36.4 KB** | **8.7 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -364,19 +404,17 @@ and on the [docs site](https://moji2002.github.io/fertig/docs.html#support).
 ## Development
 
 ```sh
-npm run dev      # serve on :8899
-npm run build    # regenerate fertig.min.css and print sizes
+npm run build      # regenerate fertig.min.css and print sizes
+npm run site       # build the site into dist/ with Eleventy
+npm run site:serve # build + live-reload on :8080 (the Eleventy dev server)
+npm run sizes      # sync the size claims in README + site copy
 ```
 
 ## Builds
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 32.7 KB | 8.4 KB | everything |
-| `fertig.core.min.css` | 25.0 KB | 6.9 KB | without the ARIA component layer |
-
-Dropping the component layer saves 1.4 KB gzipped — worth knowing, rarely worth
-doing. The weight is in the element coverage and forms, not the components.
+| `fertig.min.css` | 36.4 KB | 8.7 KB | everything |
 
 ## Files
 
@@ -384,27 +422,28 @@ The sheet:
 
 - `fertig.css` — source, commented
 - `fertig.min.css` — minified, what you ship
-- `fertig.core.min.css` — the same without the ARIA component layer
 - `build.js` — minifier and size report
 
-The site:
+The site (Eleventy, output to `dist/`):
 
-- `index.html` — landing page, with a live customiser that writes the token
-  block for you
-- `docs.html` — documentation
-- `blocks.html` — ready-to-use markup blocks (16 of them); the code shown is
-  generated from the live preview, so it cannot drift
-- `app.html`, `app-invoice.html` — full product screens built with no page CSS
-  at all
-- `templates/` — four whole pages: `dashboard`, `article`, `pricing`, `signin`
+- `src/_includes/layout.njk` — shared head + nav
+- `src/_data/site.js` — version pulled from `package.json` (the one source of truth)
+- `src/{index,docs,blocks}.njk` — page templates, generated from the root
+  HTML by `tools/build-src.py`
+- `index.html`, `docs.html`, `blocks.html` — the authored source for each page
+  (the live customiser on the landing page writes the token block for you)
 - `site.css`, `site.js`, `icons.svg`, `favicon.svg` — the site's own chrome,
   none of it part of the sheet
+- `dist/` — the built site that GitHub Pages deploys
 
 Everything else:
 
 - `llms.txt` — machine-readable summary for LLMs, per llmstxt.org
 - `CHANGELOG.md` — what changed and why, per release
 - `docs/classless-css-research.md` — the research behind the decisions
+
+The sheet itself ships without the site — the npm package holds the two CSS
+files plus the README and licence, nothing else.
 
 ## License
 

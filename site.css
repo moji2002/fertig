@@ -10,16 +10,13 @@
  * keeps prose on a 38rem measure; a documentation site has to break out of
  * that, so this file widens the containers and adds the page furniture.
  * Components, colour and the dark theme still come from fertig.
- *
- * app.html and templates/ deliberately do NOT load this file. They are the
- * proof that the library on its own is enough; keep them that way.
  */
 
 /* ---- tokens ---------------------------------------------------- */
 :root {
-  --font-display: "IBM Plex Mono", var(--fm);
-  --font-body:    "IBM Plex Sans", var(--f);
-  --font-mono:    "IBM Plex Mono", var(--fm);
+  --font-display: "IBM Plex Mono", var(--fertig-fm);
+  --font-body:    "IBM Plex Sans", var(--fertig-f);
+  --font-mono:    "IBM Plex Mono", var(--fertig-fm);
 
   --wrap: 74rem;                /* site content width */
   --rail: 11rem;                /* the label column, everywhere */
@@ -29,17 +26,17 @@
   --space-lg: clamp(2.5rem, 6vw, 4rem);
   --space-xl: clamp(4rem, 10vw, 7rem);
 
-  --rule: 1px solid var(--bd);
+  --rule: 1px solid var(--fertig-bd);
   --label: 600 .68rem/1.4 var(--font-mono);   /* the uppercase mono label */
   --glass-bg: light-dark(oklch(99.4% .002 75 / .6), oklch(21% .006 75 / .6));
   --glass-border: light-dark(oklch(22% .008 75 / .08), oklch(95% .004 75 / .08));
-  --glow-ac: color-mix(in srgb, var(--ac) 15%, transparent);
-  --glow-ac-strong: color-mix(in srgb, var(--ac) 25%, transparent);
+  --glow-ac: color-mix(in srgb, var(--fertig-ac) 15%, transparent);
+  --glow-ac-strong: color-mix(in srgb, var(--fertig-ac) 25%, transparent);
 }
 
 /* ---- page shell ------------------------------------------------ */
 html, body { overflow-x: clip }
-body { font-family: var(--font-body); background: var(--el) }
+body { font-family: var(--font-body); background: var(--fertig-el) }
 
 /* let the page go full width; fertig's paper column is re-created inside the
    demo mock-up instead. body > * rather than the three landmarks, because the
@@ -57,7 +54,7 @@ body > main { padding-bottom: 0 }
 .rail { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: var(--space-md); align-items: start }
 .rail > .tag {
   font: 600 .8rem/1.4 var(--font-body); letter-spacing: 0; text-transform: none;
-  color: var(--ac); padding-top: .35rem; margin: 0;
+  color: var(--fertig-ac); padding-top: .35rem; margin: 0;
 }
 @media (width <= 46rem) {
   .rail { grid-template-columns: minmax(0, 1fr); gap: .5rem }
@@ -70,7 +67,7 @@ body > main { padding-bottom: 0 }
 .band + .band { border-top: var(--rule) }
 .band-quiet {
   background:
-    linear-gradient(var(--bg), var(--bg)) padding-box;
+    linear-gradient(var(--fertig-bg), var(--fertig-bg)) padding-box;
 }
 /* a faint accent wash on the quiet bands, so alternate sections read as
    stepping into a slightly warmer/darker plane rather than a hard toggle */
@@ -83,14 +80,18 @@ body > main { padding-bottom: 0 }
 .band > .wrap, .band > .rail { position: relative }
 :is(section, article) + :is(section, article) { margin-top: 0 }   /* bands own the spacing */
 
-/* code blocks get a soft inner glow and a delicate accent hairline on the
-   landing page's showcase — cosmetic chrome, not part of the library */
-.band pre {
+/* Code blocks read as code in either theme: the site keeps them on the dark
+   surface the way an editor does. color-scheme is all it takes — every fertig
+   colour is light-dark(), so the token palette and the panel flip together,
+   and the two alpha knobs are what [data-theme=dark] would have set. */
+.band pre, pre.dark {
+  color-scheme: dark; --fertig-a1: .5; --fertig-a2: .45;
+  color: var(--fertig-fg);
   border: 1px solid var(--glass-border);
   background:
-    linear-gradient(var(--face), var(--face)) padding-box,
+    linear-gradient(var(--fertig-face), var(--fertig-face)) padding-box,
     linear-gradient(150deg, var(--glow-ac), transparent 60%) border-box;
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent);
 }
 
 /* ---- icons ------------------------------------------------------
@@ -105,6 +106,14 @@ body > main { padding-bottom: 0 }
   flex: none; stroke: currentColor; fill: none;
 }
 .icon-lg { inline-size: 1.15em; block-size: 1.15em }
+
+/* Theme toggle: it shows the theme you would get, not the one you are in, so
+   the sun means "go light". One icon is hidden rather than swapped by script —
+   the theme lives on <html data-theme>, so CSS already knows which to show. */
+[data-theme-toggle] .icon { inline-size: 1.05em; block-size: 1.05em }
+[data-theme-toggle] .sun { display: none }
+:root[data-theme=dark] [data-theme-toggle] .sun { display: inline-block }
+:root[data-theme=dark] [data-theme-toggle] .moon { display: none }
 /* Space an icon from its label with gap on the parent, not a margin on the
    icon. The label is a text node, so :first-child / :last-child / :only-child
    all match the icon whether it leads or trails — structural selectors cannot
@@ -112,15 +121,15 @@ body > main { padding-bottom: 0 }
 :is(a, button):has(> .icon) { display: inline-flex; align-items: center; gap: .45em }
 /* summary keeps display:list-item so it keeps its marker; margin instead */
 summary > .icon { margin-inline-end: .45em }
-.rows h3 > .icon, .foot-cols strong > .icon { margin-inline-end: .4em; color: var(--ac) }
+.rows h3 > .icon, .foot-cols strong > .icon { margin-inline-end: .4em; color: var(--fertig-ac) }
 
 /* ---- toolbar: N9, edge-aligned, hairline ----------------------- */
 body > nav {
   position: sticky; inset-block-start: 0; z-index: 10;
-  border-bottom: var(--rule); background: var(--tb);
+  border-bottom: var(--rule); background: var(--fertig-tb);
   backdrop-filter: blur(10px) saturate(1.8);
   display: block; padding: 0;
-  box-shadow: 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent);
 }
 .bar { display: flex; align-items: baseline; gap: var(--space-md); padding-block: .85rem; flex-wrap: wrap }
 .bar > strong { font: 600 .95rem/1 var(--font-mono); letter-spacing: -.02em }
@@ -145,9 +154,9 @@ body > nav {
    screen; overflow-x:clip on the root then hides the last link entirely rather
    than scrolling to it. */
 .bar li { margin: 0 }
-.bar a { font: var(--label); letter-spacing: .05em; text-transform: uppercase; color: var(--mut); text-decoration: none; white-space: nowrap; opacity: 1 }
-.bar a:hover { color: var(--fg) }
-.bar a[aria-current] { color: var(--fg); text-decoration: underline; text-underline-offset: .35em }
+.bar a { font: var(--label); letter-spacing: .05em; text-transform: uppercase; color: var(--fertig-mut); text-decoration: none; white-space: nowrap; opacity: 1 }
+.bar a:hover { color: var(--fertig-fg) }
+.bar a[aria-current] { color: var(--fertig-fg); text-decoration: underline; text-underline-offset: .35em }
 
 /* ---- hero ------------------------------------------------------ */
 .hero { border-bottom: var(--rule); padding-block: clamp(3rem, 8vw, 5rem) }
@@ -156,9 +165,9 @@ body > nav {
   letter-spacing: -.045em; margin: 0 0 var(--space-md);
   overflow-wrap: anywhere; min-width: 0; text-wrap: initial;
 }
-.hero h1 em { font-style: normal; color: var(--ac) }
-.dot-css { color: var(--mut); font-weight: 400 }
-.hero .lede { font-size: 1.05rem; line-height: 1.55; color: var(--mut); max-width: 40rem; margin: 0 0 var(--space-md) }
+.hero h1 em { font-style: normal; color: var(--fertig-ac) }
+.dot-css { color: var(--fertig-mut); font-weight: 400 }
+.hero .lede { font-size: 1.05rem; line-height: 1.55; color: var(--fertig-mut); max-width: 40rem; margin: 0 0 var(--space-md) }
 .hero pre { margin: 0 0 var(--space-md); max-width: 36rem; font-size: .82rem }
 .hero .row { margin: 0 }
 .hero .row > * { white-space: nowrap }
@@ -215,14 +224,14 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   background:
     linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
     linear-gradient(135deg, var(--glow-ac), transparent 60%) border-box;
-  color: var(--mut);
+  color: var(--fertig-mut);
   font: 600 .72rem/1.4 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
   text-decoration: none; margin-bottom: var(--space-md);
-  box-shadow: 0 1px 2px var(--sh1), 0 4px 14px -6px var(--glow-ac);
+  box-shadow: 0 1px 2px var(--fertig-sh1), 0 4px 14px -6px var(--glow-ac);
   backdrop-filter: blur(8px);
 }
-.pill:hover { color: var(--fg); border-color: var(--glow-ac-strong); box-shadow: 0 2px 4px var(--sh1), 0 6px 20px -6px var(--glow-ac) }
-.pill .icon { color: var(--ac) }
+.pill:hover { color: var(--fertig-fg); border-color: var(--glow-ac-strong); box-shadow: 0 2px 4px var(--fertig-sh1), 0 6px 20px -6px var(--glow-ac) }
+.pill .icon { color: var(--fertig-ac) }
 
 .hero-center h1 {
   font: 500 clamp(2.6rem, 8vw, 5rem)/1.02 var(--font-display);
@@ -231,25 +240,25 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   text-wrap: balance;
 }
 /* the qualifier, set back rather than shouted */
-.hero-center h1 .dim { color: var(--mut); display: block }
+.hero-center h1 .dim { color: var(--fertig-mut); display: block }
 
 /* pill actions — site chrome only. The showcase below keeps fertig's real
    6px controls, because that is the thing being demonstrated. */
 .cta-row { position: relative; z-index: 1 }
 .cta-row a[role=button], .cta-row button { border-radius: 999px; padding-inline: 1.4em }
 .cta-row .primary {
-  background: linear-gradient(135deg, var(--ac), color-mix(in srgb, var(--ac) 70%, var(--plum-500)));
-  box-shadow: 0 1px 2px var(--sh1), 0 8px 24px -8px var(--glow-ac-strong);
+  background: linear-gradient(135deg, var(--fertig-ac), color-mix(in srgb, var(--fertig-ac) 70%, var(--fertig-plum-500)));
+  box-shadow: 0 1px 2px var(--fertig-sh1), 0 8px 24px -8px var(--glow-ac-strong);
 }
 .cta-row .primary:hover {
-  box-shadow: 0 2px 4px var(--sh1), 0 12px 32px -8px var(--glow-ac-strong);
+  box-shadow: 0 2px 4px var(--fertig-sh1), 0 12px 32px -8px var(--glow-ac-strong);
   transform: translateY(-1px);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .cta-row .primary { transition: transform .18s var(--ease-out), box-shadow .18s var(--ease-out) }
+  .cta-row .primary { transition: transform .18s var(--fertig-ease-out), box-shadow .18s var(--fertig-ease-out) }
 }
 .proof {
-  margin: var(--space-md) 0 0; color: var(--mut);
+  margin: var(--space-md) 0 0; color: var(--fertig-mut);
   font: var(--label); letter-spacing: .06em; text-transform: uppercase;
   display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center;
   position: relative; z-index: 1;
@@ -272,22 +281,22 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   inline-size: 1.5rem; block-size: 1.5rem; padding: 0; min-width: 0;
   border-radius: 999px; border: 2px solid transparent; box-shadow: none;
   /* each dot carries its own data-accent, so the sheet paints it */
-  background: var(--ac); cursor: pointer;
+  background: var(--fertig-ac); cursor: pointer;
 }
 .dots button:hover { transform: scale(1.12) }
-.dots button[aria-pressed=true] { border-color: var(--fg) }
+.dots button[aria-pressed=true] { border-color: var(--fertig-fg) }
 @media (prefers-reduced-motion: no-preference) {
-  .dots button { transition: transform .12s var(--ease-out, ease-out) }
+  .dots button { transition: transform .12s var(--fertig-ease-out, ease-out) }
 }
 
 .stage {
   border: 1px solid var(--glass-border);
-  border-radius: calc(var(--rw) + 8px);
+  border-radius: calc(var(--fertig-rw) + 8px);
   background:
     linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
     radial-gradient(ellipse 80% 60% at 50% 0%, var(--glow-ac) 0%, transparent 70%) border-box;
   padding: clamp(1.2rem, 3vw, 2rem);
-  box-shadow: 0 1px 2px var(--sh1), 0 24px 48px -24px var(--sh2);
+  box-shadow: 0 1px 2px var(--fertig-sh1), 0 24px 48px -24px var(--fertig-sh2);
   backdrop-filter: blur(12px);
   container: stage / inline-size;
   position: relative;
@@ -295,7 +304,7 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 /* ambient top light on the stage */
 .stage::before {
   content: ""; position: absolute; inset: 0 0 auto 0; block-size: 40%;
-  border-radius: calc(var(--rw) + 8px) calc(var(--rw) + 8px) 0 0;
+  border-radius: calc(var(--fertig-rw) + 8px) calc(var(--fertig-rw) + 8px) 0 0;
   background: linear-gradient(to bottom, var(--glow-ac), transparent);
   opacity: .5; pointer-events: none;
 }
@@ -304,8 +313,8 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   .stage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) }
 }
 .stage .card {
-  box-shadow: var(--up2), 0 10px 24px -12px var(--sh2);
-  background: color-mix(in srgb, var(--el) 92%, transparent);
+  box-shadow: var(--fertig-up2), 0 10px 24px -12px var(--fertig-sh2);
+  background: color-mix(in srgb, var(--fertig-el) 92%, transparent);
   backdrop-filter: blur(6px);
 }
 .stage [hidden] { display: none }
@@ -314,10 +323,15 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .band h2 { font: 600 clamp(1.4rem, 3.4vw, 2rem)/1.15 var(--font-display); letter-spacing: -.03em; margin: 0 0 var(--space-md); text-wrap: balance }
 .head { max-width: 46rem; margin-bottom: var(--space-md) }
 .head h2 { margin-bottom: .6rem }
-.head p { color: var(--mut); margin-bottom: 0; line-height: 1.65; font-size: 1.05rem }
+.head p { color: var(--fertig-mut); margin-bottom: 0; line-height: 1.65; font-size: 1.05rem }
 .page-title { font: 500 clamp(1.9rem, 5vw, 2.6rem)/1.05 var(--font-display); letter-spacing: -.04em; margin: 0 0 var(--space-sm) }
-.page-intro { max-width: 44rem; color: var(--mut); line-height: 1.6; margin: 0 }
-.eyebrow { font: 600 .8rem/1.4 var(--font-body); color: var(--ac); margin: 0 0 .7rem }
+.page-intro { max-width: 44rem; color: var(--fertig-mut); line-height: 1.6; margin: 0 }
+/* A page header is a label, not a hero: the xl band rhythm belongs to the
+   landing page's sections and leaves a docs page opening on a screen of air.
+   The rule under it still separates header from body, so the space can go. */
+.page-head { border-top: 0; padding-block: var(--space-lg) var(--space-md) }
+.page-head + .band { padding-top: var(--space-lg) }
+.eyebrow { font: 600 .8rem/1.4 var(--font-body); color: var(--fertig-ac); margin: 0 0 .7rem }
 
 /* ---- the spec table: the signature move ------------------------ */
 .spec { border-collapse: collapse; inline-size: 100%; margin: 0; box-shadow: none; border: 0 }
@@ -327,10 +341,10 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .spec :is(th, td) { border: 0; background: none }
 .spec th {
   text-align: start; font: 500 .9rem/1.5 var(--font-body); letter-spacing: 0;
-  color: var(--mut); padding: .85rem 0; inline-size: 14rem; vertical-align: baseline;
+  color: var(--fertig-mut); padding: .85rem 0; inline-size: 14rem; vertical-align: baseline;
 }
 .spec td { padding: .85rem 0; font-family: var(--font-mono); font-size: .9rem; vertical-align: baseline }
-.spec td span { font-family: var(--font-body); color: var(--mut); font-size: .85rem }
+.spec td span { font-family: var(--font-body); color: var(--fertig-mut); font-size: .85rem }
 @media (width <= 40rem) {
   .spec th { inline-size: auto; display: block; padding-bottom: 0 }
   .spec td { display: block; padding-top: .2rem }
@@ -342,27 +356,27 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
    same restraint, but it belongs to the same page. */
 .rows { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)) }
 .rows > * {
-  border: 1px solid var(--glass-border); border-radius: var(--rw); padding: 1.4rem;
+  border: 1px solid var(--glass-border); border-radius: var(--fertig-rw); padding: 1.4rem;
   background:
     linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
     linear-gradient(160deg, var(--glow-ac), transparent 55%) border-box;
-  box-shadow: 0 1px 2px var(--sh1), 0 12px 28px -12px var(--sh2);
+  box-shadow: 0 1px 2px var(--fertig-sh1), 0 12px 28px -12px var(--fertig-sh2);
   min-width: 0;
 }
 .rows > *:hover {
-  box-shadow: 0 2px 4px var(--sh1), 0 16px 36px -12px var(--sh2);
+  box-shadow: 0 2px 4px var(--fertig-sh1), 0 16px 36px -12px var(--fertig-sh2);
   border-color: var(--glow-ac-strong);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .rows > * { transition: box-shadow .18s var(--ease-out), border-color .18s var(--ease-out) }
+  .rows > * { transition: box-shadow .18s var(--fertig-ease-out), border-color .18s var(--fertig-ease-out) }
 }
 .rows h3 {
   display: flex; align-items: center; gap: .55em;
   font: 600 1rem/1.3 var(--font-body); letter-spacing: -.01em;
-  margin: 0 0 .5rem; color: var(--fg);
+  margin: 0 0 .5rem; color: var(--fertig-fg);
 }
-.rows h3 .icon { inline-size: 1.15em; block-size: 1.15em; color: var(--ac) }
-.rows p { margin: 0; color: var(--mut); font-size: .93rem; line-height: 1.6 }
+.rows h3 .icon { inline-size: 1.15em; block-size: 1.15em; color: var(--fertig-ac) }
+.rows p { margin: 0; color: var(--fertig-mut); font-size: .93rem; line-height: 1.6 }
 .rows p + p { margin-top: .5rem }
 /* a row that wants the full width — a table or a wide figure */
 .rows > .span { grid-column: 1 / -1 }
@@ -379,11 +393,11 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 
 /* ---- the browser mock-up that shows the real sheet ------------- */
 .mock {
-  border: 1px solid var(--glass-border); border-radius: var(--rw);
-  overflow: hidden; background: var(--el);
-  box-shadow: 0 1px 2px var(--sh1), 0 16px 36px -16px var(--sh2);
+  border: 1px solid var(--glass-border); border-radius: var(--fertig-rw);
+  overflow: hidden; background: var(--fertig-el);
+  box-shadow: 0 1px 2px var(--fertig-sh1), 0 16px 36px -16px var(--fertig-sh2);
 }
-.mock-bar { display: flex; align-items: center; gap: .5rem; padding: .55rem .8rem; background: var(--tb); border-bottom: var(--rule); font: var(--label); letter-spacing: .06em; text-transform: uppercase; color: var(--mut) }
+.mock-bar { display: flex; align-items: center; gap: .5rem; padding: .55rem .8rem; background: var(--fertig-tb); border-bottom: var(--rule); font: var(--label); letter-spacing: .06em; text-transform: uppercase; color: var(--fertig-mut) }
 .mock-body { padding: 1.4rem; font-size: .95em }
 .mock-body > :first-child { margin-top: 0 }
 /* :not(dialog) — a modal is centred by margin:auto, so it must keep its own */
@@ -394,31 +408,31 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .bar-row { display: grid; grid-template-columns: minmax(7rem, auto) minmax(0,1fr) auto; gap: .8rem; align-items: center; font: 400 .82rem/1.4 var(--font-mono) }
 .bar-row > b { font-weight: 600 }
 /* --len is the bar's length, passed in from the markup as data.
-   Not --w: that is fertig's measure token, and it inherits into this rule. */
+   Not --fertig-w: that is fertig's measure token, and it inherits into this rule. */
 .bar-meter {
   display: block; inline-size: var(--len, 100%); block-size: .9rem;
-  background: linear-gradient(90deg, var(--ac), color-mix(in srgb, var(--ac) 55%, transparent));
+  background: linear-gradient(90deg, var(--fertig-ac), color-mix(in srgb, var(--fertig-ac) 55%, transparent));
   border-radius: 999px;
-  box-shadow: 0 1px 2px var(--sh1), 0 4px 12px -2px var(--glow-ac);
+  box-shadow: 0 1px 2px var(--fertig-sh1), 0 4px 12px -2px var(--glow-ac);
 }
-.bar-alt { background: linear-gradient(90deg, color-mix(in srgb, var(--fg) 28%, transparent), color-mix(in srgb, var(--fg) 12%, transparent)); box-shadow: none }
+.bar-alt { background: linear-gradient(90deg, color-mix(in srgb, var(--fertig-fg) 28%, transparent), color-mix(in srgb, var(--fertig-fg) 12%, transparent)); box-shadow: none }
 
 /* ---- palette showcase ------------------------------------------ */
 .panel {
-  border: 1px solid var(--glass-border); border-radius: var(--rw);
+  border: 1px solid var(--glass-border); border-radius: var(--fertig-rw);
   background:
     linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
     linear-gradient(160deg, var(--glow-ac), transparent 50%) border-box;
   padding: clamp(1.1rem, 2.5vw, 1.6rem);
-  box-shadow: 0 1px 2px var(--sh1), 0 12px 28px -12px var(--sh2);
+  box-shadow: 0 1px 2px var(--fertig-sh1), 0 12px 28px -12px var(--fertig-sh2);
 }
 .panel > :first-child { margin-top: 0 }
 .panel > :last-child { margin-bottom: 0 }
 .swatches { display: grid; gap: .45rem }
 .ramp { display: grid; grid-template-columns: 5rem repeat(5, minmax(0,1fr)); gap: .3rem; align-items: center }
 .ramp > b { font: var(--label); letter-spacing: .07em; text-transform: uppercase }
-.ramp span { display: block; block-size: 2.6rem; border: var(--rule); border-radius: var(--rs); position: relative }
-.ramp span::after { content: attr(data-step); position: absolute; inset: auto .35rem .25rem auto; font: 400 .6rem/1 var(--font-mono); color: var(--mut) }
+.ramp span { display: block; block-size: 2.6rem; border: var(--rule); border-radius: var(--fertig-rs); position: relative }
+.ramp span::after { content: attr(data-step); position: absolute; inset: auto .35rem .25rem auto; font: 400 .6rem/1 var(--font-mono); color: var(--fertig-mut) }
 @media (width <= 46rem) {
   .ramp { grid-template-columns: minmax(0,1fr); gap: .15rem }
   .ramp span { block-size: 1.5rem }
@@ -441,7 +455,8 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   .sidebar {
     position: sticky; inset-block-start: 3.4rem;
     max-block-size: calc(100dvh - 4.5rem); overflow-y: auto; overscroll-behavior: contain;
-    padding-block: var(--space-md); padding-inline-end: .5rem;
+    /* no top padding: the first label lines up with the first heading */
+    padding-block: 0 var(--space-md); padding-inline-end: .5rem;
     border-inline-end: var(--rule);
   }
   .sidebar > details { border: 0; padding: 0; background: none }
@@ -453,28 +468,34 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   /* flex, not block: the icon rule above uses gap, and a later display:block
      here would win the cascade and collapse the space beside a glyph */
   display: flex; align-items: center; gap: .45em;
-  padding: .26rem 0 .26rem .7rem; color: var(--mut);
+  padding: .26rem 0 .26rem .7rem; color: var(--fertig-mut);
   text-decoration: none; border-inline-start: 2px solid transparent;
 }
-.sidebar a:hover { color: var(--fg) }
-.sidebar a[aria-current="true"] { color: var(--ac); border-inline-start-color: var(--ac); font-weight: 500 }
-.sidebar strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--fg); margin: 1.2rem 0 .4rem }
+.sidebar a:hover { color: var(--fertig-fg) }
+.sidebar a[aria-current="true"] { color: var(--fertig-ac); border-inline-start-color: var(--fertig-ac); font-weight: 500 }
+.sidebar strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--fertig-fg); margin: 1.2rem 0 .4rem }
 .sidebar > * > :first-child { margin-top: 0 }
+/* the summary is the first child but is hidden on desktop, so the label
+   after it is the one that must not carry a top margin */
+@media (width >= 60rem) { .sidebar > details > summary + strong { margin-top: 0 } }
 /* narrow screens: the nav collapses into a disclosure the reader opens */
 @media (width <= 60rem) {
-  .sidebar > details { border: var(--rule); border-radius: var(--r); padding: .2rem .9rem; background: var(--el) }
+  .sidebar > details { border: var(--rule); border-radius: var(--fertig-r); padding: .2rem .9rem; background: var(--fertig-el) }
   .sidebar > details > summary { font: var(--label); letter-spacing: .08em; text-transform: uppercase; padding-block: .7rem }
 }
 
 .doc-body > section { scroll-margin-top: 4.5rem }
 .doc-body > section + section { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: var(--rule) }
-.doc-body h2 { margin-top: 0; font: 600 1.35rem/1.2 var(--font-display); letter-spacing: -.03em }
-.doc-body h3 { font: 600 1rem/1.3 var(--font-display); letter-spacing: -.02em; margin-top: 1.8rem }
+/* :not(dialog *) — these are the prose column's headings. The docs render live
+   components, and a dialog title inside one is UI text that fertig already
+   styles; an unlayered rule here would silently outrank the library it demos. */
+.doc-body h2:not(dialog *) { margin-top: 0; font: 600 1.35rem/1.2 var(--font-display); letter-spacing: -.03em }
+.doc-body h3:not(dialog *) { font: 600 1rem/1.3 var(--font-display); letter-spacing: -.02em; margin-top: 1.8rem }
 .doc-body p { max-width: 44rem; line-height: 1.65 }
 
 /* example / code split */
 .example { display: grid; gap: 1rem; grid-template-columns: minmax(0,1fr); margin: 1.1rem 0; align-items: start }
-.example > .demo { border: var(--rule); border-radius: var(--r); padding: 1.1rem; background: var(--el) }
+.example > .demo { border: var(--rule); border-radius: var(--fertig-r); padding: 1.1rem; background: var(--fertig-el) }
 .example > .demo > :first-child { margin-top: 0 }
 .example > .demo > :last-child:not(dialog) { margin-bottom: 0 }
 .example pre { margin: 0; block-size: 100% }
@@ -487,7 +508,7 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 /* ---- blocks: one column, full width ---------------------------- */
 .block-group + .block-group { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: var(--rule) }
 .block-group > h2 { font: 600 1.35rem/1.2 var(--font-display); letter-spacing: -.03em; margin: 0 0 .5rem; scroll-margin-top: 4.5rem }
-.block-group > p { color: var(--mut); max-width: 44rem; margin-block: 0 var(--space-md) }
+.block-group > p { color: var(--fertig-mut); max-width: 44rem; margin-block: 0 var(--space-md) }
 
 /* one block: a rail-labelled header, a full-width preview, then its code.
    Two columns squeezed both halves and scrolled the code sideways; the code
@@ -496,14 +517,14 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .block:first-of-type { border-top: 0; padding-top: 0 }
 .block > .rail { margin-bottom: var(--space-sm) }
 .block h3 { font: 600 .95rem/1.3 var(--font-display); letter-spacing: -.02em; margin: 0 0 .25rem }
-.block > .rail p { margin: 0; color: var(--mut); font-size: .88rem; line-height: 1.55; max-width: 44rem }
-.block-preview { border: var(--rule); border-radius: var(--r); padding: 1.4rem; background: var(--el); margin-bottom: .5rem }
+.block > .rail p { margin: 0; color: var(--fertig-mut); font-size: .88rem; line-height: 1.55; max-width: 44rem }
+.block-preview { border: var(--rule); border-radius: var(--fertig-r); padding: 1.4rem; background: var(--fertig-el); margin-bottom: .5rem }
 .block-preview > :first-child { margin-top: 0 }
 .block-preview > :last-child:not(dialog) { margin-bottom: 0 }
 /* the code is secondary to the preview — closed until it is asked for */
 .block-code { position: relative; border: 0; padding: 0; background: none; margin: 0 }
-.block-code > summary { font: var(--label); letter-spacing: .07em; text-transform: uppercase; color: var(--mut); padding-block: .4rem }
-.block-code > summary:hover { color: var(--fg) }
+.block-code > summary { font: var(--label); letter-spacing: .07em; text-transform: uppercase; color: var(--fertig-mut); padding-block: .4rem }
+.block-code > summary:hover { color: var(--fertig-fg) }
 .block-code[open] > summary { margin-bottom: .4rem }
 .block-code pre { margin: 0; max-block-size: 26rem }
 .block-code button { position: absolute; inset-block-start: 2.4rem; inset-inline-end: .5rem; z-index: 2 }
@@ -513,22 +534,22 @@ body > footer {
   border-top: var(--rule); padding-block: var(--space-xl);
   background:
     radial-gradient(ellipse 90% 50% at 50% 0%, var(--glow-ac) 0%, transparent 60%),
-    var(--bg);
-  color: var(--fg);
+    var(--fertig-bg);
+  color: var(--fertig-fg);
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme=dark]) body > footer { opacity: .98 }
 }
 html[data-theme=light] body > footer { opacity: .98 }
 .foot-cols { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)) }
-.foot-cols strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin-bottom: .6rem }
+.foot-cols strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--fertig-mut); margin-bottom: .6rem }
 .foot-cols ul { list-style: none; padding: 0; margin: 0 }
 .foot-cols li { margin: 0; padding-block: .18rem }
-.foot-cols a { color: var(--fg); text-decoration: none; font-size: .88rem }
-.foot-cols a:hover { color: var(--ac) }
+.foot-cols a { color: var(--fertig-fg); text-decoration: none; font-size: .88rem }
+.foot-cols a:hover { color: var(--fertig-ac) }
 .foot-note {
   margin: var(--space-md) 0 0; padding-top: var(--space-md); border-top: var(--rule);
-  font: var(--label); letter-spacing: .05em; color: var(--mut);
+  font: var(--label); letter-spacing: .05em; color: var(--fertig-mut);
   display: flex; gap: 1.2rem; flex-wrap: wrap;
 }
 
@@ -567,7 +588,7 @@ body > nav { view-transition-name: toolbar }
 /* reading progress, driven by scroll position with no JavaScript */
 .reading-progress {
   position: fixed; inset: 0 0 auto 0; block-size: 3px; z-index: 20;
-  background: linear-gradient(90deg, var(--ac), color-mix(in srgb, var(--ac) 55%, var(--plum-500)));
+  background: linear-gradient(90deg, var(--fertig-ac), color-mix(in srgb, var(--fertig-ac) 55%, var(--fertig-plum-500)));
   transform-origin: 0 50%; scale: 0 1;
   box-shadow: 0 0 12px var(--glow-ac-strong);
 }

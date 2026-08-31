@@ -13,70 +13,70 @@
  * pre-emit critique: P4 H4 E5 S4 R5 V4
  */
 :root{
-  --font-display:"Space Grotesk",var(--f);
-  --font-body:"Inter",var(--f);
-  --font-mono:"JetBrains Mono",var(--fm);
+  --font-display:"Space Grotesk",var(--fertig-f);
+  --font-body:"Inter",var(--fertig-f);
+  --font-mono:"JetBrains Mono",var(--fertig-fm);
   --wrap:68rem;
   --gut:clamp(1.25rem,4vw,2.5rem);
   --space-sm:.75rem; --space-md:1.5rem; --space-lg:clamp(3rem,7vw,5rem);
-  --rule:1px solid var(--bd);
+  --rule:1px solid var(--fertig-bd);
   --label:500 .7rem/1.4 var(--font-mono);
 }
 html,body{overflow-x:clip}
-body{font-family:var(--font-body);background:var(--bg);max-width:none;
+body{font-family:var(--font-body);background:var(--fertig-bg);max-width:none;
      padding:0;border:0;border-radius:0;margin:0}
 body>*{max-width:none;padding-inline:0;background:none;border:0;border-radius:0;margin:0}
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
 
 /* --- nav: N5 floating pill ------------------------------------- */
 .pillbar{position:sticky;top:0;z-index:5;padding-block:.75rem;
-  background:color-mix(in oklab,var(--bg) 82%,transparent);backdrop-filter:blur(10px)}
+  background:color-mix(in oklab,var(--fertig-bg) 82%,transparent);backdrop-filter:blur(10px)}
 .pillbar .wrap{display:flex;align-items:center;gap:var(--space-md);
-  background:var(--el);border:var(--rule);border-radius:999px;
-  padding:.45rem .55rem .45rem 1.1rem;box-shadow:var(--up);flex-wrap:wrap}
+  background:var(--fertig-el);border:var(--rule);border-radius:999px;
+  padding:.45rem .55rem .45rem 1.1rem;box-shadow:var(--fertig-up);flex-wrap:wrap}
 .pillbar b{font:600 .95rem/1 var(--font-display);letter-spacing:-.02em}
 .pillbar nav{display:flex;gap:1.1rem;margin-inline-start:auto}
-.pillbar nav a{font-size:.85rem;color:var(--mut);text-decoration:none;white-space:nowrap}
-.pillbar nav a:hover{color:var(--fg)}
+.pillbar nav a{font-size:.85rem;color:var(--fertig-mut);text-decoration:none;white-space:nowrap}
+.pillbar nav a:hover{color:var(--fertig-fg)}
 .pillbar .cta{font-size:.85rem;white-space:nowrap}
 
 /* --- hero: tight, left-set, paper card underneath -------------- */
 .hero{padding-block:clamp(3rem,8vw,5.5rem) var(--space-lg)}
 .eyebrow{font:var(--label);letter-spacing:.08em;text-transform:uppercase;
-  color:var(--ac);margin:0 0 .9rem}
+  color:var(--fertig-ac);margin:0 0 .9rem}
 h1.display{font:600 clamp(2.2rem,5.6vw,3.8rem)/1.03 var(--font-display);
   letter-spacing:-.035em;margin:0 0 var(--space-md);max-width:18ch;
   overflow-wrap:anywhere;min-width:0}
-.lede{font-size:1.08rem;line-height:1.6;color:var(--mut);max-width:36rem;margin:0 0 var(--space-md)}
+.lede{font-size:1.08rem;line-height:1.6;color:var(--fertig-mut);max-width:36rem;margin:0 0 var(--space-md)}
 .actions{display:flex;gap:.6rem;flex-wrap:wrap;margin:0 0 var(--space-md)}
 .actions a{white-space:nowrap}
 .hero pre{margin:0;max-width:34rem;font-size:.82rem}
 
 /* --- stat strip: the lead structure ---------------------------- */
-.stats{background:var(--el);border-block:var(--rule)}
+.stats{background:var(--fertig-el);border-block:var(--rule)}
 .stats .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
   gap:0;padding-inline:0}
 .stats div{padding:var(--space-md) var(--gut);border-inline-start:var(--rule);min-width:0}
 .stats div:first-child{border-inline-start:0}
 .stats b{display:block;font:600 1.9rem/1 var(--font-display);letter-spacing:-.03em;
   font-variant-numeric:tabular-nums}
-.stats span{font-size:.82rem;color:var(--mut)}
+.stats span{font-size:.82rem;color:var(--fertig-mut)}
 
 /* --- features: bordered panels, no shadow soup ----------------- */
 section{padding-block:var(--space-lg)}
 .head{max-width:34rem;margin-bottom:var(--space-md)}
 .head h2{font:600 clamp(1.5rem,3vw,2rem)/1.15 var(--font-display);letter-spacing:-.03em;margin:0 0 .6rem}
-.head p{margin:0;color:var(--mut);line-height:1.6}
+.head p{margin:0;color:var(--fertig-mut);line-height:1.6}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1px;
-  background:var(--bd);border:var(--rule);border-radius:12px;overflow:hidden}
-.grid article{background:var(--el);padding:var(--space-md);min-width:0;
+  background:var(--fertig-bd);border:var(--rule);border-radius:12px;overflow:hidden}
+.grid article{background:var(--fertig-el);padding:var(--space-md);min-width:0;
   margin:0;border:0;border-radius:0;box-shadow:none}
 .grid h3{font:600 .95rem/1.3 var(--font-display);letter-spacing:-.01em;margin:0 0 .5rem}
-.grid p{margin:0;font-size:.9rem;line-height:1.6;color:var(--mut)}
+.grid p{margin:0;font-size:.9rem;line-height:1.6;color:var(--fertig-mut)}
 .grid code{font-size:.85em}
 
-footer.site{border-top:var(--rule);padding-block:var(--space-md);background:var(--el)}
-footer.site .wrap{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.82rem;color:var(--mut)}
+footer.site{border-top:var(--rule);padding-block:var(--space-md);background:var(--fertig-el)}
+footer.site .wrap{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.82rem;color:var(--fertig-mut)}
 </style>
 
 <div class="pillbar"><div class="wrap">
@@ -100,7 +100,6 @@ footer.site .wrap{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.82rem;color:
 
 <div class="stats"><div class="wrap">
   <div><b>7.6 KB</b><span>gzipped</span></div>
-  <div><b>6.3 KB</b><span>core build</span></div>
   <div><b>0</b><span>dependencies</span></div>
   <div><b>0</b><span>required classes</span></div>
   <div><b>AA</b><span>both themes</span></div>

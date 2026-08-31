@@ -1,82 +1,43 @@
-<!doctype html>
-<html lang="en">
-<meta charset="utf-8">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fertig — classless CSS framework, no JavaScript, 8.7 KB</title>
-<meta name="description" content="fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.7 KB gzipped, no build step, MIT.">
-<link rel="canonical" href="https://moji2002.github.io/fertig/">
-<meta name="theme-color" content="#111315" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+---
+layout: layout.njk
+permalink: "index.html"
+title: "fertig \u2014 classless CSS framework, no JavaScript, 8.7 KB"
+description: "fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.7 KB gzipped, no build step, MIT."
+ogTitle: "fertig \u2014 classless CSS framework, no JavaScript"
+ogDescription: "Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.7 KB gzipped, no build step, no runtime."
+ogImageAlt: "A page styled by fertig: form controls, a data table and cards on a dark background."
+canonical: ""
+active: index
+langs:
+  - bash
+schema: |
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "fertig",
+    "applicationCategory": "DeveloperApplication",
+    "description": "A classless CSS framework built only on CSS that every current engine already ships. Semantic HTML in, a designed page out, with no JavaScript and no build step.",
+    "url": "https://moji2002.github.io/fertig/",
+    "downloadUrl": "https://www.npmjs.com/package/fertig",
+    "codeRepository": "https://github.com/moji2002/fertig",
+    "softwareVersion": "3.0.0",
+    "operatingSystem": "Any",
+    "license": "https://opensource.org/licenses/MIT",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+---
 
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="fertig">
-<meta property="og:url" content="https://moji2002.github.io/fertig/">
-<meta property="og:title" content="fertig — classless CSS framework, no JavaScript">
-<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.7 KB gzipped, no build step, no runtime.">
-<meta property="og:image" content="https://moji2002.github.io/fertig/preview-dark.png">
-<meta property="og:image:alt" content="A page styled by fertig: form controls, a data table and cards on a dark background.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="fertig — classless CSS framework, no JavaScript">
-<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. 8.7 KB gzipped, no build step, no runtime.">
-<meta name="twitter:image" content="https://moji2002.github.io/fertig/preview-dark.png">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "fertig",
-  "applicationCategory": "DeveloperApplication",
-  "description": "A classless CSS framework built only on CSS that every current engine already ships. Semantic HTML in, a designed page out, with no JavaScript and no build step.",
-  "url": "https://moji2002.github.io/fertig/",
-  "downloadUrl": "https://www.npmjs.com/package/fertig",
-  "codeRepository": "https://github.com/moji2002/fertig",
-  "softwareVersion": "3.0.0",
-  "operatingSystem": "Any",
-  "license": "https://opensource.org/licenses/MIT",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-}
-</script>
-<script>
-  /* before first paint: dark by default, or whatever was chosen last time.
-     Inline and synchronous on purpose — a deferred script would repaint. */
-  try {
-    document.documentElement.dataset.theme =
-      localStorage.getItem("fertig-theme") || "dark";
-  } catch { document.documentElement.dataset.theme = "dark" }
-</script>
-<link rel="stylesheet" href="fertig.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css">
-<div class="reading-progress" aria-hidden="true"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js"></script>
-<script src="site.js" defer></script>
-
-<nav>
-  <div class="bar wrap">
-    <strong><a href="index.html"><img src="favicon.svg" alt="" width="16" height="16" class="mark">fertig</a></strong>
-    <ul>
-      <li><a href="index.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
-      <li><a href="index.html#customize"><svg class="icon" aria-hidden="true"><use href="icons.svg#palette"></use></svg>Customise</a></li>
-      <li><a href="docs.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Docs</a></li>
-      <li><a href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
-      <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>GitHub</a></li>
-    </ul>
-    <button data-size="sm" data-theme-toggle>theme</button>
-  </div>
-</nav>
 
 <header class="hero hero-center">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
     <a class="pill" href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">
       <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
-      v3.0.0 — modern defaults
+      v{{ site.version }} — modern defaults
     </a>
     <h1>Modern HTML and CSS.<br><span class="dim">No JavaScript at all.</span></h1>
     <p class="lede">A classless stylesheet built only on CSS that every current
@@ -655,10 +616,9 @@
     </div>
     <p class="foot-note">
       <span>MIT licensed</span>
-      <span>v3.0.0</span>
+      <span>v{{ site.version }}</span>
       <span>8.7 KB gzipped</span>
       <span>No dependencies</span>
     </p>
   </div>
 </footer>
-</html>

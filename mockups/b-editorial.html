@@ -14,38 +14,38 @@
  */
 :root{
   --font-display:"Instrument Serif",Georgia,serif;
-  --font-body:"Inter",var(--f);
-  --font-mono:"JetBrains Mono",var(--fm);
+  --font-body:"Inter",var(--fertig-f);
+  --font-mono:"JetBrains Mono",var(--fertig-fm);
   --wrap:70rem;
   --measure:36rem;
   --gut:clamp(1.25rem,4vw,3rem);
   --space-sm:.75rem; --space-md:1.75rem; --space-lg:3.5rem; --space-xl:6rem;
-  --rule:1px solid var(--bd);
-  --ac:light-dark(var(--clay-700),oklch(80% .085 45));
+  --rule:1px solid var(--fertig-bd);
+  --fertig-ac:light-dark(var(--fertig-clay-700),oklch(80% .085 45));
   --label:500 .7rem/1.4 var(--font-mono);
 }
 html,body{overflow-x:clip}
-body{font-family:var(--font-body);background:var(--el);max-width:none;
+body{font-family:var(--font-body);background:var(--fertig-el);max-width:none;
      padding:0;border:0;border-radius:0;margin:0}
 body>*{max-width:none;padding-inline:0;background:none;border:0;border-radius:0;margin:0}
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
 
 /* --- nav: N6 masthead ------------------------------------------ */
-.masthead{border-bottom:3px solid var(--fg)}
+.masthead{border-bottom:3px solid var(--fertig-fg)}
 .masthead .wrap{display:flex;align-items:flex-end;justify-content:space-between;
   gap:var(--space-md);padding-block:1.1rem .7rem;flex-wrap:wrap}
 .masthead b{font:400 1.9rem/1 var(--font-display);letter-spacing:-.01em}
 .masthead nav{display:flex;gap:1.3rem}
 .masthead a{font:var(--label);letter-spacing:.06em;text-transform:uppercase;
-  color:var(--mut);text-decoration:none;white-space:nowrap}
-.masthead a:hover{color:var(--ac)}
+  color:var(--fertig-mut);text-decoration:none;white-space:nowrap}
+.masthead a:hover{color:var(--fertig-ac)}
 
 /* --- hero: drop headline, hanging measure ---------------------- */
 .hero{padding-block:clamp(3rem,8vw,5.5rem) clamp(2rem,5vw,3.5rem);border-bottom:var(--rule)}
 h1.display{font:400 clamp(2.8rem,8.5vw,6rem)/.94 var(--font-display);
   letter-spacing:-.02em;margin:0 0 var(--space-md);max-width:16ch;
   overflow-wrap:anywhere;min-width:0}
-h1.display em{font-style:normal;color:var(--ac)}
+h1.display em{font-style:normal;color:var(--fertig-ac)}
 .dek{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:var(--space-md) clamp(2rem,6vw,5rem);align-items:start}
 .lede{font-size:1.15rem;line-height:1.6;margin:0;max-width:var(--measure)}
@@ -59,7 +59,7 @@ h1.display em{font-style:normal;color:var(--ac)}
 .figures .wrap{display:flex;flex-wrap:wrap;gap:clamp(1.5rem,5vw,3.5rem)}
 .figures div{min-width:0}
 .figures b{display:block;font:400 2.2rem/1 var(--font-display);letter-spacing:-.01em}
-.figures span{font:var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.figures span{font:var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--fertig-mut)}
 
 /* --- body: a document, with a hanging rubric ------------------- */
 section{padding-block:var(--space-lg);border-bottom:var(--rule)}
@@ -67,20 +67,20 @@ section{padding-block:var(--space-lg);border-bottom:var(--rule)}
   gap:clamp(1.5rem,5vw,4rem)}
 .article h2{font:400 clamp(1.8rem,4vw,2.6rem)/1.05 var(--font-display);
   letter-spacing:-.01em;margin:0;max-width:12ch}
-.article>div>p{max-width:var(--measure);line-height:1.7;color:var(--fg)}
+.article>div>p{max-width:var(--measure);line-height:1.7;color:var(--fertig-fg)}
 .article>div>p+p{margin-top:1rem}
 .drop{float:inline-start;font:400 3.6rem/.8 var(--font-display);
-  padding-inline-end:.5rem;padding-block-start:.35rem;color:var(--ac)}
+  padding-inline-end:.5rem;padding-block-start:.35rem;color:var(--fertig-ac)}
 .notes{margin:var(--space-md) 0 0;padding:0;list-style:none;
   border-top:var(--rule);max-width:var(--measure)}
 .notes li{border-bottom:var(--rule);padding-block:.85rem;display:grid;
   grid-template-columns:1.6rem minmax(0,1fr);gap:.75rem;align-items:baseline}
-.notes b{font:var(--label);color:var(--ac);letter-spacing:.04em}
-.notes p{margin:0;font-size:.94rem;line-height:1.6;color:var(--mut)}
+.notes b{font:var(--label);color:var(--fertig-ac);letter-spacing:.04em}
+.notes p{margin:0;font-size:.94rem;line-height:1.6;color:var(--fertig-mut)}
 
 footer.site{padding-block:var(--space-md)}
 footer.site .wrap{display:flex;gap:1.2rem;flex-wrap:wrap;
-  font:var(--label);letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+  font:var(--label);letter-spacing:.05em;text-transform:uppercase;color:var(--fertig-mut)}
 @media (max-width:720px){
   .dek,.article{grid-template-columns:minmax(0,1fr)}
   h1.display{max-width:none}
@@ -110,7 +110,6 @@ footer.site .wrap{display:flex;gap:1.2rem;flex-wrap:wrap;
 
 <div class="figures"><div class="wrap">
   <div><b>7.6 KB</b><span>gzipped</span></div>
-  <div><b>6.3 KB</b><span>core build</span></div>
   <div><b>0</b><span>dependencies</span></div>
   <div><b>0</b><span>required classes</span></div>
   <div><b>AA</b><span>both themes</span></div>

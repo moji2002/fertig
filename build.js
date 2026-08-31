@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Builds fertig.min.css and fertig.core.min.css from fertig.css,
+/* Builds fertig.min.css from fertig.css,
    and reports transfer sizes. */
 const fs = require('fs');
 const { gzipSync, brotliCompressSync } = require('zlib');
@@ -23,13 +23,9 @@ const minify = css => banner[0] + css
            (m, r, g, bl, a) => '#' + r + g + bl + (a || ''))
   .trim() + '\n';
 
-// a core build: the same sheet without the ARIA component layer
-const core = src.replace(/\/\* #core-omit-start \*\/[^]*?\/\* #core-omit-end \*\//, '');
-
 const builds = [
   ['fertig.css', src],
   ['fertig.min.css', minify(src)],
-  ['fertig.core.min.css', minify(core)],
 ];
 
 const row = (name, buf) =>

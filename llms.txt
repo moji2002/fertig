@@ -2,7 +2,7 @@
 
 > A classless CSS stylesheet that ships components, not just styled elements.
 > Link one file, write ordinary semantic HTML, and the page is finished —
-> 32.7 KB raw, 8.4 KB gzipped, no build step, no dependencies, no JavaScript,
+> 36.4 KB raw, 8.7 KB gzipped, no build step, no dependencies, no JavaScript,
 > no classes required.
 >
 > Menus, dialogs, drawers, toasts and tooltips are addressed by ARIA and work
@@ -20,7 +20,7 @@ short list below.
 
 Put `data-accent` on any element to retint everything inside it — links, focus
 rings, filled buttons, the caret, the selection. Values: `indigo` (default),
-`sky`, `sage`, `clay`, `plum`, `gold`, `slate`. For anything else set `--ac`.
+`sky`, `sage`, `clay`, `plum`, `gold`, `slate`. For anything else set `--fertig-ac`.
 
 ```html
 <section data-accent="sage"><button class="primary">Save</button></section>
@@ -29,7 +29,7 @@ rings, filled buttons, the caret, the selection. Values: `indigo` (default),
 ## Setup
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@2/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@3/fertig.min.css">
 ```
 
 ## Layout — the most important rule
@@ -45,7 +45,7 @@ Direct children of `<body>` are the containers. Do not add wrappers.
 </body>
 ```
 
-Content sits on a 38rem measure. For an app screen, set `--w` wider or put
+Content sits on a 38rem measure. For an app screen, set `--fertig-w` wider or put
 `.wide` on the container.
 
 ## The only classes (all optional)
@@ -84,10 +84,10 @@ Plus `.primary` for a filled button, which `type="submit"` already gets.
 
 ## Tokens worth overriding
 
-`--ac` accent · `--on-ac` text on the accent (computed automatically where
-`contrast-color()` exists) · `--w` the measure · `--r` control radius · `--f`
-font stack. Also `--bg` `--el` `--face` `--fg` `--mut` `--bd`, the elevation
-scale `--up` `--up2` `--dn`, and `--rw` window radius.
+`--fertig-ac` accent · `--fertig-on-ac` text on the accent (computed automatically where
+`contrast-color()` exists) · `--fertig-w` the measure · `--fertig-r` control radius · `--fertig-f`
+font stack. Also `--fertig-bg` `--fertig-el` `--fertig-face` `--fertig-fg` `--fertig-mut` `--fertig-bd`, the elevation
+scale `--fertig-up` `--fertig-up2` `--fertig-dn`, and `--fertig-rw` window radius.
 
 Dark mode is one `light-dark()` token block. Add `data-theme="dark"` or
 `"light"` on `<html>` to override the OS.
@@ -115,11 +115,9 @@ button { background: hotpink }   /* wins */
 
 - fertig.css: commented source
 - fertig.min.css: minified, what you serve
-- fertig.core.min.css: same without the ARIA component layer (6.9 KB gzipped)
 - index.html: landing page
 - docs.html: full documentation
 - blocks.html: ready-to-use markup blocks
-- app.html: a complete product screen built with no page CSS at all
 
 ## Right-to-left
 

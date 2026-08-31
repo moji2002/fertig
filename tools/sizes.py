@@ -17,8 +17,9 @@ at that release and must not be retconned.
 """
 import gzip, json, os, sys
 
-FILES = ['index.html', 'docs.html', 'README.md', 'llms.txt']
-BUILDS = ['fertig.css', 'fertig.min.css', 'fertig.core.min.css']
+FILES = ['index.html', 'docs.html', 'README.md', 'llms.txt', 'context7.json',
+         'src/index.njk', 'src/docs.njk', 'src/blocks.njk']
+BUILDS = ['fertig.css', 'fertig.min.css']
 STATE = os.path.join(os.path.dirname(__file__), 'sizes.json')
 
 

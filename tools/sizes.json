@@ -1,14 +1,10 @@
 {
   "fertig.css": {
-    "raw": "54.4 KB",
-    "gzip": "16.5 KB"
+    "raw": "60.7 KB",
+    "gzip": "17.9 KB"
   },
   "fertig.min.css": {
-    "raw": "32.7 KB",
-    "gzip": "8.4 KB"
-  },
-  "fertig.core.min.css": {
-    "raw": "25.0 KB",
-    "gzip": "6.9 KB"
+    "raw": "36.4 KB",
+    "gzip": "8.7 KB"
   }
 }

@@ -255,7 +255,6 @@ string left to fix by hand.
 | Build | Before | After |
 |---|---|---|
 | `fertig.min.css` | 7.9 KB | **8.4 KB** |
-| `fertig.core.min.css` | 6.5 KB | **6.9 KB** |
 
 +0.5 KB gzipped, most of it the framework-wrapper selectors (repeated eight
 times) and the below-the-floor palette. Worth it: the wrapper fix alone decides

@@ -6,24 +6,24 @@
 <style>
   :root{color-scheme:light dark;
     --ink:light-dark(#1a1a1a,#f0efec);--paper:light-dark(#fbfaf8,#141414);
-    --face:light-dark(#efedea,#1f1f1f);--bd:light-dark(#00000022,#ffffff22);
-    --mut:light-dark(#6a6763,#a5a29d)}
+    --fertig-face:light-dark(#efedea,#1f1f1f);--fertig-bd:light-dark(#00000022,#ffffff22);
+    --fertig-mut:light-dark(#6a6763,#a5a29d)}
   *{box-sizing:border-box}
   html,body{margin:0;height:100%;overflow:hidden}
   body{background:var(--paper);color:var(--ink);
     font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
     display:grid;grid-template-rows:auto 1fr}
   header{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
-    padding:.7rem 1rem;border-bottom:1px solid var(--bd);background:var(--face)}
+    padding:.7rem 1rem;border-bottom:1px solid var(--fertig-bd);background:var(--fertig-face)}
   h1{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;
-    margin:0;color:var(--mut);font-weight:600}
+    margin:0;color:var(--fertig-mut);font-weight:600}
   .tabs{display:flex;gap:.35rem;flex-wrap:wrap}
   .tabs button{font:inherit;font-size:.8rem;cursor:pointer;
-    padding:.4rem .8rem;border:1px solid var(--bd);border-radius:6px;
+    padding:.4rem .8rem;border:1px solid var(--fertig-bd);border-radius:6px;
     background:var(--paper);color:var(--ink);white-space:nowrap}
   .tabs button[aria-selected=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
   .tabs button:focus-visible{outline:2px solid #3b76c9;outline-offset:2px}
-  .meta{margin-inline-start:auto;color:var(--mut);font-size:.75rem;
+  .meta{margin-inline-start:auto;color:var(--fertig-mut);font-size:.75rem;
     display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
   .meta a{color:inherit}
   iframe{border:0;width:100%;height:100%;background:var(--paper)}

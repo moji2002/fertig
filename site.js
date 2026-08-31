@@ -155,11 +155,13 @@ addEventListener("DOMContentLoaded", () => {
     const v = read();
     const ac = `oklch(${v.l}% ${v.c} ${v.h})`;
 
-    preview.style.setProperty("--ac", ac);
-    preview.style.setProperty("--r", v.r + "px");
-    preview.style.setProperty("--w", v.w + "rem");
-    v.f ? preview.style.setProperty("--f", v.f)
-        : preview.style.removeProperty("--f");
+    /* the token names carry the fertig- prefix since 2.0.0; the short aliases
+       these once set are gone, and setting them changed nothing at all. */
+    preview.style.setProperty("--fertig-ac", ac);
+    preview.style.setProperty("--fertig-r", v.r + "px");
+    preview.style.setProperty("--fertig-w", v.w + "rem");
+    v.f ? preview.style.setProperty("--fertig-f", v.f)
+        : preview.style.removeProperty("--fertig-f");
 
     $("o-l").textContent = v.l + "%";
     $("o-c").textContent = v.c.toFixed(3);
@@ -167,10 +169,10 @@ addEventListener("DOMContentLoaded", () => {
     $("o-r").textContent = v.r + "px";
     $("o-w").textContent = v.w + "rem";
 
-    const lines = [`  --ac: ${ac};`];
-    if (v.r !== 6)  lines.push(`  --r: ${v.r}px;`);
-    if (v.w !== 38) lines.push(`  --w: ${v.w}rem;`);
-    if (v.f)        lines.push(`  --f: ${v.f};`);
+    const lines = [`  --fertig-ac: ${ac};`];
+    if (v.r !== 12) lines.push(`  --fertig-r: ${v.r}px;`);
+    if (v.w !== 38) lines.push(`  --fertig-w: ${v.w}rem;`);
+    if (v.f)        lines.push(`  --fertig-f: ${v.f};`);
     out.textContent = `:root {\n${lines.join("\n")}\n}`;
     out.removeAttribute("data-highlighted");
     if (window.hljs) hljs.highlightElement(out);
