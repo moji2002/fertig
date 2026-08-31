@@ -118,7 +118,7 @@
           <div>
             <h5>From a CDN</h5>
             <pre><code>&lt;link rel="stylesheet" href="https://cdn
-  .jsdelivr.net/npm/fertig@1
+  .jsdelivr.net/npm/fertig@2
   /fertig.min.css"&gt;</code></pre>
             <p class="muted">No tooling required at all.</p>
           </div>
@@ -130,8 +130,8 @@
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>32.8 KB</td><td>8.4 KB</td></tr>
-            <tr><td><code>fertig.core.min.css</code></td><td>25.1 KB</td><td>6.9 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>32.7 KB</td><td>8.4 KB</td></tr>
+            <tr><td><code>fertig.core.min.css</code></td><td>25.0 KB</td><td>6.9 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -324,7 +324,7 @@
           <caption>Size against comparable sheets</caption>
           <thead><tr><th>Sheet</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td>fertig</td><td>32.8 KB</td><td>8.4 KB</td></tr>
+            <tr><td>fertig</td><td>32.7 KB</td><td>8.4 KB</td></tr>
             <tr><td>Pico 2.1.1 classless</td><td>69.4 KB</td><td>10.1 KB</td></tr>
           </tbody>
         </table>
@@ -754,19 +754,26 @@
       <section id="support">
         <h2>Browser support</h2>
         <p>The policy is a two-year window on <em>browsers</em>, not on CSS:
-          fertig runs in anything released since August 2024 and carries
-          nothing for the ones before it. The CSS itself is older and duller
+          fertig runs in anything released since August 2024. The CSS itself is older and duller
           than that — <code>@layer</code> has been cross-engine since 2022,
           <code>oklch()</code> and <code>color-mix()</code> since 2023,
           <code>light-dark()</code> since May 2024. The newest thing the sheet
           <em>requires</em> is <code>@starting-style</code>, cross-engine since
           August 2024 — nothing it needs shipped inside the last two years.
-          Floor: <strong>Chrome 123+, Safari 17.5+, Firefox 129+</strong>. Below that you
-          get unstyled but perfectly readable HTML. There is no polyfill, no
-          fallback build and no vendor prefix, with three exceptions that no
-          engine has replaced yet: <code>-webkit-text-size-adjust</code>,
-          the <code>-webkit-text-fill-color</code> autofill repaint, and the
+          Floor: <strong>Chrome 123+, Safari 17.5+, Firefox 129+</strong>. There is no
+          polyfill, no fallback build and no vendor prefix, with three
+          exceptions that no engine has replaced yet:
+          <code>-webkit-text-size-adjust</code>, the
+          <code>-webkit-text-fill-color</code> autofill repaint, and the
           <code>progress</code> pseudo-elements.</p>
+        <p>One thing is carried for browsers below the floor. Every colour token
+          is a <code>light-dark()</code>, and in an engine without it those
+          tokens are invalid at computed-value time — backgrounds go
+          transparent and colour is inherited, so the page lands unreadable
+          rather than plain. A <code>@supports not (color: light-dark(…))</code>
+          block at the end of the layer restates the palette in flat sRGB, in
+          both schemes. Below the floor you get plain, perfectly readable
+          HTML.</p>
 
         <h3>Where the floor comes from</h3>
         <table>

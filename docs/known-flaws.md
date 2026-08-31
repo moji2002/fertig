@@ -1,6 +1,6 @@
 # Audit: what was wrong with fertig, and what was done about it
 
-An adversarial read of `fertig.css`, 2026-08-31, against v1.1.0 (990 lines).
+An adversarial read of `fertig.css`, 2026-08-31, against what became v2.0.0 (990 lines).
 Findings first, then what shipped. Kept in the repo because several of the
 fixes look arbitrary in the diff and only make sense with the failure written
 down next to them.

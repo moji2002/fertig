@@ -6,10 +6,27 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
-## [1.1.0] — 2026-08-31
+## [2.0.0] — 2026-08-31
 
-A visual refresh and a component-first repositioning. No API breaks — the same
-tokens, classes and attributes — but the default look changes visibly.
+### Breaking
+
+- **`--a1` / `--a2` are now `--fertig-a1` / `--fertig-a2`, with no alias.**
+  These are `@property` registrations, and a registration is global — it cannot
+  be layered, scoped or overridden. A two-character name meant a consumer's own
+  `--a1` was silently retyped to `<number>`, which is a bug that only a rename
+  can fix.
+
+  **To migrate:** if you set `--a1` or `--a2`, rename them. Nothing else
+  changes — the values mean the same thing and the elevation scale is
+  untouched. If you never set them, there is nothing to do.
+
+  Every other token name is unchanged. They are ordinary custom properties,
+  they are the documented API, and they are deliberately short.
+
+A visual refresh, an audit pass, and a component-first repositioning. One token
+rename aside, the surface is the same — the same classes and attributes — but
+the default look changes visibly, so treat this as a redesign rather than a
+drop-in bump.
 
 ### Added
 
@@ -116,21 +133,7 @@ purpose.
 
 ### Changed
 
-- **`--a1` / `--a2` are now `--fertig-a1` / `--fertig-a2`.** These are
-  `@property` registrations, and a registration is global — it cannot be
-  layered, scoped or overridden. Two-character names meant a consumer's own
-  `--a1` was silently retyped to `<number>`. The other token names are
-  deliberately short and are unchanged; they are ordinary custom properties and
-  the documented API.
-
-  **This stays a minor release**: the prefixed tokens read the bare ones as a
-  fallback (`--fertig-a1: var(--a1, .08)`), so a sheet that set `--a1` on
-  `:root` — the documented way — keeps working exactly as it did, verified in a
-  browser. A *scoped* `--a1` further down the tree does not reach the shadows,
-  but it never did: `--sh1` has always been computed on `:root`, so the
-  fallback restores the capability that existed, not less. `--a1` itself is no
-  longer registered, which is the whole point — nothing of yours gets retyped.
-  Prefer the prefixed names in new code.
+- `--a1` / `--a2` renamed — see **Breaking** above.
 
 ## [1.0.3] — 2026-08-30
 
@@ -259,10 +262,11 @@ layer is `@layer fertig` — a dot in a layer name would declare a sub-layer.
 
 ### Browser support
 
-- Two-year support policy: the sheet targets browsers from the last two years
-  and carries nothing for the ones before them. It ships no vendor prefixes
-  except the three no engine has replaced (`-webkit-text-size-adjust`, the
-  autofill repaint, and the `progress` pseudo-elements).
+- Two-year support policy: the sheet targets browsers from the last two years.
+  The only thing carried for the ones before them is the flat-sRGB palette
+  above ("a floor under the floor"). It ships no vendor prefixes except the
+  three no engine has replaced (`-webkit-text-size-adjust`, the autofill
+  repaint, and the `progress` pseudo-elements).
 - The sheet is wrapped in `@layer fertig`, so unlayered author CSS overrides it
   at any specificity. There is no `!important` anywhere in it: inside a cascade
   layer an important declaration outranks your own unlayered CSS, which would

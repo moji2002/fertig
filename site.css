@@ -27,9 +27,14 @@
 
   --space-sm: .75rem; --space-md: 1.5rem;
   --space-lg: clamp(2.5rem, 6vw, 4rem);
+  --space-xl: clamp(4rem, 10vw, 7rem);
 
   --rule: 1px solid var(--bd);
   --label: 600 .68rem/1.4 var(--font-mono);   /* the uppercase mono label */
+  --glass-bg: light-dark(oklch(99.4% .002 75 / .6), oklch(21% .006 75 / .6));
+  --glass-border: light-dark(oklch(22% .008 75 / .08), oklch(95% .004 75 / .08));
+  --glow-ac: color-mix(in srgb, var(--ac) 15%, transparent);
+  --glow-ac-strong: color-mix(in srgb, var(--ac) 25%, transparent);
 }
 
 /* ---- page shell ------------------------------------------------ */
@@ -61,9 +66,32 @@ body > main { padding-bottom: 0 }
 
 /* full-bleed bands, separated by hairlines. No tints: the rhythm comes from
    the rules and the spacing, not from a wash of colour behind every section. */
-.band { padding-block: var(--space-lg); border-top: var(--rule) }
-.band-quiet { background: var(--bg) }      /* the one alternate surface */
+.band { padding-block: var(--space-xl); position: relative }
+.band + .band { border-top: var(--rule) }
+.band-quiet {
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box;
+}
+/* a faint accent wash on the quiet bands, so alternate sections read as
+   stepping into a slightly warmer/darker plane rather than a hard toggle */
+.band-quiet::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 30% at 20% 0%, transparent, var(--glow-ac) 45%, transparent 70%);
+  opacity: .35;
+}
+.band > .wrap, .band > .rail { position: relative }
 :is(section, article) + :is(section, article) { margin-top: 0 }   /* bands own the spacing */
+
+/* code blocks get a soft inner glow and a delicate accent hairline on the
+   landing page's showcase — cosmetic chrome, not part of the library */
+.band pre {
+  border: 1px solid var(--glass-border);
+  background:
+    linear-gradient(var(--face), var(--face)) padding-box,
+    linear-gradient(150deg, var(--glow-ac), transparent 60%) border-box;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent);
+}
 
 /* ---- icons ------------------------------------------------------
    A local sprite (icons.svg, built by tools/build-icons.py from Lucide),
@@ -92,6 +120,7 @@ body > nav {
   border-bottom: var(--rule); background: var(--tb);
   backdrop-filter: blur(10px) saturate(1.8);
   display: block; padding: 0;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--fg) 4%, transparent);
 }
 .bar { display: flex; align-items: baseline; gap: var(--space-md); padding-block: .85rem; flex-wrap: wrap }
 .bar > strong { font: 600 .95rem/1 var(--font-mono); letter-spacing: -.02em }
@@ -137,38 +166,96 @@ body > nav {
 /* ---- landing hero: centred, announcement pill, dimmed second line ----
    The shape component-library landings converge on, because it works: one
    claim, one qualifier, two ways in, and the proof underneath. */
-.hero-center { text-align: center; border-bottom: 0; padding-block: clamp(3rem, 7vw, 5.5rem) clamp(2rem, 4vw, 3rem) }
+.hero-center {
+  text-align: center; border-bottom: 0;
+  padding-block: clamp(4rem, 10vw, 7rem) clamp(2.5rem, 5vw, 4rem);
+  position: relative; overflow: hidden;
+}
 .hero-center .lede { margin-inline: auto; text-align: center }
 .hero-center .row { justify-content: center }
 
+/* ambient glow: two soft radial gradients that float behind the hero text,
+   using the accent colour. Positioned absolutely inside the hero, they add
+   depth without JavaScript or images. Respects reduced-motion and only
+   shows on dark theme for maximum contrast impact. */
+.hero-glow {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 40%, var(--glow-ac) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 70% 55%, var(--glow-ac) 0%, transparent 70%);
+  opacity: .7;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme=dark]) .hero-glow { opacity: .35 }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-glow {
+      animation: hero-glow-drift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0% 40%;
+    }
+  }
+}
+@keyframes hero-glow-drift {
+  from { opacity: .7; scale: 1 }
+  to   { opacity: .3; scale: 1.15 }
+}
+
 .pill {
   display: inline-flex; align-items: center; gap: .5em;
-  padding: .35em .9em; border: var(--rule); border-radius: 999px;
-  background: var(--el); color: var(--mut);
-  font: var(--label); letter-spacing: .04em; text-transform: uppercase;
+  padding: .4em 1em; border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background:
+    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+    linear-gradient(135deg, var(--glow-ac), transparent 60%) border-box;
+  color: var(--mut);
+  font: 600 .72rem/1.4 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
   text-decoration: none; margin-bottom: var(--space-md);
+  box-shadow: 0 1px 2px var(--sh1), 0 4px 14px -6px var(--glow-ac);
+  backdrop-filter: blur(8px);
 }
-.pill:hover { color: var(--fg) }
+.pill:hover { color: var(--fg); border-color: var(--glow-ac-strong); box-shadow: 0 2px 4px var(--sh1), 0 6px 20px -6px var(--glow-ac) }
 .pill .icon { color: var(--ac) }
 
 .hero-center h1 {
-  font: 500 clamp(2.3rem, 6.4vw, 4.2rem)/1.04 var(--font-display);
-  letter-spacing: -.05em; margin: 0 0 var(--space-md);
+  font: 500 clamp(2.6rem, 8vw, 5rem)/1.02 var(--font-display);
+  letter-spacing: -.055em; margin: 0 0 var(--space-md);
+  position: relative; z-index: 1;
+  text-wrap: balance;
 }
 /* the qualifier, set back rather than shouted */
 .hero-center h1 .dim { color: var(--mut); display: block }
 
 /* pill actions — site chrome only. The showcase below keeps fertig's real
    6px controls, because that is the thing being demonstrated. */
+.cta-row { position: relative; z-index: 1 }
 .cta-row a[role=button], .cta-row button { border-radius: 999px; padding-inline: 1.4em }
+.cta-row .primary {
+  background: linear-gradient(135deg, var(--ac), color-mix(in srgb, var(--ac) 70%, var(--plum-500)));
+  box-shadow: 0 1px 2px var(--sh1), 0 8px 24px -8px var(--glow-ac-strong);
+}
+.cta-row .primary:hover {
+  box-shadow: 0 2px 4px var(--sh1), 0 12px 32px -8px var(--glow-ac-strong);
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cta-row .primary { transition: transform .18s var(--ease-out), box-shadow .18s var(--ease-out) }
+}
 .proof {
   margin: var(--space-md) 0 0; color: var(--mut);
   font: var(--label); letter-spacing: .06em; text-transform: uppercase;
   display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center;
+  position: relative; z-index: 1;
+}
+.proof span {
+  padding-inline: .9em; padding-block: .35em;
+  border: 1px solid var(--glass-border); border-radius: 999px;
+  background: var(--glass-bg); backdrop-filter: blur(6px);
 }
 
 /* ---- the showcase: real components, restyled live -------------------- */
-.showcase { padding-block: 0 var(--space-lg) }
+.showcase { padding-block: var(--space-xl) }
 .showcase-bar {
   display: flex; align-items: center; gap: var(--space-md);
   flex-wrap: wrap; margin-bottom: var(--space-md);
@@ -188,22 +275,40 @@ body > nav {
 }
 
 .stage {
-  border: var(--rule); border-radius: calc(var(--rw) + 4px);
-  background: var(--bg); padding: clamp(1.2rem, 3vw, 2rem);
+  border: 1px solid var(--glass-border);
+  border-radius: calc(var(--rw) + 8px);
+  background:
+    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+    radial-gradient(ellipse 80% 60% at 50% 0%, var(--glow-ac) 0%, transparent 70%) border-box;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  box-shadow: 0 1px 2px var(--sh1), 0 24px 48px -24px var(--sh2);
+  backdrop-filter: blur(12px);
   container: stage / inline-size;
+  position: relative;
 }
-.stage-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr) }
+/* ambient top light on the stage */
+.stage::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; block-size: 40%;
+  border-radius: calc(var(--rw) + 8px) calc(var(--rw) + 8px) 0 0;
+  background: linear-gradient(to bottom, var(--glow-ac), transparent);
+  opacity: .5; pointer-events: none;
+}
+.stage-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); position: relative }
 @container stage (width >= 44rem) {
   .stage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) }
 }
-.stage .card { margin: 0 }
+.stage .card {
+  box-shadow: var(--up2), 0 10px 24px -12px var(--sh2);
+  background: color-mix(in srgb, var(--el) 92%, transparent);
+  backdrop-filter: blur(6px);
+}
 .stage [hidden] { display: none }
 
 /* ---- section headers ------------------------------------------- */
-.band h2 { font: 600 clamp(1.15rem, 2.4vw, 1.4rem)/1.2 var(--font-display); letter-spacing: -.025em; margin: 0 0 var(--space-md) }
-.head { max-width: 44rem; margin-bottom: var(--space-md) }
-.head h2 { margin-bottom: .5rem }
-.head p { color: var(--mut); margin-bottom: 0; line-height: 1.6 }
+.band h2 { font: 600 clamp(1.4rem, 3.4vw, 2rem)/1.15 var(--font-display); letter-spacing: -.03em; margin: 0 0 var(--space-md); text-wrap: balance }
+.head { max-width: 46rem; margin-bottom: var(--space-md) }
+.head h2 { margin-bottom: .6rem }
+.head p { color: var(--mut); margin-bottom: 0; line-height: 1.65; font-size: 1.05rem }
 .page-title { font: 500 clamp(1.9rem, 5vw, 2.6rem)/1.05 var(--font-display); letter-spacing: -.04em; margin: 0 0 var(--space-sm) }
 .page-intro { max-width: 44rem; color: var(--mut); line-height: 1.6; margin: 0 }
 .eyebrow { font: 600 .8rem/1.4 var(--font-body); color: var(--ac); margin: 0 0 .7rem }
@@ -231,8 +336,19 @@ body > nav {
    same restraint, but it belongs to the same page. */
 .rows { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)) }
 .rows > * {
-  border: var(--rule); border-radius: var(--rw); padding: 1.3rem;
-  background: var(--el); min-width: 0;
+  border: 1px solid var(--glass-border); border-radius: var(--rw); padding: 1.4rem;
+  background:
+    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+    linear-gradient(160deg, var(--glow-ac), transparent 55%) border-box;
+  box-shadow: 0 1px 2px var(--sh1), 0 12px 28px -12px var(--sh2);
+  min-width: 0;
+}
+.rows > *:hover {
+  box-shadow: 0 2px 4px var(--sh1), 0 16px 36px -12px var(--sh2);
+  border-color: var(--glow-ac-strong);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rows > * { transition: box-shadow .18s var(--ease-out), border-color .18s var(--ease-out) }
 }
 .rows h3 {
   display: flex; align-items: center; gap: .55em;
@@ -256,7 +372,11 @@ body > nav {
 .spaced { margin-top: 1.2rem }           /* after a grid, whose items zero their margins */
 
 /* ---- the browser mock-up that shows the real sheet ------------- */
-.mock { border: var(--rule); border-radius: var(--rw); overflow: hidden; background: var(--el) }
+.mock {
+  border: 1px solid var(--glass-border); border-radius: var(--rw);
+  overflow: hidden; background: var(--el);
+  box-shadow: 0 1px 2px var(--sh1), 0 16px 36px -16px var(--sh2);
+}
 .mock-bar { display: flex; align-items: center; gap: .5rem; padding: .55rem .8rem; background: var(--tb); border-bottom: var(--rule); font: var(--label); letter-spacing: .06em; text-transform: uppercase; color: var(--mut) }
 .mock-body { padding: 1.4rem; font-size: .95em }
 .mock-body > :first-child { margin-top: 0 }
@@ -264,18 +384,27 @@ body > nav {
 .mock-body > :last-child:not(dialog) { margin-bottom: 0 }
 
 /* ---- size comparison bars -------------------------------------- */
-.bars { display: grid; gap: .5rem; margin: 0 }
+.bars { display: grid; gap: .6rem; margin: 0 }
 .bar-row { display: grid; grid-template-columns: minmax(7rem, auto) minmax(0,1fr) auto; gap: .8rem; align-items: center; font: 400 .82rem/1.4 var(--font-mono) }
 .bar-row > b { font-weight: 600 }
 /* --len is the bar's length, passed in from the markup as data.
    Not --w: that is fertig's measure token, and it inherits into this rule. */
-.bar-meter { display: block; inline-size: var(--len, 100%); block-size: 1.1rem; background: var(--ac); border-radius: 999px }
-.bar-alt { background: color-mix(in srgb, var(--fg) 22%, transparent) }
+.bar-meter {
+  display: block; inline-size: var(--len, 100%); block-size: .9rem;
+  background: linear-gradient(90deg, var(--ac), color-mix(in srgb, var(--ac) 55%, transparent));
+  border-radius: 999px;
+  box-shadow: 0 1px 2px var(--sh1), 0 4px 12px -2px var(--glow-ac);
+}
+.bar-alt { background: linear-gradient(90deg, color-mix(in srgb, var(--fg) 28%, transparent), color-mix(in srgb, var(--fg) 12%, transparent)); box-shadow: none }
 
 /* ---- palette showcase ------------------------------------------ */
 .panel {
-  border: var(--rule); border-radius: var(--rw);
-  background: var(--el); padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  border: 1px solid var(--glass-border); border-radius: var(--rw);
+  background:
+    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
+    linear-gradient(160deg, var(--glow-ac), transparent 50%) border-box;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  box-shadow: 0 1px 2px var(--sh1), 0 12px 28px -12px var(--sh2);
 }
 .panel > :first-child { margin-top: 0 }
 .panel > :last-child { margin-bottom: 0 }
@@ -375,8 +504,14 @@ body > nav {
 
 /* ---- footer ---------------------------------------------------- */
 body > footer {
-  border-top: var(--rule); padding-block: var(--space-lg) var(--space-md);
-  background: var(--bg); color: var(--fg); font-size: 1rem;
+  border-top: var(--rule); padding-block: var(--space-xl);
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 0%, var(--glow-ac) 0%, transparent 60%),
+    var(--bg);
+  color: var(--fg);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme=dark]) body > footer { opacity: .98 }
 }
 .foot-cols { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)) }
 .foot-cols strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin-bottom: .6rem }
@@ -424,8 +559,10 @@ body > nav { view-transition-name: toolbar }
 
 /* reading progress, driven by scroll position with no JavaScript */
 .reading-progress {
-  position: fixed; inset: 0 0 auto 0; block-size: 2px; z-index: 20;
-  background: var(--ac); transform-origin: 0 50%; scale: 0 1;
+  position: fixed; inset: 0 0 auto 0; block-size: 3px; z-index: 20;
+  background: linear-gradient(90deg, var(--ac), color-mix(in srgb, var(--ac) 55%, var(--plum-500)));
+  transform-origin: 0 50%; scale: 0 1;
+  box-shadow: 0 0 12px var(--glow-ac-strong);
 }
 @supports (animation-timeline: scroll()) {
   .reading-progress { animation: read-progress linear both; animation-timeline: scroll(root block) }

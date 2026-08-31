@@ -148,9 +148,19 @@ Accurate one-liners, in descending punchiness:
 
 - "Runs on Baseline CSS. Needs a browser from the last two years."
 - "Every browser released since August 2024 — Chrome 123, Safari 17.5,
-  Firefox 129. Nothing carried for the ones before."
-- "No prefixes, no polyfills, no fallback build. The newest thing it *requires*
-  is `@starting-style`, cross-engine since August 2024."
+  Firefox 129."
+- "No polyfills, no fallback build. The newest thing it *requires* is
+  `@starting-style`, cross-engine since August 2024."
+
+Two things these lines must not overclaim, both checkable with Ctrl-F:
+
+- The sheet does ship three vendor prefixes — `-webkit-text-size-adjust`, the
+  `-webkit-text-fill-color` autofill repaint, and the `progress`
+  pseudo-elements. Nothing has replaced them, so say "three prefixes, all
+  still the only way to do the thing", not "no prefixes".
+- It does carry one thing for browsers below the floor: the `@supports not
+  (color: light-dark(…))` sRGB palette. So not "carries nothing for the ones
+  before it".
 
 ## Reproducing this
 

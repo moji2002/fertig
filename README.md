@@ -7,7 +7,7 @@ switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**32.8 KB raw · 8.4 KB gzipped · no build step · no dependencies · no JavaScript.**
+**32.7 KB raw · 8.4 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -56,6 +56,18 @@ attributes. The snippet is in the docs.
 That is the whole integration. Write semantic HTML; it looks finished.
 Open `index.html` for the full demo.
 
+## Upgrading from 1.x
+
+One rename: `--a1` / `--a2` are now `--fertig-a1` / `--fertig-a2`. They are
+`@property` registrations, and a registration is global — a two-character name
+was silently retyping a `--a1` of your own. If you set them, rename them; the
+values mean the same thing. If you did not, there is nothing to do.
+
+Every other token, class and attribute is unchanged. The default look does
+change visibly though — larger radii, no filled strip behind card headers, an
+indigo accent — so read it as a redesign, not a drop-in bump. Pin `fertig@1`
+if you need the old appearance.
+
 ## Install
 
 ```sh
@@ -64,7 +76,7 @@ npm install fertig
 
 ```html
 <!-- or from a CDN, pinned -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@1/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@2/fertig.min.css">
 ```
 
 ```css
@@ -268,7 +280,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **32.8 KB** | **8.4 KB** |
+| **fertig** | **32.7 KB** | **8.4 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -319,12 +331,19 @@ margins with no stranded lines.
 ## Browser support
 
 The two-year window is on *browsers*, not on CSS. fertig runs in anything
-released since August 2024 and carries nothing for the ones before it — no
-vendor prefixes, no polyfills, no fallback build. The CSS it uses is mostly
-older than that: `@layer` has been cross-engine since 2022, `oklch()` and
-`color-mix()` since 2023, `light-dark()` since May 2024. The newest thing it
-*requires* is `@starting-style`, cross-engine since August 2024 — nothing it
-needs shipped inside the last two years.
+released since August 2024. The CSS it uses is mostly older than that:
+`@layer` has been cross-engine since 2022, `oklch()` and `color-mix()` since
+2023, `light-dark()` since May 2024. The newest thing it *requires* is
+`@starting-style`, cross-engine since August 2024 — nothing it needs shipped
+inside the last two years.
+
+It carries almost nothing for the browsers before that: no polyfills, no
+fallback build, and no vendor prefixes beyond the three no engine has replaced
+(`-webkit-text-size-adjust`, the `-webkit-text-fill-color` autofill repaint,
+and the `progress` pseudo-elements). The one concession is a `@supports not
+(color: light-dark(…))` block restating the palette in flat sRGB — without it
+an engine that lacks `light-dark()` gets invalid colour tokens and lands
+unreadable rather than plain.
 
 | Engine | Minimum | Set by |
 |---|---|---|
@@ -353,8 +372,8 @@ npm run build    # regenerate fertig.min.css and print sizes
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 32.8 KB | 8.4 KB | everything |
-| `fertig.core.min.css` | 25.1 KB | 6.9 KB | without the ARIA component layer |
+| `fertig.min.css` | 32.7 KB | 8.4 KB | everything |
+| `fertig.core.min.css` | 25.0 KB | 6.9 KB | without the ARIA component layer |
 
 Dropping the component layer saves 1.4 KB gzipped — worth knowing, rarely worth
 doing. The weight is in the element coverage and forms, not the components.

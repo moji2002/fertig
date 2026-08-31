@@ -50,6 +50,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
+<div class="reading-progress" aria-hidden="true"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
@@ -72,15 +73,16 @@
 </nav>
 
 <header class="hero hero-center">
+  <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
     <a class="pill" href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">
       <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
-      v1.1.0 — modern refresh
+      v2.0.0 — modern refresh
     </a>
     <h1>Modern HTML and CSS.<br><span class="dim">No JavaScript at all.</span></h1>
     <p class="lede">A classless stylesheet built only on CSS that every current
       engine already ships. Dialogs, popovers and tooltips run on native HTML
-      attributes — no prefixes, no polyfills, no build step, no runtime. Link
+      attributes — no polyfills, no build step, no runtime. Link
       one file and the page is finished.</p>
     <p class="row cta-row">
       <a class="primary" data-size="lg" role="button" href="docs.html">
@@ -631,10 +633,12 @@
         </details>
         <details>
           <summary>What about older browsers?</summary>
-          <p>They get unstyled but readable HTML. The sheet runs in any
-            browser released since August 2024 — Chrome 123, Safari 17.5,
-            Firefox 129 — and carries nothing for the ones before them. That
-            policy is the reason it is 8.4 KB rather than 20.</p>
+          <p>They get plain but readable HTML. The sheet runs in any browser
+            released since August 2024 — Chrome 123, Safari 17.5, Firefox 129 —
+            and the only thing it carries for the ones before them is a flat
+            sRGB palette, so a missing <code>light-dark()</code> cannot leave a
+            page unreadable. No polyfills, no fallback build. That policy is the
+            reason it is 8.4 KB rather than 20.</p>
         </details>
         <details>
           <summary>Can I change the colours?</summary>
