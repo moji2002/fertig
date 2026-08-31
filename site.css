@@ -185,9 +185,15 @@ body > nav {
     radial-gradient(ellipse 50% 60% at 70% 55%, var(--glow-ac) 0%, transparent 70%);
   opacity: .7;
 }
+/* the site's theme is `data-theme` on <html>, not the OS — on a light
+   paper the glow is dialled right back so it reads as depth, not wash.
+   Two cases: an explicit light theme, or the OS in light with no override. */
+html[data-theme=light] .hero-glow { opacity: .3 }
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme=dark]) .hero-glow { opacity: .35 }
+  :root:not([data-theme]) .hero-glow,
+  :root:not([data-theme=dark]) .hero-glow { opacity: .3 }
 }
+html[data-theme=dark] .hero-glow { opacity: .7 }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
     .hero-glow {
@@ -198,8 +204,8 @@ body > nav {
   }
 }
 @keyframes hero-glow-drift {
-  from { opacity: .7; scale: 1 }
-  to   { opacity: .3; scale: 1.15 }
+  from { scale: 1 }
+  to   { scale: 1.15 }
 }
 
 .pill {
@@ -513,6 +519,7 @@ body > footer {
 @media (prefers-color-scheme: light) {
   :root:not([data-theme=dark]) body > footer { opacity: .98 }
 }
+html[data-theme=light] body > footer { opacity: .98 }
 .foot-cols { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)) }
 .foot-cols strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); margin-bottom: .6rem }
 .foot-cols ul { list-style: none; padding: 0; margin: 0 }
