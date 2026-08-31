@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mockup B — Editorial</title>
+<link rel="stylesheet" href="../fertig.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Hallmark · macrostructure: Long Document · tone: editorial · anchor hue: 40 (clay)
+ * nav: N6 masthead · footer: Ft5 statement · enrichment: none (typography only)
+ * pre-emit critique: P4 H5 E4 S4 R4 V5
+ */
+:root{
+  --font-display:"Instrument Serif",Georgia,serif;
+  --font-body:"Inter",var(--f);
+  --font-mono:"JetBrains Mono",var(--fm);
+  --wrap:70rem;
+  --measure:36rem;
+  --gut:clamp(1.25rem,4vw,3rem);
+  --space-sm:.75rem; --space-md:1.75rem; --space-lg:3.5rem; --space-xl:6rem;
+  --rule:1px solid var(--bd);
+  --ac:light-dark(var(--clay-700),oklch(80% .085 45));
+  --label:500 .7rem/1.4 var(--font-mono);
+}
+html,body{overflow-x:clip}
+body{font-family:var(--font-body);background:var(--el);max-width:none;
+     padding:0;border:0;border-radius:0;margin:0}
+body>*{max-width:none;padding-inline:0;background:none;border:0;border-radius:0;margin:0}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+
+/* --- nav: N6 masthead ------------------------------------------ */
+.masthead{border-bottom:3px solid var(--fg)}
+.masthead .wrap{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:var(--space-md);padding-block:1.1rem .7rem;flex-wrap:wrap}
+.masthead b{font:400 1.9rem/1 var(--font-display);letter-spacing:-.01em}
+.masthead nav{display:flex;gap:1.3rem}
+.masthead a{font:var(--label);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--mut);text-decoration:none;white-space:nowrap}
+.masthead a:hover{color:var(--ac)}
+
+/* --- hero: drop headline, hanging measure ---------------------- */
+.hero{padding-block:clamp(3rem,8vw,5.5rem) clamp(2rem,5vw,3.5rem);border-bottom:var(--rule)}
+h1.display{font:400 clamp(2.8rem,8.5vw,6rem)/.94 var(--font-display);
+  letter-spacing:-.02em;margin:0 0 var(--space-md);max-width:16ch;
+  overflow-wrap:anywhere;min-width:0}
+h1.display em{font-style:normal;color:var(--ac)}
+.dek{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:var(--space-md) clamp(2rem,6vw,5rem);align-items:start}
+.lede{font-size:1.15rem;line-height:1.6;margin:0;max-width:var(--measure)}
+.lede::first-line{font-weight:500}
+.hero pre{margin:0 0 var(--space-sm);font-size:.8rem}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin:0}
+.actions a{white-space:nowrap}
+
+/* --- the numbers, set as a running line ------------------------ */
+.figures{padding-block:var(--space-md);border-bottom:var(--rule)}
+.figures .wrap{display:flex;flex-wrap:wrap;gap:clamp(1.5rem,5vw,3.5rem)}
+.figures div{min-width:0}
+.figures b{display:block;font:400 2.2rem/1 var(--font-display);letter-spacing:-.01em}
+.figures span{font:var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+
+/* --- body: a document, with a hanging rubric ------------------- */
+section{padding-block:var(--space-lg);border-bottom:var(--rule)}
+.article{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);
+  gap:clamp(1.5rem,5vw,4rem)}
+.article h2{font:400 clamp(1.8rem,4vw,2.6rem)/1.05 var(--font-display);
+  letter-spacing:-.01em;margin:0;max-width:12ch}
+.article>div>p{max-width:var(--measure);line-height:1.7;color:var(--fg)}
+.article>div>p+p{margin-top:1rem}
+.drop{float:inline-start;font:400 3.6rem/.8 var(--font-display);
+  padding-inline-end:.5rem;padding-block-start:.35rem;color:var(--ac)}
+.notes{margin:var(--space-md) 0 0;padding:0;list-style:none;
+  border-top:var(--rule);max-width:var(--measure)}
+.notes li{border-bottom:var(--rule);padding-block:.85rem;display:grid;
+  grid-template-columns:1.6rem minmax(0,1fr);gap:.75rem;align-items:baseline}
+.notes b{font:var(--label);color:var(--ac);letter-spacing:.04em}
+.notes p{margin:0;font-size:.94rem;line-height:1.6;color:var(--mut)}
+
+footer.site{padding-block:var(--space-md)}
+footer.site .wrap{display:flex;gap:1.2rem;flex-wrap:wrap;
+  font:var(--label);letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+@media (max-width:720px){
+  .dek,.article{grid-template-columns:minmax(0,1fr)}
+  h1.display{max-width:none}
+}
+</style>
+
+<div class="masthead"><div class="wrap">
+  <b>fertig</b>
+  <nav><a href="#">Docs</a><a href="#">Blocks</a><a href="#">Templates</a><a href="#">GitHub</a></nav>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <h1 class="display">Link one file. The page is <em>finished</em>.</h1>
+  <div class="dek">
+    <p class="lede">A classless stylesheet built only on CSS that shipped in the
+      last two years. No prefixes, no polyfills, no build step — semantic HTML
+      goes in, a designed page comes out.</p>
+    <div>
+      <pre><code>&lt;link rel="stylesheet" href="fertig.css"&gt;</code></pre>
+      <p class="actions">
+        <a class="primary" role="button" href="#">Read the docs</a>
+        <a role="button" href="#">Browse blocks</a>
+      </p>
+    </div>
+  </div>
+</div></header>
+
+<div class="figures"><div class="wrap">
+  <div><b>7.6 KB</b><span>gzipped</span></div>
+  <div><b>6.3 KB</b><span>core build</span></div>
+  <div><b>0</b><span>dependencies</span></div>
+  <div><b>0</b><span>required classes</span></div>
+  <div><b>AA</b><span>both themes</span></div>
+</div></div>
+
+<main>
+  <section><div class="wrap article">
+    <h2>Why another classless sheet</h2>
+    <div>
+      <p><span class="drop">M</span>ost classless stylesheets are either too plain to
+        ship or too heavy to justify. fertig aims at the gap between them: opinionated
+        enough that the page looks finished on the first load, small enough that you
+        never think about it again.</p>
+      <p>It carries nothing for browsers that are already gone. No vendor prefixes, no
+        polyfills, no fallback stack for features that shipped years ago — every rule
+        in it is written the way the platform works now.</p>
+      <ul class="notes">
+        <li><b>01</b><p><strong>Bidirectional.</strong> Logical properties throughout, so
+          <code>dir="rtl"</code> mirrors the entire sheet rather than patching it.</p></li>
+        <li><b>02</b><p><strong>Classless.</strong> Semantic tags are styled directly.
+          Seven optional classes exist; you can ignore every one.</p></li>
+        <li><b>03</b><p><strong>Modern only.</strong> OKLCH, <code>light-dark()</code>,
+          cascade layers, anchor positioning, container queries.</p></li>
+        <li><b>04</b><p><strong>Accessible.</strong> Every colour pair clears WCAG AA in
+          both themes — measured, not assumed.</p></li>
+      </ul>
+    </div>
+  </div></section>
+</main>
+
+<footer class="site"><div class="wrap">
+  <span>MIT licensed</span><span>github.com/moji2002/fertig</span><span>npm i fertig</span>
+</div></footer>
+</html>

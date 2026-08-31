@@ -540,22 +540,27 @@
     <div class="wrap rail">
       <p class="tag">Transfer size</p>
       <div>
-        <h2>Small on purpose</h2>
-        <p class="page-intro" style="margin-bottom:1.5rem">Most of a classless
-          sheet's weight goes into a full colour palette and base64-encoded
-          control icons. fertig has one accent and draws its chevrons in CSS.
-          Three builds ship; pick the smallest one that has what you need.</p>
+        <h2>Not the smallest. The smallest that does this.</h2>
+        <p class="page-intro" style="margin-bottom:1.5rem">Plenty of classless
+          sheets are a fraction of this — Concrete.css is 1.2 KB — and they
+          style elements and stop there. The honest comparison is against the
+          two that also ship a component layer, and there fertig is the
+          lightest of the three while being the only one whose components work
+          without JavaScript.</p>
         <div class="bars">
-          <div class="bar-row"><b>fertig.css</b>
-            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>16.5 KB</span></div>
           <div class="bar-row"><b>fertig.min.css</b>
-            <span><span class="bar-meter" style="--len:59%"></span></span><span>8.4 KB</span></div>
-          <div class="bar-row"><b>fertig.core.min.css</b>
-            <span><span class="bar-meter" style="--len:48%"></span></span><span>6.9 KB</span></div>
+            <span><span class="bar-meter" style="--len:82%"></span></span><span>8.4 KB</span></div>
+          <div class="bar-row"><b>matcha.css</b>
+            <span><span class="bar-meter bar-alt" style="--len:85%"></span></span><span>8.6 KB</span></div>
+          <div class="bar-row"><b>Pico 2.1.1 classless</b>
+            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>10.2 KB</span></div>
         </div>
         <p class="spaced"><small class="muted">Gzipped transfer size, measured
-          with <code>gzip -9</code> at v1.0.3. The core build drops the
-          component layer and keeps the elements, tokens and layout.</small></p>
+          with <code>gzip -9</code> on the files each package ships, on
+          2026-08-31. fertig also ships a core build at 6.9 KB that drops the
+          component layer and keeps the elements, tokens and layout.
+          <a href="https://github.com/moji2002/fertig/blob/main/docs/classless-landscape-2026.md">The
+          full survey is in the repo.</a></small></p>
       </div>
     </div>
   </section>

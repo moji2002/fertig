@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mockup D — fertig only, no site CSS</title>
+<!-- Deliberately: fertig ONLY. No page CSS at all. -->
+<link rel="stylesheet" href="../fertig.css">
+
+<nav>
+  <strong>fertig</strong>
+  <ul>
+    <li><a href="#">Docs</a></li>
+    <li><a href="#">Blocks</a></li>
+    <li><a href="#">Templates</a></li>
+    <li><a href="#">GitHub</a></li>
+  </ul>
+  <button data-size="sm">theme</button>
+</nav>
+
+<header class="wide">
+  <p class="muted"><small>CLASSLESS CSS · v1.0.2 · MIT</small></p>
+  <h1>Link one file. The page is finished.</h1>
+  <p>A classless stylesheet built only on CSS that shipped in the last two
+    years. No prefixes, no polyfills, no build step — semantic HTML goes in,
+    a designed page comes out.</p>
+  <pre><code>&lt;link rel="stylesheet" href="fertig.css"&gt;</code></pre>
+  <p class="row">
+    <a class="primary" role="button" href="#">Read the docs</a>
+    <a role="button" href="#">Browse blocks</a>
+  </p>
+</header>
+
+<main class="wide">
+  <section>
+    <h2>The numbers</h2>
+    <table>
+      <tbody>
+        <tr><th align="left">Transfer size</th><td align="right">7.6 KB</td><td class="muted">minified + gzipped</td></tr>
+        <tr><th align="left">Core build</th><td align="right">6.3 KB</td><td class="muted">without the component layer</td></tr>
+        <tr><th align="left">Dependencies</th><td align="right">0</td><td class="muted">no build step, no config</td></tr>
+        <tr><th align="left">Required classes</th><td align="right">0</td><td class="muted">seven are optional</td></tr>
+        <tr><th align="left">Contrast</th><td align="right">AA</td><td class="muted">verified in both themes</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Why another classless sheet</h2>
+    <p>Most are either too plain to ship or too heavy to justify. fertig aims at
+      the gap: opinionated enough to look finished, small enough that you never
+      think about it again.</p>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="card">
+        <header>Bidirectional</header>
+        <p class="muted">Logical properties throughout, so <code>dir="rtl"</code>
+          mirrors the entire sheet rather than patching it.</p>
+      </div>
+      <div class="card">
+        <header>Classless</header>
+        <p class="muted">Semantic tags are styled directly. Seven optional
+          classes exist; you can ignore every one.</p>
+      </div>
+      <div class="card">
+        <header>Modern only</header>
+        <p class="muted">OKLCH, <code>light-dark()</code>, cascade layers,
+          anchor positioning, container queries.</p>
+      </div>
+      <div class="card">
+        <header>Accessible</header>
+        <p class="muted">Every colour pair clears WCAG AA in both themes,
+          measured rather than assumed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>A docs page, with the sidebar fertig already ships</h2>
+    <div data-layout="sidebar">
+      <nav aria-label="Sections">
+        <menu>
+          <li><a href="#">Install</a></li>
+          <li><a href="#">Layout</a></li>
+          <li><a href="#">Typography</a></li>
+          <li><a href="#">Components</a></li>
+          <li><a href="#">Tokens</a></li>
+        </menu>
+      </nav>
+      <div>
+        <h3>Install</h3>
+        <p class="muted">Link the file. There is no configuration step and
+          nothing to import.</p>
+        <pre><code>npm install fertig</code></pre>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wide">
+  <p>MIT licensed · github.com/moji2002/fertig · npm i fertig</p>
+</footer>
+</html>

@@ -29,8 +29,12 @@ Surveyed across the eleven most-used classless stylesheets on 2026-08-31
 - **RTL by construction.** Written in logical properties throughout, not
   patched with `[dir=rtl]` overrides afterwards.
 
-It is *not* the smallest — Concrete.css is 1.2 KB gzipped and does far less.
-Size here is a constraint, not the pitch.
+It is *not* the smallest — Concrete.css is 1.2 KB gzipped, and most of the
+field is a fraction of this because it styles elements and stops there. Against
+the two classless sheets that also ship a component layer, fertig is the
+lightest: 8.4 KB against matcha's 8.6 KB and Pico classless at 10.2 KB, and the
+only one of the three whose components work without JavaScript. Size is a
+constraint here, not the pitch.
 
 ## Components that work without JavaScript
 
