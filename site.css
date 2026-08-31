@@ -332,6 +332,13 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .page-head { border-top: 0; padding-block: var(--space-lg) var(--space-md) }
 .page-head + .band { padding-top: var(--space-lg) }
 .eyebrow { font: 600 .8rem/1.4 var(--font-body); color: var(--fertig-ac); margin: 0 0 .7rem }
+/* A heading that names a region for a screen reader without drawing one. The
+   showcase is a section of the page; it had no heading, so its first heading
+   was an h3 inside a demo card and the outline jumped from h1 to h3. */
+.sr-only {
+  position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; margin: -1px; padding: 0; border: 0;
+}
 
 /* ---- the spec table: the signature move ------------------------ */
 .spec { border-collapse: collapse; inline-size: 100%; margin: 0; box-shadow: none; border: 0 }
