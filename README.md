@@ -7,7 +7,7 @@ switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**32.7 KB raw · 8.4 KB gzipped · no build step · no dependencies · no JavaScript.**
+**32.8 KB raw · 8.4 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -268,7 +268,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **32.7 KB** | **8.4 KB** |
+| **fertig** | **32.8 KB** | **8.4 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -353,8 +353,8 @@ npm run build    # regenerate fertig.min.css and print sizes
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 32.7 KB | 8.4 KB | everything |
-| `fertig.core.min.css` | 25.0 KB | 6.9 KB | without the ARIA component layer |
+| `fertig.min.css` | 32.8 KB | 8.4 KB | everything |
+| `fertig.core.min.css` | 25.1 KB | 6.9 KB | without the ARIA component layer |
 
 Dropping the component layer saves 1.4 KB gzipped — worth knowing, rarely worth
 doing. The weight is in the element coverage and forms, not the components.

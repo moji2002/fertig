@@ -123,6 +123,15 @@ purpose.
   deliberately short and are unchanged; they are ordinary custom properties and
   the documented API.
 
+  **This stays a minor release**: the prefixed tokens read the bare ones as a
+  fallback (`--fertig-a1: var(--a1, .08)`), so a sheet that set `--a1` on
+  `:root` — the documented way — keeps working exactly as it did, verified in a
+  browser. A *scoped* `--a1` further down the tree does not reach the shadows,
+  but it never did: `--sh1` has always been computed on `:root`, so the
+  fallback restores the capability that existed, not less. `--a1` itself is no
+  longer registered, which is the whole point — nothing of yours gets retyped.
+  Prefer the prefixed names in new code.
+
 ## [1.0.3] — 2026-08-30
 
 ### Changed

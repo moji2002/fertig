@@ -88,7 +88,12 @@
      against transparent rather than relative colour: same result, and it is
      three years older, which keeps Safari 17.5 inside the floor. */
   --sh:  oklch(23.1% .007 286);
-  --fertig-a1: .08; --fertig-a2: .06;
+  /* The prefixed names are the API; the bare ones are read as a fallback so a
+     sheet that set --a1 before 1.1.0 keeps working. --a1 itself stays
+     unregistered, which is the point of the rename — an @property
+     registration is global and cannot be scoped, so a two-character name was
+     silently retyping a consumer's own property. */
+  --fertig-a1: var(--a1, .08); --fertig-a2: var(--a2, .06);
   --sh1: color-mix(in srgb, var(--sh) calc(var(--fertig-a1) * 100%), transparent);
   --sh2: color-mix(in srgb, var(--sh) calc(var(--fertig-a2) * 100%), transparent);
   --up:  0 1px 1px var(--sh1);
@@ -105,7 +110,7 @@
   --dur-2: .2s;    /* something appearing or leaving */
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme=light]) { --fertig-a1: .5; --fertig-a2: .45 }
+  :root:not([data-theme=light]) { --fertig-a1: var(--a1, .5); --fertig-a2: var(--a2, .45) }
 }
 /* --on-ac has to survive any --ac override, or a custom accent ships an
    unreadable label. contrast-color() does that properly but has almost no
@@ -118,8 +123,8 @@
 @supports (color: contrast-color(red)) {
   :root { --on-ac: contrast-color(var(--ac)) }
 }
-[data-theme=light] { color-scheme: light; --fertig-a1: .08; --fertig-a2: .06 }
-[data-theme=dark]  { color-scheme: dark;  --fertig-a1: .5;  --fertig-a2: .45 }
+[data-theme=light] { color-scheme: light; --fertig-a1: var(--a1, .08); --fertig-a2: var(--a2, .06) }
+[data-theme=dark]  { color-scheme: dark;  --fertig-a1: var(--a1, .5);  --fertig-a2: var(--a2, .45) }
 
 /* Named accents. The ramps already exist, so this is a mapping table: put
    data-accent on any element and everything inside it — links, focus rings,
