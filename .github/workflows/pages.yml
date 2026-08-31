@@ -57,4 +57,17 @@ jobs:
       # package" and is really "not your package".
       - run: npm install -g npm@latest
       - run: npm --version
-      - run: npm publish
+      # Every push to main runs this job, but a version is published once. Ask
+      # the registry first, or a site-only deploy fails the run on a version
+      # conflict and the red X stops meaning anything.
+      - id: published
+        run: |
+          V=$(node -p "require('./package.json').version")
+          if npm view "fertig@$V" version >/dev/null 2>&1; then
+            echo "fertig@$V is already on the registry — skipping publish"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.published.outputs.skip == 'false'
+        run: npm publish

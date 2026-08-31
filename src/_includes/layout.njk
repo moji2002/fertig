@@ -34,17 +34,17 @@
       localStorage.getItem("fertig-theme") || "dark";
   } catch { document.documentElement.dataset.theme = "dark" }
 </script>
-<link rel="stylesheet" href="fertig.css">
+<link rel="stylesheet" href="fertig.css?v={{ site.h.fertig }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v={{ site.h.site }}">
 <div class="reading-progress" aria-hidden="true"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
 {% for lang in langs %}<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/{{ lang }}.min.js"></script>
-{% endfor %}<script src="site.js" defer></script>
+{% endfor %}<script src="site.js?v={{ site.h.js }}" defer></script>
 
 <nav>
   <div class="bar wrap">
