@@ -7,7 +7,7 @@ switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**36.4 KB raw · 8.7 KB gzipped · no build step · no dependencies · no JavaScript.**
+**36.8 KB raw · 8.8 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -32,7 +32,7 @@ Surveyed across the eleven most-used classless stylesheets on 2026-08-31
 It is *not* the smallest — Concrete.css is 1.2 KB gzipped, and most of the
 field is a fraction of this because it styles elements and stops there. Against
 the two classless sheets that also ship a component layer, fertig is the
-lightest: 8.7 KB against matcha's 8.7 KB and Pico classless at 10.2 KB, and the
+lightest: 8.8 KB against matcha's 8.8 KB and Pico classless at 10.2 KB, and the
 only one of the three whose components work without JavaScript. Size is a
 constraint here, not the pitch.
 
@@ -320,7 +320,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **36.4 KB** | **8.7 KB** |
+| **fertig** | **36.8 KB** | **8.8 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -414,7 +414,7 @@ npm run sizes      # sync the size claims in README + site copy
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 36.4 KB | 8.7 KB | everything |
+| `fertig.min.css` | 36.8 KB | 8.8 KB | everything |
 
 ## Files
 

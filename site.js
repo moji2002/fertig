@@ -158,7 +158,13 @@ addEventListener("DOMContentLoaded", () => {
     /* the token names carry the fertig- prefix since 2.0.0; the short aliases
        these once set are gone, and setting them changed nothing at all. */
     preview.style.setProperty("--fertig-ac", ac);
+    /* --fertig-rs and --fertig-rw are calc()ed off --fertig-r where the sheet
+       declares them, on :root. This preview overrides the token halfway down
+       the tree, where that derivation has already resolved, so the cards would
+       keep the default radius while the fields moved. Set all three. */
     preview.style.setProperty("--fertig-r", v.r + "px");
+    preview.style.setProperty("--fertig-rs", (v.r * 0.5) + "px");
+    preview.style.setProperty("--fertig-rw", (v.r * 1.33) + "px");
     preview.style.setProperty("--fertig-w", v.w + "rem");
     v.f ? preview.style.setProperty("--fertig-f", v.f)
         : preview.style.removeProperty("--fertig-f");
@@ -235,7 +241,7 @@ addEventListener("DOMContentLoaded", () => {
 });
 
 /* The showcase under the hero: real components, restyled live.
-   Tabs swap which set is on stage; the colour dots set --ac on the stage only,
+   Tabs swap which set is on stage; the colour dots set data-accent on the stage,
    so you are looking at the actual sheet reacting to the one token people
    change, not at a picture of it. */
 addEventListener("DOMContentLoaded", () => {

@@ -217,6 +217,32 @@ treatment with a sunken shadow.
 width. Any *future* input type is still opted in by default — that is inherent
 to a `:not()` list and is the right default for a text-like input.
 
+### 16. `accent-color` and `caret-color` ignored every local accent — FIXED
+
+**Source.** Both were declared once, on `:root`. They are inherited properties,
+so they resolved there against the root's `--fertig-ac` and every descendant
+inherited that *computed colour*. Setting `--fertig-ac` further down — which is
+exactly what `[data-accent]` and `[data-tone]` do — repainted buttons, links and
+focus rings but left the native controls on the root's accent. Measured on the
+showcase with `data-accent="clay"`: the fill was `oklch(.5 .098 40)` while the
+checkbox and the range still reported `accent-color: oklch(.5 .22 266)`.
+
+**Fix.** Re-declared on the elements that consume them — checkbox, radio,
+range, `progress`, `select[multiple]`, and the caret on inputs, textareas and
+`[contenteditable]` — so the value resolves against whatever accent is in scope
+at that element. Verified: with `data-accent="clay"` all three now report
+`oklch(.5 .098 40)`.
+
+### 17. A derived token only re-derives where it is declared — DOCUMENTED
+
+`--fertig-rs` and `--fertig-rw` are `calc()`ed off `--fertig-r` on `:root`, so
+one token rescales the sheet — but the `var()` resolves *at the declaration*.
+Overriding `--fertig-r` on `:root` (the documented way to theme) rescales
+everything; overriding it halfway down the tree moves the controls and leaves
+the cards. Re-declaring the derived tokens on `*` would fix it and is not worth
+what a universal custom property costs. The site's own customiser sets all
+three explicitly, which is what a mid-tree consumer has to do.
+
 ---
 
 ## Opinions

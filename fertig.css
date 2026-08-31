@@ -24,6 +24,12 @@
 /* ---- tokens ------------------------------------------------- */
 :root {
   color-scheme: light dark;              /* powers light-dark() below */
+  /* These two are also re-declared on the elements that consume them, further
+     down. They are inherited properties: declared only here, they resolve once
+     against the root's accent and every descendant inherits that *computed
+     colour* — so a [data-accent] or [data-tone] subtree, or any element that
+     sets --fertig-ac, got the root's tint on its checkboxes and its caret
+     while everything else in it followed the override. */
   accent-color: var(--fertig-ac);
   caret-color: var(--fertig-ac);
 
@@ -32,9 +38,12 @@
   --fertig-fm: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
         "Liberation Mono", monospace;                                /* code */
   --fertig-w: 38rem;                            /* ~70 characters — yours */
+  /* One radius, and the rest derived from it: set --fertig-r and the whole
+     sheet rescales together. Four independent numbers meant --fertig-r: 4px
+     left tight fields sitting inside cards that were still round. */
   --fertig-r: 12px;                             /* control radius: fields, menu rows */
-  --fertig-rs: 6px;                             /* small radius: inline chips and code */
-  --fertig-rw: 16px;                            /* window radius: cards, dialogs, menus */
+  --fertig-rs: calc(var(--fertig-r) * .5);      /* small: inline chips and code */
+  --fertig-rw: calc(var(--fertig-r) * 1.33);    /* window: cards, dialogs, menus */
   --fertig-rp: calc(infinity * 1px);            /* pill: buttons, badges, switches, meters */
 
   /* ---- palette ------------------------------------------------
@@ -345,12 +354,17 @@ select, textarea {
 }
 select {
   appearance: none; padding-inline-end: 2.2rem;
-  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
-                    linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: calc(100% - 17px) 55%, calc(100% - 12.5px) 55%;
-  background-size: 5px 5px; background-repeat: no-repeat;
+  /* a stroked chevron, drawn as two 1.5px bars, so the engines without
+     appearance: base-select show the same mark as the ones with it */
+  background-image:
+    linear-gradient(45deg,  transparent calc(50% - 1px), currentColor calc(50% - 1px),
+                            currentColor calc(50% + .5px), transparent calc(50% + .5px)),
+    linear-gradient(-45deg, transparent calc(50% - 1px), currentColor calc(50% - 1px),
+                            currentColor calc(50% + .5px), transparent calc(50% + .5px));
+  background-position: calc(100% - 17px) 54%, calc(100% - 12px) 54%;
+  background-size: 6px 6px; background-repeat: no-repeat;
 }
-select:dir(rtl) { background-position: 12.5px 55%, 17px 55% }
+select:dir(rtl) { background-position: 12px 54%, 17px 54% }
 select[multiple] { background-image: none; padding-inline-end: .6em }
 
 /* a <select> whose dropdown can finally be styled like the rest of the sheet */
@@ -398,6 +412,12 @@ select[multiple] { background-image: none; padding-inline-end: .6em }
 input[type=checkbox], input[type=radio] {
   width: 1.15em; height: 1.15em; margin: 0; margin-inline-end: .45em; vertical-align: -.18em;
 }
+/* re-resolved here rather than inherited from :root, so a native control inside
+   a [data-accent] or [data-tone] block is tinted with that block's accent */
+:is(input[type=checkbox], input[type=radio], input[type=range], progress, select[multiple]) {
+  accent-color: var(--fertig-ac);
+}
+:is(input, textarea, [contenteditable]) { caret-color: var(--fertig-ac) }
 label:has(input[type=checkbox]), label:has(input[type=radio]) { line-height: 1.9 }
 input[type=range] { width: 100%; height: 1.15em }
 ::placeholder { color: var(--fertig-mut) }
@@ -612,10 +632,16 @@ progress::-moz-progress-bar { background: var(--fertig-ac); border-radius: var(-
 /* segmented control: <div role=group> of buttons */
 /* max-inline-size + scroll, or a group of four or more buttons pushes the
    whole page sideways on a narrow screen. It scrolls rather than wraps:
-   wrapping would break the joined-pill run of radii into separate rows. */
-[role=group] { display: inline-flex; vertical-align: middle;
-               max-inline-size: 100%; overflow-x: auto; overscroll-behavior-x: contain }
+   wrapping would break the joined-pill run of radii into separate rows.
+   The block axis is clipped rather than left to compute to auto alongside it:
+   Safari paints a vertical scrollbar for a sub-pixel of overflow, and the row
+   has no vertical overflow worth scrolling to in the first place. */
+[role=group] { display: inline-flex; vertical-align: middle; max-inline-size: 100%;
+               overflow: auto clip; overscroll-behavior-x: contain }
 [role=group] > * { border-radius: 0; margin-inline-start: -1px; box-shadow: none; min-width: 0 }
+/* The buttons fill the group exactly and the group clips on the block axis,
+   so an outset ring would be sliced off. Inside the edge, it is all there. */
+[role=group] > :focus-visible { outline-offset: -3px }
 [role=group] > :first-child {
   margin-inline-start: 0;
   border-start-start-radius: var(--fertig-rp); border-end-start-radius: var(--fertig-rp);

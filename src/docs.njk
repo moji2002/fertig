@@ -91,7 +91,7 @@ langs:
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>36.4 KB</td><td>8.7 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>36.8 KB</td><td>8.8 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -284,7 +284,7 @@ langs:
           <caption>Size against comparable sheets</caption>
           <thead><tr><th>Sheet</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td>fertig</td><td>36.4 KB</td><td>8.7 KB</td></tr>
+            <tr><td>fertig</td><td>36.8 KB</td><td>8.8 KB</td></tr>
             <tr><td>Pico 2.1.1 classless</td><td>69.4 KB</td><td>10.1 KB</td></tr>
           </tbody>
         </table>
@@ -553,7 +553,8 @@ langs:
             <tr><td><code>--fertig-ac</code></td><td>oklch(50% .22 266) / oklch(78% .13 266)</td><td>Accent: links, focus, filled buttons</td></tr>
             <tr><td><code>--fertig-on-ac</code></td><td>#fff / #07071c</td><td>Text sitting on the accent</td></tr>
             <tr><td><code>--fertig-w</code></td><td>38rem</td><td>The measure</td></tr>
-            <tr><td><code>--fertig-r</code></td><td>9px</td><td>Control radius</td></tr>
+            <tr><td><code>--fertig-r</code></td><td>12px</td><td>Control radius: fields, tabs, menu rows. The rest of the scale is <code>calc()</code>ed off it, so setting it on <code>:root</code> rescales the sheet</td></tr>
+            <tr><td><code>--fertig-rp</code></td><td>calc(infinity * 1px)</td><td>Pill radius: buttons, badges, switches, meters. Set it to <code>var(--fertig-r)</code> for square-shouldered buttons</td></tr>
             <tr><td><code>--fertig-f</code></td><td>system-ui…</td><td>Text font</td></tr>
             <tr><td><code>--fertig-fm</code></td><td>ui-monospace…</td><td>Code font</td></tr>
           </tbody>
@@ -596,7 +597,8 @@ langs:
             <tr><td><code>--fertig-tb</code></td><td>Toolbar fill (translucent)</td></tr>
             <tr><td><code>--fertig-up</code> / <code>--fertig-up2</code> / <code>--fertig-dn</code></td><td>Elevation scale</td></tr>
             <tr><td><code>--fertig-a1</code> / <code>--fertig-a2</code></td><td>Shadow alphas, per theme (<code>@property</code> registrations, so they carry the prefix &mdash; a registration is global)</td></tr>
-            <tr><td><code>--fertig-rw</code></td><td>Window radius</td></tr>
+            <tr><td><code>--fertig-rw</code></td><td>Window radius: cards, dialogs, menus &mdash; <code>calc(var(--fertig-r) * 1.33)</code></td></tr>
+            <tr><td><code>--fertig-rs</code></td><td>Small radius: inline code and chips &mdash; <code>calc(var(--fertig-r) * .5)</code></td></tr>
             <tr><td><code>--fertig-nw</code></td><td>The column the toolbar's contents line up with (follows <code>--fertig-w</code>; <code>&lt;nav class="wide"&gt;</code> re-points it at 66rem)</td></tr>
           </tbody>
         </table>
@@ -615,7 +617,7 @@ langs:
   --fertig-on-ac: light-dark(#fff,    #1a0b02);
 }</code></pre>
             <h5>Sharp corners</h5>
-            <pre><code>:root { --fertig-r: 0; --fertig-rw: 0 }</code></pre>
+            <pre><code>:root { --fertig-r: 0; --fertig-rp: 0 }</code></pre>
             <h5>Flat, no depth</h5>
             <pre><code>:root { --fertig-up: none; --fertig-up2: none; --fertig-dn: none }</code></pre>
           </div>

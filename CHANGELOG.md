@@ -38,9 +38,49 @@ the motion tokens (`--ease`, `--ease-in`, `--ease-out`, `--dur-1`, `--dur-2`),
   8.62:1 in dark — both sit inside sRGB. The
   `@supports not (color: light-dark(…))` flat-sRGB fallback is restated to match,
   and every pair still clears WCAG AA in both schemes.
-- **Buttons are fully rounded.** The shared button rule now sets
-  `border-radius: 999px` instead of inheriting the control radius. It matches the
-  badge, the switch and the progress bar, which were already pills.
+- **Buttons are fully rounded.** The shared button rule takes a new
+  `--fertig-rp` (pill) token instead of the control radius. It matches the
+  badge, the switch and the progress bar, which were already pills. Set
+  `--fertig-rp: var(--fertig-r)` for square-shouldered buttons.
+- **One radius, and the rest derived from it.** `--fertig-r` (12px) is the base;
+  `--fertig-rs` is `calc(var(--fertig-r) * .5)` and `--fertig-rw` is
+  `calc(var(--fertig-r) * 1.33)`, so setting the base on `:root` rescales the
+  whole sheet instead of desynchronising it. Windows — cards, dialogs, popover
+  menus, the select picker, `pre`, `details`, `fieldset`, `aside`, toasts —
+  now take `--fertig-rw` rather than the control radius, and full-bleed card
+  media follows the card it bleeds into.
+- **Badges are uppercase.** They already used the caps *size*; they never got
+  the transform that `h5`, `h6` and `th` get.
+- **The dialog lost its banded rules.** No hairline under the header or over
+  the footer by default; the separation is spacing. The rule now arrives as
+  scroll state — a scroll-driven animation fades it in under the header once the
+  body has scrolled and out of the footer at the end — so a dialog that fits
+  shows no rules at all. Title takes `--fertig-f`, the interface face, at
+  600/1.1rem: a monospaced heading font reads as a terminal on a dialog.
+- **The `err` tone is red, not clay.** `[data-tone=err]` borrowed
+  `--fertig-clay-700`, which at 50% lightness reads brown on a destructive
+  button. Now `oklch(52% .16 27)` / `oklch(74% .13 25)` — 5.97:1 with the white
+  label, and `--fertig-on-ac` still derives correctly in both themes.
+- **The select picker animates open and closed**, with `display` and `overlay`
+  transitioned discretely so the close is not a pop.
+
+### Fixed
+
+- **`accent-color` and `caret-color` ignored every local accent.** Both were
+  declared once on `:root`. They are inherited properties, so they resolved
+  there against the root accent and every descendant inherited that *computed
+  colour* — a `[data-accent]` or `[data-tone]` subtree repainted its buttons and
+  links but left its checkboxes, radios, ranges and caret on the root's tint.
+  Both are now re-declared on the elements that consume them.
+- **The segmented control showed a vertical scrollbar.** `overflow-x: auto`
+  makes `overflow-y` compute to `auto` as well, and Safari paints a scrollbar
+  for a sub-pixel of overflow. The block axis is now clipped (`overflow: auto
+  clip`), and group children take their focus ring inside the edge
+  (`outline-offset: -3px`) so the clip cannot slice it.
+- **The `<select>` marker was a different shape per engine.** Engines without
+  `appearance: base-select` fell back to a solid filled triangle while the
+  styleable picker drew a thin chevron. The fallback now draws the same
+  stroked chevron.
 - **The docs site is built with Eleventy.** The pages moved out of hand-edited
   HTML at the repo root into `src/` templates that build to `dist/`, with the
   version flowing from `package.json` as the single source of truth. This is how

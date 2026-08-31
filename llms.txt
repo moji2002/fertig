@@ -2,7 +2,7 @@
 
 > A classless CSS stylesheet that ships components, not just styled elements.
 > Link one file, write ordinary semantic HTML, and the page is finished —
-> 36.4 KB raw, 8.7 KB gzipped, no build step, no dependencies, no JavaScript,
+> 36.8 KB raw, 8.8 KB gzipped, no build step, no dependencies, no JavaScript,
 > no classes required.
 >
 > Menus, dialogs, drawers, toasts and tooltips are addressed by ARIA and work
