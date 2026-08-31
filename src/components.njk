@@ -1,0 +1,697 @@
+---
+layout: layout.njk
+permalink: "components.html"
+title: "Browse Components | fertig"
+description: "Browse every element, component, and utility fertig styles. Each entry shows the markup pattern, a live preview, and the category it belongs to."
+ogTitle: "Browse Components | fertig"
+ogDescription: "Browse every element, component, and utility fertig styles. Each entry shows the markup pattern, a live preview, and the category it belongs to."
+canonical: "components.html"
+active: components
+langs:
+  - javascript
+---
+
+
+<header class="band page-head">
+  <div class="wrap">
+    <nav aria-label="Breadcrumb">
+      <ol><li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li><li>Components</li></ol>
+    </nav>
+    <h1 class="page-title">Components</h1>
+    <p class="muted page-intro">Every element, component, and utility fertig styles. No classes required — each pattern is addressed by semantic HTML or ARIA attributes.</p>
+  </div>
+</header>
+
+<main class="band" style="border-top:0">
+  <div class="wrap">
+
+    <div class="comp-toolbar">
+      <div class="comp-filters" role="group" aria-label="Filter by category">
+        <button class="comp-filter" aria-pressed="true" data-filter="all">All</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="elements">Elements</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="forms">Forms</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="buttons">Buttons</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="data">Data</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="feedback">Feedback</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="navigation">Navigation</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="overlay">Overlay</button>
+        <button class="comp-filter" aria-pressed="false" data-filter="layout">Layout</button>
+      </div>
+      <div class="comp-search-wrap">
+        <input type="search" class="comp-search" placeholder="Search components…" aria-label="Search components" autocomplete="off">
+      </div>
+    </div>
+
+    <p class="comp-count" role="status" aria-live="polite"><span id="comp-count-num">30</span> components</p>
+
+    <h2 class="sr-only">All components</h2>
+    <div class="comp-grid" id="comp-grid">
+
+      <!-- Typography -->
+      <article class="comp-card" data-category="elements" data-name="typography">
+        <div class="comp-card-head">
+          <h3>Typography</h3>
+          <span class="badge">elements</span>
+        </div>
+        <div class="comp-card-preview">
+          <p>Body text with <strong>bold</strong>, <em>italic</em>, <a href="#">links</a>, and <code>inline code</code>.</p>
+        </div>
+        <p class="comp-card-desc">Semantic inline elements are styled directly — strong, em, a, mark, s, ins, abbr, code, kbd, samp. No classes needed.</p>
+        <div class="comp-card-code"><code>&lt;p&gt;Text with &lt;strong&gt;bold&lt;/strong&gt;, &lt;em&gt;italic&lt;/em&gt;, &lt;a&gt;links&lt;/a&gt;.&lt;/p&gt;</code></div>
+      </article>
+
+      <!-- Headings -->
+      <article class="comp-card" data-category="elements" data-name="headings">
+        <div class="comp-card-head">
+          <h3>Headings</h3>
+          <span class="badge">elements</span>
+        </div>
+        <div class="comp-card-preview">
+          <h4 style="margin:0">Heading h4</h4>
+          <h5 style="margin:0">Heading h5</h5>
+        </div>
+        <p class="comp-card-desc">h1–h4 descend in size; h5 and h6 become small uppercase labels, which is how they are usually used in practice.</p>
+        <div class="comp-card-code"><code>&lt;h1&gt;…&lt;/h1&gt; through &lt;h6&gt;…&lt;/h6&gt;</code></div>
+      </article>
+
+      <!-- Lists -->
+      <article class="comp-card" data-category="elements" data-name="lists">
+        <div class="comp-card-head">
+          <h3>Lists</h3>
+          <span class="badge">elements</span>
+        </div>
+        <div class="comp-card-preview">
+          <ul style="margin:0"><li>Unordered list</li><li>Second item</li></ul>
+        </div>
+        <p class="comp-card-desc">Ordered, unordered, and definition lists. Description lists become a two-column grid automatically.</p>
+        <div class="comp-card-code"><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;
+&lt;dl&gt;&lt;dt&gt;Key&lt;/dt&gt;&lt;dd&gt;Value&lt;/dd&gt;&lt;/dl&gt;</code></div>
+      </article>
+
+      <!-- Blockquote -->
+      <article class="comp-card" data-category="elements" data-name="blockquote">
+        <div class="comp-card-head">
+          <h3>Blockquote</h3>
+          <span class="badge">elements</span>
+        </div>
+        <div class="comp-card-preview">
+          <blockquote style="margin:0">A quoted passage with an accent rule and muted text.</blockquote>
+        </div>
+        <p class="comp-card-desc">Block quotes take an accent rule on the start edge and mute their text colour.</p>
+        <div class="comp-card-code"><code>&lt;blockquote&gt;…&lt;/blockquote&gt;</code></div>
+      </article>
+
+      <!-- Code blocks -->
+      <article class="comp-card" data-category="elements" data-name="code">
+        <div class="comp-card-head">
+          <h3>Code</h3>
+          <span class="badge">elements</span>
+        </div>
+        <div class="comp-card-preview">
+          <pre style="margin:0"><code>.card { border-radius: var(--fertig-r) }</code></pre>
+        </div>
+        <p class="comp-card-desc">Inline code, keyboard shortcuts, sample output, and code blocks — all with a monospace face and recessed background.</p>
+        <div class="comp-card-code"><code>&lt;code&gt;inline&lt;/code&gt;
+&lt;pre&gt;&lt;code&gt;block&lt;/code&gt;&lt;/pre&gt;
+&lt;kbd&gt;⌘K&lt;/kbd&gt;</code></div>
+      </article>
+
+      <!-- Links -->
+      <article class="comp-card" data-category="elements" data-name="links">
+        <div class="comp-card-head">
+          <h3>Links</h3>
+          <span class="badge">elements</span>
+        </div>
+        <div class="comp-card-preview">
+          <p style="margin:0"><a href="#">A link in the accent colour</a></p>
+        </div>
+        <p class="comp-card-desc">Links use the accent colour with an underline offset. Links can also be buttons — add role="button" or .primary.</p>
+        <div class="comp-card-code"><code>&lt;a href="#"&gt;Link text&lt;/a&gt;
+&lt;a class="primary" role="button" href="#"&gt;Button link&lt;/a&gt;</code></div>
+      </article>
+
+      <!-- Tables -->
+      <article class="comp-card" data-category="data" data-name="tables">
+        <div class="comp-card-head">
+          <h3>Tables</h3>
+          <span class="badge">data</span>
+        </div>
+        <div class="comp-card-preview">
+          <table style="margin:0">
+            <thead><tr><th>Name</th><th align="right">Size</th></tr></thead>
+            <tbody>
+              <tr><td>fertig</td><td align="right">8.8 KB</td></tr>
+              <tr><td>Other</td><td align="right">12 KB</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="comp-card-desc">Editorial tables with hairline rules, hover tint, and self-scrolling on narrow screens. Numbers right-align with align="right".</p>
+        <div class="comp-card-code"><code>&lt;table&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;…&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;&lt;tr&gt;&lt;td&gt;…&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;</code></div>
+      </article>
+
+      <!-- Cards -->
+      <article class="comp-card" data-category="data" data-name="cards">
+        <div class="comp-card-head">
+          <h3>Cards</h3>
+          <span class="badge">data</span>
+        </div>
+        <div class="comp-card-preview">
+          <div class="card" style="margin:0">
+            <header>Card title</header>
+            <p style="margin:0">Raised panel with optional header and footer.</p>
+          </div>
+        </div>
+        <p class="comp-card-desc">Raised panels taking optional header and footer that bleed to its edges. Cards are columns — footers align across a row.</p>
+        <div class="comp-card-code"><code>&lt;div class="card"&gt;
+  &lt;header&gt;Title&lt;/header&gt;
+  &lt;p&gt;Content.&lt;/p&gt;
+  &lt;footer&gt;Meta&lt;/footer&gt;
+&lt;/div&gt;</code></div>
+      </article>
+
+      <!-- Badges -->
+      <article class="comp-card" data-category="data" data-name="badges">
+        <div class="comp-card-head">
+          <h3>Badges</h3>
+          <span class="badge">data</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <span class="badge">default</span>
+            <span class="badge" data-tone="ok">passing</span>
+            <span class="badge" data-tone="err">failing</span>
+          </p>
+        </div>
+        <p class="comp-card-desc">Small pill labels for status, counts, or categories. Combine with data-tone for ok/warn/err colours.</p>
+        <div class="comp-card-code"><code>&lt;span class="badge"&gt;default&lt;/span&gt;
+&lt;span class="badge" data-tone="ok"&gt;pass&lt;/span&gt;
+&lt;span class="badge" data-tone="err"&gt;fail&lt;/span&gt;</code></div>
+      </article>
+
+      <!-- Skeleton -->
+      <article class="comp-card" data-category="data" data-name="skeleton">
+        <div class="comp-card-head">
+          <h3>Skeleton</h3>
+          <span class="badge">data</span>
+        </div>
+        <div class="comp-card-preview">
+          <p data-skeleton style="margin:0">This paragraph is a skeleton placeholder.</p>
+        </div>
+        <p class="comp-card-desc">Placeholder shapes that show where content will appear once it finishes loading, reducing perceived wait time.</p>
+        <div class="comp-card-code"><code>&lt;p data-skeleton&gt;Loading text…&lt;/p&gt;</code></div>
+      </article>
+
+      <!-- Input -->
+      <article class="comp-card" data-category="forms" data-name="input">
+        <div class="comp-card-head">
+          <h3>Input</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <form style="margin:0">
+            <label for="c-email">Email</label>
+            <input id="c-email" type="email" placeholder="you@example.com">
+          </form>
+        </div>
+        <p class="comp-card-desc">Single-line text fields with labels, placeholders, hints, and validation. Errors fire on :user-invalid after input.</p>
+        <div class="comp-card-code"><code>&lt;label for="e"&gt;Email&lt;/label&gt;
+&lt;input id="e" type="email" required&gt;</code></div>
+      </article>
+
+      <!-- Select -->
+      <article class="comp-card" data-category="forms" data-name="select">
+        <div class="comp-card-head">
+          <h3>Select</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <form style="margin:0">
+            <label for="c-plan">Plan</label>
+            <select id="c-plan"><option>Free</option><option>Pro</option></select>
+          </form>
+        </div>
+        <p class="comp-card-desc">Native select dropdown with a CSS-drawn chevron. Supports appearance: base-select on Chromium for full styling.</p>
+        <div class="comp-card-code"><code>&lt;label for="s"&gt;Plan&lt;/label&gt;
+&lt;select id="s"&gt;&lt;option&gt;Free&lt;/option&gt;&lt;/select&gt;</code></div>
+      </article>
+
+      <!-- Textarea -->
+      <article class="comp-card" data-category="forms" data-name="textarea">
+        <div class="comp-card-head">
+          <h3>Textarea</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <form style="margin:0">
+            <label for="c-notes">Notes</label>
+            <textarea id="c-notes" placeholder="Grows as you type…" rows="2"></textarea>
+          </form>
+        </div>
+        <p class="comp-card-desc">Multi-line text input with optional resizing and field-sizing: content for auto-grow.</p>
+        <div class="comp-card-code"><code>&lt;label for="t"&gt;Notes&lt;/label&gt;
+&lt;textarea id="t" placeholder="Type here…"&gt;&lt;/textarea&gt;</code></div>
+      </article>
+
+      <!-- Checkbox & Radio -->
+      <article class="comp-card" data-category="forms" data-name="checkbox radio">
+        <div class="comp-card-head">
+          <h3>Checkbox &amp; Radio</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <form style="margin:0">
+            <p><label><input type="checkbox" checked> Checkbox</label></p>
+            <p><label><input type="radio" name="cr" checked> Radio</label></p>
+          </form>
+        </div>
+        <p class="comp-card-desc">Toggle options on/off or select one from a set. Both inherit accent-color for easy theming.</p>
+        <div class="comp-card-code"><code>&lt;label&gt;&lt;input type="checkbox"&gt; Check&lt;/label&gt;
+&lt;label&gt;&lt;input type="radio" name="r"&gt; Radio&lt;/label&gt;</code></div>
+      </article>
+
+      <!-- Range & Progress -->
+      <article class="comp-card" data-category="forms" data-name="range progress">
+        <div class="comp-card-head">
+          <h3>Range &amp; Progress</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <form style="margin:0">
+            <label for="c-range">Volume</label>
+            <input id="c-range" type="range" value="60">
+            <progress value="0.6"></progress>
+          </form>
+        </div>
+        <p class="comp-card-desc">Range sliders for numeric values within a range. Progress bars show determinate fill for ongoing operations.</p>
+        <div class="comp-card-code"><code>&lt;input type="range" value="60"&gt;
+&lt;progress value="0.6"&gt;&lt;/progress&gt;</code></div>
+      </article>
+
+      <!-- Fieldset -->
+      <article class="comp-card" data-category="forms" data-name="fieldset">
+        <div class="comp-card-head">
+          <h3>Fieldset</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <form style="margin:0">
+            <fieldset>
+              <legend>Account</legend>
+              <label for="c-name">Name</label>
+              <input id="c-name" type="text" value="Ada">
+            </fieldset>
+          </form>
+        </div>
+        <p class="comp-card-desc">Groups related form controls. The legend is styled as a panel title rather than notching the border.</p>
+        <div class="comp-card-code"><code>&lt;fieldset&gt;
+  &lt;legend&gt;Account&lt;/legend&gt;
+  &lt;label for="n"&gt;Name&lt;/label&gt;
+  &lt;input id="n" type="text"&gt;
+&lt;/fieldset&gt;</code></div>
+      </article>
+
+      <!-- Default button -->
+      <article class="comp-card" data-category="buttons" data-name="button">
+        <div class="comp-card-head">
+          <h3>Button</h3>
+          <span class="badge">buttons</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <button>Default</button>
+            <button class="primary">Primary</button>
+          </p>
+        </div>
+        <p class="comp-card-desc">A plain button is already styled. type="submit" gets the filled treatment automatically — most forms need no attributes.</p>
+        <div class="comp-card-code"><code>&lt;button&gt;Default&lt;/button&gt;
+&lt;button class="primary"&gt;Primary&lt;/button&gt;</code></div>
+      </article>
+
+      <!-- Ghost & Link buttons -->
+      <article class="comp-card" data-category="buttons" data-name="ghost link button">
+        <div class="comp-card-head">
+          <h3>Ghost &amp; Link</h3>
+          <span class="badge">buttons</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <button data-variant="ghost">Ghost</button>
+            <button data-variant="link">Link</button>
+          </p>
+        </div>
+        <p class="comp-card-desc">Ghost buttons sit on the surface without a border. Link buttons look like text links but behave as buttons.</p>
+        <div class="comp-card-code"><code>&lt;button data-variant="ghost"&gt;Ghost&lt;/button&gt;
+&lt;button data-variant="link"&gt;Link&lt;/button&gt;</code></div>
+      </article>
+
+      <!-- Button sizes -->
+      <article class="comp-card" data-category="buttons" data-name="button size">
+        <div class="comp-card-head">
+          <h3>Button Sizes</h3>
+          <span class="badge">buttons</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <button data-size="sm">Small</button>
+            <button>Medium</button>
+            <button data-size="lg">Large</button>
+          </p>
+        </div>
+        <p class="comp-card-desc">Three sizes via data-size: sm, default, lg. Also supports data-block for full width and data-icon for icon-only.</p>
+        <div class="comp-card-code"><code>&lt;button data-size="sm"&gt;Small&lt;/button&gt;
+&lt;button data-size="lg"&gt;Large&lt;/button&gt;
+&lt;button data-block&gt;Full width&lt;/button&gt;</code></div>
+      </article>
+
+      <!-- Toned button -->
+      <article class="comp-card" data-category="buttons" data-name="tone button">
+        <div class="comp-card-head">
+          <h3>Toned Button</h3>
+          <span class="badge">buttons</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <button data-tone="ok">Confirm</button>
+            <button data-tone="warn">Caution</button>
+            <button data-tone="err">Delete</button>
+          </p>
+        </div>
+        <p class="comp-card-desc">Combine data-tone with .primary to retint the button for ok, warn, or err states.</p>
+        <div class="comp-card-code"><code>&lt;button class="primary" data-tone="err"&gt;
+  Delete
+&lt;/button&gt;</code></div>
+      </article>
+
+      <!-- Segmented control -->
+      <article class="comp-card" data-category="navigation" data-name="segmented">
+        <div class="comp-card-head">
+          <h3>Segmented Control</h3>
+          <span class="badge">navigation</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <span role="group">
+              <button aria-pressed="true">Day</button>
+              <button aria-pressed="false">Week</button>
+              <button aria-pressed="false">Month</button>
+            </span>
+          </p>
+        </div>
+        <p class="comp-card-desc">Mutually exclusive options styled through role="group" and aria-pressed. No classes needed.</p>
+        <div class="comp-card-code"><code>&lt;span role="group"&gt;
+  &lt;button aria-pressed="true"&gt;Day&lt;/button&gt;
+  &lt;button aria-pressed="false"&gt;Week&lt;/button&gt;
+&lt;/span&gt;</code></div>
+      </article>
+
+      <!-- Tabs -->
+      <article class="comp-card" data-category="navigation" data-name="tabs tablist">
+        <div class="comp-card-head">
+          <h3>Tabs</h3>
+          <span class="badge">navigation</span>
+        </div>
+        <div class="comp-card-preview">
+          <div role="tablist" style="margin:0">
+            <button role="tab" aria-selected="true">Preview</button>
+            <button role="tab" aria-selected="false">Code</button>
+            <button role="tab" aria-selected="false">Notes</button>
+          </div>
+        </div>
+        <p class="comp-card-desc">Styled through ARIA. Switching panels needs ~8 lines of JS to set aria-selected and toggle panel visibility.</p>
+        <div class="comp-card-code"><code>&lt;div role="tablist"&gt;
+  &lt;button role="tab" aria-selected="true"&gt;Tab&lt;/button&gt;
+&lt;/div&gt;</code></div>
+      </article>
+
+      <!-- Breadcrumb -->
+      <article class="comp-card" data-category="navigation" data-name="breadcrumb">
+        <div class="comp-card-head">
+          <h3>Breadcrumb</h3>
+          <span class="badge">navigation</span>
+        </div>
+        <div class="comp-card-preview">
+          <nav aria-label="Breadcrumb" style="margin:0">
+            <ol><li><a href="#">Home</a></li><li><a href="#">Docs</a></li><li>Here</li></ol>
+          </nav>
+        </div>
+        <p class="comp-card-desc">Trail of links showing hierarchy position. Separator and current-page styling are automatic.</p>
+        <div class="comp-card-code"><code>&lt;nav aria-label="Breadcrumb"&gt;
+  &lt;ol&gt;&lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;
+&lt;/nav&gt;</code></div>
+      </article>
+
+      <!-- Menu / Popover -->
+      <article class="comp-card" data-category="overlay" data-name="menu popover">
+        <div class="comp-card-head">
+          <h3>Menu / Popover</h3>
+          <span class="badge">overlay</span>
+        </div>
+        <div class="comp-card-preview">
+          <p style="margin:0">
+            <button popovertarget="cc-menu">Menu ▾</button>
+            <div popover id="cc-menu">
+              <menu>
+                <li><button>New file</button></li>
+                <li><button>Duplicate</button></li>
+              </menu>
+            </div>
+          </p>
+        </div>
+        <p class="comp-card-desc">Native popover API, anchored to the button with CSS anchor positioning. No JavaScript, no positioning library.</p>
+        <div class="comp-card-code"><code>&lt;button popovertarget="menu"&gt;Menu ▾&lt;/button&gt;
+&lt;div popover id="menu"&gt;
+  &lt;menu&gt;&lt;li&gt;&lt;button&gt;New&lt;/button&gt;&lt;/li&gt;&lt;/menu&gt;
+&lt;/div&gt;</code></div>
+      </article>
+
+      <!-- Tooltip -->
+      <article class="comp-card" data-category="feedback" data-name="tooltip">
+        <div class="comp-card-head">
+          <h3>Tooltip</h3>
+          <span class="badge">feedback</span>
+        </div>
+        <div class="comp-card-preview">
+          <p style="margin:0"><button data-tooltip="One attribute, no JavaScript">Hover me</button></p>
+        </div>
+        <p class="comp-card-desc">Pure CSS tooltips via data-tooltip. Decorative only — put the same text in aria-label for assistive tech.</p>
+        <div class="comp-card-code"><code>&lt;button data-tooltip="Helpful tip"&gt;
+  Hover me
+&lt;/button&gt;</code></div>
+      </article>
+
+      <!-- Dialog -->
+      <article class="comp-card" data-category="overlay" data-name="dialog drawer">
+        <div class="comp-card-head">
+          <h3>Dialog</h3>
+          <span class="badge">overlay</span>
+        </div>
+        <div class="comp-card-preview">
+          <p style="margin:0">
+            <button commandfor="cc-dlg" command="show-modal">Open dialog</button>
+            <dialog id="cc-dlg" closedby="any">
+              <header><h3>Confirm?</h3></header>
+              <p>This cannot be undone.</p>
+              <footer>
+                <button commandfor="cc-dlg" command="close">Cancel</button>
+                <button class="primary" commandfor="cc-dlg" command="close">OK</button>
+              </footer>
+            </dialog>
+          </p>
+        </div>
+        <p class="comp-card-desc">Opens and closes with command/commandfor attributes — no JavaScript. closedby="any" gives light dismiss. Drawer uses the same element docked to an edge via data-side.</p>
+        <div class="comp-card-code"><code>&lt;dialog id="d" closedby="any"&gt;
+  &lt;header&gt;&lt;h3&gt;Title&lt;/h3&gt;&lt;/header&gt;
+  &lt;p&gt;Content.&lt;/p&gt;
+  &lt;footer&gt;
+    &lt;button commandfor="d" command="close"&gt;Close&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;/dialog&gt;
+&lt;button commandfor="d" command="show-modal"&gt;Open&lt;/button&gt;</code></div>
+      </article>
+
+      <!-- Alerts / Callouts -->
+      <article class="comp-card" data-category="feedback" data-name="alert callout aside">
+        <div class="comp-card-head">
+          <h3>Alerts</h3>
+          <span class="badge">feedback</span>
+        </div>
+        <div class="comp-card-preview">
+          <aside data-tone="ok" style="margin:0"><strong>Done.</strong> Payment received.</aside>
+        </div>
+        <p class="comp-card-desc">Callouts and asides retinted with data-tone. One attribute changes the accent for the whole element.</p>
+        <div class="comp-card-code"><code>&lt;aside data-tone="ok"&gt;
+  &lt;strong&gt;Done.&lt;/strong&gt; Payment received.
+&lt;/aside&gt;</code></div>
+      </article>
+
+      <!-- Loading / Spinner -->
+      <article class="comp-card" data-category="feedback" data-name="loading spinner busy">
+        <div class="comp-card-head">
+          <h3>Loading</h3>
+          <span class="badge">feedback</span>
+        </div>
+        <div class="comp-card-preview">
+          <p style="margin:0"><button aria-busy="true">Saving</button></p>
+        </div>
+        <p class="comp-card-desc">Add aria-busy="true" to any button for a spinner. Works with any element — the spinner is drawn with CSS.</p>
+        <div class="comp-card-code"><code>&lt;button aria-busy="true"&gt;Saving&lt;/button&gt;</code></div>
+      </article>
+
+      <!-- Tones -->
+      <article class="comp-card" data-category="feedback" data-name="tones data-tone">
+        <div class="comp-card-head">
+          <h3>Tones</h3>
+          <span class="badge">feedback</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <span class="badge" data-tone="ok">ok</span>
+            <span class="badge" data-tone="warn">warn</span>
+            <span class="badge" data-tone="err">err</span>
+          </p>
+        </div>
+        <p class="comp-card-desc">data-tone redefines --fertig-ac on the element. Anything inside it — buttons, links, badges — follows automatically.</p>
+        <div class="comp-card-code"><code>&lt;span class="badge" data-tone="ok"&gt;pass&lt;/span&gt;
+&lt;div class="card" data-tone="err"&gt;…&lt;/div&gt;</code></div>
+      </article>
+
+      <!-- Disclosure -->
+      <article class="comp-card" data-category="navigation" data-name="disclosure details summary">
+        <div class="comp-card-head">
+          <h3>Disclosure</h3>
+          <span class="badge">navigation</span>
+        </div>
+        <div class="comp-card-preview">
+          <details style="margin:0">
+            <summary>What counts?</summary>
+            <p>Anything styled through ARIA or a native element, with no class required.</p>
+          </details>
+        </div>
+        <p class="comp-card-desc">Native details/summary with a rotating caret. Animates open and closed where ::details-content is supported.</p>
+        <div class="comp-card-code"><code>&lt;details&gt;
+  &lt;summary&gt;Title&lt;/summary&gt;
+  &lt;p&gt;Body.&lt;/p&gt;
+&lt;/details&gt;</code></div>
+      </article>
+
+      <!-- Layout utilities -->
+      <article class="comp-card" data-category="layout" data-name="flex grid gap layout utilities">
+        <div class="comp-card-head">
+          <h3>Layout Utilities</h3>
+          <span class="badge">layout</span>
+        </div>
+        <div class="comp-card-preview">
+          <div class="grid" style="margin:0">
+            <div class="card" style="margin:0"><header>A</header></div>
+            <div class="card" style="margin:0"><header>B</header></div>
+          </div>
+        </div>
+        <p class="comp-card-desc">Tailwind-named layout utilities: .flex, .grid, .gap-*, .mx-auto, .ms-auto, .me-auto, .w-full, .hidden. All flow-relative.</p>
+        <div class="comp-card-code"><code>&lt;div class="grid grid-cols-3 gap-4"&gt;…&lt;/div&gt;
+&lt;p class="row justify-end"&gt;…&lt;/p&gt;</code></div>
+      </article>
+
+      <!-- Named accents -->
+      <article class="comp-card" data-category="layout" data-name="accent data-accent">
+        <div class="comp-card-head">
+          <h3>Named Accents</h3>
+          <span class="badge">layout</span>
+        </div>
+        <div class="comp-card-preview">
+          <p class="row" style="margin:0">
+            <span data-accent="sage"><button class="primary">sage</button></span>
+            <span data-accent="plum"><button class="primary">plum</button></span>
+          </p>
+        </div>
+        <p class="comp-card-desc">Seven named accents (indigo, sky, sage, clay, plum, gold, slate). Put data-accent on any element and everything inside follows.</p>
+        <div class="comp-card-code"><code>&lt;section data-accent="sage"&gt;
+  &lt;button class="primary"&gt;Save&lt;/button&gt;
+&lt;/section&gt;</code></div>
+      </article>
+
+    </div>
+
+    <div class="comp-empty" hidden>
+      <p>No components match your search.</p>
+      <button class="comp-clear">Clear filters</button>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <strong>fertig</strong>
+        <p class="muted"><small>A classless CSS
+          stylesheet. MIT licensed.</small></p>
+      </div>
+      <div>
+        <strong>Documentation</strong>
+        <ul>
+          <li><a href="docs.html#install">Install</a></li>
+          <li><a href="docs.html#layout">Layout</a></li>
+          <li><a href="components.html">Components</a></li>
+          <li><a href="docs.html#tokens">Tokens</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Project</strong>
+        <ul>
+          <li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
+          <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>Source</a></li>
+          <li><a href="https://www.npmjs.com/package/fertig">npm</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.getElementById("comp-grid");
+  const cards = [...grid.querySelectorAll(".comp-card")];
+  const countEl = document.getElementById("comp-count-num");
+  const emptyEl = grid.nextElementSibling;
+  const search = document.querySelector(".comp-search");
+  const filters = [...document.querySelectorAll(".comp-filter")];
+  let active = "all";
+
+  const update = () => {
+    const q = search.value.toLowerCase().trim();
+    let shown = 0;
+    cards.forEach(card => {
+      const cat = card.dataset.category;
+      const name = card.dataset.name;
+      const text = card.textContent.toLowerCase();
+      const matchCat = active === "all" || cat === active;
+      const matchQ = !q || name.includes(q) || text.includes(q);
+      const visible = matchCat && matchQ;
+      card.hidden = !visible;
+      if (visible) shown++;
+    });
+    countEl.textContent = shown;
+    emptyEl.hidden = shown > 0;
+  };
+
+  filters.forEach(btn => btn.addEventListener("click", () => {
+    filters.forEach(b => b.setAttribute("aria-pressed", "false"));
+    btn.setAttribute("aria-pressed", "true");
+    active = btn.dataset.filter;
+    update();
+  }));
+
+  search.addEventListener("input", update);
+
+  document.querySelector(".comp-clear").addEventListener("click", () => {
+    search.value = "";
+    active = "all";
+    filters.forEach(b => b.setAttribute("aria-pressed", b.dataset.filter === "all" ? "true" : "false"));
+    update();
+  });
+});
+</script>

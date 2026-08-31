@@ -554,7 +554,7 @@ langs:
             <tr><td><code>--fertig-on-ac</code></td><td>#fff / #07071c</td><td>Text sitting on the accent</td></tr>
             <tr><td><code>--fertig-w</code></td><td>38rem</td><td>The measure</td></tr>
             <tr><td><code>--fertig-r</code></td><td>12px</td><td>Control radius: fields, tabs, menu rows. The rest of the scale is <code>calc()</code>ed off it, so setting it on <code>:root</code> rescales the sheet</td></tr>
-            <tr><td><code>--fertig-rp</code></td><td>calc(infinity * 1px)</td><td>Pill radius: buttons, badges, switches, meters. Set it to <code>var(--fertig-r)</code> for square-shouldered buttons</td></tr>
+            <tr><td><code>--fertig-rp</code></td><td>calc(var(--fertig-r) * 1000)</td><td>Pill radius: buttons, badges, switches, meters. Set it to <code>var(--fertig-r)</code> for square-shouldered buttons</td></tr>
             <tr><td><code>--fertig-f</code></td><td>system-ui…</td><td>Text font</td></tr>
             <tr><td><code>--fertig-fm</code></td><td>ui-monospace…</td><td>Code font</td></tr>
           </tbody>
@@ -617,7 +617,7 @@ langs:
   --fertig-on-ac: light-dark(#fff,    #1a0b02);
 }</code></pre>
             <h3>Sharp corners</h3>
-            <pre><code>:root { --fertig-r: 0; --fertig-rp: 0 }</code></pre>
+            <pre><code>:root { --fertig-r: 0 }   /* squares the pills too */</code></pre>
             <h3>Flat, no depth</h3>
             <pre><code>:root { --fertig-up: none; --fertig-up2: none; --fertig-dn: none }</code></pre>
           </div>

@@ -60,6 +60,13 @@ PAGES = {
         'permalink': 'blocks.html',
         'langs': ['javascript', 'bash'],
     },
+    'components': {
+        'file': 'components.html',
+        'canonical': 'components.html',
+        'active': 'components',
+        'permalink': 'components.html',
+        'langs': ['javascript'],
+    },
 }
 
 
