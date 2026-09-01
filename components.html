@@ -6,30 +6,38 @@
 <title>Browse Components | fertig</title>
 <meta name="description" content="Browse every element, component, and utility fertig styles. Each entry shows the markup pattern, a live preview, and the category it belongs to.">
 <link rel="canonical" href="https://moji2002.github.io/fertig/components.html">
+<meta name="theme-color" content="#111315" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fertig">
 <meta property="og:url" content="https://moji2002.github.io/fertig/components.html">
 <meta property="og:title" content="Browse Components | fertig">
 <meta property="og:description" content="Browse every element, component, and utility fertig styles. Each entry shows the markup pattern, a live preview, and the category it belongs to.">
-<meta property="og:image" content="https://moji2002.github.io/fertig/preview-dark.png">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Browse Components | fertig">
+<meta name="twitter:description" content="Browse every element, component, and utility fertig styles. Each entry shows the markup pattern, a live preview, and the category it belongs to.">
+
+
 <script>
+  /* before first paint: dark by default, or whatever was chosen last time.
+     Inline and synchronous on purpose — a deferred script would repaint. */
   try {
     document.documentElement.dataset.theme =
       localStorage.getItem("fertig-theme") || "dark";
   } catch { document.documentElement.dataset.theme = "dark" }
 </script>
-<link rel="stylesheet" href="fertig.css">
+<link rel="stylesheet" href="fertig.css?v=5b35d8c3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=00827bb9">
+<div class="reading-progress" aria-hidden="true"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
-<script src="site.js" defer></script>
-
-<div class="reading-progress" aria-hidden="true"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/javascript.min.js"></script>
+<script src="site.js?v=b1fce9f8" defer></script>
 
 <nav>
   <div class="bar wrap">
@@ -45,6 +53,8 @@
     <button data-size="sm" data-icon data-theme-toggle aria-label="Switch theme"><svg class="icon sun" aria-hidden="true"><use href="icons.svg#sun"></use></svg><svg class="icon moon" aria-hidden="true"><use href="icons.svg#moon"></use></svg></button>
   </div>
 </nav>
+
+
 
 <header class="band page-head">
   <div class="wrap">
@@ -78,6 +88,7 @@
 
     <p class="comp-count" role="status" aria-live="polite"><span id="comp-count-num">30</span> components</p>
 
+    <h2 class="sr-only">All components</h2>
     <div class="comp-grid" id="comp-grid">
 
       <!-- Typography -->
@@ -173,7 +184,7 @@
           <table style="margin:0">
             <thead><tr><th>Name</th><th align="right">Size</th></tr></thead>
             <tbody>
-              <tr><td>fertig</td><td align="right">8.8 KB</td></tr>
+              <tr><td>fertig</td><td align="right">8.7 KB</td></tr>
               <tr><td>Other</td><td align="right">12 KB</td></tr>
             </tbody>
           </table>
@@ -453,7 +464,7 @@
             <button role="tab" aria-selected="false">Notes</button>
           </div>
         </div>
-        <p class="comp-card-desc">Styled through ARIA. Switching panels needs ~8 lines of JS to set aria-selected and toggle panel visibility.</p>
+        <p class="comp-card-desc">Styled through ARIA. JavaScript owns selected state, panel visibility and arrow-key navigation.</p>
         <div class="comp-card-code"><code>&lt;div role="tablist"&gt;
   &lt;button role="tab" aria-selected="true"&gt;Tab&lt;/button&gt;
 &lt;/div&gt;</code></div>
@@ -635,12 +646,12 @@
         </div>
         <div class="comp-card-preview">
           <p class="row" style="margin:0">
-            <span data-accent="sage"><button class="primary">sage</button></span>
-            <span data-accent="plum"><button class="primary">plum</button></span>
+            <span data-accent="green"><button class="primary">green</button></span>
+            <span data-accent="violet"><button class="primary">violet</button></span>
           </p>
         </div>
-        <p class="comp-card-desc">Seven named accents (indigo, sky, sage, clay, plum, gold, slate). Put data-accent on any element and everything inside follows.</p>
-        <div class="comp-card-code"><code>&lt;section data-accent="sage"&gt;
+        <p class="comp-card-desc">Seven named accents (blue, cyan, green, amber, red, violet, gray). Put data-accent on any element and everything inside follows.</p>
+        <div class="comp-card-code"><code>&lt;section data-accent="green"&gt;
   &lt;button class="primary"&gt;Save&lt;/button&gt;
 &lt;/section&gt;</code></div>
       </article>
@@ -664,7 +675,7 @@
           stylesheet. MIT licensed.</small></p>
       </div>
       <div>
-        <h5>Documentation</h5>
+        <strong>Documentation</strong>
         <ul>
           <li><a href="docs.html#install">Install</a></li>
           <li><a href="docs.html#layout">Layout</a></li>
@@ -673,7 +684,7 @@
         </ul>
       </div>
       <div>
-        <h5>Project</h5>
+        <strong>Project</strong>
         <ul>
           <li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
           <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>Source</a></li>
@@ -728,4 +739,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+
 </html>

@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fertig — classless CSS framework, no JavaScript, 8.8 KB</title>
-<meta name="description" content="fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.8 KB gzipped, no build step, MIT.">
+<title>fertig — classless CSS framework, no JavaScript, 8.7 KB</title>
+<meta name="description" content="fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.7 KB gzipped, no build step, MIT.">
 <link rel="canonical" href="https://moji2002.github.io/fertig/">
 <meta name="theme-color" content="#111315" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
@@ -13,13 +13,11 @@
 <meta property="og:site_name" content="fertig">
 <meta property="og:url" content="https://moji2002.github.io/fertig/">
 <meta property="og:title" content="fertig — classless CSS framework, no JavaScript">
-<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.8 KB gzipped, no build step, no runtime.">
-<meta property="og:image" content="https://moji2002.github.io/fertig/preview-dark.png">
-<meta property="og:image:alt" content="A page styled by fertig: form controls, a data table and cards on a dark background.">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.7 KB gzipped, no build step, no runtime.">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fertig — classless CSS framework, no JavaScript">
-<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. 8.8 KB gzipped, no build step, no runtime.">
-<meta name="twitter:image" content="https://moji2002.github.io/fertig/preview-dark.png">
+<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.7 KB gzipped, no build step, no runtime.">
+
 
 <script type="application/ld+json">
 {
@@ -31,12 +29,18 @@
   "url": "https://moji2002.github.io/fertig/",
   "downloadUrl": "https://www.npmjs.com/package/fertig",
   "codeRepository": "https://github.com/moji2002/fertig",
-  "softwareVersion": "3.0.0",
+  "softwareVersion": "4.0.0",
   "operatingSystem": "Any",
   "license": "https://opensource.org/licenses/MIT",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 }
+
 </script>
+
 <script>
   /* before first paint: dark by default, or whatever was chosen last time.
      Inline and synchronous on purpose — a deferred script would repaint. */
@@ -45,17 +49,17 @@
       localStorage.getItem("fertig-theme") || "dark";
   } catch { document.documentElement.dataset.theme = "dark" }
 </script>
-<link rel="stylesheet" href="fertig.css">
+<link rel="stylesheet" href="fertig.css?v=5b35d8c3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=00827bb9">
 <div class="reading-progress" aria-hidden="true"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js"></script>
-<script src="site.js" defer></script>
+<script src="site.js?v=b1fce9f8" defer></script>
 
 <nav>
   <div class="bar wrap">
@@ -68,16 +72,18 @@
       <li><a href="blocks.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>Blocks</a></li>
       <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>GitHub</a></li>
     </ul>
-    <button data-size="sm" data-theme-toggle>theme</button>
+    <button data-size="sm" data-icon data-theme-toggle aria-label="Switch theme"><svg class="icon sun" aria-hidden="true"><use href="icons.svg#sun"></use></svg><svg class="icon moon" aria-hidden="true"><use href="icons.svg#moon"></use></svg></button>
   </div>
 </nav>
+
+
 
 <header class="hero hero-center">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
     <a class="pill" href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">
       <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
-      v3.0.0 — modern defaults
+      v4.0.0 — modern defaults
     </a>
     <h1>Modern HTML and CSS.<br><span class="dim">No JavaScript at all.</span></h1>
     <p class="lede">A classless stylesheet built only on CSS that every current
@@ -91,7 +97,7 @@
         <svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>View blocks</a>
     </p>
     <p class="proof">
-      <span>8.8 KB gzipped</span>
+      <span>8.7 KB gzipped</span>
       <span>0 JavaScript</span>
       <span>0 dependencies</span>
       <span>0 required classes</span>
@@ -102,6 +108,7 @@
 
 <section class="band showcase" style="border-top:0">
   <div class="wrap">
+    <h2 class="sr-only">Live components</h2>
     <div class="showcase-bar">
       <div role="tablist" aria-label="Showcase">
         <button role="tab" aria-selected="true" aria-controls="s-form" id="tab-form">Forms</button>
@@ -109,12 +116,13 @@
         <button role="tab" aria-selected="false" aria-controls="s-feedback" id="tab-feedback">Feedback</button>
       </div>
       <p class="dots" id="accent-dots" aria-label="Accent colour">
-        <button type="button" aria-pressed="true" data-accent="indigo" aria-label="Indigo"></button>
-        <button type="button" aria-pressed="false" data-accent="sage" aria-label="Sage"></button>
-        <button type="button" aria-pressed="false" data-accent="clay" aria-label="Clay"></button>
-        <button type="button" aria-pressed="false" data-accent="plum" aria-label="Plum"></button>
-        <button type="button" aria-pressed="false" data-accent="gold" aria-label="Gold"></button>
-        <button type="button" aria-pressed="false" data-accent="slate" aria-label="Slate"></button>
+        <button type="button" aria-pressed="true" data-accent="blue" aria-label="Blue"></button>
+        <button type="button" aria-pressed="false" data-accent="cyan" aria-label="Cyan"></button>
+        <button type="button" aria-pressed="false" data-accent="green" aria-label="Green"></button>
+        <button type="button" aria-pressed="false" data-accent="amber" aria-label="Amber"></button>
+        <button type="button" aria-pressed="false" data-accent="red" aria-label="Red"></button>
+        <button type="button" aria-pressed="false" data-accent="violet" aria-label="Violet"></button>
+        <button type="button" aria-pressed="false" data-accent="gray" aria-label="Gray"></button>
       </p>
     </div>
 
@@ -233,7 +241,7 @@
       <div class="panel">
       <table class="spec">
         <tbody>
-          <tr><th>Transfer size</th><td>8.8 KB <span>— fertig.min.css, gzipped</span></td></tr>
+          <tr><th>Transfer size</th><td>8.7 KB <span>— fertig.min.css, gzipped</span></td></tr>
           <tr><th>Dependencies</th><td>0 <span>— no build step, no configuration</span></td></tr>
           <tr><th>Required classes</th><td>0 <span>— seven components and a layout set, all optional</span></td></tr>
           <tr><th>Contrast</th><td>AA <span>— every pair, both themes, measured</span></td></tr>
@@ -264,14 +272,13 @@
           <tr><th>Toast</th><td>works <span>— a non-modal popover in the corner</span></td></tr>
           <tr><th>Tooltip</th><td>works <span>— one attribute, pure CSS</span></td></tr>
           <tr><th>Disclosure</th><td>works <span>— native <code>&lt;details&gt;</code>, animated to auto height</span></td></tr>
-          <tr><th>Tabs</th><td>styled only <span>— switching panels needs about eight lines of your own</span></td></tr>
+          <tr><th>Tabs</th><td>styled only <span>— honest selection and keyboard behavior need a controller</span></td></tr>
         </tbody>
       </table>
       </div>
-      <p class="spaced"><small class="muted">Tabs are the one gap, and saying so
-        is better than faking it: <code>aria-selected</code> has to be a real
-        attribute for a screen reader to announce the right thing, and CSS
-        cannot set attributes. The snippet is in
+      <p class="spaced"><small class="muted">Tabs are the deliberate exception:
+        CSS cannot update <code>aria-selected</code>, manage roving focus or
+        implement arrow-key navigation. The short controller is in
         <a href="docs.html#tabs">the docs</a>.</small></p>
     </div>
   </section>
@@ -308,7 +315,7 @@
           <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#accessibility"></use></svg>Accessible</h3>
           <p>Every colour pair the sheet uses clears WCAG AA in both themes,
             at rest and on hover — measured, not assumed. The tightest pairing
-            is the warn tone on paper at 4.80:1.</p>
+            is text on the amber fill in light mode at 5.41:1.</p>
         </div>
         <div>
           <h3><svg class="icon" aria-hidden="true"><use href="icons.svg#layers"></use></svg>Overridable</h3>
@@ -324,7 +331,7 @@
     <div class="wrap">
       <div class="head">
         <h2>Plain HTML, finished page</h2>
-        <p>The markup on the left is the whole input. The window on the right
+        <p>The markup on the left is the whole input. The preview on the right
           is what the browser renders with the sheet linked.</p>
       </div>
       <div class="cols-2">
@@ -371,10 +378,10 @@
   <section class="band band-quiet" id="components">
     <div class="wrap">
       <div class="head">
-        <h2>A component layer, addressed by ARIA</h2>
-        <p>Tabs, switches, menus and segmented controls are styled through the
-          attributes that make them accessible in the first place — so a
-          component can only look right if it is also announced right.</p>
+        <h2>A component layer, built on semantics</h2>
+        <p>Native disclosures, switches, menus and segmented controls are styled
+          through the HTML and ARIA that make them accessible in the first
+          place — so the visual treatment never invents false behavior.</p>
       </div>
       <div class="cols-2">
         <div class="card">
@@ -418,49 +425,27 @@
   <section class="band" id="palette">
     <div class="wrap">
       <div class="head">
-        <h2>A palette that stays quiet</h2>
-        <p>Six hues, five steps each, in OKLCH so a step means the same thing
-          in every hue. Chroma is deliberately low — these are colours meant
-          to sit under text all day, not to shout from a marketing page.</p>
+        <h2>A practical colour spectrum</h2>
+        <p>Seven familiar hues, five steps each, in OKLCH. Chroma rises toward
+          the useful middle stops while the endpoints stay composed enough for
+          surfaces and text. Every value remains inside sRGB.</p>
       </div>
       <div class="panel">
       <div class="swatches">
-        <div class="ramp"><b>stone</b>
-          <span data-step="100" style="background:var(--fertig-stone-100)"></span>
-          <span data-step="300" style="background:var(--fertig-stone-300)"></span>
-          <span data-step="500" style="background:var(--fertig-stone-500)"></span>
-          <span data-step="700" style="background:var(--fertig-stone-700)"></span>
-          <span data-step="900" style="background:var(--fertig-stone-900)"></span></div>
-        <div class="ramp"><b>sage</b>
-          <span data-step="100" style="background:var(--fertig-sage-100)"></span>
-          <span data-step="300" style="background:var(--fertig-sage-300)"></span>
-          <span data-step="500" style="background:var(--fertig-sage-500)"></span>
-          <span data-step="700" style="background:var(--fertig-sage-700)"></span>
-          <span data-step="900" style="background:var(--fertig-sage-900)"></span></div>
-        <div class="ramp"><b>sky</b>
-          <span data-step="100" style="background:var(--fertig-sky-100)"></span>
-          <span data-step="300" style="background:var(--fertig-sky-300)"></span>
-          <span data-step="500" style="background:var(--fertig-sky-500)"></span>
-          <span data-step="700" style="background:var(--fertig-sky-700)"></span>
-          <span data-step="900" style="background:var(--fertig-sky-900)"></span></div>
-        <div class="ramp"><b>clay</b>
-          <span data-step="100" style="background:var(--fertig-clay-100)"></span>
-          <span data-step="300" style="background:var(--fertig-clay-300)"></span>
-          <span data-step="500" style="background:var(--fertig-clay-500)"></span>
-          <span data-step="700" style="background:var(--fertig-clay-700)"></span>
-          <span data-step="900" style="background:var(--fertig-clay-900)"></span></div>
-        <div class="ramp"><b>plum</b>
-          <span data-step="100" style="background:var(--fertig-plum-100)"></span>
-          <span data-step="300" style="background:var(--fertig-plum-300)"></span>
-          <span data-step="500" style="background:var(--fertig-plum-500)"></span>
-          <span data-step="700" style="background:var(--fertig-plum-700)"></span>
-          <span data-step="900" style="background:var(--fertig-plum-900)"></span></div>
-        <div class="ramp"><b>gold</b>
-          <span data-step="100" style="background:var(--fertig-gold-100)"></span>
-          <span data-step="300" style="background:var(--fertig-gold-300)"></span>
-          <span data-step="500" style="background:var(--fertig-gold-500)"></span>
-          <span data-step="700" style="background:var(--fertig-gold-700)"></span>
-          <span data-step="900" style="background:var(--fertig-gold-900)"></span></div>
+        <div class="ramp"><b>gray</b><span data-step="100" style="background:var(--fertig-gray-100)"></span><span data-step="300" style="background:var(--fertig-gray-300)"></span><span data-step="500" style="background:var(--fertig-gray-500)"></span><span data-step="700" style="background:var(--fertig-gray-700)"></span><span data-step="900" style="background:var(--fertig-gray-900)"></span>
+        </div>
+        <div class="ramp"><b>blue</b><span data-step="100" style="background:var(--fertig-blue-100)"></span><span data-step="300" style="background:var(--fertig-blue-300)"></span><span data-step="500" style="background:var(--fertig-blue-500)"></span><span data-step="700" style="background:var(--fertig-blue-700)"></span><span data-step="900" style="background:var(--fertig-blue-900)"></span>
+        </div>
+        <div class="ramp"><b>cyan</b><span data-step="100" style="background:var(--fertig-cyan-100)"></span><span data-step="300" style="background:var(--fertig-cyan-300)"></span><span data-step="500" style="background:var(--fertig-cyan-500)"></span><span data-step="700" style="background:var(--fertig-cyan-700)"></span><span data-step="900" style="background:var(--fertig-cyan-900)"></span>
+        </div>
+        <div class="ramp"><b>green</b><span data-step="100" style="background:var(--fertig-green-100)"></span><span data-step="300" style="background:var(--fertig-green-300)"></span><span data-step="500" style="background:var(--fertig-green-500)"></span><span data-step="700" style="background:var(--fertig-green-700)"></span><span data-step="900" style="background:var(--fertig-green-900)"></span>
+        </div>
+        <div class="ramp"><b>amber</b><span data-step="100" style="background:var(--fertig-amber-100)"></span><span data-step="300" style="background:var(--fertig-amber-300)"></span><span data-step="500" style="background:var(--fertig-amber-500)"></span><span data-step="700" style="background:var(--fertig-amber-700)"></span><span data-step="900" style="background:var(--fertig-amber-900)"></span>
+        </div>
+        <div class="ramp"><b>red</b><span data-step="100" style="background:var(--fertig-red-100)"></span><span data-step="300" style="background:var(--fertig-red-300)"></span><span data-step="500" style="background:var(--fertig-red-500)"></span><span data-step="700" style="background:var(--fertig-red-700)"></span><span data-step="900" style="background:var(--fertig-red-900)"></span>
+        </div>
+        <div class="ramp"><b>violet</b><span data-step="100" style="background:var(--fertig-violet-100)"></span><span data-step="300" style="background:var(--fertig-violet-300)"></span><span data-step="500" style="background:var(--fertig-violet-500)"></span><span data-step="700" style="background:var(--fertig-violet-700)"></span><span data-step="900" style="background:var(--fertig-violet-900)"></span>
+        </div>
       </div>
       </div>
     </div>
@@ -480,17 +465,17 @@
         <form id="tune" aria-label="Theme controls">
           <p class="eyebrow">Accent · oklch</p>
           <label for="t-l">Lightness <output for="t-l" id="o-l">48%</output></label>
-          <input id="t-l" type="range" min="20" max="90" step="1" value="48">
+          <input id="t-l" type="range" min="20" max="90" step="1" value="47">
 
           <label for="t-c">Chroma <output for="t-c" id="o-c">0.095</output></label>
-          <input id="t-c" type="range" min="0" max="0.3" step="0.005" value="0.095">
+          <input id="t-c" type="range" min="0" max="0.3" step="0.005" value="0.15">
 
           <label for="t-h">Hue <output for="t-h" id="o-h">250</output></label>
-          <input id="t-h" type="range" min="0" max="360" step="1" value="250">
+          <input id="t-h" type="range" min="0" max="360" step="1" value="255">
 
           <p class="eyebrow spaced">Shape and measure</p>
-          <label for="t-r">Control radius <output for="t-r" id="o-r">6px</output></label>
-          <input id="t-r" type="range" min="0" max="16" step="1" value="6">
+          <label for="t-r">Control radius <output for="t-r" id="o-r">8px</output></label>
+          <input id="t-r" type="range" min="0" max="16" step="1" value="8">
 
           <label for="t-w">Page width <output for="t-w" id="o-w">72rem</output></label>
           <input id="t-w" type="range" min="28" max="80" step="1" value="72">
@@ -550,9 +535,9 @@
           without JavaScript.</p>
         <div class="bars">
           <div class="bar-row"><b>fertig.min.css</b>
-            <span><span class="bar-meter" style="--len:82%"></span></span><span>8.8 KB</span></div>
+            <span><span class="bar-meter" style="--len:87%"></span></span><span>8.7 KB</span></div>
           <div class="bar-row"><b>matcha.css</b>
-            <span><span class="bar-meter bar-alt" style="--len:85%"></span></span><span>8.8 KB</span></div>
+            <span><span class="bar-meter bar-alt" style="--len:86%"></span></span><span>8.8 KB</span></div>
           <div class="bar-row"><b>Pico 2.1.1 classless</b>
             <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>10.2 KB</span></div>
         </div>
@@ -590,7 +575,7 @@
             and the only thing it carries for the ones before them is a flat
             sRGB palette, so a missing <code>light-dark()</code> cannot leave a
             page unreadable. No polyfills, no fallback build. That policy is the
-            reason it is 8.8 KB rather than 20.</p>
+            reason it is 8.7 KB rather than 20.</p>
         </details>
         <details>
           <summary>Can I change the colours?</summary>
@@ -656,10 +641,11 @@
     </div>
     <p class="foot-note">
       <span>MIT licensed</span>
-      <span>v3.0.0</span>
-      <span>8.8 KB gzipped</span>
+      <span>v4.0.0</span>
+      <span>8.7 KB gzipped</span>
       <span>No dependencies</span>
     </p>
   </div>
 </footer>
+
 </html>

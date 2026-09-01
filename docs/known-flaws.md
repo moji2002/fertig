@@ -132,13 +132,16 @@ on. Net result in HCM: no visible selected tab.
 
 **Fix.** `border-bottom: 2px solid Highlight` in the a11y layer.
 
-### 9. Tabs are styling only — DOCUMENTED (no code change)
+### 9. ARIA tabs need script — DOCUMENTED
 
-**Source.** Nothing switches panels. This is unfixable in CSS for the right
-reason: `aria-selected` must be a real attribute for a screen reader to
-announce the correct tab, and CSS cannot set attributes. The README already
-carries this under "Components that work without JavaScript", with tabs listed
-as **styled only** and the snippet in the docs. No change needed.
+**Source.** CSS cannot update `aria-selected` or supply the arrow-key behavior
+that a true tab widget promises, so the ARIA pattern still needs a short
+script.
+
+**Resolution.** Keep the ARIA pattern and its small JavaScript controller.
+`<details name>` is an exclusive accordion, not a tabs substitute: styling its
+summaries as tabs would make the visual interaction disagree with its native
+disclosure semantics and keyboard model.
 
 ### 10. Toasts stacked on top of each other — FIXED
 
@@ -194,14 +197,12 @@ in your own unlayered CSS.
 
 ### 14. `*` rules with real cost — FIXED
 
-**Verified / source.** Two universal selectors carried declarations:
+**Verified / source.** A universal selector carried scrollbar declarations:
 
 - `* { scrollbar-width: thin; scrollbar-color: … }` — computed `thin` on
   `body`, narrowing the page's own scrollbar and every scroller fertig never
   styled. A target-size concern for anyone using a pointer imprecisely.
-- `* { corner-shape: squircle }` — reshaped the consumer's components too.
-
-**Fix.** Both narrowed to element lists the sheet actually styles. An A/B of
+**Fix.** It was narrowed to the element list the sheet actually styles. An A/B of
 100 elements × 20 computed properties on a component gallery found this to be
 the *only* visible difference across the whole audit pass: `scrollbar-width`
 `thin → auto` on non-scrolling elements, with `pre`, `table`, `textarea`,

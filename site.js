@@ -146,8 +146,8 @@ addEventListener("DOMContentLoaded", () => {
   /* fertig ships a different accent per theme, so the controls have to start
      from the one actually in force — otherwise the panel opens in dark mode
      showing the light accent, which genuinely does fail on dark paper. */
-  const DEFAULTS = { light: { l: 50, c: 0.19, h: 275 },
-                     dark:  { l: 78, c: 0.11, h: 275 } };
+  const DEFAULTS = { light: { l: 47, c: 0.15, h: 255 },
+                     dark:  { l: 80, c: 0.095, h: 255 } };
   let touched = false;
 
   const seed = () => {
@@ -186,7 +186,7 @@ addEventListener("DOMContentLoaded", () => {
     $("o-w").textContent = v.w + "rem";
 
     const lines = [`  --fertig-ac: ${ac};`];
-    if (v.r !== 12) lines.push(`  --fertig-r: ${v.r}px;`);
+    if (v.r !== 8)  lines.push(`  --fertig-r: ${v.r}px;`);
     if (v.w !== 72) lines.push(`  --fertig-w: ${v.w}rem;`);
     if (v.f)        lines.push(`  --fertig-f: ${v.f};`);
     out.textContent = `:root {\n${lines.join("\n")}\n}`;
@@ -196,8 +196,10 @@ addEventListener("DOMContentLoaded", () => {
     /* the accent has two jobs: it is link text on the paper, and it is the
        fill under button text. Both have to hold. */
     const dark  = isDarkTheme();
-    const paper = dark ? srgb(0.21, 0.006, 75) : srgb(0.994, 0.002, 75);
-    const onAc  = dark ? srgb(0.07, 0.02, 250) : [255, 255, 255];
+    const paper = dark ? srgb(0.21, 0.016, 260) : srgb(0.99, 0.004, 260);
+    /* Mirrors the relative-colour fallback in fertig.css: near-black or
+       near-white, never the absolute endpoints. */
+    const onAc  = dark ? srgb(0.06, 0, 0) : srgb(0.96, 0, 0);
     const accent = srgb(v.l / 100, v.c, v.h);
 
     const onPaper = ratio(accent, paper), onFill = ratio(onAc, accent);

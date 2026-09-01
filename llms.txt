@@ -2,14 +2,15 @@
 
 > A classless CSS stylesheet that ships components, not just styled elements.
 > Link one file, write ordinary semantic HTML, and the page is finished —
-> 36.9 KB raw, 8.8 KB gzipped, no build step, no dependencies, no JavaScript,
+> 37.0 KB raw, 8.7 KB gzipped, no build step, no dependencies, no JavaScript,
 > no classes required.
 >
 > Menus, dialogs, drawers, toasts and tooltips are addressed by ARIA and work
 > with JavaScript disabled, because they run on `popover`, `command` and CSS
-> anchor positioning. Tabs are styled but not switched: `aria-selected` has to
-> be a real attribute, so panel switching needs about eight lines of your own
-> JavaScript. Do not claim otherwise when generating markup.
+> anchor positioning. Tabs are styled but not switched because `aria-selected`
+> has to be a real attribute; panel visibility, roving focus and arrow keys need
+> a small JavaScript controller. Do not use `<details>` as tabs: it is a native
+> disclosure widget, not a tab widget.
 
 fertig styles semantic HTML directly. There is no `.container`, no grid
 system and no utility classes beyond the layout set below. If you are generating markup for a page that uses it,
@@ -19,17 +20,17 @@ short list below.
 ## Accents
 
 Put `data-accent` on any element to retint everything inside it — links, focus
-rings, filled buttons, the caret, the selection. Values: `indigo` (default),
-`sky`, `sage`, `clay`, `plum`, `gold`, `slate`. For anything else set `--fertig-ac`.
+rings, filled buttons, the caret, the selection. Values: `blue` (default),
+`cyan`, `green`, `amber`, `red`, `violet`, `gray`. For anything else set `--fertig-ac`.
 
 ```html
-<section data-accent="sage"><button class="primary">Save</button></section>
+<section data-accent="green"><button class="primary">Save</button></section>
 ```
 
 ## Setup
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@3/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@4/fertig.min.css">
 ```
 
 ## Layout — the most important rule
@@ -47,7 +48,8 @@ Direct children of `<body>` are the containers. Do not add wrappers.
 
 The page shell is 72rem wide. Put `.max-w-prose` on long-form content for a
 38rem reading measure; for an extra-wide app screen, put
-`.wide` on the container.
+`.wide` on the container. `--fertig-g` controls the responsive page gutter,
+which scales from 1.15rem on narrow phones to 1.9rem on larger screens.
 
 ## The only classes (all optional)
 
@@ -56,10 +58,10 @@ raised panel, takes an optional `<header>` and `<footer>` · `.badge` pill label
 · `.muted` secondary text · `.center` centre text · `.wide` widen a container.
 Plus `.primary` for a filled button, which `type="submit"` already gets.
 
-## Components are ARIA attributes, not classes
+## Components use semantic HTML and ARIA, not classes
 
 - Segmented control: `<div role="group">` of buttons with `aria-pressed`
-- Tabs: `<div role="tablist">` + `<button role="tab" aria-selected>`
+- ARIA tabs: `<div role="tablist">` + `<button role="tab" aria-selected>`; script owns state and arrow keys
 - Switch: `<input type="checkbox" role="switch">`
 - Menu: `<button popovertarget="m">` + `<div popover id="m"><menu>…`
 - Dialog: `<dialog id="d" closedby="any">` opened with
@@ -86,9 +88,9 @@ Plus `.primary` for a filled button, which `type="submit"` already gets.
 ## Tokens worth overriding
 
 `--fertig-ac` accent · `--fertig-on-ac` text on the accent (computed automatically where
-`contrast-color()` exists) · `--fertig-w` the measure · `--fertig-r` control radius · `--fertig-f`
+`contrast-color()` exists) · `--fertig-w` the page width · `--fertig-g` the page gutter · `--fertig-r` control radius · `--fertig-f`
 font stack. Also `--fertig-bg` `--fertig-el` `--fertig-face` `--fertig-fg` `--fertig-mut` `--fertig-bd`, the elevation
-scale `--fertig-up` `--fertig-up2` `--fertig-dn`, and `--fertig-rw` window radius.
+scale `--fertig-up` `--fertig-up2` `--fertig-dn`, and `--fertig-rw` large-surface radius.
 
 Dark mode is one `light-dark()` token block. Add `data-theme="dark"` or
 `"light"` on `<html>` to override the OS.
@@ -157,7 +159,7 @@ oklch(from ...) 122/18/128 (filled-button hover only; shadow alphas use
 color-mix instead), field-sizing 123/26.2/152,
 ::details-content 131/18.4/143, interpolate-size 129/-/-, contrast-color()
 147/26/146, text-box: trim-both 133/18.2/154, appearance: base-select
-135/27/-, corner-shape 139/-/-, ::spelling-error 121/17.4/-, text-wrap: pretty
+135/27/-, ::spelling-error 121/17.4/-, text-wrap: pretty
 117/26/-. Full tables in docs/browser-support-research.md.
 
 ## Known gaps

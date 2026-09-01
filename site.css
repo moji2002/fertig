@@ -28,8 +28,8 @@
 
   --rule: 1px solid var(--fertig-bd);
   --label: 600 .68rem/1.4 var(--font-mono);   /* the uppercase mono label */
-  --glass-bg: light-dark(oklch(99.4% .002 75 / .6), oklch(21% .006 75 / .6));
-  --glass-border: light-dark(oklch(22% .008 75 / .08), oklch(95% .004 75 / .08));
+  --site-surface: var(--fertig-el);
+  --site-border: var(--fertig-bd);
   --glow-ac: color-mix(in srgb, var(--fertig-ac) 15%, transparent);
   --glow-ac-strong: color-mix(in srgb, var(--fertig-ac) 25%, transparent);
 }
@@ -92,10 +92,8 @@ body > main { padding-bottom: 0 }
 .band pre, pre.dark {
   color-scheme: dark; --fertig-a1: .5; --fertig-a2: .45;
   color: var(--fertig-fg);
-  border: 1px solid var(--glass-border);
-  background:
-    linear-gradient(var(--fertig-face), var(--fertig-face)) padding-box,
-    linear-gradient(150deg, var(--glow-ac), transparent 60%) border-box;
+  border: 1px solid var(--site-border);
+  background: var(--fertig-face);
   box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent);
 }
 
@@ -132,7 +130,6 @@ summary > .icon { margin-inline-end: .45em }
 body > nav {
   position: sticky; inset-block-start: 0; z-index: 10;
   border-bottom: var(--rule); background: var(--fertig-tb);
-  backdrop-filter: blur(10px) saturate(1.8);
   display: block; padding: 0;
   box-shadow: 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent);
 }
@@ -197,7 +194,7 @@ body > nav {
 .hero .row { margin: 0 }
 .hero .row > * { white-space: nowrap }
 
-/* ---- landing hero: centred, announcement pill, dimmed second line ----
+/* ---- landing hero: centred, announcement label, dimmed second line ----
    The shape component-library landings converge on, because it works: one
    claim, one qualifier, two ways in, and the proof underneath. */
 .hero-center {
@@ -244,18 +241,15 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 
 .pill {
   display: inline-flex; align-items: center; gap: .5em;
-  padding: .4em 1em; border: 1px solid var(--glass-border);
-  border-radius: 999px;
-  background:
-    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-    linear-gradient(135deg, var(--glow-ac), transparent 60%) border-box;
+  padding: .4em 1em; border: 1px solid var(--site-border);
+  border-radius: var(--fertig-r);
+  background: var(--fertig-face);
   color: var(--fertig-mut);
   font: 600 .72rem/1.4 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
   text-decoration: none; margin-bottom: var(--space-md);
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 4px 14px -6px var(--glow-ac);
-  backdrop-filter: blur(8px);
+  box-shadow: var(--fertig-up);
 }
-.pill:hover { color: var(--fertig-fg); border-color: var(--glow-ac-strong); box-shadow: 0 2px 4px var(--fertig-sh1), 0 6px 20px -6px var(--glow-ac) }
+.pill:hover { color: var(--fertig-fg); border-color: var(--fertig-mut) }
 .pill .icon { color: var(--fertig-ac) }
 
 .hero-center h1 {
@@ -267,24 +261,18 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 /* the qualifier, set back rather than shouted */
 .hero-center h1 .dim { color: var(--fertig-mut); display: block }
 
-/* pill actions — site chrome only. The showcase below keeps fertig's real
-   6px controls, because that is the thing being demonstrated. */
+/* Site actions use the same restrained control geometry as the library. */
 .cta-row { position: relative; z-index: 1 }
-.cta-row a[role=button], .cta-row button { border-radius: 999px; padding-inline: 1.4em }
+.cta-row a[role=button], .cta-row button { border-radius: var(--fertig-r); padding-inline: 1.4em }
 .cta-row .primary {
-  background: linear-gradient(135deg, var(--fertig-ac), color-mix(in srgb, var(--fertig-ac) 70%, var(--fertig-plum-500)));
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 8px 24px -8px var(--glow-ac-strong);
+  background: var(--fertig-ac);
+  box-shadow: var(--fertig-up);
 }
 .cta-row .primary:hover {
-  box-shadow: 0 2px 4px var(--fertig-sh1), 0 12px 32px -8px var(--glow-ac-strong);
-  transform: translateY(-1px);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .cta-row .primary { transition: transform .18s var(--fertig-ease-out), box-shadow .18s var(--fertig-ease-out) }
+  box-shadow: var(--fertig-up2);
 }
 .proof {
-  /* --fertig-fg, not --fertig-mut: muted on the glass measured 3.64:1 at
-     10.9px, and these are the claims the page is making. */
+  /* These are claims, not supporting copy, so they keep the foreground tone. */
   margin: var(--space-md) 0 0; color: var(--fertig-fg);
   font: var(--label); letter-spacing: .06em; text-transform: uppercase;
   display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center;
@@ -292,8 +280,8 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 }
 .proof span {
   padding-inline: .9em; padding-block: .35em;
-  border: 1px solid var(--glass-border); border-radius: 999px;
-  background: var(--glass-bg); backdrop-filter: blur(6px);
+  border: 1px solid var(--site-border); border-radius: var(--fertig-r);
+  background: var(--fertig-face);
 }
 
 /* ---- the showcase: real components, restyled live -------------------- */
@@ -317,32 +305,21 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 }
 
 .stage {
-  border: 1px solid var(--glass-border);
-  border-radius: calc(var(--fertig-rw) + 8px);
-  background:
-    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-    radial-gradient(ellipse 80% 60% at 50% 0%, var(--glow-ac) 0%, transparent 70%) border-box;
+  border: 1px solid var(--site-border);
+  border-radius: var(--fertig-rw);
+  background: var(--fertig-face);
   padding: clamp(1.2rem, 3vw, 2rem);
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 24px 48px -24px var(--fertig-sh2);
-  backdrop-filter: blur(12px);
+  box-shadow: var(--fertig-up2);
   container: stage / inline-size;
   position: relative;
-}
-/* ambient top light on the stage */
-.stage::before {
-  content: ""; position: absolute; inset: 0 0 auto 0; block-size: 40%;
-  border-radius: calc(var(--fertig-rw) + 8px) calc(var(--fertig-rw) + 8px) 0 0;
-  background: linear-gradient(to bottom, var(--glow-ac), transparent);
-  opacity: .5; pointer-events: none;
 }
 .stage-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); position: relative }
 @container stage (width >= 44rem) {
   .stage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) }
 }
 .stage .card {
-  box-shadow: var(--fertig-up2), 0 10px 24px -12px var(--fertig-sh2);
-  background: color-mix(in srgb, var(--fertig-el) 92%, transparent);
-  backdrop-filter: blur(6px);
+  box-shadow: var(--fertig-up2);
+  background: var(--fertig-el);
 }
 .stage [hidden] { display: none }
 
@@ -390,16 +367,13 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
    same restraint, but it belongs to the same page. */
 .rows { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)) }
 .rows > * {
-  border: 1px solid var(--glass-border); border-radius: var(--fertig-rw); padding: 1.4rem;
-  background:
-    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-    linear-gradient(160deg, var(--glow-ac), transparent 55%) border-box;
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 12px 28px -12px var(--fertig-sh2);
+  border: 1px solid var(--site-border); border-radius: var(--fertig-rw); padding: 1.4rem;
+  background: var(--site-surface);
+  box-shadow: var(--fertig-up2);
   min-width: 0;
 }
 .rows > *:hover {
-  box-shadow: 0 2px 4px var(--fertig-sh1), 0 16px 36px -12px var(--fertig-sh2);
-  border-color: var(--glow-ac-strong);
+  border-color: var(--fertig-mut);
 }
 @media (prefers-reduced-motion: no-preference) {
   .rows > * { transition: box-shadow .18s var(--fertig-ease-out), border-color .18s var(--fertig-ease-out) }
@@ -430,7 +404,7 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   /* the measure is a page-level token, so the preview behaves like a page:
      drag --fertig-w below the column width and the panel narrows with it */
   max-inline-size: var(--fertig-w);
-  border: 1px solid var(--glass-border); border-radius: var(--fertig-rw);
+  border: 1px solid var(--site-border); border-radius: var(--fertig-rw);
   overflow: hidden; background: var(--fertig-el);
   box-shadow: 0 1px 2px var(--fertig-sh1), 0 16px 36px -16px var(--fertig-sh2);
 }
@@ -456,12 +430,10 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 
 /* ---- palette showcase ------------------------------------------ */
 .panel {
-  border: 1px solid var(--glass-border); border-radius: var(--fertig-rw);
-  background:
-    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-    linear-gradient(160deg, var(--glow-ac), transparent 50%) border-box;
+  border: 1px solid var(--site-border); border-radius: var(--fertig-rw);
+  background: var(--site-surface);
   padding: clamp(1.1rem, 2.5vw, 1.6rem);
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 12px 28px -12px var(--fertig-sh2);
+  box-shadow: var(--fertig-up2);
 }
 .panel > :first-child { margin-top: 0 }
 .panel > :last-child { margin-bottom: 0 }
@@ -569,9 +541,7 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 /* ---- footer ---------------------------------------------------- */
 body > footer {
   border-top: var(--rule); padding-block: var(--space-xl);
-  background:
-    radial-gradient(ellipse 90% 50% at 50% 0%, var(--glow-ac) 0%, transparent 60%),
-    var(--fertig-bg);
+  background: var(--fertig-bg);
   color: var(--fertig-fg);
 }
 @media (prefers-color-scheme: light) {
@@ -625,7 +595,7 @@ body > nav { view-transition-name: toolbar }
 /* reading progress, driven by scroll position with no JavaScript */
 .reading-progress {
   position: fixed; inset: 0 0 auto 0; block-size: 3px; z-index: 20;
-  background: linear-gradient(90deg, var(--fertig-ac), color-mix(in srgb, var(--fertig-ac) 55%, var(--fertig-plum-500)));
+  background: linear-gradient(90deg, var(--fertig-ac), color-mix(in srgb, var(--fertig-ac) 55%, var(--fertig-violet-500)));
   transform-origin: 0 50%; scale: 0 1;
   box-shadow: 0 0 12px var(--glow-ac-strong);
 }
@@ -649,20 +619,20 @@ body > nav { view-transition-name: toolbar }
 }
 .comp-filter {
   font: var(--label); letter-spacing: .04em; text-transform: uppercase;
-  padding: .35em .85em; border-radius: var(--fertig-rp);
-  border: 1px solid var(--glass-border); background: transparent;
+  padding: .35em .85em; border-radius: var(--fertig-r);
+  border: 1px solid var(--site-border); background: transparent;
   color: var(--fertig-mut); cursor: pointer; white-space: nowrap;
 }
 .comp-filter:hover { color: var(--fertig-fg); border-color: var(--fertig-mut) }
 .comp-filter[aria-pressed="true"] {
-  color: var(--fertig-on-ac, #fff); background: var(--fertig-ac);
+  color: var(--fertig-on-ac, #f7f8fb); background: var(--fertig-ac);
   border-color: var(--fertig-ac);
 }
 .comp-search-wrap { flex: 1 1 14rem; max-width: 22rem }
 .comp-search {
   inline-size: 100%; font: 400 .9rem/1.4 var(--font-body);
-  padding: .45rem .85rem; border-radius: var(--fertig-rp);
-  border: 1px solid var(--glass-border); background: var(--fertig-el);
+  padding: .45rem .85rem; border-radius: var(--fertig-r);
+  border: 1px solid var(--site-border); background: var(--fertig-el);
   color: var(--fertig-fg);
 }
 .comp-search::placeholder { color: var(--fertig-mut) }
@@ -677,18 +647,15 @@ body > nav { view-transition-name: toolbar }
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 }
 .comp-card {
-  border: 1px solid var(--glass-border); border-radius: var(--fertig-rw);
+  border: 1px solid var(--site-border); border-radius: var(--fertig-rw);
   padding: 1.25rem;
-  background:
-    linear-gradient(var(--glass-bg), var(--glass-bg)) padding-box,
-    linear-gradient(160deg, var(--glow-ac), transparent 55%) border-box;
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 8px 24px -12px var(--fertig-sh2);
+  background: var(--site-surface);
+  box-shadow: var(--fertig-up2);
   display: flex; flex-direction: column; gap: .6rem;
   min-width: 0;
 }
 .comp-card:hover {
-  box-shadow: 0 2px 4px var(--fertig-sh1), 0 14px 32px -10px var(--fertig-sh2);
-  border-color: var(--glow-ac-strong);
+  border-color: var(--fertig-mut);
 }
 @media (prefers-reduced-motion: no-preference) {
   .comp-card { transition: box-shadow .18s var(--fertig-ease-out), border-color .18s var(--fertig-ease-out) }

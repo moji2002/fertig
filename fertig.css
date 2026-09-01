@@ -1,9 +1,9 @@
-/*! fertig v3.1.0 — a classless CSS stylesheet. MIT */
+/*! fertig v4.0.0 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
-   system type · one accent · one page width · a window on a desktop.
-   Structure is classic (title bar, sunken fields, raised buttons); the finish
-   is macOS (vibrancy, hairlines, soft radii, the blue focus ring).
+   system type · one accent · one page width · a clear content canvas.
+   The finish is platform-neutral: opaque surfaces, hairlines, restrained
+   corners and a visible accent focus ring.
    Override the tokens marked "yours"; the rest is the point of view. */
 
 /* typed so they interpolate; untyped custom properties cannot animate */
@@ -33,72 +33,75 @@
   accent-color: var(--fertig-ac);
   caret-color: var(--fertig-ac);
 
-  --fertig-f: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-       Roboto, "Helvetica Neue", Arial, sans-serif;                  /* yours */
-  --fertig-fm: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+  --fertig-f: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+        Arial, sans-serif;                                            /* yours */
+  --fertig-fm: ui-monospace, "Cascadia Code", "Roboto Mono", Consolas,
         "Liberation Mono", monospace;                                /* code */
   --fertig-w: 72rem;                            /* page shell width — yours */
+  --fertig-g: clamp(1.15rem, 4vw, 1.9rem);      /* responsive page gutter — yours */
   /* One radius, and the rest derived from it: set --fertig-r and the whole
      sheet rescales together. Four independent numbers meant --fertig-r: 4px
      left tight fields sitting inside cards that were still round. */
-  --fertig-r: 12px;                             /* control radius: fields, menu rows */
+  --fertig-r: 8px;                              /* control radius: fields, buttons, menu rows */
   --fertig-rs: calc(var(--fertig-r) * .5);      /* small: inline chips and code */
-  --fertig-rw: calc(var(--fertig-r) * 1.33);    /* window: cards, dialogs, menus */
-  --fertig-rp: calc(var(--fertig-r) * 1000);    /* pill: buttons, badges, switches, meters */
+  --fertig-rw: calc(var(--fertig-r) * 1.33);    /* large: cards, dialogs, menus */
+  --fertig-rp: calc(var(--fertig-r) * 1000);    /* pill: badges, switches, meters, joined ends */
   /* --fertig-rp multiplies rather than naming infinity: any non-zero radius
-     still clamps to a true pill, and --fertig-r: 0 squares the buttons with
-     it instead of leaving them the one round thing on a sharp-cornered page. */
+     still clamps to a true pill, while --fertig-r: 0 squares the whole shape
+     system consistently. */
 
   /* ---- palette ------------------------------------------------
-     Low chroma on purpose. Vivid palettes shout; these are meant to sit
-     under text all day. OKLCH, so a step means the same thing in every hue.
-     The neutrals are a cool graphite (hue ≈ 258) with a faint violet cast —
-     crisper and less dated than a warm stone, and better under the accent. */
-  --fertig-stone-100: oklch(97.5% .006 258); --fertig-stone-300: oklch(91% .009 258);
-  --fertig-stone-500: oklch(72% .012 258);   --fertig-stone-700: oklch(47% .014 258);
-  --fertig-stone-900: oklch(26% .016 258);
+     Seven direct, familiar names; five perceptually even OKLCH stops each.
+     The chroma rises toward the middle of every ramp while the endpoints stay
+     quiet enough for surfaces and text. Every value is inside sRGB. */
+  --fertig-gray-100: oklch(97% .005 260); --fertig-gray-300: oklch(82% .01 260);
+  --fertig-gray-500: oklch(62% .014 260); --fertig-gray-700: oklch(47% .015 260);
+  --fertig-gray-900: oklch(25% .018 260);
 
-  --fertig-sage-100: oklch(96% .024 160); --fertig-sage-300: oklch(87% .046 160);
-  --fertig-sage-500: oklch(66% .064 160); --fertig-sage-700: oklch(47% .06 160);
-  --fertig-sage-900: oklch(29% .042 160);
+  --fertig-blue-100: oklch(96% .018 255); --fertig-blue-300: oklch(80% .095 255);
+  --fertig-blue-500: oklch(62% .16 255);  --fertig-blue-700: oklch(47% .15 255);
+  --fertig-blue-900: oklch(29% .09 255);
 
-  --fertig-sky-100: oklch(96% .024 242); --fertig-sky-300: oklch(87% .05 244);
-  --fertig-sky-500: oklch(64% .095 246); --fertig-sky-700: oklch(48% .1 250);
-  --fertig-sky-900: oklch(30% .064 250);
+  --fertig-cyan-100: oklch(96% .025 210); --fertig-cyan-300: oklch(82% .085 210);
+  --fertig-cyan-500: oklch(64% .11 210);  --fertig-cyan-700: oklch(47% .08 210);
+  --fertig-cyan-900: oklch(29% .05 210);
 
-  --fertig-clay-100: oklch(96% .024 45); --fertig-clay-300: oklch(88% .05 45);
-  --fertig-clay-500: oklch(68% .095 45); --fertig-clay-700: oklch(50% .098 40);
-  --fertig-clay-900: oklch(31% .06 40);
+  --fertig-green-100: oklch(96% .025 150); --fertig-green-300: oklch(80% .095 150);
+  --fertig-green-500: oklch(62% .13 150);  --fertig-green-700: oklch(46% .10 150);
+  --fertig-green-900: oklch(28% .06 150);
 
-  --fertig-plum-100: oklch(96% .022 318); --fertig-plum-300: oklch(88% .042 318);
-  --fertig-plum-500: oklch(66% .066 318); --fertig-plum-700: oklch(47% .07 318);
-  --fertig-plum-900: oklch(29% .046 318);
+  --fertig-amber-100: oklch(97% .025 80); --fertig-amber-300: oklch(84% .10 80);
+  --fertig-amber-500: oklch(72% .14 80);  --fertig-amber-700: oklch(50% .10 80);
+  --fertig-amber-900: oklch(29% .06 80);
 
-  --fertig-gold-100: oklch(96.5% .03 92); --fertig-gold-300: oklch(89% .06 88);
-  --fertig-gold-500: oklch(74% .092 85);  --fertig-gold-700: oklch(55% .092 80);
-  --fertig-gold-900: oklch(33% .056 80);
+  --fertig-red-100: oklch(96% .018 25); --fertig-red-300: oklch(80% .10 25);
+  --fertig-red-500: oklch(62% .18 25);  --fertig-red-700: oklch(47% .15 25);
+  --fertig-red-900: oklch(28% .09 25);
+
+  --fertig-violet-100: oklch(96% .018 290); --fertig-violet-300: oklch(80% .095 290);
+  --fertig-violet-500: oklch(62% .16 290);  --fertig-violet-700: oklch(47% .15 290);
+  --fertig-violet-900: oklch(28% .09 290);
 
   /* ---- semantic ----------------------------------------------- */
-  --fertig-bg:  light-dark(oklch(93.5% .008 258), oklch(15.5% .014 258));  /* desktop */
-  --fertig-el:  light-dark(oklch(99% .004 258), oklch(21% .016 258));  /* paper */
-  --fertig-face:light-dark(oklch(97.2% .006 258), oklch(25% .018 258));  /* chrome */
-  --fertig-fg:  light-dark(oklch(22% .02 258),  oklch(95% .012 258));
-  /* lifted from 50%/70%: the weakest pairing (muted on the desktop ground in
-     light, muted on chrome in dark) was 4.96:1 and 5.99:1, a hair over AA.
+  --fertig-bg:  light-dark(oklch(93.5% .008 260), oklch(15.5% .014 260));  /* page ground */
+  --fertig-el:  light-dark(oklch(99% .004 260), oklch(21% .016 260));  /* content surface */
+  --fertig-face:light-dark(oklch(97.2% .006 260), oklch(25% .018 260));  /* controls */
+  --fertig-fg:  light-dark(oklch(22% .02 260),  oklch(95% .012 260));
+  /* lifted from 50%/70%: the weakest pairing (muted on the page ground in
+     light, muted on controls in dark) was 4.96:1 and 5.99:1, a hair over AA.
      46%/72% takes them to 5.7:1 and 6.8:1 while keeping a clear step down
      from --fertig-fg — AAA would need ~41%, which is close enough to
      --fertig-fg that "muted" stops reading as secondary at all. */
-  --fertig-mut: light-dark(oklch(46% .018 258),  oklch(72% .02 258));
-  --fertig-bd:  light-dark(oklch(22% .02 258 / .13), oklch(95% .012 258 / .13));
-  --fertig-tb:  light-dark(oklch(97.2% .006 258 / .85), oklch(25% .018 258 / .85));
-  /* a violet-indigo, not the azure every other classless sheet lands on.
-     Higher chroma than the old indigo so it reads electric without shouting.
-     Measured: 6.21:1 as link text on paper and 6.39:1 for a white label on
-     the fill in light; 8.62:1 in dark. Both sit inside sRGB. */
-  --fertig-ac:  light-dark(oklch(50% .22 266), oklch(78% .13 266));    /* yours */
-  --fertig-on-ac: light-dark(#fff, #07071c);    /* text on the accent, both themes */
+  --fertig-mut: light-dark(oklch(46% .018 260),  oklch(72% .02 260));
+  --fertig-bd:  light-dark(oklch(22% .02 260 / .13), oklch(95% .012 260 / .13));
+  --fertig-tb:  light-dark(oklch(97.2% .006 260), oklch(25% .018 260));
+  /* Blue is the neutral default: distinctive enough for interaction, familiar
+     enough not to impose a brand. The 700/300 pair clears AA as link text and
+     as a filled control in its respective theme. */
+  --fertig-ac:  light-dark(var(--fertig-blue-700), var(--fertig-blue-300)); /* yours */
+  --fertig-on-ac: light-dark(#f7f8fb, #07071c); /* off-white / ink text on the accent */
 
-  /* depth: hairline + soft shadow, macOS weight.
+  /* depth: hairline + compact shadow.
      --fertig-sh is an ordinary colour — override it with any notation you like, and
      every shadow in the sheet retints. Lighter than a pure black so the shadows
      read as diffuse atmosphere rather than dark bars. The alphas are taken with
@@ -126,14 +129,15 @@
 }
 /* --fertig-on-ac has to survive any --fertig-ac override, or a custom accent ships an
    unreadable label. contrast-color() does that properly but has almost no
-   support; relative colour reaches the same black-or-white decision from the
-   accent's own lightness, and has been cross-engine since 2024. Both are
-   additive — the measured light-dark() pair above stands if neither exists. */
+   support; relative colour reaches the same light-or-dark decision from the
+   accent's own lightness, and has been cross-engine since 2024. The endpoints
+   deliberately stop short of absolute black and white. Both are additive —
+   the measured light-dark() pair above stands if neither exists. */
 @supports (color: oklch(from red l c h)) {
-  :root { --fertig-on-ac: oklch(from var(--fertig-ac) clamp(0, (l - .62) * -100, 1) 0 h) }
+  :root { --fertig-on-ac: oklch(from var(--fertig-ac) clamp(.06, (l - .62) * -100, .96) 0 h) }
 }
 @supports (color: contrast-color(red)) {
-  :root { --fertig-on-ac: contrast-color(var(--fertig-ac)) }
+  :root { --fertig-on-ac: color-mix(in oklab, contrast-color(var(--fertig-ac)) 96%, var(--fertig-ac)) }
 }
 [data-theme=light] { color-scheme: light; --fertig-a1: .06; --fertig-a2: .05 }
 [data-theme=dark]  { color-scheme: dark;  --fertig-a1: .42; --fertig-a2: .38 }
@@ -142,15 +146,15 @@
    data-accent on any element and everything inside it — links, focus rings,
    filled buttons, the caret, the selection — follows. Scoped rather than
    global, so one section of a page can differ from the rest.
-   Each pair is measured: the light tone clears AA as link text on paper, the
+   Each pair is measured: the light tone clears AA as link text on the content surface, the
    dark tone clears it on the dark ground. */
-[data-accent=indigo] { --fertig-ac: light-dark(oklch(50% .19 275),  oklch(78% .11 275)) }
-[data-accent=sky]    { --fertig-ac: light-dark(var(--fertig-sky-700),      oklch(78% .085 245)) }
-[data-accent=sage]   { --fertig-ac: light-dark(var(--fertig-sage-700),     oklch(80% .075 155)) }
-[data-accent=clay]   { --fertig-ac: light-dark(var(--fertig-clay-700),     oklch(80% .085 45)) }
-[data-accent=plum]   { --fertig-ac: light-dark(var(--fertig-plum-700),     oklch(80% .065 320)) }
-[data-accent=gold]   { --fertig-ac: light-dark(oklch(55% .085 80),  oklch(84% .09 85)) }
-[data-accent=slate]  { --fertig-ac: light-dark(oklch(35% .01 250),  oklch(86% .006 250)) }
+[data-accent=blue]   { --fertig-ac: light-dark(var(--fertig-blue-700),   var(--fertig-blue-300)) }
+[data-accent=cyan]   { --fertig-ac: light-dark(var(--fertig-cyan-700),   var(--fertig-cyan-300)) }
+[data-accent=green]  { --fertig-ac: light-dark(var(--fertig-green-700),  var(--fertig-green-300)) }
+[data-accent=amber]  { --fertig-ac: light-dark(var(--fertig-amber-700),  var(--fertig-amber-300)) }
+[data-accent=red]    { --fertig-ac: light-dark(var(--fertig-red-700),    var(--fertig-red-300)) }
+[data-accent=violet] { --fertig-ac: light-dark(var(--fertig-violet-700), var(--fertig-violet-300)) }
+[data-accent=gray]   { --fertig-ac: light-dark(var(--fertig-gray-700),   var(--fertig-gray-300)) }
 
 /* ---- base --------------------------------------------------- */
 *, ::before, ::after { box-sizing: border-box }
@@ -165,7 +169,7 @@ body {
   font-variant-numeric: slashed-zero tabular-nums;
 }
 ::selection { background: color-mix(in srgb, var(--fertig-ac) 28%, transparent) }
-/* The macOS ring. No border-radius here: an outline already follows the
+/* No border-radius here: an outline already follows the
    element's own corners, and setting one would reshape whatever takes focus —
    a focused dialog would snap from --fertig-rw to --fertig-r for as long as it is focused. */
 :focus-visible {
@@ -178,15 +182,15 @@ img, video, iframe { display: block; max-width: 100%; height: auto }
 svg { max-width: 100%; vertical-align: middle }
 img, video { border-radius: var(--fertig-r); box-shadow: var(--fertig-up2) }
 
-/* ---- layout: a window on a desktop --------------------------- */
+/* ---- layout: a centered page shell --------------------------- */
 /* The shell is body's own children — or the children of the single wrapper a
    framework insists on (#root, #app, #__next, or your own [data-fertig]).
-   Without this a React page silently loses the measure, the paper and the
+   Without this a React page silently loses the measure, the content surface and the
    gutters, and nothing on screen says why. The wrapper list sits inside
    :where() so every selector keeps the specificity it had as `body > *`. */
 body > *,
 body > :where(#root, #app, #__next, [data-fertig]) > * {
-  max-width: var(--fertig-w); margin-inline: auto; padding-inline: 1.9rem;
+  max-width: var(--fertig-w); margin-inline: auto; padding-inline: var(--fertig-g);
 }
 /* the wrapper is not itself a shell element; it just gets out of the way */
 body > :where(#root, #app, #__next, [data-fertig]) { max-width: none; padding-inline: 0 }
@@ -198,22 +202,19 @@ body > :where(#root, #app, #__next, [data-fertig]) { max-width: none; padding-in
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > footer {
   padding-block: 1.2rem 2rem; color: var(--fertig-mut); font-size: .85em;
   border-top: 1px solid var(--fertig-bd); border-bottom: 1px solid var(--fertig-bd);
-  border-radius: 0 0 var(--fertig-rw) var(--fertig-rw); margin-bottom: 2.5rem;
-  box-shadow: 0 20px 32px -24px color-mix(in srgb, var(--fertig-sh) 38%, transparent);
 }
-/* nav = unified toolbar: full-bleed, vibrant, contents on the measure */
+/* nav = unified toolbar: full-bleed, opaque, contents on the measure */
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav {
   position: sticky; top: 0; z-index: 9; max-width: none;
   /* the toolbar is full-bleed but its contents line up with the page column.
      --fertig-nw is that column: it follows --fertig-w, so overriding the measure moves the
      toolbar with it, and .wide re-points it at the wide column instead. */
   --fertig-nw: var(--fertig-w);
-  padding-inline: max(1.9rem, calc(50% - var(--fertig-nw) / 2 + 1.9rem),
+  padding-inline: max(var(--fertig-g), calc(50% - var(--fertig-nw) / 2 + var(--fertig-g)),
                   env(safe-area-inset-left), env(safe-area-inset-right));
   display: flex; flex-wrap: wrap; gap: 1.1rem; align-items: center;
   padding-block: calc(.6rem + env(safe-area-inset-top, 0px)) .6rem;
   background: var(--fertig-tb); color: var(--fertig-fg);
-  backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--fertig-bd); font-size: .92em;
 }
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav a { color: var(--fertig-fg); text-decoration: none; opacity: .75 }
@@ -223,12 +224,23 @@ body > :where(#root, #app, #__next, [data-fertig]) { max-width: none; padding-in
   display: flex; flex-wrap: wrap; gap: 1.1rem; list-style: none; padding: 0; margin: 0;
   flex: 1;                       /* takes the slack, so a trailing control sits at the end */
 }
+/* On a narrow screen, keep the identity and trailing control together while
+   the links get one stable, horizontally scrollable row of their own. */
+@media (width <= 40rem) {
+  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav { row-gap: .55rem }
+  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav > ul {
+    order: 2; flex: 0 0 100%; flex-wrap: nowrap; overflow-x: auto;
+    overscroll-behavior-x: contain; scrollbar-width: none;
+  }
+  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav > ul::-webkit-scrollbar { display: none }
+  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav > :last-child:not(ul) { margin-inline-start: auto }
+}
 
 /* ---- type --------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 { line-height: 1.3; margin: 1.4rem 0 .7rem; text-wrap: balance }
-h1 { font-size: 1.55rem; letter-spacing: -.015em }
-h2 { font-size: 1.25rem; letter-spacing: -.01em; margin-top: 2.4rem }
-h3 { font-size: 1.08rem; margin-top: 1.9rem }
+h1 { font-size: clamp(2rem, 1.55rem + 1.5vw, 2.8rem); letter-spacing: -.035em }
+h2 { font-size: clamp(1.35rem, 1.2rem + .5vw, 1.65rem); letter-spacing: -.02em; margin-top: 2.4rem }
+h3 { font-size: 1.12rem; letter-spacing: -.008em; margin-top: 1.9rem }
 h4 { font-size: 1rem }
 h5, h6 { font: 700 var(--fertig-caps); text-transform: uppercase; letter-spacing: .1em; color: var(--fertig-mut) }
 :is(h1,h2,h3,h4,h5,h6):first-child { margin-top: 0 }
@@ -336,6 +348,7 @@ tfoot td { font-weight: 700; border-top: 1px solid var(--fertig-bd); border-bott
 tbody tr:hover { background: var(--fertig-face) }
 @media (width <= 40rem) {
   table { display: block; overflow-x: auto; overscroll-behavior-x: contain }
+  table :is(th, td) { white-space: nowrap }
 }
 caption { text-align: start; color: var(--fertig-mut); font-size: .85em; padding-bottom: .35rem }
 
@@ -458,7 +471,7 @@ button, [type=submit], [type=button], [type=reset],
 :where(a.primary, a[role=button]), ::file-selector-button {
   display: inline-block; text-decoration: none; text-align: center;
   padding: .48em 1.1em; background: var(--fertig-el); color: var(--fertig-fg); cursor: pointer;
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rp); box-shadow: var(--fertig-up);
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r); box-shadow: var(--fertig-up);
   font: inherit; min-width: 5rem;
 }
 :is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):hover:not(:disabled) { background: var(--fertig-face) }
@@ -502,16 +515,6 @@ button[aria-pressed=true]:hover:not(:disabled) {
 :is([type=submit], .primary) { box-shadow: var(--fertig-up), inset 0 1px 0 light-dark(#ffffff33, #ffffff26) }
 :is([type=submit], .primary):active:not(:disabled) { box-shadow: inset 0 1px 3px #0006 }
 
-@supports (corner-shape: squircle) {
-  /* the surfaces this sheet rounds, not `*` — a universal rule would reshape
-     your components too, and this one is a taste, not a repair */
-  :is(button, [type=submit], [type=button], [type=reset], input, select, textarea,
-      fieldset, details, dialog, [popover], pre, kbd, code, samp, img, video,
-      menu, aside, [data-avatar], [data-skeleton], .card, .badge) {
-    corner-shape: squircle;
-  }
-}
-
 /* ---- disclosure / misc -------------------------------------- */
 details {
   border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw);
@@ -529,7 +532,7 @@ dialog {
 }
 dialog > :last-child:not(footer) { margin-bottom: 0 }
 dialog, [popover] { overscroll-behavior: contain }
-dialog::backdrop { background: color-mix(in srgb, var(--fertig-sh) 32%, transparent); backdrop-filter: blur(4px) }
+dialog::backdrop { background: color-mix(in srgb, var(--fertig-sh) 32%, transparent) }
 
 /* dialog anatomy: an optional header and footer, pinned while the body scrolls.
    Sticky rather than a grid, because a classless sheet has no wrapper around
@@ -746,18 +749,16 @@ nav[aria-label] ol li + li::before { content: "/"; margin-inline-end: .5em; colo
   content: attr(data-tooltip); position: absolute;
   inset-block-end: 100%; inset-inline-start: 50%;
   translate: -50% -.45em; z-index: 10; white-space: nowrap; pointer-events: none;
-  background: light-dark(#1d1d1f, #3a3a40); color: #fff; font-size: .8em;
+  background: light-dark(#1d1d1f, #3a3a40); color: #f7f8fb; font-size: .8em;
   padding: .25em .55em; border-radius: var(--fertig-r); box-shadow: var(--fertig-up2);
 }
 /* translate is physical; the offset has to be told which way to go */
 [data-tooltip]:dir(rtl)::after { translate: 50% -.45em }
 
 /* tones: retint any component by redefining its accent */
-[data-tone=ok]   { --fertig-ac: light-dark(var(--fertig-sage-700), oklch(76% .085 155)) }
-[data-tone=warn] { --fertig-ac: light-dark(var(--fertig-gold-700), oklch(80% .095 85)) }
-/* err is the one tone that does not come from the palette: clay at this
-   lightness reads as brown, and a destructive button has to read as red. */
-[data-tone=err]  { --fertig-ac: light-dark(oklch(52% .16 27), oklch(74% .13 25)) }
+[data-tone=ok]   { --fertig-ac: light-dark(var(--fertig-green-700), var(--fertig-green-300)) }
+[data-tone=warn] { --fertig-ac: light-dark(var(--fertig-amber-700), var(--fertig-amber-300)) }
+[data-tone=err]  { --fertig-ac: light-dark(var(--fertig-red-700),   var(--fertig-red-300)) }
 [data-tone] .badge, .badge[data-tone] { color: var(--fertig-ac); border-color: var(--fertig-ac) }
 
 /* ---- parity with the component libraries --------------------- */
@@ -1056,7 +1057,7 @@ optgroup { font-weight: 700; color: var(--fertig-mut) }
 input:user-invalid, textarea:user-invalid { border-color: light-dark(#c0392b, #ff6b6b) }
 input:user-invalid + small { color: light-dark(#c0392b, #ff6b6b) }
 summary:hover { color: var(--fertig-ac) }
-/* thin scrollbars, macOS weight */
+/* thin, unobtrusive scrollbars */
 /* scrollbar-width is Safari 18.2, scrollbar-color Safari 26.2 — both younger
    than the floor, and both left ungated on purpose: there is no fallback to
    write. An engine without them paints its own scrollbar, which is exactly
@@ -1077,7 +1078,6 @@ summary:hover { color: var(--fertig-ac) }
   :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav { display: none }
   /* the footer stays: the legal line, the contact and the citations live there,
      and a printout without them is missing the part people keep */
-  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > footer { box-shadow: none; margin-bottom: 0 }
   body > *, body > :where(#root, #app, #__next, [data-fertig]) > * { border: 0; max-width: none }
   p, blockquote, li { orphans: 3; widows: 3 }   /* no stranded single lines */
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555 }
@@ -1113,14 +1113,6 @@ summary:hover { color: var(--fertig-ac) }
 /* CJK text wants punctuation and Latin spacing handled */
 :root { text-spacing-trim: trim-start; text-autospace: normal }
 
-/* translucency is decorative; drop it when it is unwanted */
-@media (prefers-reduced-transparency: reduce) {
-  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav {
-    background: var(--fertig-face); backdrop-filter: none;
-  }
-  dialog::backdrop { backdrop-filter: none }
-}
-
 @media (prefers-contrast: more) {
   :root {
     --fertig-bd:  light-dark(#00000059, #ffffff6b);
@@ -1155,19 +1147,19 @@ summary:hover { color: var(--fertig-ac) }
 @supports not (color: light-dark(#000, #fff)) {
   :root {
     --fertig-bg: #e6eaef; --fertig-el: #fafcfe; --fertig-face: #f3f6fa; --fertig-fg: #151b24;
-    --fertig-mut: #525962; --fertig-bd: #151b2421; --fertig-tb: #f3f6fad9;
-    --fertig-ac: #2850de; --fertig-on-ac: #fff;
+    --fertig-mut: #525962; --fertig-bd: #151b2421; --fertig-tb: #f3f6fa;
+    --fertig-ac: #2850de; --fertig-on-ac: #f7f8fb;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme=light]) {
       --fertig-bg: #090c12; --fertig-el: #141920; --fertig-face: #1c222a; --fertig-fg: #eaeff7;
-      --fertig-mut: #9da5b1; --fertig-bd: #eaeff721; --fertig-tb: #1c222ad9;
+      --fertig-mut: #9da5b1; --fertig-bd: #eaeff721; --fertig-tb: #1c222a;
       --fertig-ac: #90b5ff; --fertig-on-ac: #07071c;
     }
   }
   [data-theme=dark] {
     --fertig-bg: #090c12; --fertig-el: #141920; --fertig-face: #1c222a; --fertig-fg: #eaeff7;
-    --fertig-mut: #9da5b1; --fertig-bd: #eaeff721; --fertig-tb: #1c222ad9;
+    --fertig-mut: #9da5b1; --fertig-bd: #eaeff721; --fertig-tb: #1c222a;
     --fertig-ac: #90b5ff; --fertig-on-ac: #07071c;
   }
 }

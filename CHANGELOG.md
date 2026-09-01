@@ -8,6 +8,48 @@ are breaking.
 
 ## Unreleased
 
+## [4.0.0] — 2026-09-01
+
+### Changed
+
+- **The palette is new and intentionally direct.** `gray`, `blue`, `cyan`,
+  `green`, `amber`, `red` and `violet` replace the former
+  `stone/sage/sky/clay/plum/gold` ramps. Each ships at 100/300/500/700/900,
+  stays inside sRGB and uses a consistent OKLCH progression. Blue is the new
+  default accent; `ok`, `warn` and `err` now map directly to green, amber and
+  red.
+- **The default finish is platform-neutral.** Opaque toolbar and surface
+  colors, restrained 8px control geometry, ordinary rounded buttons and generic
+  system font fallbacks replace the OS-specific translucent treatment. The
+  optional squircle enhancement and decorative backdrop blur are gone.
+- **The default hierarchy is clearer and the page gutter is responsive.**
+  `h1` and `h2` now use a restrained fluid type scale, while the new
+  `--fertig-g` token grows from 1.15rem on narrow phones to 1.9rem on larger
+  screens. Desktop density is unchanged; small screens recover useful space.
+- **The generic toolbar stays composed on phones.** A navigation list gets one
+  horizontally scrollable row beneath the identity and trailing control instead
+  of wrapping around them in an uneven cluster.
+
+### Removed
+
+- **The former palette and named accents.** Old ramp tokens and
+  `data-accent="indigo|sky|sage|clay|plum|gold|slate"` are not retained as
+  aliases. Use `data-accent="blue|cyan|green|amber|red|violet|gray"`.
+- **Legacy mockup pages and static social-preview screenshots.** The site build
+  no longer copies them or emits metadata pointing at deleted preview images.
+
+### Fixed
+
+- **Responsive tables scroll before their cells become unreadable.** Below
+  40rem, cell content keeps its intrinsic width inside the existing table scroll
+  container instead of wrapping almost word-by-word.
+- **Size synchronization cannot rewrite third-party measurements.** Published
+  claims are now an explicit manifest of fertig-specific contexts. A changed or
+  missing context fails the command, and a regression test protects unrelated
+  values that happen to match fertig's previous size.
+
+## [3.1.0] — 2026-09-01
+
 ### Changed
 
 - **The 72rem default is now a page shell, not a prose measure.**

@@ -77,9 +77,9 @@ def meta_of(html):
     m = re.search(r'<title>(.*?)</title>', html, re.S)
     title = m.group(1).strip() if m else ''
     desc = None
-    og_title, og_desc, og_alt = None, None, None
+    og_title, og_desc = None, None
     for prop, attr in [('description', 'name'), ('og:title', 'property'),
-                       ('og:description', 'property'), ('og:image:alt', 'property')]:
+                       ('og:description', 'property')]:
         m = re.search(
             rf'<meta {attr}="{re.escape(prop)}" content="(.*?)"', html)
         if not m:
@@ -93,9 +93,7 @@ def meta_of(html):
                 og_title = val
             elif prop == 'og:description':
                 og_desc = val
-            else:
-                og_alt = val
-    return title, desc, og_title, og_desc, og_alt
+    return title, desc, og_title, og_desc
 
 
 def body_of(html):
@@ -121,8 +119,6 @@ def render_front(meta):
         prefix.append(f'ogTitle: {q(meta["ogTitle"])}')
     if meta.get('ogDescription'):
         prefix.append(f'ogDescription: {q(meta["ogDescription"])}')
-    if meta.get('ogImageAlt'):
-        prefix.append(f'ogImageAlt: {q(meta["ogImageAlt"])}')
     if 'canonical' in meta:
         prefix.append(f'canonical: {q(meta["canonical"])}')
     prefix.append(f'active: {meta["active"]}')
@@ -142,12 +138,11 @@ def render_front(meta):
 
 for name, meta in PAGES.items():
     html = open(os.path.join(ROOT, meta['file'])).read()
-    title, desc, og_title, og_desc, og_alt = meta_of(html)
+    title, desc, og_title, og_desc = meta_of(html)
     meta['title'] = title
     meta['description'] = desc
     meta['ogTitle'] = og_title
     meta['ogDescription'] = og_desc
-    meta['ogImageAlt'] = og_alt
     body = body_of(html)
     out = render_front(meta) + '\n' + body + '\n'
     dest = os.path.join(SRC, f'{name}.njk')

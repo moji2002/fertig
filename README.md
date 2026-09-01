@@ -2,12 +2,12 @@
 
 A classless CSS file that gives you **components**, not just styled elements —
 menus, dialogs, drawers, toasts and tooltips from plain semantic HTML,
-addressed by the ARIA that makes them accessible, and working with JavaScript
-switched off.
+built from native HTML and the ARIA that makes it accessible, and working with
+JavaScript switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**36.9 KB raw · 8.8 KB gzipped · no build step · no dependencies · no JavaScript.**
+**37.0 KB raw · 8.7 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -31,10 +31,10 @@ Surveyed across the eleven most-used classless stylesheets on 2026-08-31
 
 It is *not* the smallest — Concrete.css is 1.2 KB gzipped, and most of the
 field is a fraction of this because it styles elements and stops there. Against
-the two classless sheets that also ship a component layer, fertig is the
-lightest: 8.8 KB against matcha's 8.8 KB and Pico classless at 10.2 KB, and the
-only one of the three whose components work without JavaScript. Size is a
-constraint here, not the pitch.
+the two classless sheets that also ship a component layer, fertig is 8.7 KB,
+beside matcha's 8.8 KB and below Pico classless at 10.2 KB. It is the only one
+of the three whose components work without JavaScript. Size is a constraint
+here, not the pitch.
 
 ## Components that work without JavaScript
 
@@ -43,11 +43,12 @@ Audited in a browser with scripting disabled:
 | | |
 |---|---|
 | Popover menu, dialog, drawer, toast, tooltip, disclosure | **work with no script** |
-| Tabs | **styled only** — switching panels needs ~8 lines of your own |
+| Tabs | **styled only** — selection, panels and arrow keys need a short script |
 
-Tabs are the one gap, and it is deliberate: `aria-selected` must be a real
-attribute for a screen reader to announce the right tab, and CSS cannot set
-attributes. The snippet is in the docs.
+This gap is deliberate: `aria-selected` must be a real attribute, inactive tabs
+need roving focus, and CSS cannot implement the arrow-key contract. The complete
+enhancement is in the docs. `<details name>` remains an exclusive accordion,
+not a tabs substitute.
 
 ```html
 <link rel="stylesheet" href="fertig.css">
@@ -69,11 +70,11 @@ If you override tokens, prefix what you set. The common ones:
 |---|---|
 | `--ac` | `--fertig-ac` |
 | `--on-ac` | `--fertig-on-ac` |
-| `--w` | `--fertig-w` |
+| `--w` / `--g` | `--fertig-w` / `--fertig-g` |
 | `--r` / `--rs` / `--rw` | `--fertig-r` / `--fertig-rs` / `--fertig-rw` |
 | `--bg` / `--el` / `--face` / `--fg` / `--mut` / `--bd` / `--tb` | `--fertig-*` (same short name) |
 | `--up` / `--up2` / `--dn` / `--sh` / `--sh1` / `--sh2` | `--fertig-up` / `--fertig-up2` / `--fertig-dn` / `--fertig-sh` / `--fertig-sh1` / `--fertig-sh2` |
-| fonts `--f` / `--fm`, measure `--w`, caps `--caps`, `--nw` | `--fertig-*` |
+| fonts `--f` / `--fm`, page width `--w`, gutter `--g`, caps `--caps`, `--nw` | `--fertig-*` |
 | color ramps `--stone-*` / `--sage-*` / `--sky-*` / `--clay-*` / `--plum-*` / `--gold-*` | `--fertig-*` (same stop) |
 
 The rule is simple: **any `--name` you set becomes `--fertig-name`.** Nothing
@@ -81,12 +82,12 @@ changed meaning; the prefix exists so the sheet never collides with a custom
 property of yours (it is the same reason `--fertig-a1` / `--fertig-a2` were
 already prefixed — those are `@property` registrations, which are global).
 
-Two defaults change visually, so pin `fertig@2` if you want the old look:
+The defaults now favor a platform-neutral interface:
 
 - **Palette.** Accents and neutrals moved to a cooler voice — graphite
   neutrals and a violet-blue accent — replacing the older indigo/warm scheme.
-- **Buttons.** Fully rounded (`border-radius: 999px`) instead of the moderate
-  radius.
+- **Geometry.** Buttons share the restrained control radius. Pill geometry is
+  reserved for badges, switches, meters and joined ends.
 
 The docs site was also rebuilt and the two demo pages (`app.html` /
 `app-invoice.html`) are gone. None of that touches the sheet.
@@ -99,7 +100,7 @@ npm install fertig
 
 ```html
 <!-- or from a CDN, pinned -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@3/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@4/fertig.min.css">
 ```
 
 ```css
@@ -110,21 +111,22 @@ npm install fertig
 ## What it is
 
 Opinions, so you don't have to have them: system type, one accent, one page
-width, a window on a desktop. The structure is classic — a title bar, sunken
-fields, raised buttons — and the finish is macOS: vibrancy, hairlines, soft
-radii, a violet-blue focus ring over cool graphite neutrals. None of it is a
-period costume, and none of it is a picture of an OS: it is all CSS that every
-current engine already ships.
+width and a clear content canvas. The structure is classic — a toolbar,
+sunken fields and raised buttons — while the finish stays platform-neutral:
+opaque surfaces, hairlines, restrained corners and a violet-blue focus ring
+over cool graphite neutrals.
 
 - **System type, set properly** — 16px on a 1.65 line height. Long-form copy
   gets a roughly seventy-character measure with `.max-w-prose`. Code keeps a
   monospace face, where it earns its place.
-- **A window on a desktop.** `<nav>` becomes a full-bleed toolbar with a
-  vibrancy blur; `header`/`main`/`footer` are the paper.
+- **A centered content canvas.** `<nav>` becomes a full-bleed opaque toolbar;
+  `header`/`main`/`footer` form the page surface.
 - **Depth from hairlines and soft shadows.** Buttons and cards sit above the
   page, inputs and code sit below it. Shadow alphas step up in dark mode,
   because a shadow on a dark background does nothing on its own.
 - **Quiet text.** Links underline on hover rather than inverting mid-paragraph.
+- **Comfortable foregrounds.** Light mode uses graphite rather than absolute
+  black; dark mode uses a softened near-white rather than full white.
 - **Dark mode with no second stylesheet.** One `light-dark()` token block.
   Add `data-theme="dark"` (or `"light"`) on `<html>` to override the OS.
 
@@ -144,6 +146,8 @@ Direct children of `<body>` are the containers:
 The default page shell is `72rem`, roomy enough for application layouts and
 documentation. Add `.max-w-prose` to long-form content for a readable `38rem`
 line length, or `.wide` to a shell that genuinely needs the `80rem` column.
+The `--fertig-g` gutter scales from `1.15rem` on narrow phones to `1.9rem` on
+larger screens, and can be overridden independently of the shell width.
 
 One wrapper is fine. React, Vue, Svelte and Next render into a mount node, so
 the shell matches `body`'s children *or* the children of a single `#root`,
@@ -167,17 +171,17 @@ yourself — it is the only place `body >` appears:
 
 ## Components
 
-Addressed by ARIA attributes, not by class — the markup stays semantic and
-accessible by construction.
+Addressed by semantic HTML and ARIA attributes, not by component classes — the
+markup stays accessible by construction.
 
 | Component | Markup |
 |---|---|
 | Segmented control | `<div role="group">` of buttons, `aria-pressed` |
-| Tabs | `<div role="tablist">`, `<button role="tab" aria-selected>` |
+| ARIA tabs | `<div role="tablist">`, `<button role="tab" aria-selected>`; switching and arrow keys need script |
 | Switch | `<input type="checkbox" role="switch">` |
 | Menu | any `[popover]` + `popovertarget` (anchored, no JS) |
 | Breadcrumb | `<nav aria-label="Breadcrumb"><ol>` |
-| Dialog | `<dialog>` — animates in, blurs the page behind; optional `<header>`/`<footer>` pin while the body scrolls |
+| Dialog | `<dialog>` — animates in; optional `<header>`/`<footer>` pin while the body scrolls |
 | Loading | `aria-busy="true"` (inline spinner) |
 | Tooltip | `data-tooltip="…"` — decorative; put the same words in `aria-label` too |
 | Button variants | `data-variant="ghost\|link"`, `data-size="sm\|lg"`, `data-icon`, `data-block` — on controls only, so they cannot catch a `<span data-size>` of yours |
@@ -241,20 +245,27 @@ Override the tokens you'd actually want to change:
 
 ```css
 :root {
-  --fertig-ac: light-dark(oklch(50% .22 266), oklch(78% .13 266)); /* violet-blue accent */
+  --fertig-ac: light-dark(var(--fertig-blue-700), var(--fertig-blue-300)); /* blue accent */
   --fertig-w: 48rem;                                              /* page shell width */
+  --fertig-g: 1.25rem;                                            /* page gutter */
   --fertig-r: 0px;                                                /* control radius — go sharp */
   --fertig-f: "Inter", system-ui, sans-serif;                     /* text font */
 }
 ```
 
-The accent is the only colour most people touch. In 3.0 the default is a
-violet-blue (`hue 266`) sitting on cool graphite neutrals (`hue 258`); the
+The accent is the only colour most people touch. The default is blue sitting
+on cool gray neutrals; the
 `data-accent` attribute retints a whole region without touching tokens:
 
 ```html
-<section data-accent="sage">…</section>  <!-- or sky, clay, plum, gold, slate -->
+<section data-accent="green">…</section>  <!-- or blue, cyan, amber, red, violet, gray -->
 ```
+
+The palette exposes `gray`, `blue`, `cyan`, `green`, `amber`, `red` and
+`violet` ramps at `100`, `300`, `500`, `700` and `900`. For example,
+`--fertig-violet-500` is the middle violet stop. The former
+`stone/sage/sky/clay/plum/gold` ramps and named accents were removed rather
+than retained as aliases.
 
 Tones work the same way — `data-tone="ok|warn|err"` retints any component
 without a round trip through the tokens:
@@ -268,7 +279,7 @@ colour sitting on the accent, and a light accent needs dark text to stay
 legible. `--fertig-up` / `--fertig-up2` / `--fertig-dn` are the elevation
 scale, `--fertig-a1` / `--fertig-a2` the shadow alphas (these two are
 `@property` registrations, and a registration is global — hence the prefix),
-`--fertig-rw` the window radius, and `--fertig-nw` the column the toolbar's
+`--fertig-rw` the large-surface radius, and `--fertig-nw` the column the toolbar's
 contents line up with. `--fertig-nw` follows `--fertig-w`, so nothing moves by
 default; `<nav class="wide">` re-points it at the wide column, which is what an
 app screen built on `.wide` wants so its wordmark doesn't float in the middle
@@ -304,19 +315,20 @@ Tested by rendering a Persian page in both directions, not by inspection.
 ## Accessibility
 
 Every foreground/background pair meets WCAG 2.1 AA (>= 4.5:1) in **both**
-themes, measured in-browser from the computed token values:
+themes, calculated from the computed token values:
 
 | Pair | Light | Dark |
 |---|---:|---:|
-| Body text on paper | 17.05 | 15.31 |
-| Muted text on paper | 6.73 | 7.41 |
-| Links on paper | 6.38 | 8.97 |
-| Muted on chrome | 6.30 | 6.70 |
-| Muted on the desktop ground | 5.65 | 8.11 |
-| Text on accent | 6.48 | 10.63 |
-| Tones (ok / warn / err) | 4.80–6.55 | 7.63–9.43 |
+| Body text on content surface | 16.83 | 15.32 |
+| Muted text on content surface | 6.92 | 7.15 |
+| Links on content surface | 6.72 | 9.50 |
+| Muted on controls | 6.57 | 6.45 |
+| Muted on page ground | 5.89 | 7.88 |
+| Text on accent | 6.16 | 11.22 |
+| Tones (ok / warn / err) | 5.91–7.17 | 9.12–10.76 |
 
-The tightest pair in the sheet is the warn tone on paper in light, at 4.80:1.
+The tightest pair in the sheet is text on the amber fill in light mode, at
+5.41:1.
 
 Motion is gated behind `prefers-reduced-motion`, focus uses a visible ring at
 `:focus-visible`, and the component layer is driven by the same ARIA attributes
@@ -326,7 +338,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **36.9 KB** | **8.8 KB** |
+| **fertig** | **37.0 KB** | **8.7 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -347,11 +359,12 @@ button { background: hotpink }   /* wins, no !important needed */
 ## Modern CSS, used deliberately
 
 Everything past the floor sits behind `@supports` and is additive:
-`contrast-color()` picks the text colour on your accent so an override cannot
-fail contrast; anchor positioning attaches popover menus to their button;
+`contrast-color()` picks the light or dark text colour on your accent and a
+small mix keeps it away from absolute black or white; anchor positioning
+attaches popover menus to their button;
 `::details-content` with `interpolate-size` animates disclosures open;
-`field-sizing` grows textareas; `corner-shape: squircle` gives continuous
-corners; `text-box: trim-both` sits headings on their cap height; and
+`field-sizing` grows textareas; `text-box: trim-both` sits headings on their
+cap height; and
 `appearance: base-select` styles the dropdown picker itself. Without any of it,
 nothing breaks. Relative colour (`oklch(from …)`) is on that list too, for one
 job only: lightening the filled button on hover in OKLCH. The shadow alphas
@@ -362,8 +375,8 @@ the floor. Two things are *not* on the list because they are part of the floor:
 `container-type` on `.card`, which makes every card a container you can write
 `@container` queries against.
 
-It also answers to the OS: `prefers-reduced-motion`,
-`prefers-reduced-transparency`, `prefers-contrast`, `forced-colors`,
+It also answers to user and device preferences: `prefers-reduced-motion`,
+`prefers-contrast`, `forced-colors`,
 `pointer: coarse` (44px targets, WCAG 2.5.8), `env(safe-area-inset-*)`,
 `update: fast` (e-ink never starts a transition), `inverted-colors` and
 `color-gamut: p3`.
@@ -420,7 +433,7 @@ npm run sizes      # sync the size claims in README + site copy
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 36.9 KB | 8.8 KB | everything |
+| `fertig.min.css` | 37.0 KB | 8.7 KB | everything |
 
 ## Files
 

@@ -10,21 +10,15 @@
 const { version } = require('./package.json');
 
 module.exports = function (eleventyConfig) {
-  // library + site chrome/screens: one copy on disk, referenced as-is.
+  // library + site assets: one copy on disk, referenced as-is.
   eleventyConfig.addPassthroughCopy('fertig.css');
   eleventyConfig.addPassthroughCopy('fertig.min.css');
   eleventyConfig.addPassthroughCopy('site.css');
   eleventyConfig.addPassthroughCopy('site.js');
   eleventyConfig.addPassthroughCopy('favicon.svg');
   eleventyConfig.addPassthroughCopy('icons.svg');
-  eleventyConfig.addPassthroughCopy('preview-dark.png');
-  eleventyConfig.addPassthroughCopy('preview-light.png');
   eleventyConfig.addPassthroughCopy('llms.txt');
   eleventyConfig.addPassthroughCopy('sitemap.xml');
-
-  // proof pages + raw HTML snippets stay pure static HTML in the output — they
-  // are the demonstration that fertig needs no build step.
-  eleventyConfig.addPassthroughCopy('mockups/');
 
   return {
     dir: {

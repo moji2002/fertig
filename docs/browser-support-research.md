@@ -45,9 +45,9 @@ list and was the only entry inside the two-year window. It is now behind
 `@supports`; see *Fallbacks added* below.
 
 The genuinely recent CSS in the sheet is all behind `@supports`:
-`corner-shape` (Chrome 139, Aug 2025), `contrast-color()` (Baseline
-2026-04-10), `field-sizing` (Baseline 2026-06-16), `appearance: base-select`
-(Chrome 135, still Chromium-only).
+`contrast-color()` (Baseline 2026-04-10), `field-sizing` (Baseline
+2026-06-16), and `appearance: base-select` (Chrome 135, still
+Chromium-only).
 
 So the sentence inverts the sheet's actual shape. What is true is the
 *browser* policy, not the *CSS* policy: the oldest browser that runs the sheet
@@ -137,7 +137,6 @@ All optional. Without them the component still works; it is only less polished.
 | `contrast-color()` | 147 | 26 | 146 | 2026-04-10 | hand-picked `--on-ac` |
 | `text-box: trim-both` (cap-height headings) | 133 | 18.2 | 154 | not yet | font half-leading stays |
 | `appearance: base-select` | 135 | 27 | 149 (flag) | not yet | native dropdown |
-| `corner-shape: squircle` | 139 | — | — | Chromium only | circular-arc corners |
 | `::spelling-error` / `::grammar-error` | 121 | 17.4 | — | not yet | engine's own underline |
 | `text-wrap: pretty` | 117 | 26 | — | not yet | `balance`-only headings, ragged paragraphs |
 | `overlay` in the transition list | 117 | — | — | Chromium only | top-layer pops rather than fades |

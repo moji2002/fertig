@@ -91,7 +91,7 @@ langs:
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>36.9 KB</td><td>8.8 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>37.0 KB</td><td>8.7 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -103,12 +103,11 @@ langs:
           <em>is</em> layout.</p>
         <pre><code>&lt;body&gt;
   &lt;nav&gt;…&lt;/nav&gt;       &lt;!-- full-bleed toolbar, contents on the measure --&gt;
-  &lt;header&gt;…&lt;/header&gt;  &lt;!-- the paper starts here --&gt;
+  &lt;header&gt;…&lt;/header&gt;  &lt;!-- the content canvas starts here --&gt;
   &lt;main&gt;…&lt;/main&gt;
   &lt;footer&gt;…&lt;/footer&gt;
 &lt;/body&gt;</code></pre>
-        <p><code>&lt;nav&gt;</code> becomes a sticky toolbar with a vibrancy
-          blur. It spans the viewport while its contents stay on
+        <p><code>&lt;nav&gt;</code> becomes an opaque sticky toolbar. It spans the viewport while its contents stay on
           the page column, so the bar reads full-width without the text sliding
           out to the edges.</p>
 
@@ -127,14 +126,15 @@ langs:
         <p>Deeper than that, or a mount node named something else, and you
           re-point the shell yourself &mdash; it is the only place
           <code>body &gt;</code> appears:</p>
-        <pre><code>#shell > * { max-width: var(--fertig-w); margin-inline: auto; padding-inline: 1.9rem }
+        <pre><code>#shell > * { max-width: var(--fertig-w); margin-inline: auto; padding-inline: var(--fertig-g) }
 #shell > header, #shell > main, #shell > footer { background: var(--fertig-el) }</code></pre>
 
         <h3>Width</h3>
         <p>The page shell, <code>--fertig-w</code>, is 72rem by default. Add
           <code>.wide</code> for an 80rem table or grid, or
           <code>.max-w-prose</code> to cap long-form copy at 38rem &mdash;
-          about seventy characters.</p>
+          about seventy characters. The <code>--fertig-g</code> page gutter
+          responds from 1.15rem on narrow phones to 1.9rem on larger screens.</p>
       </section>
 
       <section id="type">
@@ -287,7 +287,7 @@ langs:
           <caption>Size against comparable sheets</caption>
           <thead><tr><th>Sheet</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td>fertig</td><td>36.9 KB</td><td>8.8 KB</td></tr>
+            <tr><td>fertig</td><td>37.0 KB</td><td>8.7 KB</td></tr>
             <tr><td>Pico 2.1.1 classless</td><td>69.4 KB</td><td>10.1 KB</td></tr>
           </tbody>
         </table>
@@ -295,9 +295,10 @@ langs:
 
       <section id="components">
         <h2>Components</h2>
-        <p>The component layer is addressed by ARIA attributes rather than class
-          names. That is not only stylistic: a component can only be styled if it
-          is also announced correctly to assistive technology.</p>
+        <p>The component layer is addressed by semantic HTML and ARIA attributes
+          rather than component classes. That is not only stylistic: each
+          pattern keeps the semantics and interaction it promises to assistive
+          technology.</p>
       </section>
 
       <section id="segmented">
@@ -333,11 +334,14 @@ langs:
   &lt;/button&gt;
 &lt;/div&gt;</code></pre>
         </div>
-        <p class="muted">The sheet styles the tabs; wiring which panel shows is
-          yours, and takes about five lines of JavaScript.</p>
+        <p class="muted">Use this form when the interface must expose true tab
+          semantics and arrow-key navigation. The sheet handles its appearance;
+          your script handles selection and panels. Do not substitute
+          <code>&lt;details&gt;</code>: the HTML Standard defines it as a disclosure
+          widget with a different semantic and keyboard contract.</p>
       
         <h3>Switching panels</h3>
-        <p>fertig styles tabs from their ARIA, but it cannot switch them.
+        <p>CSS cannot fully operate an ARIA tab widget.
           <code>aria-selected</code> has to be a real attribute for a screen
           reader to announce the right tab, and CSS cannot set attributes — so
           anything CSS-only here would look right and announce wrong. This is
@@ -360,8 +364,8 @@ langs:
     });
   });
 });</code></pre>
-        <p>Every other component in the sheet — menus, dialogs, drawers,
-          toasts, tooltips, disclosures — needs none of this.
+        <p>This small controller is required for honest tab semantics; CSS cannot
+          update selected state or manage roving focus.
           <a href="index.html#nojs">The audit is on the homepage.</a></p>
 </section>
 
@@ -504,6 +508,10 @@ langs:
   &lt;p&gt;Body.&lt;/p&gt;
 &lt;/details&gt;</code></pre>
         </div>
+        <p class="muted"><code>&lt;details name="group"&gt;</code> can make a set
+          mutually exclusive in supporting browsers. It remains an accordion:
+          keep the disclosure treatment and do not add tab roles or tab-like
+          styling.</p>
       </section>
 
       <section id="classes">
@@ -548,16 +556,17 @@ langs:
 
       <section id="tokens">
         <h2>Tokens</h2>
-        <p>Five tokens cover most theming. Set them in your own
+        <p>The core tokens cover most theming. Set them in your own
           <code>:root</code> after the sheet.</p>
         <table>
           <thead><tr><th>Token</th><th>Default</th><th>Controls</th></tr></thead>
           <tbody>
-            <tr><td><code>--fertig-ac</code></td><td>oklch(50% .22 266) / oklch(78% .13 266)</td><td>Accent: links, focus, filled buttons</td></tr>
-            <tr><td><code>--fertig-on-ac</code></td><td>#fff / #07071c</td><td>Text sitting on the accent</td></tr>
+            <tr><td><code>--fertig-ac</code></td><td>blue-700 / blue-300</td><td>Accent: links, focus, filled buttons</td></tr>
+            <tr><td><code>--fertig-on-ac</code></td><td>#f7f8fb / #07071c</td><td>Off-white or ink text sitting on the accent</td></tr>
             <tr><td><code>--fertig-w</code></td><td>72rem</td><td>Page shell width</td></tr>
-            <tr><td><code>--fertig-r</code></td><td>12px</td><td>Control radius: fields, tabs, menu rows. The rest of the scale is <code>calc()</code>ed off it, so setting it on <code>:root</code> rescales the sheet</td></tr>
-            <tr><td><code>--fertig-rp</code></td><td>calc(var(--fertig-r) * 1000)</td><td>Pill radius: buttons, badges, switches, meters. Set it to <code>var(--fertig-r)</code> for square-shouldered buttons</td></tr>
+            <tr><td><code>--fertig-g</code></td><td>clamp(1.15rem, 4vw, 1.9rem)</td><td>Responsive page gutter</td></tr>
+            <tr><td><code>--fertig-r</code></td><td>8px</td><td>Control radius: fields, buttons, tabs, menu rows. The rest of the scale is <code>calc()</code>ed off it, so setting it on <code>:root</code> rescales the sheet</td></tr>
+            <tr><td><code>--fertig-rp</code></td><td>calc(var(--fertig-r) * 1000)</td><td>Pill radius: badges, switches, meters and joined ends</td></tr>
             <tr><td><code>--fertig-f</code></td><td>system-ui…</td><td>Text font</td></tr>
             <tr><td><code>--fertig-fm</code></td><td>ui-monospace…</td><td>Code font</td></tr>
           </tbody>
@@ -569,18 +578,18 @@ langs:
           It is scoped, so one section can differ from the rest of the page.</p>
         <div class="example">
           <div class="demo">
-            <p class="row" data-accent="sage"><button class="primary">sage</button></p>
-            <p class="row" data-accent="clay"><button class="primary">clay</button></p>
-            <p class="row" data-accent="plum"><button class="primary">plum</button></p>
+            <p class="row" data-accent="blue"><button class="primary">blue</button></p>
+            <p class="row" data-accent="green"><button class="primary">green</button></p>
+            <p class="row" data-accent="violet"><button class="primary">violet</button></p>
           </div>
-          <pre><code class="language-html">&lt;section data-accent="sage"&gt;
+          <pre><code class="language-html">&lt;section data-accent="green"&gt;
   &lt;button class="primary"&gt;Save&lt;/button&gt;
 &lt;/section&gt;</code></pre>
         </div>
-        <p>The values are <code>indigo</code> (the default), <code>sky</code>,
-          <code>sage</code>, <code>clay</code>, <code>plum</code>,
-          <code>gold</code> and <code>slate</code>. Each pair is measured: the
-          light tone clears WCAG AA as link text on paper, the dark tone clears
+        <p>The values are <code>blue</code> (the default), <code>cyan</code>,
+          <code>green</code>, <code>amber</code>, <code>red</code>,
+          <code>violet</code> and <code>gray</code>. Each pair is measured: the
+          light tone clears WCAG AA as link text on the content surface, the dark tone clears
           it on the dark ground. For anything else, set <code>--fertig-ac</code>
           yourself — that is all these rules do.</p>
 
@@ -592,15 +601,15 @@ langs:
         <table>
           <thead><tr><th>Token</th><th>Controls</th></tr></thead>
           <tbody>
-            <tr><td><code>--fertig-bg</code></td><td>Desktop, behind the window</td></tr>
-            <tr><td><code>--fertig-el</code></td><td>Paper: page and field backgrounds</td></tr>
-            <tr><td><code>--fertig-face</code></td><td>Chrome: buttons, panels, code</td></tr>
-            <tr><td><code>--fertig-fg</code> / <code>--fertig-mut</code></td><td>Text and secondary text</td></tr>
+            <tr><td><code>--fertig-bg</code></td><td>Page ground</td></tr>
+            <tr><td><code>--fertig-el</code></td><td>Content and field surfaces</td></tr>
+            <tr><td><code>--fertig-face</code></td><td>Controls, panels and code</td></tr>
+            <tr><td><code>--fertig-fg</code> / <code>--fertig-mut</code></td><td>Graphite/off-white text and secondary text; never absolute black/white on screen</td></tr>
             <tr><td><code>--fertig-bd</code></td><td>Hairline colour</td></tr>
-            <tr><td><code>--fertig-tb</code></td><td>Toolbar fill (translucent)</td></tr>
+            <tr><td><code>--fertig-tb</code></td><td>Opaque toolbar fill</td></tr>
             <tr><td><code>--fertig-up</code> / <code>--fertig-up2</code> / <code>--fertig-dn</code></td><td>Elevation scale</td></tr>
             <tr><td><code>--fertig-a1</code> / <code>--fertig-a2</code></td><td>Shadow alphas, per theme (<code>@property</code> registrations, so they carry the prefix &mdash; a registration is global)</td></tr>
-            <tr><td><code>--fertig-rw</code></td><td>Window radius: cards, dialogs, menus &mdash; <code>calc(var(--fertig-r) * 1.33)</code></td></tr>
+            <tr><td><code>--fertig-rw</code></td><td>Large-surface radius: cards, dialogs, menus &mdash; <code>calc(var(--fertig-r) * 1.33)</code></td></tr>
             <tr><td><code>--fertig-rs</code></td><td>Small radius: inline code and chips &mdash; <code>calc(var(--fertig-r) * .5)</code></td></tr>
             <tr><td><code>--fertig-nw</code></td><td>The column the toolbar's contents line up with (follows <code>--fertig-w</code>; <code>&lt;nav class="wide"&gt;</code> re-points it at 80rem)</td></tr>
           </tbody>
@@ -617,7 +626,7 @@ langs:
             <h3>Your brand accent</h3>
             <pre><code>:root {
   --fertig-ac:    light-dark(#c2410c, #fb923c);
-  --fertig-on-ac: light-dark(#fff,    #1a0b02);
+  --fertig-on-ac: light-dark(#f7f8fb, #1a0b02);
 }</code></pre>
             <h3>Sharp corners</h3>
             <pre><code>:root { --fertig-r: 0 }   /* squares the pills too */</code></pre>
@@ -664,18 +673,18 @@ langs:
       <section id="a11y">
         <h2>Accessibility</h2>
         <p>Every foreground and background pair clears WCAG 2.1 AA in both
-          themes, measured in a browser from the computed token values rather
-          than assumed from the palette.</p>
+          themes, calculated from the computed token values rather than
+          assumed from the palette.</p>
         <table>
           <thead><tr><th>Pair</th><th>Light</th><th>Dark</th></tr></thead>
           <tbody>
-            <tr><td>Body text on paper</td><td>17.05</td><td>15.31</td></tr>
-            <tr><td>Muted text on paper</td><td>6.73</td><td>7.41</td></tr>
-            <tr><td>Links on paper</td><td>6.38</td><td>8.97</td></tr>
-            <tr><td>Muted on chrome</td><td>6.30</td><td>6.70</td></tr>
-            <tr><td>Muted on the desktop ground</td><td>5.65</td><td>8.11</td></tr>
-            <tr><td>Text on accent</td><td>6.48</td><td>10.63</td></tr>
-            <tr><td>Tones (ok / warn / err)</td><td>4.80–6.55</td><td>7.63–9.43</td></tr>
+            <tr><td>Body text on content surface</td><td>16.83</td><td>15.32</td></tr>
+            <tr><td>Muted text on content surface</td><td>6.92</td><td>7.15</td></tr>
+            <tr><td>Links on content surface</td><td>6.72</td><td>9.50</td></tr>
+            <tr><td>Muted on controls</td><td>6.57</td><td>6.45</td></tr>
+            <tr><td>Muted on page ground</td><td>5.89</td><td>7.88</td></tr>
+            <tr><td>Text on accent</td><td>6.16</td><td>11.22</td></tr>
+            <tr><td>Tones (ok / warn / err)</td><td>5.91–7.17</td><td>9.12–10.76</td></tr>
           </tbody>
         </table>
         <ul>
@@ -767,7 +776,7 @@ langs:
             <tr><td><code>text-box: trim-both</code></td><td align="center">✓</td><td align="center">✓</td><td align="center">✓</td></tr>
             <tr><td><code>appearance: base-select</code></td><td align="center">✓</td><td align="center">—</td><td align="center">—</td></tr>
             <tr><td>Scroll-driven animations</td><td align="center">✓</td><td align="center">✓</td><td align="center">—</td></tr>
-            <tr><td><code>interpolate-size</code>, <code>corner-shape</code></td><td align="center">✓</td><td align="center">—</td><td align="center">—</td></tr>
+            <tr><td><code>interpolate-size</code></td><td align="center">✓</td><td align="center">—</td><td align="center">—</td></tr>
           </tbody>
         </table>
         <p>A dash means that engine misses a flourish, not that anything breaks:
@@ -833,10 +842,6 @@ button { background: hotpink }</code></pre>
                 <td>The <code>&lt;select&gt;</code> dropdown is styled like the
                     rest of the sheet instead of OS chrome</td>
                 <td>Native dropdown, CSS-drawn chevron</td></tr>
-            <tr><td><code>corner-shape: squircle</code></td>
-                <td align="center">139</td><td align="center">—</td><td align="center">—</td>
-                <td>Continuous corners rather than circular arcs</td>
-                <td>Ordinary rounded corners</td></tr>
             <tr><td><code>::spelling-error</code></td>
                 <td align="center">121</td><td align="center">17.4</td><td align="center">—</td>
                 <td>Spellcheck squiggles follow the palette</td>
@@ -861,12 +866,10 @@ button { background: hotpink }</code></pre>
           unguarded; relative colour is in the table above, because the sheet
           takes its shadow alphas with <code>color-mix</code> instead — same
           pixels, and three years older.</p>
-        <h3>It answers to the OS</h3>
+        <h3>It answers to user and device preferences</h3>
         <ul>
           <li><code>prefers-reduced-motion</code> — all transitions and the
             disclosure animation stop</li>
-          <li><code>prefers-reduced-transparency</code> — the toolbar loses its
-            vibrancy blur and goes opaque</li>
           <li><code>prefers-contrast: more</code> — hairlines and secondary
             text darken</li>
           <li><code>forced-colors</code> — shadows drop and borders switch to

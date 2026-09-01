@@ -64,8 +64,7 @@ def main():
         'llms.txt',
         'context7.json',
         'tools/sizes.py',
-    ] + [os.path.join('templates', f) for f in os.listdir(os.path.join(ROOT, 'templates'))] \
-      + [os.path.join('mockups', f) for f in os.listdir(os.path.join(ROOT, 'mockups'))]
+    ] + [os.path.join('templates', f) for f in os.listdir(os.path.join(ROOT, 'templates'))]
 
     for rel in targets:
         path = os.path.join(ROOT, rel)
