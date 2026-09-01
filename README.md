@@ -7,7 +7,7 @@ switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**36.8 KB raw · 8.8 KB gzipped · no build step · no dependencies · no JavaScript.**
+**36.9 KB raw · 8.8 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -72,7 +72,7 @@ If you override tokens, prefix what you set. The common ones:
 | `--w` | `--fertig-w` |
 | `--r` / `--rs` / `--rw` | `--fertig-r` / `--fertig-rs` / `--fertig-rw` |
 | `--bg` / `--el` / `--face` / `--fg` / `--mut` / `--bd` / `--tb` | `--fertig-*` (same short name) |
-| `--up` / `--up2` / `--dn` / `--sh` / `--sh1` / `--sh2` | `--fertig-up` / `--fertig-up2` / `--fertig-dn` / `--fertig-sh1` / `--fertig-sh{2}` |
+| `--up` / `--up2` / `--dn` / `--sh` / `--sh1` / `--sh2` | `--fertig-up` / `--fertig-up2` / `--fertig-dn` / `--fertig-sh` / `--fertig-sh1` / `--fertig-sh2` |
 | fonts `--f` / `--fm`, measure `--w`, caps `--caps`, `--nw` | `--fertig-*` |
 | color ramps `--stone-*` / `--sage-*` / `--sky-*` / `--clay-*` / `--plum-*` / `--gold-*` | `--fertig-*` (same stop) |
 
@@ -109,15 +109,16 @@ npm install fertig
 
 ## What it is
 
-Opinions, so you don't have to have them: system type, one accent, one
-measure, a window on a desktop. The structure is classic — a title bar, sunken
+Opinions, so you don't have to have them: system type, one accent, one page
+width, a window on a desktop. The structure is classic — a title bar, sunken
 fields, raised buttons — and the finish is macOS: vibrancy, hairlines, soft
 radii, a violet-blue focus ring over cool graphite neutrals. None of it is a
 period costume, and none of it is a picture of an OS: it is all CSS that every
 current engine already ships.
 
-- **System type, set properly** — 16px on a 1.65 line height across roughly
-  seventy characters. Code keeps a monospace face, where it earns its place.
+- **System type, set properly** — 16px on a 1.65 line height. Long-form copy
+  gets a roughly seventy-character measure with `.max-w-prose`. Code keeps a
+  monospace face, where it earns its place.
 - **A window on a desktop.** `<nav>` becomes a full-bleed toolbar with a
   vibrancy blur; `header`/`main`/`footer` are the paper.
 - **Depth from hairlines and soft shadows.** Buttons and cards sit above the
@@ -133,12 +134,16 @@ Direct children of `<body>` are the containers:
 
 ```html
 <body>
-  <nav>…</nav>       <!-- toolbar: full-bleed, contents on the measure -->
+  <nav>…</nav>       <!-- toolbar: full-bleed, contents on the page column -->
   <header>…</header>
   <main>…</main>
   <footer>…</footer>
 </body>
 ```
+
+The default page shell is `72rem`, roomy enough for application layouts and
+documentation. Add `.max-w-prose` to long-form content for a readable `38rem`
+line length, or `.wide` to a shell that genuinely needs the `80rem` column.
 
 One wrapper is fine. React, Vue, Svelte and Next render into a mount node, so
 the shell matches `body`'s children *or* the children of a single `#root`,
@@ -227,7 +232,8 @@ where `.max-w-2xl` works and `.max-w-3xl` silently does not is worse than no
 scale at all. They are `max-inline-size`, so they still mean "along the text"
 in a vertical writing mode, and they outrank the sheet's own measure on
 `body > *`, so they retarget a page container as readily as anything inside
-one. `.max-w-prose` is that measure, as a class.
+one. `.max-w-prose` is a fixed `38rem` reading measure, independent of the
+`72rem` page shell.
 
 ## Customising
 
@@ -236,7 +242,7 @@ Override the tokens you'd actually want to change:
 ```css
 :root {
   --fertig-ac: light-dark(oklch(50% .22 266), oklch(78% .13 266)); /* violet-blue accent */
-  --fertig-w: 48rem;                                              /* measure */
+  --fertig-w: 48rem;                                              /* page shell width */
   --fertig-r: 0px;                                                /* control radius — go sharp */
   --fertig-f: "Inter", system-ui, sans-serif;                     /* text font */
 }
@@ -320,7 +326,7 @@ assistive technology reads.
 
 | Sheet | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **36.8 KB** | **8.8 KB** |
+| **fertig** | **36.9 KB** | **8.8 KB** |
 | Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
 
 Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
@@ -414,7 +420,7 @@ npm run sizes      # sync the size claims in README + site copy
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 36.8 KB | 8.8 KB | everything |
+| `fertig.min.css` | 36.9 KB | 8.8 KB | everything |
 
 ## Files
 

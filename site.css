@@ -7,8 +7,8 @@
  *
  * The house style is a spec sheet: set from the start edge on a label rail,
  * separated by hairlines rather than boxes, numbers in tabular mono. fertig
- * keeps prose on a 38rem measure; a documentation site has to break out of
- * that, so this file widens the containers and adds the page furniture.
+ * now uses a 72rem application shell; this file gives the documentation site
+ * its own 74rem grid and adds the page furniture.
  * Components, colour and the dark theme still come from fertig.
  */
 
@@ -162,6 +162,26 @@ body > nav {
 .bar a { font: var(--label); letter-spacing: .05em; text-transform: uppercase; color: var(--fertig-mut); text-decoration: none; white-space: nowrap; opacity: 1 }
 .bar a:hover { color: var(--fertig-fg) }
 .bar a[aria-current] { color: var(--fertig-fg); text-decoration: underline; text-underline-offset: .35em }
+
+/* Keep the sticky chrome useful on a phone. The identity and theme control
+   stay in a compact first row; navigation gets the full second row and
+   scrolls inline instead of wrapping into three more rows. */
+@media (width <= 46rem) {
+  .bar {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center; gap: .4rem 1rem; padding-block: .65rem;
+  }
+  .bar > button { justify-self: end }
+  .bar > ul {
+    grid-column: 1 / -1; grid-row: 2; inline-size: 100%;
+    margin-inline-start: 0; flex-wrap: nowrap; overflow-x: auto;
+    overscroll-behavior-inline: contain; padding-block: .1rem;
+    scrollbar-width: none;
+  }
+  .bar > ul::-webkit-scrollbar { display: none }
+  .bar > ul > li { flex: none }
+  .bar > ul a { padding-block: .35rem }
+}
 
 /* ---- hero ------------------------------------------------------ */
 .hero { border-bottom: var(--rule); padding-block: clamp(3rem, 8vw, 5rem) }

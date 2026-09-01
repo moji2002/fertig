@@ -128,7 +128,7 @@
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>36.8 KB</td><td>8.8 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>36.9 KB</td><td>8.8 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -146,7 +146,7 @@
 &lt;/body&gt;</code></pre>
         <p><code>&lt;nav&gt;</code> becomes a sticky toolbar with a vibrancy
           blur. It spans the viewport while its contents stay on
-          the text measure, so the bar reads full-width without the text sliding
+          the page column, so the bar reads full-width without the text sliding
           out to the edges.</p>
 
         <h3>Frameworks</h3>
@@ -168,15 +168,18 @@
 #shell > header, #shell > main, #shell > footer { background: var(--fertig-el) }</code></pre>
 
         <h3>Width</h3>
-        <p>One measure, <code>--fertig-w</code> at 38rem — about seventy characters. Add <code>.wide</code> to a container for 66rem when a
-          table or grid genuinely needs it.</p>
+        <p>The page shell, <code>--fertig-w</code>, is 72rem by default. Add
+          <code>.wide</code> for an 80rem table or grid, or
+          <code>.max-w-prose</code> to cap long-form copy at 38rem &mdash;
+          about seventy characters.</p>
       </section>
 
       <section id="type">
         <h2>Typography</h2>
-        <p>Body copy is 16px on a 1.65 line height, set on a measure of roughly
-          seventy characters. Code keeps a monospace face, where fixed width
-          actually earns its place.</p>
+        <p>Body copy is 16px on a 1.65 line height. Use
+          <code>.max-w-prose</code> for a reading measure of roughly seventy
+          characters. Code keeps a monospace face, where fixed width actually
+          earns its place.</p>
         <div class="example">
           <div class="demo">
             <p>Text can be <strong>bold</strong>, <em>italic</em>,
@@ -321,7 +324,7 @@
           <caption>Size against comparable sheets</caption>
           <thead><tr><th>Sheet</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td>fertig</td><td>36.8 KB</td><td>8.8 KB</td></tr>
+            <tr><td>fertig</td><td>36.9 KB</td><td>8.8 KB</td></tr>
             <tr><td>Pico 2.1.1 classless</td><td>69.4 KB</td><td>10.1 KB</td></tr>
           </tbody>
         </table>
@@ -552,7 +555,7 @@
             <tr><td><code>.badge</code></td><td>Small pill label</td></tr>
             <tr><td><code>.muted</code></td><td>Secondary text colour</td></tr>
             <tr><td><code>.center</code></td><td>Centre text</td></tr>
-            <tr><td><code>.wide</code></td><td>Widen a container to 66rem</td></tr>
+            <tr><td><code>.wide</code></td><td>Widen a container to 80rem</td></tr>
           </tbody>
         </table>
         <p>Plus <code>.primary</code> for a filled button, which
@@ -589,7 +592,7 @@
           <tbody>
             <tr><td><code>--fertig-ac</code></td><td>oklch(50% .22 266) / oklch(78% .13 266)</td><td>Accent: links, focus, filled buttons</td></tr>
             <tr><td><code>--fertig-on-ac</code></td><td>#fff / #07071c</td><td>Text sitting on the accent</td></tr>
-            <tr><td><code>--fertig-w</code></td><td>38rem</td><td>The measure</td></tr>
+            <tr><td><code>--fertig-w</code></td><td>72rem</td><td>Page shell width</td></tr>
             <tr><td><code>--fertig-r</code></td><td>9px</td><td>Control radius</td></tr>
             <tr><td><code>--fertig-f</code></td><td>system-ui…</td><td>Text font</td></tr>
             <tr><td><code>--fertig-fm</code></td><td>ui-monospace…</td><td>Code font</td></tr>
@@ -634,7 +637,7 @@
             <tr><td><code>--fertig-up</code> / <code>--fertig-up2</code> / <code>--fertig-dn</code></td><td>Elevation scale</td></tr>
             <tr><td><code>--fertig-a1</code> / <code>--fertig-a2</code></td><td>Shadow alphas, per theme (<code>@property</code> registrations, so they carry the prefix &mdash; a registration is global)</td></tr>
             <tr><td><code>--fertig-rw</code></td><td>Window radius</td></tr>
-            <tr><td><code>--fertig-nw</code></td><td>The column the toolbar's contents line up with (follows <code>--fertig-w</code>; <code>&lt;nav class="wide"&gt;</code> re-points it at 66rem)</td></tr>
+            <tr><td><code>--fertig-nw</code></td><td>The column the toolbar's contents line up with (follows <code>--fertig-w</code>; <code>&lt;nav class="wide"&gt;</code> re-points it at 80rem)</td></tr>
           </tbody>
         </table>
         <aside data-tone="warn">Change <code>--fertig-ac</code> and check
@@ -662,7 +665,7 @@
   --fertig-f:  "Inter", system-ui, sans-serif;
   --fertig-fm: "Berkeley Mono", ui-monospace, monospace;
 }</code></pre>
-            <h5>Wider measure</h5>
+            <h5>Narrower page</h5>
             <pre><code>:root { --fertig-w: 52rem }</code></pre>
             <h5>Force a theme</h5>
             <pre><code>&lt;html data-theme="dark"&gt;

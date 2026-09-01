@@ -6,6 +6,29 @@ is the token names, the class names (the seven, plus the layout utilities),
 and the ARIA attributes the component layer reads — changes to any of those
 are breaking.
 
+## Unreleased
+
+### Changed
+
+- **The 72rem default is now a page shell, not a prose measure.**
+  `.max-w-prose` keeps long-form copy at 38rem, while `.wide` provides an 80rem
+  application column. The documentation and customiser now use the same
+  defaults and terminology as the stylesheet.
+- **The documentation toolbar stays compact on phones.** Its primary controls
+  occupy the first row and its links scroll horizontally on the second instead
+  of wrapping into a tall stack. The Components page is now present in the
+  shared navigation.
+
+### Fixed
+
+- **The minified build preserves descendant selectors.** The old punctuation
+  regex changed selectors such as `nav :is(…)` into `nav:is(…)`, silently
+  breaking row controls and popover menus. The minifier now understands CSS
+  strings and comments, with focused regression tests for both failure modes.
+- **Reduced-transparency preferences reach framework wrappers.** A toolbar
+  inside `#root`, `#app`, `#__next` or `[data-fertig]` now drops its backdrop
+  blur just like a toolbar that is a direct child of `body`.
+
 ## [3.0.0] — 2026-08-31
 
 The breaking change is one mechanical line: **every public token now carries a

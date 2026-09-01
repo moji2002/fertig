@@ -1,7 +1,7 @@
-/*! fertig v3.0.0 — a classless CSS stylesheet. MIT */
+/*! fertig v3.1.0 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
-   system type · one accent · one measure · a window on a desktop.
+   system type · one accent · one page width · a window on a desktop.
    Structure is classic (title bar, sunken fields, raised buttons); the finish
    is macOS (vibrancy, hairlines, soft radii, the blue focus ring).
    Override the tokens marked "yours"; the rest is the point of view. */
@@ -37,7 +37,7 @@
        Roboto, "Helvetica Neue", Arial, sans-serif;                  /* yours */
   --fertig-fm: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
         "Liberation Mono", monospace;                                /* code */
-  --fertig-w: 72rem;                            /* ~70 characters — yours */
+  --fertig-w: 72rem;                            /* page shell width — yours */
   /* One radius, and the rest derived from it: set --fertig-r and the whole
      sheet rescales together. Four independent numbers meant --fertig-r: 4px
      left tight fields sitting inside cards that were still round. */
@@ -901,11 +901,11 @@ nav menu :is(a, button)[aria-current] {
 /* ---- the only classes (all optional) ------------------------ */
 .muted  { color: var(--fertig-mut) }
 .center { text-align: center }
-.wide   { max-width: 66rem }
-/* on the toolbar .wide cannot mean "be 66rem wide" — the bar stays full-bleed
+.wide   { max-width: 80rem }
+/* on the toolbar .wide cannot mean "be 80rem wide" — the bar stays full-bleed
    and its contents move out to the wide column, so an app screen's wordmark
    lines up with the app's own content rather than floating mid-screen. */
-:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav.wide { max-width: none; --fertig-nw: 66rem }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav.wide { max-width: none; --fertig-nw: 80rem }
 .row { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center }
 /* Form controls are full-width blocks by default, which is right in a form and
    wrong in a toolbar. Inside a .row they size to the row instead. */
@@ -980,8 +980,8 @@ nav menu :is(a, button)[aria-current] {
 .max-w-7xl  { max-inline-size: 80rem }
 .max-w-full { max-inline-size: 100% }
 .max-w-none { max-inline-size: none }
-/* the measure the sheet already sets prose on, as a class you can reach for */
-.max-w-prose { max-inline-size: var(--fertig-w) }
+/* Keep the prose utility readable even when the page shell is app-wide. */
+.max-w-prose { max-inline-size: 38rem }
 .hidden { display: none }
 
 .badge {
@@ -1115,7 +1115,9 @@ summary:hover { color: var(--fertig-ac) }
 
 /* translucency is decorative; drop it when it is unwanted */
 @media (prefers-reduced-transparency: reduce) {
-  body > nav { background: var(--fertig-face); backdrop-filter: none }
+  :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav {
+    background: var(--fertig-face); backdrop-filter: none;
+  }
   dialog::backdrop { backdrop-filter: none }
 }
 

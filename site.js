@@ -187,7 +187,7 @@ addEventListener("DOMContentLoaded", () => {
 
     const lines = [`  --fertig-ac: ${ac};`];
     if (v.r !== 12) lines.push(`  --fertig-r: ${v.r}px;`);
-    if (v.w !== 38) lines.push(`  --fertig-w: ${v.w}rem;`);
+    if (v.w !== 72) lines.push(`  --fertig-w: ${v.w}rem;`);
     if (v.f)        lines.push(`  --fertig-f: ${v.f};`);
     out.textContent = `:root {\n${lines.join("\n")}\n}`;
     out.removeAttribute("data-highlighted");

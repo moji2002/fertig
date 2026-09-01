@@ -1,7 +1,7 @@
 {
   "name": "fertig",
-  "version": "3.0.0",
-  "description": "A classless CSS stylesheet with no legacy in it: no polyfills, no classes. Link one file, write ordinary HTML, done — 8.4 KB gzipped, no build step, no dependencies.",
+  "version": "3.1.0",
+  "description": "A classless CSS stylesheet with no legacy in it: no polyfills, no classes. Link one file, write ordinary HTML, done — 8.8 KB gzipped, no build step, no dependencies.",
   "keywords": [
     "fertig",
     "fertig.css",
@@ -59,6 +59,7 @@
     "LICENSE"
   ],
   "scripts": {
+    "test": "node --test",
     "build": "node build.js",
     "site": "eleventy --config=.eleventy.js",
     "site:serve": "eleventy --config=.eleventy.js --serve",
