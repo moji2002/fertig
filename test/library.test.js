@@ -5,6 +5,9 @@ const path = require('node:path');
 
 const css = readFileSync(path.resolve(__dirname, '..', 'fertig.css'), 'utf8');
 const rootTokens = css.match(/:root \{([\s\S]*?)\n\}/)?.[1] ?? '';
+const buttonDefaults = css.match(
+  /button, \[type=submit\], \[type=button\], \[type=reset\],[\s\S]*?::file-selector-button \{([\s\S]*?)\n\}/,
+)?.[1] ?? '';
 
 function linearSrgb([lightness, chroma, hue]) {
   const radians = hue * Math.PI / 180;
@@ -32,7 +35,15 @@ function contrast(a, b) {
 test('platform-neutral defaults stay opaque and use ordinary rounded controls', () => {
   assert.doesNotMatch(css, /backdrop-filter|corner-shape|-apple-system|BlinkMacSystemFont/);
   assert.match(css, /--fertig-r:\s*8px/);
-  assert.match(css, /border-radius:\s*var\(--fertig-r\); box-shadow: var\(--fertig-up\)/);
+  assert.match(css, /border-radius:\s*var\(--fertig-r\)/);
+  assert.ok(buttonDefaults, 'missing default button rule');
+  assert.doesNotMatch(buttonDefaults, /box-shadow|translate/);
+  assert.doesNotMatch(css, /filled buttons get a lit top edge/);
+  assert.equal(
+    css.includes(':is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):active'),
+    false,
+  );
+  assert.doesNotMatch(css, /:is\(\[type=submit\], \.primary\)[^{]*\{[^}]*box-shadow/);
   assert.match(rootTokens, /--fertig-fg:\s*light-dark\(oklch\(22% \.02 260\),\s*oklch\(95% \.012 260\)\)/);
   assert.doesNotMatch(rootTokens, /--fertig-fg:[^;]*(?:#000(?:000)?|#fff(?:fff)?)/i);
   assert.doesNotMatch(rootTokens, /--fertig-on-ac:[^;]*(?:#000(?:000)?|#fff(?:fff)?)/i);

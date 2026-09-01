@@ -25,8 +25,8 @@ CLAIMS = {
     ),
     'README.md': (
         ('**{min_raw} raw · {min_gzip} gzipped · no build step', 1),
-        ("fertig is {min_gzip},\nbeside matcha's", 1),
-        ('| **fertig** | **{min_raw}** | **{min_gzip}** |', 1),
+        ('`fertig.min.css` is {min_gzip} gzipped.', 1),
+        ('| **fertig.min.css** | **{min_raw}** | **{min_gzip}** |', 1),
         ('| `fertig.min.css` | {min_raw} | {min_gzip} | everything |', 1),
     ),
     'llms.txt': (
@@ -34,11 +34,11 @@ CLAIMS = {
     ),
     'docs.html': (
         ('<tr><td><code>fertig.min.css</code></td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
-        ('<tr><td>fertig</td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
+        ('<tr><td>fertig.min.css</td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
     ),
     'src/docs.njk': (
         ('<tr><td><code>fertig.min.css</code></td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
-        ('<tr><td>fertig</td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
+        ('<tr><td>fertig.min.css</td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
     ),
     'components.html': (
         ('<tr><td>fertig</td><td align="right">{min_gzip}</td></tr>', 1),
@@ -54,7 +54,8 @@ CLAIMS = {
         ('Built only on CSS every current engine ships. {min_gzip} gzipped', 2),
         ('<span>{min_gzip} gzipped</span>', 2),
         ('<tr><th>Transfer size</th><td>{min_gzip} <span>— fertig.min.css, gzipped</span></td></tr>', 1),
-        ('<b>fertig.min.css</b>\n            <span><span class="bar-meter" style="--len:87%"></span></span><span>{min_gzip}</span>', 1),
+        ('<h2>One complete stylesheet. {min_gzip} transferred.</h2>', 1),
+        ('<b>fertig.min.css</b>\n            <span><span class="bar-meter"></span></span><span>{min_gzip}</span>', 1),
         ('reason it is {min_gzip} rather than 20', 1),
     ),
     'src/index.njk': (
@@ -63,7 +64,8 @@ CLAIMS = {
         ('ogDescription: "Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. {min_gzip} gzipped', 1),
         ('<span>{min_gzip} gzipped</span>', 2),
         ('<tr><th>Transfer size</th><td>{min_gzip} <span>— fertig.min.css, gzipped</span></td></tr>', 1),
-        ('<b>fertig.min.css</b>\n            <span><span class="bar-meter" style="--len:87%"></span></span><span>{min_gzip}</span>', 1),
+        ('<h2>One complete stylesheet. {min_gzip} transferred.</h2>', 1),
+        ('<b>fertig.min.css</b>\n            <span><span class="bar-meter"></span></span><span>{min_gzip}</span>', 1),
         ('reason it is {min_gzip} rather than 20', 1),
     ),
 }

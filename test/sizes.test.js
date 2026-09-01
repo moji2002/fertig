@@ -57,15 +57,16 @@ test('size sync leaves unrelated matching measurements unchanged', t => {
   const statePath = path.join(root, 'tools/sizes.json');
   const state = JSON.parse(readFileSync(statePath, 'utf8'));
   const originalGzip = state['fertig.min.css'].gzip;
-  const competitorGzip = '8.8 KB';
+  const unrelatedGzip = '8.8 KB';
 
   for (const file of syncedFiles) {
     const target = path.join(root, file);
-    const content = readFileSync(target, 'utf8').replaceAll(originalGzip, competitorGzip);
+    const content = readFileSync(target, 'utf8').replaceAll(originalGzip, unrelatedGzip);
     writeFileSync(target, content);
   }
-  state['fertig.min.css'].gzip = competitorGzip;
+  state['fertig.min.css'].gzip = unrelatedGzip;
   writeFileSync(statePath, JSON.stringify(state, null, 2));
+  appendFileSync(path.join(root, 'README.md'), `\nUnrelated asset: ${unrelatedGzip}\n`);
 
   appendFileSync(
     path.join(root, 'fertig.min.css'),
@@ -79,9 +80,11 @@ test('size sync leaves unrelated matching measurements unchanged', t => {
   const nextGzip = nextState['fertig.min.css'].gzip;
   const readme = readFileSync(path.join(root, 'README.md'), 'utf8');
 
-  assert.notEqual(nextGzip, competitorGzip);
-  assert.ok(readme.includes(`fertig is ${nextGzip},\nbeside matcha's`));
-  assert.ok(readme.includes("beside matcha's 8.8 KB"));
+  assert.notEqual(nextGzip, unrelatedGzip);
+  assert.ok(readme.includes(
+    `| **fertig.min.css** | **${nextState['fertig.min.css'].raw}** | **${nextGzip}** |`,
+  ));
+  assert.ok(readme.includes(`Unrelated asset: ${unrelatedGzip}`));
 });
 
 test('size sync rejects claim drift when build measurements are unchanged', t => {

@@ -7,7 +7,7 @@ JavaScript switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**37.0 KB raw · 8.7 KB gzipped · no build step · no dependencies · no JavaScript.**
+**36.7 KB raw · 8.6 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -29,12 +29,9 @@ Surveyed across the eleven most-used classless stylesheets on 2026-08-31
 - **RTL by construction.** Written in logical properties throughout, not
   patched with `[dir=rtl]` overrides afterwards.
 
-It is *not* the smallest — Concrete.css is 1.2 KB gzipped, and most of the
-field is a fraction of this because it styles elements and stops there. Against
-the two classless sheets that also ship a component layer, fertig is 8.7 KB,
-beside matcha's 8.8 KB and below Pico classless at 10.2 KB. It is the only one
-of the three whose components work without JavaScript. Size is a constraint
-here, not the pitch.
+`fertig.min.css` is 8.6 KB gzipped. That includes semantic element styling,
+the component layer, responsive utilities, light and dark themes, RTL support
+and accessibility safeguards. Size is a constraint here, not the pitch.
 
 ## Components that work without JavaScript
 
@@ -112,7 +109,7 @@ npm install fertig
 
 Opinions, so you don't have to have them: system type, one accent, one page
 width and a clear content canvas. The structure is classic — a toolbar,
-sunken fields and raised buttons — while the finish stays platform-neutral:
+sunken fields and flat buttons — while the finish stays platform-neutral:
 opaque surfaces, hairlines, restrained corners and a violet-blue focus ring
 over cool graphite neutrals.
 
@@ -121,8 +118,8 @@ over cool graphite neutrals.
   monospace face, where it earns its place.
 - **A centered content canvas.** `<nav>` becomes a full-bleed opaque toolbar;
   `header`/`main`/`footer` form the page surface.
-- **Depth from hairlines and soft shadows.** Buttons and cards sit above the
-  page, inputs and code sit below it. Shadow alphas step up in dark mode,
+- **Depth from hairlines and soft shadows.** Cards sit above the page while
+  buttons stay flat and inputs and code sit below it. Shadow alphas step up in dark mode,
   because a shadow on a dark background does nothing on its own.
 - **Quiet text.** Links underline on hover rather than inverting mid-paragraph.
 - **Comfortable foregrounds.** Light mode uses graphite rather than absolute
@@ -336,14 +333,11 @@ assistive technology reads.
 
 ## Size
 
-| Sheet | Raw | Gzip |
+| File | Raw | Gzip |
 |---|---:|---:|
-| **fertig** | **37.0 KB** | **8.7 KB** |
-| Pico 2.1.1 classless | 69.4 KB | 10.1 KB |
+| **fertig.min.css** | **36.7 KB** | **8.6 KB** |
 
-Measured with `gzip -9`, KB = 1024 bytes for every row. Most of the gap is Pico's full
-colour palette and its base64-SVG control icons; see
-`docs/classless-css-research.md`.
+Measured with `gzip -9`; KB = 1024 bytes.
 
 ## Overriding it
 
@@ -433,7 +427,7 @@ npm run sizes      # sync the size claims in README + site copy
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 37.0 KB | 8.7 KB | everything |
+| `fertig.min.css` | 36.7 KB | 8.6 KB | everything |
 
 ## Files
 

@@ -8,6 +8,25 @@ are breaking.
 
 ## Unreleased
 
+## [4.0.1] — 2026-09-01
+
+### Changed
+
+- **Buttons are flat and stay put.** The raised shadow, filled-button highlight
+  and active press nudge are gone. Hover contrast, focus-visible outlines,
+  disabled feedback and coarse-pointer target sizing remain intact.
+- **The public documentation speaks only about fertig.** Comparative product
+  names, size rankings and survey links were removed from every published page.
+
+### Fixed
+
+- **Shared mobile controls now have reliable touch targets.** Navigation,
+  theme, colour, catalogue filter and sidebar controls reach 44 by 44 pixels;
+  catalogue filters stay in one horizontal row instead of building a tall
+  stack on narrow screens.
+- **Theme and copy feedback are clearer.** The theme control names its target,
+  while clipboard fallbacks select the text and use platform-neutral wording.
+
 ## [4.0.0] — 2026-09-01
 
 ### Changed

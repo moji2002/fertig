@@ -137,10 +137,8 @@ body > nav {
 .bar > strong { font: 600 .95rem/1 var(--font-mono); letter-spacing: -.02em }
 .bar > strong a { color: inherit; text-decoration: none; opacity: 1;
                   display: inline-flex; align-items: center; gap: .45em }
-/* the mark is an <img>, so it keeps its own two tones rather than
-   inheriting the wordmark's colour the way an icon does */
-/* the mark is an <img>, so it keeps its own two tones rather than inheriting
-   the wordmark's colour the way an icon does */
+/* The mark is an <img>, so it keeps its own two tones rather than inheriting
+   the wordmark's colour the way an icon does. */
 .mark { border-radius: 0; box-shadow: none; flex: none }
 .bar .mark { inline-size: 1.9em; block-size: 1.9em }
 /* the hero sets it in the label rail, where it reads as a masthead device
@@ -166,7 +164,7 @@ body > nav {
 @media (width <= 46rem) {
   .bar {
     display: grid; grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center; gap: .4rem 1rem; padding-block: .65rem;
+    align-items: center; gap: .2rem 1rem; padding-block: .35rem;
   }
   .bar > button { justify-self: end }
   .bar > ul {
@@ -177,7 +175,11 @@ body > nav {
   }
   .bar > ul::-webkit-scrollbar { display: none }
   .bar > ul > li { flex: none }
-  .bar > ul a { padding-block: .35rem }
+  .bar > strong a, .bar > ul a {
+    min-block-size: 2.75rem; align-items: center;
+  }
+  .bar > ul a { padding-block: 0 }
+  .bar > button { min-inline-size: 2.75rem; min-block-size: 2.75rem }
 }
 
 /* ---- hero ------------------------------------------------------ */
@@ -293,15 +295,21 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .showcase-bar [role=tablist] { flex: 1 1 auto; min-width: 0 }
 .dots { display: flex; gap: .5rem; align-items: center; margin: 0; flex-wrap: wrap }
 .dots button {
-  inline-size: 1.5rem; block-size: 1.5rem; padding: 0; min-width: 0;
-  border-radius: 999px; border: 2px solid transparent; box-shadow: none;
-  /* each dot carries its own data-accent, so the sheet paints it */
-  background: var(--fertig-ac); cursor: pointer;
+  position: relative; inline-size: 2.75rem; block-size: 2.75rem;
+  padding: 0; min-width: 0; border: 0; box-shadow: none;
+  background: none; cursor: pointer;
 }
-.dots button:hover { transform: scale(1.12) }
-.dots button[aria-pressed=true] { border-color: var(--fertig-fg) }
+.dots button::before {
+  content: ""; position: absolute; inset: 50% auto auto 50%;
+  inline-size: 1.5rem; block-size: 1.5rem; translate: -50% -50%;
+  border-radius: 999px; border: 2px solid transparent;
+  /* Each button carries its own data-accent, so the dot paints itself. */
+  background: var(--fertig-ac);
+}
+.dots button:hover::before { transform: scale(1.12) }
+.dots button[aria-pressed=true]::before { border-color: var(--fertig-fg) }
 @media (prefers-reduced-motion: no-preference) {
-  .dots button { transition: transform .12s var(--fertig-ease-out, ease-out) }
+  .dots button::before { transition: transform .12s var(--fertig-ease-out, ease-out) }
 }
 
 .stage {
@@ -414,7 +422,7 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 /* :not(dialog) — a modal is centred by margin:auto, so it must keep its own */
 .mock-body > :last-child:not(dialog) { margin-bottom: 0 }
 
-/* ---- size comparison bars -------------------------------------- */
+/* ---- transfer size --------------------------------------------- */
 .bars { display: grid; gap: .6rem; margin: 0 }
 .bar-row { display: grid; grid-template-columns: minmax(7rem, auto) minmax(0,1fr) auto; gap: .8rem; align-items: center; font: 400 .82rem/1.4 var(--font-mono) }
 .bar-row > b { font-weight: 600 }
@@ -426,8 +434,6 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   border-radius: 999px;
   box-shadow: 0 1px 2px var(--fertig-sh1), 0 4px 12px -2px var(--glow-ac);
 }
-.bar-alt { background: linear-gradient(90deg, color-mix(in srgb, var(--fertig-fg) 28%, transparent), color-mix(in srgb, var(--fertig-fg) 12%, transparent)); box-shadow: none }
-
 /* ---- palette showcase ------------------------------------------ */
 .panel {
   border: 1px solid var(--site-border); border-radius: var(--fertig-rw);
@@ -490,7 +496,11 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 /* narrow screens: the nav collapses into a disclosure the reader opens */
 @media (width <= 60rem) {
   .sidebar > details { border: var(--rule); border-radius: var(--fertig-r); padding: .2rem .9rem; background: var(--fertig-el) }
-  .sidebar > details > summary { font: var(--label); letter-spacing: .08em; text-transform: uppercase; padding-block: .7rem }
+  .sidebar > details > summary {
+    min-block-size: 2.75rem; padding-block: .55rem;
+    font: var(--label); letter-spacing: .08em; text-transform: uppercase;
+  }
+  .sidebar a { min-block-size: 2.75rem; align-items: center; padding-block: .45rem }
 }
 
 .doc-body > section { scroll-margin-top: 4.5rem }
@@ -627,6 +637,14 @@ body > nav { view-transition-name: toolbar }
 .comp-filter[aria-pressed="true"] {
   color: var(--fertig-on-ac, #f7f8fb); background: var(--fertig-ac);
   border-color: var(--fertig-ac);
+}
+@media (width <= 46rem) {
+  .comp-filters {
+    flex-wrap: nowrap; inline-size: 100%; overflow-x: auto;
+    overscroll-behavior-inline: contain; scrollbar-width: none;
+  }
+  .comp-filters::-webkit-scrollbar { display: none }
+  .comp-filter { flex: none; min-inline-size: 2.75rem; min-block-size: 2.75rem }
 }
 .comp-search-wrap { flex: 1 1 14rem; max-width: 22rem }
 .comp-search {

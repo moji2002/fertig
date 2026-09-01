@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>fertig — classless CSS framework, no JavaScript, 8.7 KB</title>
-<meta name="description" content="fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.7 KB gzipped, no build step, MIT.">
+<title>fertig — classless CSS framework, no JavaScript, 8.6 KB</title>
+<meta name="description" content="fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.6 KB gzipped, no build step, MIT.">
 <link rel="canonical" href="https://moji2002.github.io/fertig/">
 <meta name="theme-color" content="#111315" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
@@ -13,10 +13,10 @@
 <meta property="og:site_name" content="fertig">
 <meta property="og:url" content="https://moji2002.github.io/fertig/">
 <meta property="og:title" content="fertig — classless CSS framework, no JavaScript">
-<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.7 KB gzipped, no build step, no runtime.">
+<meta property="og:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.6 KB gzipped, no build step, no runtime.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fertig — classless CSS framework, no JavaScript">
-<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.7 KB gzipped, no build step, no runtime.">
+<meta name="twitter:description" content="Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.6 KB gzipped, no build step, no runtime.">
 
 
 <script type="application/ld+json">
@@ -29,7 +29,7 @@
   "url": "https://moji2002.github.io/fertig/",
   "downloadUrl": "https://www.npmjs.com/package/fertig",
   "codeRepository": "https://github.com/moji2002/fertig",
-  "softwareVersion": "4.0.0",
+  "softwareVersion": "4.0.1",
   "operatingSystem": "Any",
   "license": "https://opensource.org/licenses/MIT",
   "offers": {
@@ -83,7 +83,7 @@
   <div class="wrap">
     <a class="pill" href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">
       <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
-      v4.0.0 — modern defaults
+      v4.0.1 — polished controls
     </a>
     <h1>Modern HTML and CSS.<br><span class="dim">No JavaScript at all.</span></h1>
     <p class="lede">A classless stylesheet built only on CSS that every current
@@ -97,7 +97,7 @@
         <svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>View blocks</a>
     </p>
     <p class="proof">
-      <span>8.7 KB gzipped</span>
+      <span>8.6 KB gzipped</span>
       <span>0 JavaScript</span>
       <span>0 dependencies</span>
       <span>0 required classes</span>
@@ -241,7 +241,7 @@
       <div class="panel">
       <table class="spec">
         <tbody>
-          <tr><th>Transfer size</th><td>8.7 KB <span>— fertig.min.css, gzipped</span></td></tr>
+          <tr><th>Transfer size</th><td>8.6 KB <span>— fertig.min.css, gzipped</span></td></tr>
           <tr><th>Dependencies</th><td>0 <span>— no build step, no configuration</span></td></tr>
           <tr><th>Required classes</th><td>0 <span>— seven components and a layout set, all optional</span></td></tr>
           <tr><th>Contrast</th><td>AA <span>— every pair, both themes, measured</span></td></tr>
@@ -526,26 +526,17 @@
     <div class="wrap rail">
       <p class="tag">Transfer size</p>
       <div>
-        <h2>Not the smallest. The smallest that does this.</h2>
-        <p class="page-intro" style="margin-bottom:1.5rem">Plenty of classless
-          sheets are a fraction of this — Concrete.css is 1.2 KB — and they
-          style elements and stop there. The honest comparison is against the
-          two that also ship a component layer, and there fertig is the
-          lightest of the three while being the only one whose components work
-          without JavaScript.</p>
+        <h2>One complete stylesheet. 8.6 KB transferred.</h2>
+        <p class="page-intro" style="margin-bottom:1.5rem"><code>fertig.min.css</code>
+          includes semantic element styling, the component layer, responsive
+          utilities, light and dark themes, RTL support and accessibility
+          safeguards. There is no runtime and no dependency.</p>
         <div class="bars">
           <div class="bar-row"><b>fertig.min.css</b>
-            <span><span class="bar-meter" style="--len:87%"></span></span><span>8.7 KB</span></div>
-          <div class="bar-row"><b>matcha.css</b>
-            <span><span class="bar-meter bar-alt" style="--len:86%"></span></span><span>8.8 KB</span></div>
-          <div class="bar-row"><b>Pico 2.1.1 classless</b>
-            <span><span class="bar-meter bar-alt" style="--len:100%"></span></span><span>10.2 KB</span></div>
+            <span><span class="bar-meter"></span></span><span>8.6 KB</span></div>
         </div>
         <p class="spaced"><small class="muted">Gzipped transfer size, measured
-          with <code>gzip -9</code> on the files each package ships, on
-          2026-08-31.
-          <a href="https://github.com/moji2002/fertig/blob/main/docs/classless-landscape-2026.md">The
-          full survey is in the repo.</a></small></p>
+          with <code>gzip -9</code> on the published file.</small></p>
       </div>
     </div>
   </section>
@@ -575,7 +566,7 @@
             and the only thing it carries for the ones before them is a flat
             sRGB palette, so a missing <code>light-dark()</code> cannot leave a
             page unreadable. No polyfills, no fallback build. That policy is the
-            reason it is 8.7 KB rather than 20.</p>
+            reason it is 8.6 KB rather than 20.</p>
         </details>
         <details>
           <summary>Can I change the colours?</summary>
@@ -641,8 +632,8 @@
     </div>
     <p class="foot-note">
       <span>MIT licensed</span>
-      <span>v4.0.0</span>
-      <span>8.7 KB gzipped</span>
+      <span>v4.0.1</span>
+      <span>8.6 KB gzipped</span>
       <span>No dependencies</span>
     </p>
   </div>

@@ -407,8 +407,8 @@
       </div>
       <div class="block-preview">
         <dl>
-          <dt><kbd>⌘</kbd> <kbd>K</kbd></dt><dd>Search</dd>
-          <dt><kbd>⌘</kbd> <kbd>N</kbd></dt><dd>New invoice</dd>
+          <dt><kbd>/</kbd></dt><dd>Search</dd>
+          <dt><kbd>N</kbd></dt><dd>New invoice</dd>
           <dt><kbd>Esc</kbd></dt><dd>Close dialog</dd>
         </dl>
       </div>
@@ -481,8 +481,8 @@ document.querySelectorAll('.block').forEach(block => {
       await navigator.clipboard.writeText(code.textContent);
       copy.innerHTML = '<svg class="icon" aria-hidden="true"><use href="icons.svg#check"></use></svg>Copied';
     } catch {
-      copy.textContent = 'Press ⌘C';
       getSelection().selectAllChildren(code);
+      copy.textContent = 'Selected — copy';
     }
     setTimeout(() => (copy.innerHTML = '<svg class="icon" aria-hidden="true"><use href="icons.svg#copy"></use></svg>Copy'), 1400);
   });

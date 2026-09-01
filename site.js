@@ -7,6 +7,16 @@
    need it, and the answer is the attribute, not the OS preference. */
 const isDarkTheme = () => document.documentElement.dataset.theme === "dark";
 
+const syncThemeToggle = () => {
+  const control = document.querySelector("[data-theme-toggle]");
+  if (!control) return;
+  const target = isDarkTheme() ? "light" : "dark";
+  const label = `Switch to ${target} theme`;
+  control.setAttribute("aria-label", label);
+  control.title = label;
+};
+addEventListener("DOMContentLoaded", syncThemeToggle);
+
 /* The theme toggle is the one control on the site that needs scripting.
    The site is dark by default and remembers what you picked after that; the
    library itself still follows the OS, which is what a stylesheet should do.
@@ -24,6 +34,7 @@ addEventListener("click", e => {
      was taken out of the picture, at which point they resolved correctly. */
   root.dataset.themeSwitching = "";
   root.dataset.theme = next;
+  syncThemeToggle();
   requestAnimationFrame(() => requestAnimationFrame(() => {
     delete root.dataset.themeSwitching;
   }));
@@ -229,8 +240,8 @@ addEventListener("DOMContentLoaded", () => {
       await navigator.clipboard.writeText(out.textContent);
       btn.textContent = "Copied";
     } catch {
-      btn.textContent = "Press ⌘C";
       getSelection().selectAllChildren(out);
+      btn.textContent = "Selected — copy";
     }
     setTimeout(() => (btn.textContent = "Copy the CSS"), 1400);
   });
