@@ -37,7 +37,7 @@
        Roboto, "Helvetica Neue", Arial, sans-serif;                  /* yours */
   --fertig-fm: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
         "Liberation Mono", monospace;                                /* code */
-  --fertig-w: 38rem;                            /* ~70 characters — yours */
+  --fertig-w: 72rem;                            /* ~70 characters — yours */
   /* One radius, and the rest derived from it: set --fertig-r and the whole
      sheet rescales together. Four independent numbers meant --fertig-r: 4px
      left tight fields sitting inside cards that were still round. */
