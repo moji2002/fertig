@@ -10,7 +10,7 @@ JavaScript switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**36.7 KB raw · 8.6 KB gzipped · no build step · no dependencies · no JavaScript.**
+**36.6 KB raw · 8.6 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -132,7 +132,8 @@ over cool graphite neutrals.
 
 ## Layout
 
-Direct children of `<body>` are the containers:
+Direct children of `<body>` are full-width containers with responsive page
+gutters:
 
 ```html
 <body>
@@ -143,11 +144,11 @@ Direct children of `<body>` are the containers:
 </body>
 ```
 
-The default page shell is `72rem`, roomy enough for application layouts and
-documentation. Add `.max-w-prose` to long-form content for a readable `38rem`
-line length, or `.wide` to a shell that genuinely needs the `80rem` column.
-The `--fertig-g` gutter scales from `1.15rem` on narrow phones to `1.9rem` on
-larger screens, and can be overridden independently of the shell width.
+There is no default maximum width on body-level containers. Add
+`.max-w-prose` to long-form content for a readable `38rem` line length, or use
+the `max-w-*` utilities when a page needs a specific measure. The
+`--fertig-g` gutter scales from `1.15rem` on narrow phones to `1.9rem` on
+larger screens.
 
 One wrapper is fine. React, Vue, Svelte and Next render into a mount node, so
 the shell matches `body`'s children *or* the children of a single `#root`,
@@ -234,10 +235,8 @@ adding `.grid-cols-3` pins it to three columns.
 The `max-w-*` scale is complete rather than partial — a half-scale where
 `.max-w-2xl` works and `.max-w-3xl` silently does not is worse than no scale
 at all. They are `max-inline-size`, so they still mean "along the text"
-in a vertical writing mode, and they outrank the sheet's own measure on
-`body > *`, so they retarget a page container as readily as anything inside
-one. `.max-w-prose` is a fixed `38rem` reading measure, independent of the
-`72rem` page shell.
+in a vertical writing mode and can constrain a page container as readily as
+anything inside one. `.max-w-prose` is a fixed `38rem` reading measure.
 
 ## Customising
 
@@ -246,7 +245,7 @@ Override the tokens you'd actually want to change:
 ```css
 :root {
   --fertig-ac: light-dark(var(--fertig-blue-700), var(--fertig-blue-300)); /* blue accent */
-  --fertig-w: 48rem;                                              /* page shell width */
+  --fertig-w: 48rem;                                              /* toolbar content width */
   --fertig-g: 1.25rem;                                            /* page gutter */
   --fertig-r: 0px;                                                /* control radius — go sharp */
   --fertig-f: "Inter", system-ui, sans-serif;                     /* text font */
@@ -338,7 +337,7 @@ assistive technology reads.
 
 | File | Raw | Gzip |
 |---|---:|---:|
-| **fertig.min.css** | **36.7 KB** | **8.6 KB** |
+| **fertig.min.css** | **36.6 KB** | **8.6 KB** |
 
 Measured with `gzip -9`; KB = 1024 bytes.
 
@@ -440,7 +439,7 @@ broken staged snapshot during validation.
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 36.7 KB | 8.6 KB | everything |
+| `fertig.min.css` | 36.6 KB | 8.6 KB | everything |
 
 ## Files
 

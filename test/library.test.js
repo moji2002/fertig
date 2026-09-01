@@ -8,6 +8,9 @@ const rootTokens = css.match(/:root \{([\s\S]*?)\n\}/)?.[1] ?? '';
 const buttonDefaults = css.match(
   /button, \[type=submit\], \[type=button\], \[type=reset\],[\s\S]*?::file-selector-button \{([\s\S]*?)\n\}/,
 )?.[1] ?? '';
+const pageShell = css.match(
+  /body > \*,\s*body > :where\([^)]*\) > \* \{([^}]*)\}/,
+)?.[1] ?? '';
 
 function linearSrgb([lightness, chroma, hue]) {
   const radians = hue * Math.PI / 180;
@@ -47,6 +50,12 @@ test('platform-neutral defaults stay opaque and use ordinary rounded controls', 
   assert.match(rootTokens, /--fertig-fg:\s*light-dark\(oklch\(22% \.02 260\),\s*oklch\(95% \.012 260\)\)/);
   assert.doesNotMatch(rootTokens, /--fertig-fg:[^;]*(?:#000(?:000)?|#fff(?:fff)?)/i);
   assert.doesNotMatch(rootTokens, /--fertig-on-ac:[^;]*(?:#000(?:000)?|#fff(?:fff)?)/i);
+});
+
+test('body-level page containers are not width constrained', () => {
+  assert.ok(pageShell, 'missing body-level page container rule');
+  assert.doesNotMatch(pageShell, /max-width/);
+  assert.match(pageShell, /padding-inline:\s*var\(--fertig-g\)/);
 });
 
 test('the current palette replaces the former ramps and accent names', () => {

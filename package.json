@@ -1,6 +1,6 @@
 {
   "name": "fertig",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "A classless CSS stylesheet with no legacy in it: no polyfills, no required classes. Link one file, write ordinary HTML, done — 8.6 KB gzipped, no build step, no dependencies.",
   "keywords": [
     "fertig",

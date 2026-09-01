@@ -8,6 +8,15 @@ are breaking.
 
 ## Unreleased
 
+## [4.0.2] — 2026-09-01
+
+### Changed
+
+- **Body-level page containers are full width by default.** fertig keeps the
+  responsive page gutter but no longer applies a maximum width to direct body
+  children or supported app-root children. Explicit `max-w-*`
+  utilities remain available when a page needs a constrained measure.
+
 ## [4.0.1] — 2026-09-01
 
 ### Changed

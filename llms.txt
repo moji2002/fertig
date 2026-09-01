@@ -2,7 +2,7 @@
 
 > A classless CSS stylesheet that ships components, not just styled elements.
 > Link one file, write ordinary semantic HTML, and the page is finished —
-> 36.7 KB raw, 8.6 KB gzipped, no build step, no dependencies, no JavaScript,
+> 36.6 KB raw, 8.6 KB gzipped, no build step, no dependencies, no JavaScript,
 > no classes required.
 >
 > Menus, dialogs, drawers, toasts and tooltips are addressed by ARIA and work
@@ -46,7 +46,7 @@ Direct children of `<body>` are the containers. Do not add wrappers.
 </body>
 ```
 
-The page shell is 72rem wide. Put `.max-w-prose` on long-form content for a
+Body-level containers are full width. Put `.max-w-prose` on long-form content for a
 38rem reading measure; for an extra-wide app screen, put
 `.wide` on the container. `--fertig-g` controls the responsive page gutter,
 which scales from 1.15rem on narrow phones to 1.9rem on larger screens.
@@ -88,7 +88,7 @@ Plus `.primary` for a filled button, which `type="submit"` already gets.
 ## Tokens worth overriding
 
 `--fertig-ac` accent · `--fertig-on-ac` text on the accent (computed automatically where
-`contrast-color()` exists) · `--fertig-w` the page width · `--fertig-g` the page gutter · `--fertig-r` control radius · `--fertig-f`
+`contrast-color()` exists) · `--fertig-w` the toolbar content width · `--fertig-g` the page gutter · `--fertig-r` control radius · `--fertig-f`
 font stack. Also `--fertig-bg` `--fertig-el` `--fertig-face` `--fertig-fg` `--fertig-mut` `--fertig-bd`, the elevation
 scale `--fertig-up` `--fertig-up2` `--fertig-dn`, and `--fertig-rw` large-surface radius.
 
