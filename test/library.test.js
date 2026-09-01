@@ -11,6 +11,9 @@ const buttonDefaults = css.match(
 const pageShell = css.match(
   /body > \*,\s*body > :where\([^)]*\) > \* \{([^}]*)\}/,
 )?.[1] ?? '';
+const disabledButtonRule = css.match(
+  /:is\(button,\[type=submit\],\[type=button\],\[type=reset\]\):disabled \{([^}]*)\}/,
+)?.[1] ?? '';
 
 function linearSrgb([lightness, chroma, hue]) {
   const radians = hue * Math.PI / 180;
@@ -56,6 +59,18 @@ test('body-level page containers are not width constrained', () => {
   assert.ok(pageShell, 'missing body-level page container rule');
   assert.doesNotMatch(pageShell, /max-width/);
   assert.match(pageShell, /padding-inline:\s*var\(--fertig-g\)/);
+});
+
+test('disabled buttons cannot retain an enabled filled treatment', () => {
+  assert.ok(disabledButtonRule, 'missing disabled button override');
+  assert.match(disabledButtonRule, /background:\s*var\(--fertig-face\)/);
+  assert.match(disabledButtonRule, /border-color:\s*var\(--fertig-bd\)/);
+  assert.match(disabledButtonRule, /color:\s*var\(--fertig-mut\)/);
+  assert.ok(
+    css.indexOf(':is(button,[type=submit],[type=button],[type=reset]):disabled') >
+      css.indexOf('[type=submit], .primary'),
+    'disabled button treatment must follow and override the filled treatment',
+  );
 });
 
 test('the current palette replaces the former ramps and accent names', () => {

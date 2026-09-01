@@ -8,6 +8,17 @@ are breaking.
 
 ## Unreleased
 
+## [4.0.3] — 2026-09-01
+
+### Fixed
+
+- **Disabled filled buttons look disabled.** Primary and submit controls now
+  return to the quiet control surface with muted text instead of retaining the
+  enabled accent fill.
+- **Every published tab example is a real tab widget.** Examples now pair each
+  tab with a labelled panel, keep only the active tab in the Tab sequence and
+  support Left, Right, Home and End keys through one shared controller.
+
 ## [4.0.2] — 2026-09-01
 
 ### Changed

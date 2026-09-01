@@ -19,7 +19,7 @@ schema: |
     "url": "https://moji2002.github.io/fertig/",
     "downloadUrl": "https://www.npmjs.com/package/fertig",
     "codeRepository": "https://github.com/moji2002/fertig",
-    "softwareVersion": "4.0.2",
+    "softwareVersion": "4.0.3",
     "operatingSystem": "Any",
     "license": "https://opensource.org/licenses/MIT",
     "offers": {
@@ -30,7 +30,7 @@ schema: |
   }
 ---
 
-
+{% from "tab-demo.njk" import tabDemo %}
 <header class="hero hero-center">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
@@ -64,9 +64,9 @@ schema: |
     <h2 class="sr-only">Live components</h2>
     <div class="showcase-bar">
       <div role="tablist" aria-label="Showcase">
-        <button role="tab" aria-selected="true" aria-controls="s-form" id="tab-form">Forms</button>
-        <button role="tab" aria-selected="false" aria-controls="s-data" id="tab-data">Data</button>
-        <button role="tab" aria-selected="false" aria-controls="s-feedback" id="tab-feedback">Feedback</button>
+        <button role="tab" aria-selected="true" aria-controls="s-form" id="tab-form" tabindex="0">Forms</button>
+        <button role="tab" aria-selected="false" aria-controls="s-data" id="tab-data" tabindex="-1">Data</button>
+        <button role="tab" aria-selected="false" aria-controls="s-feedback" id="tab-feedback" tabindex="-1">Feedback</button>
       </div>
       <p class="dots" id="accent-dots" aria-label="Accent colour">
         <button type="button" aria-pressed="true" data-accent="blue" aria-label="Blue"></button>
@@ -346,10 +346,7 @@ schema: |
               <button aria-pressed="false">Month</button>
             </span>
           </p>
-          <div role="tablist">
-            <button role="tab" aria-selected="true">Preview</button>
-            <button role="tab" aria-selected="false">Code</button>
-          </div>
+          {{ tabDemo("home-tabs", ["Preview", "Code"], "Component example") }}
           <footer><code>role="group"</code> · <code>role="tablist"</code></footer>
         </div>
 

@@ -12,6 +12,7 @@ pageIntro: "Every element, component, and utility fertig styles. No classes requ
 langs:
   - javascript
 ---
+{% from "tab-demo.njk" import tabDemo %}
 <main class="band" style="border-top:0">
   <div class="wrap">
 
@@ -404,11 +405,7 @@ langs:
           <span class="badge">navigation</span>
         </div>
         <div class="comp-card-preview">
-          <div role="tablist" style="margin:0">
-            <button role="tab" aria-selected="true">Preview</button>
-            <button role="tab" aria-selected="false">Code</button>
-            <button role="tab" aria-selected="false">Notes</button>
-          </div>
+          {{ tabDemo("catalogue-tabs", ["Preview", "Code", "Notes"], "Component example") }}
         </div>
         <p class="comp-card-desc">Styled through ARIA. JavaScript owns selected state, panel visibility and arrow-key navigation.</p>
         <div class="comp-card-code"><code>&lt;div role="tablist"&gt;

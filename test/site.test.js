@@ -58,3 +58,26 @@ test('catalogue filters can hide cards', () => {
     'the card display rule overrides the native hidden attribute',
   );
 });
+
+test('every visual tab is a complete keyboard-operable widget', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+
+  for (const page of ['index.html', 'components.html', 'blocks.html']) {
+    const html = readFileSync(path.join(root, 'dist', page), 'utf8');
+    const tabs = [...html.matchAll(/<button[^>]*role="tab"[^>]*>/g)].map(match => match[0]);
+    assert.ok(tabs.length, `${page} has no tabs`);
+    for (const tab of tabs) {
+      const controls = tab.match(/aria-controls="([^"]+)"/)?.[1];
+      assert.ok(controls, `${page} has a tab without aria-controls`);
+      assert.match(
+        html,
+        new RegExp(`id="${controls}"[^>]*role="tabpanel"|role="tabpanel"[^>]*id="${controls}"`),
+      );
+    }
+  }
+
+  const script = readFileSync(path.join(root, 'site.js'), 'utf8');
+  assert.match(script, /item\.tabIndex = on \? 0 : -1/);
+  assert.match(script, /event\.key === "Home"/);
+  assert.match(script, /event\.key === "End"/);
+});

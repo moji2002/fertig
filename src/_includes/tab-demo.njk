@@ -1,0 +1,18 @@
+{% macro tabDemo(prefix, labels, label) %}
+<div class="tab-demo">
+  <div role="tablist" aria-label="{{ label }}">
+    {% for text in labels -%}
+      <button type="button" role="tab"
+        id="{{ prefix }}-tab-{{ loop.index }}"
+        aria-controls="{{ prefix }}-panel-{{ loop.index }}"
+        aria-selected="{{ 'true' if loop.first else 'false' }}"
+        tabindex="{{ '0' if loop.first else '-1' }}">{{ text }}</button>
+    {%- endfor %}
+  </div>
+  {% for text in labels -%}
+    <p role="tabpanel" id="{{ prefix }}-panel-{{ loop.index }}"
+      aria-labelledby="{{ prefix }}-tab-{{ loop.index }}"
+      tabindex="0"{% if not loop.first %} hidden{% endif %}>{{ text }} panel</p>
+  {%- endfor %}
+</div>
+{% endmacro %}

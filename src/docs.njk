@@ -64,7 +64,7 @@ langs:
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>36.6 KB</td><td>8.6 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>36.7 KB</td><td>8.6 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -137,19 +137,24 @@ langs:
   const show = tab =&gt; tabs.forEach(t =&gt; {
     const on = t === tab;
     t.setAttribute('aria-selected', on);
+    t.tabIndex = on ? 0 : -1;
     document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
   });
   tabs.forEach((t, i) =&gt; {
     t.addEventListener('click', () =&gt; show(t));
     t.addEventListener('keydown', e =&gt; {
-      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
+      let next;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (e.key === 'Home') next = tabs[0];
+      if (e.key === 'End') next = tabs.at(-1);
+      if (!next) return;
       e.preventDefault();
-      const next = tabs[(i + d + tabs.length) % tabs.length];
       show(next);
       next.focus();
     });
   });
+  show(tabs.find(t =&gt; t.getAttribute('aria-selected') === 'true') || tabs[0]);
 });</code></pre>
         <aside><code>&lt;details&gt;</code> is a disclosure control, not a tab.
           Its semantics and keyboard behavior are different, so it should not

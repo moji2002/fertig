@@ -1,4 +1,4 @@
-/*! fertig v4.0.2 — a classless CSS stylesheet. MIT */
+/*! fertig v4.0.3 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
    system type · one accent · responsive gutters · a clear content canvas.
@@ -476,6 +476,12 @@ button, [type=submit], [type=button], [type=reset],
 }
 :is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):hover:not(:disabled) { background: var(--fertig-face) }
 [type=submit], .primary { background: var(--fertig-ac); border-color: transparent; color: var(--fertig-on-ac) }
+/* Filled controls must not keep their enabled accent after :disabled. This
+   follows the filled rule deliberately: equal-specificity declarations later
+   in the cascade restore the quiet control surface and muted text. */
+:is(button,[type=submit],[type=button],[type=reset]):disabled {
+  background: var(--fertig-face); border-color: var(--fertig-bd); color: var(--fertig-mut);
+}
 /* The filled button lightens on hover. color-mix does that in oklab, which is
    close enough and is Baseline; relative colour does it by adding to L
    directly, which holds the hue exactly when --fertig-ac is a wide-gamut override.

@@ -263,33 +263,47 @@ addEventListener("DOMContentLoaded", () => {
   sync();
 });
 
+/* ARIA tabs are a behavior contract, not a visual hook. Every tab on the site
+   owns a labelled panel, only the selected tab is in the Tab sequence, and
+   arrow/Home/End keys move and activate focus without trapping it. */
+addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("[role=tablist]").forEach(list => {
+    const tabs = [...list.querySelectorAll(":scope > [role=tab]")];
+    const panels = tabs.map(tab => document.getElementById(tab.getAttribute("aria-controls")));
+    if (!tabs.length || panels.some(panel => !panel)) return;
+
+    const show = tab => tabs.forEach((item, index) => {
+      const on = item === tab;
+      item.setAttribute("aria-selected", String(on));
+      item.tabIndex = on ? 0 : -1;
+      panels[index].hidden = !on;
+    });
+
+    show(tabs.find(tab => tab.getAttribute("aria-selected") === "true") || tabs[0]);
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => show(tab));
+      tab.addEventListener("keydown", event => {
+        let next;
+        if (event.key === "ArrowRight") next = tabs[(index + 1) % tabs.length];
+        if (event.key === "ArrowLeft") next = tabs[(index - 1 + tabs.length) % tabs.length];
+        if (event.key === "Home") next = tabs[0];
+        if (event.key === "End") next = tabs.at(-1);
+        if (!next) return;
+        event.preventDefault();
+        show(next);
+        next.focus();
+      });
+    });
+  });
+});
+
 /* The showcase under the hero: real components, restyled live.
-   Tabs swap which set is on stage; the colour dots set data-accent on the stage,
-   so you are looking at the actual sheet reacting to the one token people
-   change, not at a picture of it. */
+   The shared tab controller swaps which set is on stage; the colour dots set
+   data-accent on the stage, so you are looking at the actual sheet reacting to
+   the one token people change, not at a picture of it. */
 addEventListener("DOMContentLoaded", () => {
   const stage = document.getElementById("stage");
   if (!stage) return;
-
-  const tabs = [...document.querySelectorAll('.showcase-bar [role=tab]')];
-  const show = tab => {
-    tabs.forEach(t => {
-      const on = t === tab;
-      t.setAttribute("aria-selected", String(on));
-      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
-    });
-  };
-  tabs.forEach(t => t.addEventListener("click", () => show(t)));
-
-  /* left/right arrows move between tabs, which is what a tablist promises */
-  tabs.forEach((t, i) => t.addEventListener("keydown", e => {
-    const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
-    if (!step) return;
-    e.preventDefault();
-    const next = tabs[(i + step + tabs.length) % tabs.length];
-    show(next);
-    next.focus();
-  }));
 
   /* The dots carry data-accent themselves, so CSS paints each one with the
      accent it represents — no colour is restated in JavaScript, and the swatch

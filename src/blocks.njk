@@ -13,6 +13,7 @@ langs:
   - javascript
   - bash
 ---
+{% from "tab-demo.njk" import tabDemo %}
 <main class="band" style="border-top:0">
   <div class="wrap blocks-layout">
 
@@ -311,11 +312,7 @@ langs:
         </div>
       </div>
       <div class="block-preview">
-        <div role="tablist">
-          <button role="tab" aria-selected="true">Summary</button>
-          <button role="tab" aria-selected="false">Line items</button>
-          <button role="tab" aria-selected="false">History</button>
-        </div>
+        {{ tabDemo("blocks-tabs", ["Summary", "Line items", "History"], "Account sections") }}
       </div>
       <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>

@@ -10,7 +10,7 @@ JavaScript switched off.
 
 Link it, write ordinary HTML, and the page is finished.
 
-**36.6 KB raw · 8.6 KB gzipped · no build step · no dependencies · no JavaScript.**
+**36.7 KB raw · 8.6 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ### What makes it different
 
@@ -337,7 +337,7 @@ assistive technology reads.
 
 | File | Raw | Gzip |
 |---|---:|---:|
-| **fertig.min.css** | **36.6 KB** | **8.6 KB** |
+| **fertig.min.css** | **36.7 KB** | **8.6 KB** |
 
 Measured with `gzip -9`; KB = 1024 bytes.
 
@@ -439,7 +439,7 @@ broken staged snapshot during validation.
 
 | Build | Raw | Gzip | |
 |---|---:|---:|---|
-| `fertig.min.css` | 36.6 KB | 8.6 KB | everything |
+| `fertig.min.css` | 36.7 KB | 8.6 KB | everything |
 
 ## Files
 
