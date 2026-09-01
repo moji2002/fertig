@@ -11,6 +11,9 @@ const buttonDefaults = css.match(
 const pageShell = css.match(
   /body > \*,\s*body > :where\([^)]*\) > \* \{([^}]*)\}/,
 )?.[1] ?? '';
+const wideToolbar = css.match(
+  /> nav\.wide \{([^}]*)\}/,
+)?.[1] ?? '';
 const disabledButtonRule = css.match(
   /:is\(button,\[type=submit\],\[type=button\],\[type=reset\]\):disabled \{([^}]*)\}/,
 )?.[1] ?? '';
@@ -59,6 +62,12 @@ test('body-level page containers are not width constrained', () => {
   assert.ok(pageShell, 'missing body-level page container rule');
   assert.doesNotMatch(pageShell, /max-width/);
   assert.match(pageShell, /padding-inline:\s*var\(--fertig-g\)/);
+});
+
+test('a wide toolbar stays full bleed while its contents use the wide column', () => {
+  assert.ok(wideToolbar, 'missing wide toolbar rule');
+  assert.match(wideToolbar, /max-width:\s*none/);
+  assert.match(wideToolbar, /--fertig-nw:\s*80rem/);
 });
 
 test('disabled buttons cannot retain an enabled filled treatment', () => {

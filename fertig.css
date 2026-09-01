@@ -906,7 +906,9 @@ nav menu :is(a, button)[aria-current] {
 /* on the toolbar .wide cannot mean "be 80rem wide" — the bar stays full-bleed
    and its contents move out to the wide column, so an app screen's wordmark
    lines up with the app's own content rather than floating mid-screen. */
-:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav.wide { --fertig-nw: 80rem }
+:is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav.wide {
+  max-width: none; --fertig-nw: 80rem;
+}
 .row { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center }
 /* Form controls are full-width blocks by default, which is right in a form and
    wrong in a toolbar. Inside a .row they size to the row instead. */

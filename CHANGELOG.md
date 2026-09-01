@@ -8,6 +8,11 @@ are breaking.
 
 ## Unreleased
 
+### Fixed
+
+- **Wide toolbars stay full-bleed.** `<nav class="wide">` now widens the
+  toolbar content column without constraining the toolbar surface itself.
+
 ## [4.0.3] — 2026-09-01
 
 ### Fixed

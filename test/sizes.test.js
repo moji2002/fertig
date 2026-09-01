@@ -128,8 +128,13 @@ test('size check accepts one display step of gzip runtime variance', t => {
   const root = createFixture(t);
   const statePath = path.join(root, 'tools/sizes.json');
   const state = JSON.parse(readFileSync(statePath, 'utf8'));
+  const probe = runSizeSync(root, '--check');
+  const measuredOutput = probe.stdout.match(
+    /fertig\.css\s+[0-9.]+ KB raw\s+([0-9.]+) KB gzipped/,
+  );
+  assert.ok(measuredOutput, probe.stderr || probe.stdout);
 
-  const measured = Number.parseFloat(state['fertig.css'].gzip);
+  const measured = Number.parseFloat(measuredOutput[1]);
   state['fertig.css'].gzip = `${(measured + 0.1).toFixed(1)} KB`;
   writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
 
