@@ -176,10 +176,10 @@ body > nav {
   .bar > ul::-webkit-scrollbar { display: none }
   .bar > ul > li { flex: none }
   .bar > strong a, .bar > ul a {
-    min-block-size: 2.75rem; align-items: center;
+    min-block-size: 44px; align-items: center;
   }
   .bar > ul a { padding-block: 0 }
-  .bar > button { min-inline-size: 2.75rem; min-block-size: 2.75rem }
+  .bar > button { min-inline-size: 44px; min-block-size: 44px }
 }
 
 /* ---- hero ------------------------------------------------------ */
@@ -295,7 +295,7 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .showcase-bar [role=tablist] { flex: 1 1 auto; min-width: 0 }
 .dots { display: flex; gap: .5rem; align-items: center; margin: 0; flex-wrap: wrap }
 .dots button {
-  position: relative; inline-size: 2.75rem; block-size: 2.75rem;
+  position: relative; inline-size: 44px; block-size: 44px;
   padding: 0; min-width: 0; border: 0; box-shadow: none;
   background: none; cursor: pointer;
 }
@@ -497,10 +497,10 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 @media (width <= 60rem) {
   .sidebar > details { border: var(--rule); border-radius: var(--fertig-r); padding: .2rem .9rem; background: var(--fertig-el) }
   .sidebar > details > summary {
-    min-block-size: 2.75rem; padding-block: .55rem;
+    min-block-size: 44px; padding-block: .55rem;
     font: var(--label); letter-spacing: .08em; text-transform: uppercase;
   }
-  .sidebar a { min-block-size: 2.75rem; align-items: center; padding-block: .45rem }
+  .sidebar a { min-block-size: 44px; align-items: center; padding-block: .45rem }
 }
 
 .doc-body > section { scroll-margin-top: 4.5rem }
@@ -639,12 +639,13 @@ body > nav { view-transition-name: toolbar }
   border-color: var(--fertig-ac);
 }
 @media (width <= 46rem) {
+  [role=tab] { min-block-size: 44px }
   .comp-filters {
     flex-wrap: nowrap; inline-size: 100%; overflow-x: auto;
     overscroll-behavior-inline: contain; scrollbar-width: none;
   }
   .comp-filters::-webkit-scrollbar { display: none }
-  .comp-filter { flex: none; min-inline-size: 2.75rem; min-block-size: 2.75rem }
+  .comp-filter { flex: none; min-inline-size: 44px; min-block-size: 44px }
 }
 .comp-search-wrap { flex: 1 1 14rem; max-width: 22rem }
 .comp-search {
