@@ -44,8 +44,8 @@ function createFixture(t) {
   return root;
 }
 
-function runSizeSync(root) {
-  return spawnSync('python3', ['tools/sizes.py'], {
+function runSizeSync(root, ...args) {
+  return spawnSync('python3', ['tools/sizes.py', ...args], {
     cwd: root,
     encoding: 'utf8',
   });
@@ -105,4 +105,23 @@ test('size sync rejects claim drift when build measurements are unchanged', t =>
 
   assert.notEqual(result.status, 0, result.stdout);
   assert.match(result.stderr, /size claim manifest is out of date/);
+});
+
+test('size check reports stale measurements without rewriting files', t => {
+  const root = createFixture(t);
+  const statePath = path.join(root, 'tools/sizes.json');
+  const readmePath = path.join(root, 'README.md');
+  const stateBefore = readFileSync(statePath, 'utf8');
+  const readmeBefore = readFileSync(readmePath, 'utf8');
+
+  appendFileSync(
+    path.join(root, 'fertig.min.css'),
+    `/* ${randomBytes(2048).toString('hex')} */`,
+  );
+  const result = runSizeSync(root, '--check');
+
+  assert.notEqual(result.status, 0, result.stdout);
+  assert.match(result.stderr, /bundle measurements or managed claims are stale/);
+  assert.equal(readFileSync(statePath, 'utf8'), stateBefore);
+  assert.equal(readFileSync(readmePath, 'utf8'), readmeBefore);
 });

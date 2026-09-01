@@ -420,11 +420,21 @@ and on the [docs site](https://moji2002.github.io/fertig/docs.html#support).
 ## Development
 
 ```sh
+npm run hooks:install # enable the committed pre-commit hook in this clone
+npm run check         # run the same complete gate manually
 npm run build      # regenerate fertig.min.css and print sizes
 npm run site       # build the site into dist/ with Eleventy
 npm run site:serve # build + live-reload on :8080 (the Eleventy dev server)
 npm run sizes      # sync the size claims in README + site copy
 ```
+
+The pre-commit gate is read-only for tracked files. It rejects whitespace
+errors, inconsistent release versions, stale minified CSS, stale size claims,
+bundle-budget regressions, test failures, invalid site output and unexpected
+package contents. If a generated file or size claim is stale, run the command
+named by the failure, review the diff, and commit it deliberately.
+Tracked changes must be fully staged, preventing an unstaged fix from hiding a
+broken staged snapshot during validation.
 
 ## Builds
 

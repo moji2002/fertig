@@ -133,12 +133,15 @@ def plan_updates(before, after):
     return planned, claim_count
 
 
-def main():
+def main(check=False):
     now = {build: measure(build) for build in BUILDS}
     for build in BUILDS:
         print(f'  {build:<22} {now[build]["raw"]:>9} raw   {now[build]["gzip"]:>8} gzipped')
 
     if not STATE.exists():
+        if check:
+            print('\nerror: size state is missing; run npm run sizes', file=sys.stderr)
+            return 1
         try:
             plan_updates(now, now)
         except (KeyError, OSError, RuntimeError) as error:
@@ -166,6 +169,15 @@ def main():
         return 0
 
     print('\nchanged: ' + ', '.join(f'{old} -> {new}' for old, new in changes))
+    if check:
+        files = ', '.join(str(path) for path in planned) or 'tools/sizes.json'
+        print(
+            f'error: bundle measurements or managed claims are stale ({files}); '
+            'run npm run build, then npm run sizes',
+            file=sys.stderr,
+        )
+        return 1
+
     for path, content in planned.items():
         path.write_text(content, encoding='utf-8')
         print(f'  {path}: updated')
@@ -176,4 +188,8 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    unknown = [arg for arg in sys.argv[1:] if arg != '--check']
+    if unknown:
+        print(f'error: unknown argument: {unknown[0]}', file=sys.stderr)
+        sys.exit(2)
+    sys.exit(main(check='--check' in sys.argv[1:]))

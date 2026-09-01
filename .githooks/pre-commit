@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+if ! git diff --quiet; then
+  echo "Pre-commit stopped: stage or revert tracked unstaged changes first."
+  echo "The gate validates the working tree, so this prevents a partially staged commit from bypassing it."
+  exit 1
+fi
+
+echo "Checking staged whitespace…"
+git diff --cached --check
+
+echo "Running the complete fertig validation gate…"
+npm run check

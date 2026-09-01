@@ -61,6 +61,12 @@
   "scripts": {
     "test": "node --test",
     "build": "node build.js",
+    "check": "npm run check:release && npm run check:sizes && npm test && npm run check:site && npm run check:package",
+    "check:release": "node tools/check-release.js",
+    "check:sizes": "python3 tools/sizes.py --check",
+    "check:site": "npm run site && node tools/check-site.js",
+    "check:package": "npm pack --dry-run --ignore-scripts",
+    "hooks:install": "git config core.hooksPath .githooks",
     "site": "eleventy --config=.eleventy.js",
     "site:serve": "eleventy --config=.eleventy.js --serve",
     "site:clean": "rm -rf dist",
