@@ -32,41 +32,24 @@ CLAIMS = {
     'llms.txt': (
         ('> {min_raw} raw, {min_gzip} gzipped, no build step', 1),
     ),
-    'docs.html': (
-        ('<tr><td><code>fertig.min.css</code></td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
-        ('<tr><td>fertig.min.css</td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
-    ),
     'src/docs.njk': (
         ('<tr><td><code>fertig.min.css</code></td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
-        ('<tr><td>fertig.min.css</td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
-    ),
-    'components.html': (
-        ('<tr><td>fertig</td><td align="right">{min_gzip}</td></tr>', 1),
     ),
     'src/components.njk': (
         ('<tr><td>fertig</td><td align="right">{min_gzip}</td></tr>', 1),
-    ),
-    'index.html': (
-        ('<title>fertig — classless CSS framework, no JavaScript, {min_gzip}</title>', 1),
-        ('Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. {min_gzip} gzipped', 1),
-        # Eleventy emits the shared OG description for both Open Graph and
-        # Twitter metadata in the tracked root page.
-        ('Built only on CSS every current engine ships. {min_gzip} gzipped', 2),
-        ('<span>{min_gzip} gzipped</span>', 2),
-        ('<tr><th>Transfer size</th><td>{min_gzip} <span>— fertig.min.css, gzipped</span></td></tr>', 1),
-        ('<h2>One complete stylesheet. {min_gzip} transferred.</h2>', 1),
-        ('<b>fertig.min.css</b>\n            <span><span class="bar-meter"></span></span><span>{min_gzip}</span>', 1),
-        ('reason it is {min_gzip} rather than 20', 1),
     ),
     'src/index.njk': (
         ('title: "fertig \\u2014 classless CSS framework, no JavaScript, {min_gzip}"', 1),
         ('description: "fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. {min_gzip} gzipped', 1),
         ('ogDescription: "Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. {min_gzip} gzipped', 1),
-        ('<span>{min_gzip} gzipped</span>', 2),
+        ('<span>{min_gzip} gzipped</span>', 1),
         ('<tr><th>Transfer size</th><td>{min_gzip} <span>— fertig.min.css, gzipped</span></td></tr>', 1),
         ('<h2>One complete stylesheet. {min_gzip} transferred.</h2>', 1),
         ('<b>fertig.min.css</b>\n            <span><span class="bar-meter"></span></span><span>{min_gzip}</span>', 1),
         ('reason it is {min_gzip} rather than 20', 1),
+    ),
+    'src/_includes/footer.njk': (
+        ('<span>{min_gzip} gzipped</span>', 1),
     ),
 }
 

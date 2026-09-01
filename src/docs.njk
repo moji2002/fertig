@@ -2,29 +2,17 @@
 layout: layout.njk
 permalink: "docs.html"
 title: "fertig docs \u2014 classless CSS reference, tokens and components"
-description: "Full reference for fertig: layout, elements, ARIA components, design tokens, recipes and accessibility. Every example is plain semantic HTML with no classes and no JavaScript."
+description: "Reference for fertig installation, layout, component behavior, design tokens, recipes, accessibility and browser support."
 ogTitle: "fertig docs \u2014 classless CSS reference, tokens and components"
-ogDescription: "Full reference for fertig: layout, elements, ARIA components, design tokens, recipes and accessibility. Every example is plain semantic HTML with no classes and no JavaScript."
+ogDescription: "Reference for fertig installation, layout, component behavior, design tokens, recipes, accessibility and browser support."
 canonical: "docs.html"
 active: docs
+pageTitle: "Documentation"
+pageIntro: "Installation, layout, component behavior, design tokens, accessibility and browser support. Visual examples live in the component catalogue."
 langs:
   - javascript
   - bash
 ---
-
-
-<header class="band page-head">
-  <div class="wrap">
-    <nav aria-label="Breadcrumb">
-      <ol><li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li><li>Documentation</li></ol>
-    </nav>
-    <h1 class="page-title">Documentation</h1>
-    <p class="muted page-intro">Everything fertig styles, every
-      component it ships, and every token you can override. Each example is
-      live — the markup shown is the markup rendering it.</p>
-  </div>
-</header>
-
 <main class="band">
   <div class="wrap docs">
     <nav class="sidebar" aria-label="Documentation sections">
@@ -35,25 +23,10 @@ langs:
         <li><a href="#install">Install</a></li>
         <li><a href="#layout">Layout</a></li>
       </ul>
-      <strong>Elements</strong>
+      <strong>Catalogue</strong>
       <ul>
-        <li><a href="#type">Typography</a></li>
-        <li><a href="#forms">Forms</a></li>
-        <li><a href="#buttons">Buttons</a></li>
-        <li><a href="#cards">Cards</a></li>
-        <li><a href="#tables">Tables</a></li>
-      </ul>
-      <strong>Components</strong>
-      <ul>
-        <li><a href="#components">Overview</a></li>
-        <li><a href="#segmented">Segmented control</a></li>
-        <li><a href="#tabs">Tabs</a></li>
-        <li><a href="#switch">Switch</a></li>
-        <li><a href="#menu">Menu</a></li>
-        <li><a href="#dialog">Dialog</a></li>
-        <li><a href="#feedback">Loading &amp; tooltips</a></li>
-        <li><a href="#tones">Tones</a></li>
-        <li><a href="#disclosure">Disclosure</a></li>
+        <li><a href="#catalogue">Elements &amp; components</a></li>
+        <li><a href="#tabs">Tab behavior</a></li>
       </ul>
       <strong>Reference</strong>
       <ul>
@@ -137,214 +110,27 @@ langs:
           responds from 1.15rem on narrow phones to 1.9rem on larger screens.</p>
       </section>
 
-      <section id="type">
-        <h2>Typography</h2>
-        <p>Body copy is 16px on a 1.65 line height. Use
-          <code>.max-w-prose</code> for a reading measure of roughly seventy
-          characters. Code keeps a monospace face, where fixed width actually
-          earns its place.</p>
-        <div class="example">
-          <div class="demo">
-            <p>Text can be <strong>bold</strong>, <em>italic</em>,
-              <a href="#type">a link</a>, <mark>highlighted</mark>,
-              <s>struck</s>, <ins>inserted</ins>, an
-              <abbr title="abbreviation">abbr</abbr>, <code>inline code</code>,
-              <kbd>Enter</kbd>, or <samp>sample output</samp>.</p>
-            <blockquote>Block quotes take an accent rule and mute their text.</blockquote>
-          </div>
-          <pre><code>&lt;strong&gt; &lt;em&gt; &lt;a&gt; &lt;mark&gt; &lt;s&gt; &lt;ins&gt;
-&lt;abbr title="…"&gt; &lt;code&gt; &lt;kbd&gt; &lt;samp&gt;
-&lt;blockquote&gt;…&lt;/blockquote&gt;</code></pre>
-        </div>
-
-        <h3>Headings</h3>
-        <p><code>h1</code>–<code>h4</code> descend in size; <code>h5</code> and
-          <code>h6</code> become small uppercase labels, which is how they are
-          usually used in practice.</p>
-
-        <h3>Lists</h3>
-        <div class="example">
-          <div class="demo">
-            <ul><li>Unordered</li><li>With nesting<ul><li>Nested item</li></ul></li></ul>
-            <dl><dt>size</dt><dd>26.2 KB raw</dd><dt>deps</dt><dd>none</dd></dl>
-          </div>
-          <pre><code>&lt;ul&gt;&lt;li&gt;Unordered&lt;/li&gt;&lt;/ul&gt;
-
-&lt;dl&gt;
-  &lt;dt&gt;size&lt;/dt&gt;&lt;dd&gt;26.2 KB raw&lt;/dd&gt;
-&lt;/dl&gt;</code></pre>
-        </div>
-        <p>Description lists become a two-column grid. Code blocks sit recessed
-          below the page, so they read as a well rather than a card.</p>
-      </section>
-
-      <section id="forms">
-        <h2>Forms</h2>
-        <p>Fields sink, buttons rise. Checkboxes, radios, ranges and progress
-          bars inherit <code>accent-color</code>, so changing <code>--fertig-ac</code>
-          retints every control at once.</p>
-        <div class="example">
-          <div class="demo">
-            <form>
-              <label for="e">Email</label>
-              <input id="e" type="email" placeholder="you@example.com" required>
-              <label for="s">Plan</label>
-              <select id="s"><option>Free</option><option>Pro</option></select>
-              <label for="t">Notes</label>
-              <textarea id="t" placeholder="Grows as you type…"></textarea>
-              <p><label><input type="checkbox" checked> Checkbox</label>
-                 <label><input type="radio" name="r" checked> Radio</label></p>
-              <p class="row"><button type="submit">Submit</button>
-                <button type="button">Cancel</button></p>
-            </form>
-          </div>
-          <pre><code>&lt;label for="e"&gt;Email&lt;/label&gt;
-&lt;input id="e" type="email" required&gt;
-
-&lt;label for="s"&gt;Plan&lt;/label&gt;
-&lt;select id="s"&gt;…&lt;/select&gt;
-
-&lt;button type="submit"&gt;Submit&lt;/button&gt;</code></pre>
-        </div>
-        <p>Error states use <code>:user-invalid</code>, so they fire after
-          someone has actually typed rather than on page load. The
-          <code>&lt;legend&gt;</code> is styled as a panel title instead of
-          notching the fieldset border — the one piece of default form chrome
-          that always looks broken.</p>
-      </section>
-
-      <section id="buttons">
-        <h2>Buttons</h2>
-        <p>A plain <code>&lt;button&gt;</code> is already styled, and
-          <code>type="submit"</code> gets the filled treatment automatically —
-          most forms need no attributes at all.</p>
-        <div class="example">
-          <div class="demo">
-            <p class="row">
-              <button class="primary">Primary</button>
-              <button>Default</button>
-              <button data-variant="ghost">Ghost</button>
-              <button data-variant="link">Link</button>
-              <button data-icon>+</button>
-            </p>
-            <p class="row">
-              <button data-size="sm">Small</button>
-              <button>Medium</button>
-              <button data-size="lg">Large</button>
-            </p>
-            <p class="row">
-              <button class="primary" data-tone="err">Delete</button>
-              <button disabled>Disabled</button>
-            </p>
-          </div>
-          <pre><code>&lt;button class="primary"&gt;Primary&lt;/button&gt;
-&lt;button data-variant="ghost"&gt;Ghost&lt;/button&gt;
-&lt;button data-variant="link"&gt;Link&lt;/button&gt;
-&lt;button data-icon&gt;+&lt;/button&gt;
-
-&lt;button data-size="sm"&gt;Small&lt;/button&gt;
-&lt;button data-size="lg"&gt;Large&lt;/button&gt;
-&lt;button data-block&gt;Full width&lt;/button&gt;
-
-&lt;button class="primary" data-tone="err"&gt;
-  Delete
-&lt;/button&gt;</code></pre>
-        </div>
-        <p>Links can be buttons too — <code>&lt;a class="primary"&gt;</code> or
-          <code>&lt;a role="button"&gt;</code> pick up the same styling while
-          staying links.</p>
-      </section>
-
-      <section id="cards">
-        <h2>Cards</h2>
-        <p><code>.card</code> is a raised panel taking an optional
-          <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> that bleed
-          to its edges. Cards are columns, so footers align across a row.</p>
-        <div class="example">
-          <div class="demo">
-            <div class="card">
-              <header>Plain</header>
-              <p class="muted">A header and footer pick up the chrome fill.</p>
-              <footer>Updated 2 min ago</footer>
-            </div>
-          </div>
-          <pre><code>&lt;div class="card"&gt;
-  &lt;header&gt;Plain&lt;/header&gt;
-  &lt;p&gt;Body copy.&lt;/p&gt;
-  &lt;footer&gt;Updated 2 min ago&lt;/footer&gt;
-&lt;/div&gt;
-
-&lt;a class="card" href="#"&gt;…&lt;/a&gt;
-&lt;div class="card" data-tone="ok"&gt;…&lt;/div&gt;</code></pre>
-        </div>
-      </section>
-
-      <section id="tables">
-        <h2>Tables</h2>
-        <p>Editorial rather than boxed: a rule under the header, hairlines
-          between rows, a hover tint.</p>
+      <section id="catalogue">
+        <h2>Elements and components</h2>
+        <p>This page is the reference for behavior, tokens, utilities and
+          accessibility. Live previews and copyable markup have one home in
+          the component catalogue, so examples do not drift between pages.</p>
         <table>
-          <caption>Published stylesheet size</caption>
-          <thead><tr><th>File</th><th>Raw</th><th>Gzip</th></tr></thead>
+          <thead><tr><th>Area</th><th>What is covered</th></tr></thead>
           <tbody>
-            <tr><td>fertig.min.css</td><td>36.7 KB</td><td>8.6 KB</td></tr>
+            <tr><td>Content</td><td>Typography, lists, code and quotations</td></tr>
+            <tr><td>Controls</td><td>Forms, buttons, groups, switches and tabs</td></tr>
+            <tr><td>Display</td><td>Cards, tables, badges and loading states</td></tr>
+            <tr><td>Navigation</td><td>Breadcrumbs, menus and segmented controls</td></tr>
+            <tr><td>Feedback</td><td>Tones, tooltips, dialogs and disclosures</td></tr>
           </tbody>
         </table>
-      </section>
+        <p><a class="primary" role="button" href="components.html">Browse the component catalogue</a></p>
 
-      <section id="components">
-        <h2>Components</h2>
-        <p>The component layer is addressed by semantic HTML and ARIA attributes
-          rather than component classes. That is not only stylistic: each
-          pattern keeps the semantics and interaction it promises to assistive
-          technology.</p>
-      </section>
-
-      <section id="segmented">
-        <h2>Segmented control</h2>
-        <div class="example">
-          <div class="demo">
-            <span role="group">
-              <button aria-pressed="true">Day</button>
-              <button aria-pressed="false">Week</button>
-              <button aria-pressed="false">Month</button>
-            </span>
-          </div>
-          <pre><code>&lt;div role="group"&gt;
-  &lt;button aria-pressed="true"&gt;Day&lt;/button&gt;
-  &lt;button aria-pressed="false"&gt;Week&lt;/button&gt;
-&lt;/div&gt;</code></pre>
-        </div>
-      </section>
-
-      <section id="tabs">
-        <h2>Tabs</h2>
-        <div class="example">
-          <div class="demo">
-            <div role="tablist">
-              <button role="tab" aria-selected="true">Preview</button>
-              <button role="tab" aria-selected="false">Code</button>
-              <button role="tab" aria-selected="false">Notes</button>
-            </div>
-          </div>
-          <pre><code>&lt;div role="tablist"&gt;
-  &lt;button role="tab" aria-selected="true"&gt;
-    Preview
-  &lt;/button&gt;
-&lt;/div&gt;</code></pre>
-        </div>
-        <p class="muted">Use this form when the interface must expose true tab
-          semantics and arrow-key navigation. The sheet handles its appearance;
-          your script handles selection and panels. Do not substitute
-          <code>&lt;details&gt;</code>: the HTML Standard defines it as a disclosure
-          widget with a different semantic and keyboard contract.</p>
-      
-        <h3>Switching panels</h3>
-        <p>CSS cannot fully operate an ARIA tab widget.
-          <code>aria-selected</code> has to be a real attribute for a screen
-          reader to announce the right tab, and CSS cannot set attributes — so
-          anything CSS-only here would look right and announce wrong. This is
-          the whole of it:</p>
+        <h3 id="tabs">Tabs need a controller</h3>
+        <p>CSS can style an ARIA tab widget, but it cannot update
+          <code>aria-selected</code>, switch the associated panel or manage
+          arrow-key focus. Use a small controller for those behaviors:</p>
         <pre><code class="language-javascript">document.querySelectorAll('[role=tablist]').forEach(list =&gt; {
   const tabs = [...list.querySelectorAll('[role=tab]')];
   const show = tab =&gt; tabs.forEach(t =&gt; {
@@ -354,163 +140,19 @@ langs:
   });
   tabs.forEach((t, i) =&gt; {
     t.addEventListener('click', () =&gt; show(t));
-    t.addEventListener('keydown', e =&gt; {          // arrows, as the role promises
+    t.addEventListener('keydown', e =&gt; {
       const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
       if (!d) return;
       e.preventDefault();
       const next = tabs[(i + d + tabs.length) % tabs.length];
-      show(next); next.focus();
+      show(next);
+      next.focus();
     });
   });
 });</code></pre>
-        <p>This small controller is required for honest tab semantics; CSS cannot
-          update selected state or manage roving focus.
-          <a href="index.html#nojs">The audit is on the homepage.</a></p>
-</section>
-
-      <section id="switch">
-        <h2>Switch</h2>
-        <div class="example">
-          <div class="demo">
-            <label><input type="checkbox" role="switch" checked> Notifications</label>
-          </div>
-          <pre><code>&lt;label&gt;
-  &lt;input type="checkbox" role="switch" checked&gt;
-  Notifications
-&lt;/label&gt;</code></pre>
-        </div>
-      </section>
-
-      <section id="menu">
-        <h2>Menu</h2>
-        <p>Built on the native popover API and anchored to the button that
-          opened it — no JavaScript, no positioning library.</p>
-        <div class="example">
-          <div class="demo">
-            <button popovertarget="docmenu">Menu ▾</button>
-            <div popover id="docmenu">
-              <menu>
-                <li><button>New file</button></li>
-                <li><button>Duplicate</button></li>
-                <li><button>Rename…</button></li>
-              </menu>
-            </div>
-          </div>
-          <pre><code>&lt;button popovertarget="menu"&gt;Menu ▾&lt;/button&gt;
-&lt;div popover id="menu"&gt;
-  &lt;menu&gt;
-    &lt;li&gt;&lt;button&gt;New file&lt;/button&gt;&lt;/li&gt;
-  &lt;/menu&gt;
-&lt;/div&gt;</code></pre>
-        </div>
-        <aside data-tone="ok">Anchoring uses CSS anchor positioning, which now
-          works in Chromium, WebKit and Firefox alike. Where it is missing the
-          menu centres on screen — usable, just not attached to its button.</aside>
-      </section>
-
-      <section id="dialog">
-        <h2>Dialog</h2>
-        <p>Opened and closed with the <code>command</code> and
-          <code>commandfor</code> attributes, so no JavaScript is needed, and
-          <code>closedby="any"</code> gives it light dismiss.</p>
-        <div class="example">
-          <div class="demo">
-            <button commandfor="d" command="show-modal">Open dialog</button>
-            <dialog id="d" closedby="any">
-              <header><h3>Delete this project?</h3></header>
-              <p class="muted">This cannot be undone. Closes on <kbd>Esc</kbd>.</p>
-              <footer>
-                <button commandfor="d" command="close">Cancel</button>
-                <button class="primary" data-tone="err" commandfor="d" command="close">Delete</button>
-              </footer>
-            </dialog>
-          </div>
-          <pre><code>&lt;dialog id="d" closedby="any"&gt;
-  &lt;header&gt;&lt;h3&gt;Delete this project?&lt;/h3&gt;&lt;/header&gt;
-  &lt;p&gt;This cannot be undone.&lt;/p&gt;
-  &lt;footer&gt;
-    &lt;button commandfor="d" command="close"&gt;Cancel&lt;/button&gt;
-    &lt;button class="primary" commandfor="d" command="close"&gt;Delete&lt;/button&gt;
-  &lt;/footer&gt;
-&lt;/dialog&gt;
-
-&lt;button commandfor="d" command="show-modal"&gt;
-  Open
-&lt;/button&gt;</code></pre>
-        </div>
-      </section>
-
-      <section id="feedback">
-        <h2>Loading &amp; tooltips</h2>
-        <div class="example">
-          <div class="demo">
-            <p class="row">
-              <button aria-busy="true">Saving</button>
-              <button data-tooltip="One attribute, no JavaScript">Hover me</button>
-            </p>
-            <nav aria-label="Breadcrumb">
-              <ol><li><a href="#">Home</a></li><li><a href="#">Docs</a></li><li>Here</li></ol>
-            </nav>
-          </div>
-          <pre><code>&lt;button aria-busy="true"&gt;Saving&lt;/button&gt;
-&lt;button data-tooltip="Explain it" aria-label="Hover — Explain it"&gt;Hover&lt;/button&gt;
-
-&lt;nav aria-label="Breadcrumb"&gt;
-  &lt;ol&gt;&lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;/nav&gt;</code></pre>
-        </div>
-        <p class="muted">The tooltip is decorative and stays that way:
-          generated content is not reliably exposed to assistive tech, and
-          there is no way to dismiss it without script (WCAG 1.4.13). Put the
-          same words in <code>aria-label</code> or <code>aria-describedby</code>,
-          and never say anything in a tooltip that is said nowhere else. A
-          scroll container clips it &mdash; <code>[role=group]</code> is one.</p>
-      </section>
-
-      <section id="tones">
-        <h2>Tones</h2>
-        <p><code>data-tone</code> redefines <code>--fertig-ac</code> on the element, so
-          anything inside it that uses the accent follows automatically.</p>
-        <div class="example">
-          <div class="demo">
-            <p class="row">
-              <span class="badge">default</span>
-              <span class="badge" data-tone="ok">passing</span>
-              <span class="badge" data-tone="warn">flaky</span>
-              <span class="badge" data-tone="err">failing</span>
-            </p>
-            <aside data-tone="ok">A toned aside.</aside>
-          </div>
-          <pre><code>&lt;span class="badge" data-tone="ok"&gt;passing&lt;/span&gt;
-&lt;aside data-tone="err"&gt;Went wrong.&lt;/aside&gt;
-&lt;div class="card" data-tone="warn"&gt;…&lt;/div&gt;</code></pre>
-        </div>
-      </section>
-
-      <section id="disclosure">
-        <h2>Disclosure</h2>
-        <p>A plain <code>&lt;details&gt;</code> is a bordered panel with a
-          rotating caret. Where the browser supports
-          <code>::details-content</code> it also animates open and closed,
-          which needs <code>interpolate-size</code> to reach a height of
-          <code>auto</code>.</p>
-        <div class="example">
-          <div class="demo">
-            <details>
-              <summary>What counts as a component?</summary>
-              <p>Anything styled through an ARIA attribute or a native element,
-                with no class required.</p>
-            </details>
-          </div>
-          <pre><code>&lt;details&gt;
-  &lt;summary&gt;Title&lt;/summary&gt;
-  &lt;p&gt;Body.&lt;/p&gt;
-&lt;/details&gt;</code></pre>
-        </div>
-        <p class="muted"><code>&lt;details name="group"&gt;</code> can make a set
-          mutually exclusive in supporting browsers. It remains an accordion:
-          keep the disclosure treatment and do not add tab roles or tab-like
-          styling.</p>
+        <aside><code>&lt;details&gt;</code> is a disclosure control, not a tab.
+          Its semantics and keyboard behavior are different, so it should not
+          be given tab roles or tab-like styling.</aside>
       </section>
 
       <section id="classes">
@@ -531,9 +173,9 @@ langs:
         <p>Plus <code>.primary</code> for a filled button, which
           <code>type="submit"</code> already gets.</p>
 
-        <h3>Layout utilities, borrowed from Tailwind</h3>
-        <p>The names are Tailwind's on purpose: if you know them there, they
-          mean the same thing here, so muscle memory carries over.</p>
+        <h3>Layout utilities</h3>
+        <p>A compact set of predictable layout helpers covers common flex,
+          grid, alignment, gap, margin and visibility needs.</p>
         <pre><code>.flex  .flex-col  .flex-wrap  .flex-1
 .grid-cols-2  .grid-cols-3  .grid-cols-4
 .items-start  .items-center  .items-end
@@ -911,32 +553,3 @@ button { background: hotpink }</code></pre>
     </div>
   </div>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-cols">
-      <div>
-        <strong>fertig</strong>
-        <p class="muted"><small>A classless CSS
-          stylesheet. MIT licensed.</small></p>
-      </div>
-      <div>
-        <strong>Documentation</strong>
-        <ul>
-          <li><a href="#install">Install</a></li>
-          <li><a href="#layout">Layout</a></li>
-          <li><a href="#components">Components</a></li>
-          <li><a href="#tokens">Tokens</a></li>
-        </ul>
-      </div>
-      <div>
-        <strong>Project</strong>
-        <ul>
-          <li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li>
-          <li><a href="https://github.com/moji2002/fertig"><svg class="icon" aria-hidden="true"><use href="icons.svg#git-branch"></use></svg>Source</a></li>
-          <li><a href="https://www.npmjs.com/package/fertig">npm</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</footer>

@@ -673,6 +673,7 @@ body > nav { view-transition-name: toolbar }
   display: flex; flex-direction: column; gap: .6rem;
   min-width: 0;
 }
+.comp-card[hidden] { display: none }
 .comp-card:hover {
   border-color: var(--fertig-mut);
 }

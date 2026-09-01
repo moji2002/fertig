@@ -17,9 +17,6 @@ const path = require('node:path');
 const repo = path.resolve(__dirname, '..');
 const syncedFiles = [
   'package.json',
-  'index.html',
-  'docs.html',
-  'components.html',
   'README.md',
   'llms.txt',
   'context7.json',
@@ -27,6 +24,7 @@ const syncedFiles = [
   'src/docs.njk',
   'src/components.njk',
   'src/blocks.njk',
+  'src/_includes/footer.njk',
 ];
 
 function createFixture(t) {
@@ -131,7 +129,8 @@ test('size check accepts one display step of gzip runtime variance', t => {
   const statePath = path.join(root, 'tools/sizes.json');
   const state = JSON.parse(readFileSync(statePath, 'utf8'));
 
-  state['fertig.css'].gzip = '18.1 KB';
+  const measured = Number.parseFloat(state['fertig.css'].gzip);
+  state['fertig.css'].gzip = `${(measured + 0.1).toFixed(1)} KB`;
   writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
 
   const result = runSizeSync(root, '--check');

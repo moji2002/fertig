@@ -74,7 +74,7 @@ Plus `.primary` for a filled button, which `type="submit"` already gets.
 - Tone anything: `data-tone="ok|warn|err"` on a badge, aside, card or button
 - Buttons: `data-variant="ghost|link"`, `data-size="sm|lg"`, `data-icon`,
   `data-block`
-- Layout utilities, Tailwind's names: `.flex` `.flex-col` `.flex-wrap`
+- Layout utilities: `.flex` `.flex-col` `.flex-wrap`
   `.flex-1` `.grid-cols-2|3|4` `.items-start|center|end`
   `.justify-start|center|end|between` `.gap-0|1|2|3|4|6` `.mx-auto` `.ms-auto`
   `.me-auto` `.w-full` `.hidden`, plus the whole max-width scale

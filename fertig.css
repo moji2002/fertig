@@ -926,11 +926,9 @@ nav menu :is(a, button)[aria-current] {
 .card > * { margin-block: 0 }
 
 /* ---- layout utilities --------------------------------------
-   Names borrowed from Tailwind on purpose: if you know them there, they mean
-   the same thing here, so muscle memory carries over and nothing new has to
-   be learned. Layout and width only — there is no colour or type scale, and
-   no responsive variants, because those want a build step and this file does
-   not have one. The margins are flow-relative (ms/me, not
+   A compact, predictable set for layout and width only — there is no colour
+   or type scale, and no responsive variants, because those want a build step
+   and this file does not have one. The margins are flow-relative (ms/me, not
    ml/mr), so a toolbar still works in Persian or Arabic. */
 .flex { display: flex }
 /* .grid is already above: auto-fit columns. Adding grid-cols-N pins the count. */
@@ -958,7 +956,7 @@ nav menu :is(a, button)[aria-current] {
 .me-auto { margin-inline-end: auto }
 .w-full { width: 100% }
 /* max-inline-size, not max-width, so the scale still means "along the text" in
-   a vertical writing mode. The whole Tailwind scale, because a half-scale
+   a vertical writing mode. The full scale is present because a half-scale
    where .max-w-2xl works and .max-w-3xl silently does not is worse than none.
    These outrank the `body > *` measure (0,1,0 beats 0,0,1), so they retarget
    a page container as readily as anything inside one. */

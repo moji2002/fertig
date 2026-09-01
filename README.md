@@ -55,7 +55,7 @@ not a tabs substitute.
 ```
 
 That is the whole integration. Write semantic HTML; it looks finished.
-Open `index.html` for the full demo.
+Open the [live site](https://moji2002.github.io/fertig/) for the full demo.
 
 ## Upgrading from 2.x
 
@@ -208,10 +208,10 @@ no classes:
 
 Plus `.primary` on a button — though `type="submit"` already gets it.
 
-## Layout utilities, borrowed from Tailwind
+## Layout utilities
 
-The names are Tailwind's on purpose: if you know them there they mean the same
-thing here, so nothing new has to be learned.
+A compact set of predictable layout helpers covers common flex, grid,
+alignment, gap, margin, width and visibility needs.
 
 ```
 .flex  .flex-col  .flex-wrap  .flex-1
@@ -231,9 +231,9 @@ margins are flow-relative (`ms`/`me`, not `ml`/`mr`), so a toolbar still lands
 correctly in Persian or Arabic. `.grid` is fertig's own auto-fit grid;
 adding `.grid-cols-3` pins it to three columns.
 
-The `max-w-*` scale is Tailwind's, whole rather than partial — a half-scale
-where `.max-w-2xl` works and `.max-w-3xl` silently does not is worse than no
-scale at all. They are `max-inline-size`, so they still mean "along the text"
+The `max-w-*` scale is complete rather than partial — a half-scale where
+`.max-w-2xl` works and `.max-w-3xl` silently does not is worse than no scale
+at all. They are `max-inline-size`, so they still mean "along the text"
 in a vertical writing mode, and they outrank the sheet's own measure on
 `body > *`, so they retarget a page container as readily as anything inside
 one. `.max-w-prose` is a fixed `38rem` reading measure, independent of the
@@ -452,12 +452,10 @@ The sheet:
 
 The site (Eleventy, output to `dist/`):
 
-- `src/_includes/layout.njk` — shared head + nav
+- `src/_includes/layout.njk` — shared document shell and navigation
+- `src/_includes/{page-header,footer}.njk` — shared inner-page header and footer
 - `src/_data/site.js` — version pulled from `package.json` (the one source of truth)
-- `src/{index,docs,blocks}.njk` — page templates, generated from the root
-  HTML by `tools/build-src.py`
-- `index.html`, `docs.html`, `blocks.html` — the authored source for each page
-  (the live customiser on the landing page writes the token block for you)
+- `src/{index,docs,components,blocks}.njk` — the only authored page sources
 - `site.css`, `site.js`, `icons.svg`, `favicon.svg` — the site's own chrome,
   none of it part of the sheet
 - `dist/` — the built site that GitHub Pages deploys

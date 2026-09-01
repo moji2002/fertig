@@ -96,9 +96,9 @@ for (const [key, target] of Object.entries(manifest.exports)) {
 }
 
 const publicFiles = [
-  'README.md', 'index.html', 'docs.html', 'components.html', 'blocks.html',
-  'llms.txt', 'src/index.njk', 'src/docs.njk', 'src/components.njk',
-  'src/blocks.njk', 'src/_includes/layout.njk',
+  'README.md', 'llms.txt', 'src/index.njk', 'src/docs.njk',
+  'src/components.njk', 'src/blocks.njk', 'src/_includes/layout.njk',
+  'src/_includes/page-header.njk', 'src/_includes/footer.njk',
 ];
 const forbiddenCopy = [
   ['platform-specific command symbol', '⌘'],
@@ -121,7 +121,12 @@ const tracked = spawnSync('git', ['ls-files'], {
 });
 expect(tracked.status === 0, 'could not inspect tracked files');
 if (tracked.status === 0) {
+  const retiredSources = new Set([
+    'index.html', 'docs.html', 'components.html', 'blocks.html',
+    'tools/build-src.py', 'tools/rename-tokens.py',
+  ]);
   const retired = tracked.stdout.trim().split('\n').filter(file =>
+    retiredSources.has(file) ||
     /(^|\/)(?:app|app-invoice)\.html$/i.test(file) ||
     /(^|\/)dogfood-output\//i.test(file) ||
     /(^|\/).*screenshot.*\.(?:png|jpe?g|webp)$/i.test(file));

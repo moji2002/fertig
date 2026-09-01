@@ -58,5 +58,7 @@
   </div>
 </nav>
 
+{% if pageTitle %}{% include "page-header.njk" %}{% endif %}
 {{ content | safe }}
+{% include "footer.njk" %}
 </html>
