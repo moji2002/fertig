@@ -121,7 +121,21 @@ test('size check reports stale measurements without rewriting files', t => {
   const result = runSizeSync(root, '--check');
 
   assert.notEqual(result.status, 0, result.stdout);
-  assert.match(result.stderr, /bundle measurements or managed claims are stale/);
+  assert.match(result.stderr, /bundle measurements are stale/);
   assert.equal(readFileSync(statePath, 'utf8'), stateBefore);
   assert.equal(readFileSync(readmePath, 'utf8'), readmeBefore);
+});
+
+test('size check accepts one display step of gzip runtime variance', t => {
+  const root = createFixture(t);
+  const statePath = path.join(root, 'tools/sizes.json');
+  const state = JSON.parse(readFileSync(statePath, 'utf8'));
+
+  state['fertig.css'].gzip = '18.1 KB';
+  writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
+
+  const result = runSizeSync(root, '--check');
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stdout, /compression-runtime tolerance/);
 });

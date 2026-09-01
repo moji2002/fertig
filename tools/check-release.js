@@ -66,8 +66,6 @@ for (const file of ['fertig.css', 'fertig.min.css']) {
   };
   expect(recorded[file]?.raw === actual.raw,
     `tools/sizes.json raw measurement is stale for ${file}`);
-  expect(recorded[file]?.gzip === actual.gzip,
-    `tools/sizes.json gzip measurement is stale for ${file}`);
 }
 
 const indexSource = read('src/index.njk');

@@ -152,6 +152,50 @@ def main(check=False):
         return 0
 
     was = json.loads(STATE.read_text(encoding='utf-8'))
+
+    if check:
+        try:
+            # Claims describe the recorded display values. Validate those
+            # contexts independently from today's compressor: zlib releases
+            # can produce slightly different byte streams for identical CSS.
+            plan_updates(was, was)
+        except (KeyError, OSError, RuntimeError) as error:
+            print(f'\nerror: {error}', file=sys.stderr)
+            return 1
+
+        failures = []
+        tolerated = []
+        for build in BUILDS:
+            if was[build]['raw'] != now[build]['raw']:
+                failures.append(
+                    f'{build} raw: recorded {was[build]["raw"]}, '
+                    f'measured {now[build]["raw"]}'
+                )
+            if was[build]['gzip'] != now[build]['gzip']:
+                before = float(was[build]['gzip'].removesuffix(' KB'))
+                current = float(now[build]['gzip'].removesuffix(' KB'))
+                if abs(before - current) <= 0.1000001:
+                    tolerated.append(
+                        f'{build} gzip {was[build]["gzip"]} / {now[build]["gzip"]}'
+                    )
+                else:
+                    failures.append(
+                        f'{build} gzip: recorded {was[build]["gzip"]}, '
+                        f'measured {now[build]["gzip"]}'
+                    )
+
+        if failures:
+            print(
+                '\nerror: bundle measurements are stale:\n  ' + '\n  '.join(failures) +
+                '\nrun npm run build, then npm run sizes',
+                file=sys.stderr,
+            )
+            return 1
+        if tolerated:
+            print('\ncompression-runtime tolerance: ' + ', '.join(tolerated))
+        print('\nclaims match the recorded build.')
+        return 0
+
     try:
         planned, claim_count = plan_updates(was, now)
     except (KeyError, OSError, RuntimeError) as error:
@@ -169,15 +213,6 @@ def main(check=False):
         return 0
 
     print('\nchanged: ' + ', '.join(f'{old} -> {new}' for old, new in changes))
-    if check:
-        files = ', '.join(str(path) for path in planned) or 'tools/sizes.json'
-        print(
-            f'error: bundle measurements or managed claims are stale ({files}); '
-            'run npm run build, then npm run sizes',
-            file=sys.stderr,
-        )
-        return 1
-
     for path, content in planned.items():
         path.write_text(content, encoding='utf-8')
         print(f'  {path}: updated')
