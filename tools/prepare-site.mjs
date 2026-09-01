@@ -10,6 +10,7 @@ const assets = [
   "site.js",
   "favicon.svg",
   "icons.svg",
+  "og.png",
   "llms.txt",
   "robots.txt",
   "sitemap.xml",

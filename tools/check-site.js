@@ -34,6 +34,10 @@ for (const page of pages) {
   expect(/^<!doctype html>/i.test(html), `${page} has no doctype`);
   expect(/<html\s+lang="en">/.test(html), `${page} has no document language`);
   expect(/<meta\s+name="viewport"/.test(html), `${page} has no viewport metadata`);
+  expect(/<meta property="og:image" content="https:\/\/moji2002\.github\.io\/fertig\/og\.png">/.test(html),
+    `${page} has no social preview image`);
+  expect(/<meta name="twitter:card" content="summary_large_image">/.test(html),
+    `${page} does not request a large social preview`);
   expect((html.match(/<h1\b/g) || []).length === 1, `${page} must have one h1`);
   expect((html.match(/aria-current="page"/g) || []).length === 1,
     `${page} must identify one current navigation item`);
@@ -65,6 +69,8 @@ for (const page of pages) {
     expect(!html.includes(value), `${page} contains retired public copy`);
   }
 }
+
+expect(existsSync(path.join(output, 'og.png')), 'social preview image was not copied');
 
 if (existsSync(path.join(output, 'index.html'))) {
   const homepage = readFileSync(path.join(output, 'index.html'), 'utf8');

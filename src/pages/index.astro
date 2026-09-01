@@ -1,12 +1,9 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import TabDemo from "../components/TabDemo.astro";
 import { site } from "../lib/site";
 
 const title = "fertig — classless CSS framework, no JavaScript, 9.3 KB";
 const description = "fertig styles semantic HTML as a finished interface: dialogs, popovers, forms, and data views in 9.3 KB gzipped, with no runtime or build step.";
-const hues = ["gray", "blue", "cyan", "green", "amber", "red", "violet"];
-const steps = [100, 300, 500, 700, 900];
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -41,11 +38,11 @@ const schema = {
         <span aria-hidden="true"></span>Version {site.version} is out
       </a>
       <h1>Write HTML.<br><span>It comes out <em>finished.</em></span></h1>
-      <p class="lede">fertig is the classless stylesheet for interfaces that
-        should feel designed before you write a single class. Native dialogs,
-        popovers, forms and data views — one CSS file, no runtime.</p>
+      <p class="lede">fertig turns semantic HTML into polished interfaces.
+        Forms, data views, dialogs, and popovers arrive themed and responsive
+        from one 9.3 KB CSS file — no runtime.</p>
       <p class="row cta-row">
-        <a class="primary" data-size="lg" href="docs.html">Get started
+        <a class="primary" data-size="lg" href="docs.html">Start building
           <svg class="icon" aria-hidden="true"><use href="icons.svg#arrow-right"></use></svg></a>
         <a class="button-link" data-size="lg" href="components.html">See every component</a>
       </p>
@@ -101,10 +98,10 @@ const schema = {
     <div class="showcase-intro head">
       <div>
         <p class="section-kicker">01 — Live system</p>
-        <h2>One stylesheet. A complete interface language.</h2>
+        <h2>A finished UI, from one file.</h2>
       </div>
-      <p>Switch the tabs and the accent. Every control below is real semantic
-        HTML styled by the same file you came here to download.</p>
+      <p>Try a category or accent. Every control is real semantic HTML styled
+        by the same file you came here to download.</p>
     </div>
     <div class="showcase-bar">
       <div role="tablist" aria-label="Showcase">
@@ -196,7 +193,7 @@ const schema = {
         </div>
       </div>
 
-      <div class="stage-grid" id="s-feedback" role="tabpanel" aria-labelledby="tab-feedback" hidden>
+      <div class="stage-grid stage-grid-two" id="s-feedback" role="tabpanel" aria-labelledby="tab-feedback" hidden>
         <div class="card">
           <header>Alerts</header>
           <aside data-tone="ok"><strong>Payment received.</strong> INV-0232 is settled.</aside>
@@ -213,52 +210,20 @@ const schema = {
           <p data-skeleton>This paragraph is a skeleton placeholder.</p>
           <footer>Spinners, tooltips and skeletons, no library.</footer>
         </div>
-        <div class="card">
-          <header>Dialog</header>
-          <p>Opens and closes with no JavaScript at all.</p>
-          <p class="row"><button data-tone="err" commandfor="s-dlg" command="show-modal">Delete invoice</button></p>
-          <dialog id="s-dlg" closedby="any" aria-labelledby="s-dlg-title">
-            <header><h3 id="s-dlg-title">Delete INV-0231?</h3></header>
-            <p>This cannot be undone.</p>
-            <footer>
-              <button commandfor="s-dlg" command="close">Cancel</button>
-              <button data-tone="err" commandfor="s-dlg" command="close">Delete</button>
-            </footer>
-          </dialog>
-          <footer>The <code>command</code> attribute does the work.</footer>
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-  <section class="band facts-band" style="border-top:0">
-    <div class="wrap">
-      <div class="panel">
-      <table class="spec">
-        <tbody>
-          <tr><th>Transfer size</th><td>9.3 KB <span>— fertig.min.css, gzipped</span></td></tr>
-          <tr><th>Dependencies</th><td>0 <span>— no build step, no configuration</span></td></tr>
-          <tr><th>Required classes</th><td>0 <span>— seven components and a layout set, all optional</span></td></tr>
-          <tr><th>Contrast</th><td>AA <span>— every pair, both themes, measured</span></td></tr>
-          <tr><th>Browser floor</th><td>Chrome 123, Safari 17.5, Firefox 129 <span>— anything since Aug 2024; nothing carried for the ones before</span></td></tr>
-        </tbody>
-      </table>
-      </div>
-    </div>
-  </section>
-
   <section class="band" id="nojs">
     <div class="wrap">
       <div class="head">
         <p class="section-kicker">02 — Native behaviour</p>
-        <h2>Switch JavaScript off. It still works.</h2>
-        <p>Every other classless sheet that styles a <code>&lt;dialog&gt;</code>
-          leaves you to write the open and close yourself. fertig leans on what
-          the platform now ships — <code>popover</code>, <code>command</code>,
-          anchor positioning — so these are behaviour-complete with no script at
-          all. The table is an audit run in a browser with JavaScript disabled,
-          not a claim.</p>
+        <h2>No runtime. Real behaviour.</h2>
+        <p>fertig uses the browser features you already ship —
+          <code>popover</code>, <code>command</code>, anchor positioning — so
+          menus, dialogs, drawers, and disclosures work without a JavaScript
+          controller. The table records an audit with scripting disabled.</p>
       </div>
       <div class="panel">
       <table class="spec">
@@ -284,7 +249,7 @@ const schema = {
     <div class="wrap">
       <div class="head">
         <p class="section-kicker">03 — Design principles</p>
-        <h2>Why another classless sheet</h2>
+        <h2>Small enough to forget. Finished enough to ship.</h2>
         <p>Most are either too plain to ship or too heavy to justify. fertig
           sits between them: opinionated enough to look finished, small enough
           that you never think about it again.</p>
@@ -325,130 +290,72 @@ const schema = {
     </div>
   </section>
 
-  <section class="band" id="preview">
+  <section class="band" id="components">
     <div class="wrap">
       <div class="head">
-        <p class="section-kicker">04 — The input</p>
-        <h2>Plain HTML, finished page</h2>
-        <p>The markup on the left is the whole input. The preview on the right
-          is what the browser renders with the sheet linked.</p>
+        <p class="section-kicker">04 — Component layer</p>
+        <h2>Modern primitives. Still just HTML.</h2>
+        <p>Compound fields, selectable lists, surfaces, items, and avatars use
+          native elements and ARIA as their API. The result feels like a UI kit
+          without adding a component runtime.</p>
       </div>
-      <div class="cols-2">
-        <pre><code class="language-html">&lt;body&gt;
-  &lt;nav&gt;
-    &lt;strong&gt;Ledger&lt;/strong&gt;
-    &lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Invoices&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-  &lt;/nav&gt;
-  &lt;main&gt;
-    &lt;hgroup&gt;
-      &lt;h3&gt;Invoices&lt;/h3&gt;
-      &lt;p&gt;Three overdue, two awaiting approval.&lt;/p&gt;
-    &lt;/hgroup&gt;
-    &lt;p class="row"&gt;
-      &lt;button class="primary"&gt;New invoice&lt;/button&gt;
-      &lt;button&gt;Import&lt;/button&gt;
-    &lt;/p&gt;
-  &lt;/main&gt;
-&lt;/body&gt;</code></pre>
-        <div class="mock">
-          <div class="mock-bar">Ledger</div>
-          <div class="mock-body">
-            <hgroup>
-              <h3>Invoices</h3>
-              <p>Three overdue, two awaiting approval.</p>
-            </hgroup>
-            <p class="row">
-              <button class="primary">New invoice</button>
-              <button>Import</button>
-            </p>
-            <table>
-              <thead><tr><th>Client</th><th align="right">Amount</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td>Acme</td><td align="right">$4,200.00</td><td><span class="badge" data-tone="err">overdue</span></td></tr>
-                <tr><td>Globex</td><td align="right">$12,850.00</td><td><span class="badge" data-tone="ok">paid</span></td></tr>
-              </tbody>
-            </table>
+      <div class="cols-3 component-trio">
+        <article class="card">
+          <header>Compound fields</header>
+          <div data-field>
+            <label for="home-workspace">Workspace URL</label>
+            <div data-input-group>
+              <span>https://</span>
+              <input id="home-workspace" placeholder="acme" aria-describedby="home-workspace-help">
+              <span>.com</span>
+            </div>
+            <small id="home-workspace-help">One focus surface, no wrapper library.</small>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band-quiet" id="components">
-    <div class="wrap">
-      <div class="head">
-        <p class="section-kicker">05 — Component layer</p>
-        <h2>A component layer, built on semantics</h2>
-        <p>Native disclosures, switches, menus and segmented controls are styled
-          through the HTML and ARIA that make them accessible in the first
-          place — so the visual treatment never invents false behavior.</p>
-      </div>
-      <div class="cols-2">
-        <div class="card">
-          <header>Segmented control &amp; tabs</header>
-          <p class="row">
-            <span role="group">
-              <button aria-pressed="true">Day</button>
-              <button aria-pressed="false">Week</button>
-              <button aria-pressed="false">Month</button>
-            </span>
-          </p>
-          <TabDemo prefix="home-tabs" labels={["Preview", "Code"]} label="Component example" />
-          <footer><code>role="group"</code> · <code>role="tablist"</code></footer>
-        </div>
-
-        <div class="card">
-          <header>Switches &amp; menus</header>
-          <p><label><input type="checkbox" role="switch" checked> Run migrations</label></p>
-          <p class="row">
-            <button popovertarget="menu">Menu ▾</button>
-            <button data-tooltip="One attribute, no JavaScript">Tooltip</button>
-            <button aria-busy="true">Saving</button>
-          </p>
-          <div popover id="menu">
-            <menu>
-              <li><button>New file</button></li>
-              <li><button>Duplicate</button></li>
-              <li><button>Rename…</button></li>
-            </menu>
+          <div data-field>
+            <label for="home-code">Verification code</label>
+            <input id="home-code" data-otp inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
           </div>
-          <footer><code>role="switch"</code> · <code>[popover]</code></footer>
-        </div>
-      </div>
-      <p class="spaced"><a href="blocks.html">Browse all sixteen blocks →</a></p>
-    </div>
-  </section>
+          <footer><code>data-input-group</code> · <code>data-otp</code></footer>
+        </article>
 
-  <section class="band" id="palette">
-    <div class="wrap">
-      <div class="head">
-        <p class="section-kicker">06 — Colour system</p>
-        <h2>A practical colour spectrum</h2>
-        <p>Seven familiar hues, five steps each, in OKLCH. Chroma rises toward
-          the useful middle stops while the endpoints stay composed enough for
-          surfaces and text. Every value remains inside sRGB.</p>
-      </div>
-      <div class="panel">
-      <div class="swatches">
-        {hues.map((hue) => (
-          <div class="ramp"><b>{hue}</b>
-            {steps.map((step) => <span data-step={step} style={`background:var(--fertig-${hue}-${step})`}></span>)}
+        <article class="card">
+          <header>Items &amp; surfaces</header>
+          <div data-surface="flat" class="home-item-list">
+            <div data-item>
+              <span data-avatar="sm">AM</span>
+              <div><strong>Ada Morris</strong><small class="muted">Product design</small></div>
+              <span class="badge" data-tone="ok">online</span>
+            </div>
+            <div data-item>
+              <span data-avatar="sm">LK</span>
+              <div><strong>Lin Kim</strong><small class="muted">Engineering</small></div>
+              <button data-icon aria-label="More actions">•••</button>
+            </div>
           </div>
-        ))}
+          <footer><code>data-surface</code> · <code>data-item</code></footer>
+        </article>
+
+        <article class="card">
+          <header>Selectable lists</header>
+          <ul role="listbox" tabindex="0" aria-label="Assign owner" aria-activedescendant="home-option-ada">
+            <li id="home-option-ada" role="option" aria-selected="true"><span data-avatar="sm">AM</span>Ada Morris</li>
+            <li id="home-option-lin" role="option" aria-selected="false"><span data-avatar="sm">LK</span>Lin Kim</li>
+            <li id="home-option-sam" role="option" aria-selected="false"><span data-avatar="sm">SR</span>Sam Rivera</li>
+          </ul>
+          <footer><code>role="listbox"</code> · <code>aria-selected</code></footer>
+        </article>
       </div>
-      </div>
+      <p class="spaced"><a href="components.html">Explore the full component catalogue →</a></p>
     </div>
   </section>
 
   <section class="band band-quiet" id="customize">
     <div class="wrap">
       <div class="head">
-        <p class="section-kicker">07 — Your system</p>
-        <h2>Make it yours, here</h2>
-        <p>Most theming is one token. Move these and the panel beside them is
-          restyled live — it is real markup with the real sheet, not a picture
-          of one. The contrast of whatever accent you land on is measured as
-          you go, so you cannot leave with an accent that fails AA.</p>
+        <p class="section-kicker">05 — Your system</p>
+        <h2>Tune the system, not every component.</h2>
+        <p>Move a few tokens and the live panel follows. Accent contrast is
+          measured as you go, so the result stays usable in both themes.</p>
       </div>
 
       <div class="cols-2">
@@ -473,7 +380,7 @@ const schema = {
           <label for="t-f">Text font</label>
           <select id="t-f">
             <option value="">System stack (default)</option>
-            <option value="&quot;IBM Plex Sans&quot;, sans-serif">IBM Plex Sans</option>
+            <option value="&quot;Inter&quot;, sans-serif">Inter</option>
             <option value="Georgia, serif">Georgia</option>
             <option value="&quot;IBM Plex Mono&quot;, monospace">IBM Plex Mono</option>
           </select>
@@ -512,28 +419,9 @@ const schema = {
     </div>
   </section>
 
-  <section class="band band-quiet" id="size">
+  <section class="band" id="questions">
     <div class="wrap rail">
-      <p class="tag">08 — Transfer size</p>
-      <div>
-        <h2>One complete stylesheet. 9.3 KB transferred.</h2>
-        <p class="page-intro" style="margin-bottom:1.5rem"><code>fertig.min.css</code>
-          includes semantic element styling, the component layer, responsive
-          utilities, light and dark themes, RTL support and accessibility
-          safeguards. There is no runtime and no dependency.</p>
-        <div class="bars">
-          <div class="bar-row"><b>fertig.min.css</b>
-            <span><span class="bar-meter"></span></span><span>9.3 KB</span></div>
-        </div>
-        <p class="spaced"><small class="muted">Gzipped transfer size, measured
-          with <code>gzip -9</code> on the published file.</small></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band-quiet" id="questions">
-    <div class="wrap rail">
-      <p class="tag">09 — Questions</p>
+      <p class="tag">06 — Questions</p>
       <div>
         <details>
           <summary>Does it really need no classes?</summary>
@@ -560,7 +448,7 @@ const schema = {
         </details>
         <details>
           <summary>Can I change the colours?</summary>
-          <p>Yes. The palette is six OKLCH ramps of five steps, and the
+          <p>Yes. The palette is seven OKLCH ramps of five steps, and the
             semantic tokens are built from them with <code>light-dark()</code>.
             Override <code>--fertig-ac</code> alone and the buttons, focus rings,
             links, selection and caret all follow.</p>
@@ -571,9 +459,9 @@ const schema = {
 
   <section class="band" id="install">
     <div class="wrap rail">
-      <p class="tag">10 — Install</p>
+      <p class="tag">07 — Install</p>
       <div>
-        <h2>Ship it from npm, or link it from a CDN</h2>
+        <h2>One stylesheet. Start shipping.</h2>
         <div class="cols-2 spaced">
           <div>
             <p class="eyebrow">Package</p>

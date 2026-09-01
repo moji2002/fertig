@@ -7,8 +7,8 @@
 
 /* ---- tokens ---------------------------------------------------- */
 :root {
-  --font-display: "IBM Plex Sans", var(--fertig-f);
-  --font-body:    "IBM Plex Sans", var(--fertig-f);
+  --font-display: "Inter", var(--fertig-f);
+  --font-body:    "Inter", var(--fertig-f);
   --font-mono:    "IBM Plex Mono", var(--fertig-fm);
 
   --wrap: 78rem;                /* site content width */
@@ -21,15 +21,22 @@
 
   --rule: 1px solid var(--fertig-bd);
   --label: 600 .68rem/1.4 var(--font-mono);   /* the uppercase mono label */
-  --site-surface: var(--fertig-el);
-  --site-border: var(--fertig-bd);
+  --site-surface: color-mix(in srgb, var(--fertig-el) 96%, var(--fertig-ac));
+  --site-border: color-mix(in srgb, var(--fertig-fg) 11%, transparent);
+  --site-shadow: 0 1px 2px var(--fertig-sh1), 0 16px 38px -28px var(--fertig-sh2);
+  --site-shadow-lg: 0 2px 5px var(--fertig-sh1), 0 32px 88px -40px var(--fertig-sh2);
   --glow-ac: color-mix(in srgb, var(--fertig-ac) 15%, transparent);
   --glow-ac-strong: color-mix(in srgb, var(--fertig-ac) 25%, transparent);
 }
 
 /* ---- page shell ------------------------------------------------ */
 html, body { overflow-x: clip }
-body { font-family: var(--font-body); background: var(--fertig-el) }
+body {
+  font-family: var(--font-body);
+  background:
+    radial-gradient(circle at 82% -8%, color-mix(in srgb, var(--fertig-ac) 8%, transparent), transparent 32rem),
+    var(--fertig-bg);
+}
 /* see the theme toggle in site.js: for the one frame the scheme flips in,
    nothing transitions, or a light-dark() colour freezes on the old branch */
 [data-theme-switching] *, [data-theme-switching] *::before, [data-theme-switching] *::after {
@@ -68,20 +75,19 @@ body > main { padding-bottom: 0 }
   .rail > .tag { padding-top: 0 }
 }
 
-/* full-bleed bands, separated by hairlines. No tints: the rhythm comes from
-   the rules and the spacing, not from a wash of colour behind every section. */
-.band { padding-block: clamp(4.75rem, 9vw, 7.5rem); position: relative }
-.band + .band { border-top: var(--rule) }
+/* Full-bleed sections use space and surface shifts instead of hard dividers. */
+.band { padding-block: clamp(3.75rem, 7vw, 5.75rem); position: relative }
+.band + .band { border-top: 0 }
 .band-quiet {
-  background: color-mix(in srgb, var(--fertig-bg) 88%, var(--fertig-ac));
+  background: color-mix(in srgb, var(--fertig-el) 94%, var(--fertig-ac));
 }
 /* a faint accent wash on the quiet bands, so alternate sections read as
    stepping into a slightly warmer/darker plane rather than a hard toggle */
 .band-quiet::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 30% at 20% 0%, transparent, var(--glow-ac) 45%, transparent 70%);
-  opacity: .35;
+    radial-gradient(ellipse 62% 36% at 16% 0%, var(--glow-ac), transparent 68%);
+  opacity: .5;
 }
 .band > .wrap, .band > .rail { position: relative }
 :is(section, article) + :is(section, article) { margin-top: 0 }   /* bands own the spacing */
@@ -94,8 +100,9 @@ body > main { padding-bottom: 0 }
   color-scheme: dark; --fertig-a1: .5; --fertig-a2: .45;
   color: var(--fertig-fg);
   border: 1px solid var(--site-border);
+  border-radius: 1rem;
   background: var(--fertig-face);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent), var(--site-shadow);
 }
 
 /* ---- icons ------------------------------------------------------
@@ -130,12 +137,14 @@ summary > .icon { margin-inline-end: .45em }
 /* ---- toolbar --------------------------------------------------- */
 body > nav {
   position: sticky; inset-block-start: 0; z-index: 10;
-  border-bottom: var(--rule); background: color-mix(in srgb, var(--fertig-tb) 94%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--fertig-fg) 8%, transparent);
+  background: color-mix(in srgb, var(--fertig-bg) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(145%);
   display: block; padding: 0;
-  box-shadow: 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent);
+  box-shadow: 0 10px 32px -28px var(--fertig-sh2);
 }
-.bar { display: flex; align-items: center; gap: 1rem; padding-block: .7rem; flex-wrap: wrap }
-.bar > strong { font: 600 1.05rem/1 var(--font-display); letter-spacing: -.035em }
+.bar { display: flex; align-items: center; gap: 1rem; padding-block: .65rem; flex-wrap: wrap }
+.bar > strong { font: 700 1.05rem/1 var(--font-display); letter-spacing: -.035em }
 .bar > strong a { color: inherit; text-decoration: none; opacity: 1;
                   display: inline-flex; align-items: center; gap: .45em }
 /* The mark is an <img>, so it keeps its own two tones rather than inheriting
@@ -156,18 +165,22 @@ body > nav {
    than scrolling to it. */
 .bar li { margin: 0 }
 .bar ul a {
-  min-block-size: 2.5rem; padding: .58rem .72rem; border-radius: var(--fertig-r);
+  min-block-size: 2.5rem; padding: .58rem .82rem; border-radius: var(--fertig-rp);
   color: var(--fertig-mut); text-decoration: none; white-space: nowrap; opacity: 1;
   font: 500 .8rem/1.3 var(--font-body); letter-spacing: .01em;
 }
-.bar ul a:hover { color: var(--fertig-fg); background: var(--fertig-face) }
-.bar ul a[aria-current] { color: var(--fertig-fg); background: var(--fertig-face) }
+.bar ul a:hover { color: var(--fertig-fg); background: color-mix(in srgb, var(--fertig-face) 80%, transparent) }
+.bar ul a[aria-current] {
+  color: var(--fertig-ac);
+  background: color-mix(in srgb, var(--fertig-ac) 12%, transparent);
+}
 .bar > strong a[aria-current] { color: var(--fertig-fg) }
 .bar .nav-github a {
   margin-inline-start: .35rem; padding-inline: .9rem;
-  border: 1px solid var(--fertig-bd); color: var(--fertig-fg);
+  border: 1px solid var(--site-border); color: var(--fertig-fg);
 }
 .bar .nav-github .icon { rotate: -45deg }
+.bar > button { border-radius: var(--fertig-rp) }
 
 /* Keep the sticky chrome useful on a phone. The identity and theme control
    stay in a compact first row; navigation gets the full second row and
@@ -198,16 +211,15 @@ body > nav {
 .hero { border-bottom: var(--rule) }
 .home-hero {
   position: relative; overflow: hidden; border-bottom: 0;
-  padding-block: clamp(4.5rem, 9vw, 8rem) 0;
-  background:
-    linear-gradient(115deg, transparent 0 58%, color-mix(in srgb, var(--fertig-ac) 6%, transparent) 58% 100%);
+  padding-block: clamp(4.75rem, 9vw, 8rem) 0;
+  background: transparent;
 }
 .hero-glow {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(circle at 82% 22%, var(--glow-ac-strong), transparent 26rem),
-    linear-gradient(90deg, transparent 0 49.95%, color-mix(in srgb, var(--fertig-fg) 5%, transparent) 50%, transparent 50.05%);
-  opacity: .72;
+    radial-gradient(circle at 82% 18%, var(--glow-ac-strong), transparent 28rem),
+    radial-gradient(circle at 64% 4%, color-mix(in srgb, var(--fertig-violet-500) 14%, transparent), transparent 24rem);
+  opacity: .8;
 }
 .hero-grid {
   position: relative; display: grid;
@@ -217,7 +229,10 @@ body > nav {
 .hero-copy { min-width: 0 }
 .release-link {
   display: inline-flex; align-items: center; gap: .65rem;
-  margin-bottom: 1.5rem; color: var(--fertig-mut); text-decoration: none;
+  margin-bottom: 1.5rem; padding: .45rem .75rem;
+  border: 1px solid var(--site-border); border-radius: var(--fertig-rp);
+  background: color-mix(in srgb, var(--fertig-el) 72%, transparent);
+  color: var(--fertig-mut); text-decoration: none;
   font: 600 .72rem/1.4 var(--font-mono); letter-spacing: .09em; text-transform: uppercase;
 }
 .release-link > span {
@@ -227,7 +242,7 @@ body > nav {
 .release-link:hover { color: var(--fertig-fg) }
 .home-hero h1 {
   max-width: 13ch; margin: 0 0 1.5rem;
-  font: 600 clamp(3.7rem, 7vw, 6.7rem)/.92 var(--font-display);
+  font: 700 clamp(3.5rem, 6.5vw, 5.9rem)/.94 var(--font-display);
   letter-spacing: -.065em; text-wrap: balance;
 }
 .home-hero h1 span { color: var(--fertig-mut) }
@@ -240,13 +255,13 @@ body > nav {
 .home-hero .row > * { white-space: nowrap }
 .cta-row { position: relative; z-index: 1 }
 .cta-row :is(a.primary, .button-link, button) {
-  min-block-size: 3.15rem; padding-inline: 1.35rem; border-radius: var(--fertig-r);
+  min-block-size: 3.15rem; padding-inline: 1.35rem; border-radius: .85rem;
   font-weight: 600;
 }
 .button-link {
   display: inline-flex; align-items: center; justify-content: center; min-width: 5rem; padding: .48em 1.1em;
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
-  background: transparent; color: var(--fertig-fg);
+  border: 1px solid var(--site-border); border-radius: .85rem;
+  background: color-mix(in srgb, var(--fertig-el) 72%, transparent); color: var(--fertig-fg);
   text-align: center; text-decoration: none;
 }
 .button-link:hover { background: var(--fertig-face); border-color: var(--fertig-mut) }
@@ -259,8 +274,10 @@ body > nav {
 }
 .hero-install {
   display: inline-grid; grid-template-columns: auto auto; gap: .45rem 1.2rem; align-items: center;
-  margin-top: 1.1rem; padding: .65rem .9rem; border-inline-start: 2px solid var(--fertig-ac);
-  background: color-mix(in srgb, var(--fertig-face) 72%, transparent);
+  margin-top: 1.1rem; padding: .65rem .9rem;
+  border: 1px solid var(--site-border); border-radius: .8rem;
+  background: color-mix(in srgb, var(--fertig-el) 70%, transparent);
+  box-shadow: var(--site-shadow);
 }
 .hero-install span {
   color: var(--fertig-mut); font: 600 .65rem/1.4 var(--font-mono);
@@ -268,9 +285,9 @@ body > nav {
 }
 .hero-install code { padding: 0; border: 0; background: none; color: var(--fertig-fg); font-size: .86rem }
 .hero-workbench {
-  min-width: 0; padding: .7rem; border: 1px solid color-mix(in srgb, var(--fertig-fg) 18%, transparent);
-  border-radius: 1.35rem; background: color-mix(in srgb, var(--fertig-tb) 92%, transparent);
-  box-shadow: 0 2.5rem 7rem -3rem var(--fertig-sh2), 0 1rem 2.5rem -1.5rem var(--glow-ac-strong);
+  min-width: 0; padding: .7rem; border: 1px solid var(--site-border);
+  border-radius: 1.6rem; background: color-mix(in srgb, var(--fertig-tb) 88%, transparent);
+  box-shadow: var(--site-shadow-lg), 0 1.5rem 3rem -2rem var(--glow-ac-strong);
 }
 .workbench-chrome {
   min-block-size: 2.65rem; padding-inline: .7rem; display: grid;
@@ -291,7 +308,7 @@ body > nav {
 .workbench-screen {
   display: grid; grid-template-columns: minmax(11rem, .8fr) minmax(17rem, 1.2fr);
   min-block-size: 26rem; overflow: hidden;
-  border: 1px solid var(--fertig-bd); border-radius: .9rem; background: var(--fertig-el);
+  border: 1px solid var(--site-border); border-radius: 1.05rem; background: var(--fertig-el);
 }
 .workbench-code {
   padding: 1.1rem; border-inline-end: 1px solid var(--fertig-bd);
@@ -327,11 +344,12 @@ body > nav {
 .workbench-caption span:nth-child(2) { color: var(--fertig-ac) }
 .proof {
   grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr);
-  margin: clamp(3rem, 7vw, 5.5rem) 0 0; padding: 0;
-  border-top: 1px solid var(--fertig-bd); border-bottom: 1px solid var(--fertig-bd);
+  gap: .75rem; margin: clamp(2.5rem, 6vw, 4.5rem) 0 1rem; padding: 0;
 }
-.proof > div { padding: 1.35rem 1.5rem; border-inline-start: 1px solid var(--fertig-bd) }
-.proof > div:first-child { border-inline-start: 0 }
+.proof > div {
+  padding: 1.2rem 1.35rem; border: 1px solid var(--site-border);
+  border-radius: 1rem; background: var(--site-surface); box-shadow: var(--site-shadow);
+}
 .proof :is(dt, dd) { margin: 0 }
 .proof dt { margin-bottom: .28rem; font: 600 1.15rem/1.1 var(--font-display); letter-spacing: -.02em }
 .proof dd {
@@ -349,12 +367,10 @@ body > nav {
   .workbench-screen { grid-template-columns: minmax(0, 1fr); min-block-size: 0 }
   .workbench-code { display: none }
   .proof { grid-template-columns: repeat(2, 1fr) }
-  .proof > div:nth-child(3) { border-inline-start: 0; border-top: 1px solid var(--fertig-bd) }
-  .proof > div:nth-child(4) { border-top: 1px solid var(--fertig-bd) }
 }
 
 /* ---- the showcase: real components, restyled live -------------------- */
-.showcase { padding-block: clamp(5rem, 9vw, 7.5rem); background: var(--fertig-bg) }
+.showcase { padding-block: clamp(4rem, 7vw, 5.75rem); background: transparent }
 .showcase-bar {
   display: flex; align-items: center; gap: var(--space-md);
   flex-wrap: wrap; margin-bottom: 1.2rem;
@@ -381,33 +397,36 @@ body > nav {
 
 .stage {
   border: 1px solid var(--site-border);
-  border-radius: 1.2rem;
+  border-radius: 1.5rem;
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--fertig-ac) 5%, transparent), transparent 42%),
     var(--fertig-face);
   padding: clamp(1.2rem, 3vw, 2.2rem);
-  box-shadow: 0 1.8rem 5rem -3rem var(--fertig-sh2);
+  box-shadow: var(--site-shadow-lg);
   container: stage / inline-size;
   position: relative;
 }
 .stage-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); position: relative }
 @container stage (width >= 44rem) {
   .stage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .stage-grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)) }
 }
 .stage .card {
-  box-shadow: var(--fertig-up2);
+  border-color: var(--site-border);
+  border-radius: 1.1rem;
+  box-shadow: var(--site-shadow);
   background: var(--fertig-el);
 }
 .stage [hidden] { display: none }
 
 /* ---- section headers ------------------------------------------- */
 .band h2 {
-  max-width: 16ch; margin: 0;
-  font: 600 clamp(2.35rem, 5vw, 4rem)/1.02 var(--font-display);
+  max-width: 18ch; margin: 0;
+  font: 700 clamp(2.2rem, 4.4vw, 3.5rem)/1.04 var(--font-display);
   letter-spacing: -.055em; text-wrap: balance;
 }
 .head {
-  max-width: none; margin-bottom: clamp(2rem, 5vw, 3.2rem);
+  max-width: none; margin-bottom: clamp(1.8rem, 4vw, 2.8rem);
   display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .9fr);
   grid-template-rows: auto 1fr; column-gap: clamp(2rem, 7vw, 6rem); align-items: end;
 }
@@ -417,17 +436,22 @@ body > nav {
 .showcase-intro > div { grid-column: 1; grid-row: 1 / span 2 }
 .showcase-intro > div + p { grid-column: 2; grid-row: 1 / span 2; align-self: end }
 .head h2 { margin-bottom: 0 }
-.head p { color: var(--fertig-mut); margin: 0; line-height: 1.75; font-size: 1.08rem }
+.head p { color: var(--fertig-mut); margin: 0; line-height: 1.65; font-size: 1rem }
 .section-kicker {
   margin: 0 0 .85rem !important; color: var(--fertig-ac) !important;
   font: 600 .68rem/1.4 var(--font-mono) !important; letter-spacing: .1em; text-transform: uppercase;
 }
-.page-title { font: 600 clamp(2.7rem, 6vw, 4.8rem)/.98 var(--font-display); letter-spacing: -.055em; margin: 0 0 var(--space-sm) }
+.page-title { font: 700 clamp(2.7rem, 6vw, 4.8rem)/.98 var(--font-display); letter-spacing: -.055em; margin: 0 0 var(--space-sm) }
 .page-intro { max-width: 44rem; color: var(--fertig-mut); line-height: 1.6; margin: 0 }
 /* A page header is a label, not a hero: the xl band rhythm belongs to the
    landing page's sections and leaves a docs page opening on a screen of air.
    The rule under it still separates header from body, so the space can go. */
-.page-head { border-top: 0; padding-block: var(--space-lg) var(--space-md) }
+.page-head {
+  border-top: 0; padding-block: var(--space-lg) var(--space-md);
+  background:
+    radial-gradient(circle at 76% 0%, var(--glow-ac), transparent 24rem),
+    transparent;
+}
 .page-head + .band { padding-top: var(--space-lg) }
 .eyebrow { font: 600 .8rem/1.4 var(--font-body); color: var(--fertig-ac); margin: 0 0 .7rem }
 @media (width <= 52rem) {
@@ -454,8 +478,6 @@ body > nav {
 }
 .spec td { padding: .85rem 0; font-family: var(--font-mono); font-size: .9rem; vertical-align: baseline }
 .spec td span { font-family: var(--font-body); color: var(--fertig-mut); font-size: .85rem }
-.facts-band { padding-block: 0 clamp(4.75rem, 9vw, 7.5rem) }
-.facts-band .panel { border-radius: 1.2rem }
 @media (width <= 40rem) {
   .spec th { inline-size: auto; display: block; padding-bottom: 0 }
   .spec td { display: block; padding-top: .2rem }
@@ -468,17 +490,18 @@ body > nav {
 .rows { display: grid; gap: 1rem; grid-template-columns: repeat(12, minmax(0, 1fr)) }
 .rows > * {
   grid-column: span 4; min-block-size: 12rem;
-  border: 1px solid var(--site-border); border-radius: 1rem; padding: clamp(1.4rem, 3vw, 2rem);
+  border: 1px solid var(--site-border); border-radius: 1.25rem; padding: clamp(1.4rem, 3vw, 2rem);
   background: var(--site-surface);
-  box-shadow: 0 1.4rem 3rem -2.6rem var(--fertig-sh2);
+  box-shadow: var(--site-shadow);
   min-width: 0;
 }
 .rows > :first-child, .rows > :nth-child(2) { grid-column: span 6 }
 .rows > *:hover {
   border-color: var(--fertig-mut);
+  translate: 0 -.2rem;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .rows > * { transition: box-shadow .18s var(--fertig-ease-out), border-color .18s var(--fertig-ease-out) }
+  .rows > * { transition: translate .18s var(--fertig-ease-out), box-shadow .18s var(--fertig-ease-out), border-color .18s var(--fertig-ease-out) }
 }
 .rows h3 {
   display: flex; align-items: center; gap: .55em;
@@ -512,9 +535,9 @@ body > nav {
   /* the measure is a page-level token, so the preview behaves like a page:
      drag --fertig-w below the column width and the panel narrows with it */
   max-inline-size: var(--fertig-w);
-  border: 1px solid var(--site-border); border-radius: 1rem;
+  border: 1px solid var(--site-border); border-radius: 1.25rem;
   overflow: hidden; background: var(--fertig-el);
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 16px 36px -16px var(--fertig-sh2);
+  box-shadow: var(--site-shadow-lg);
 }
 .mock-bar { display: flex; align-items: center; gap: .5rem; padding: .55rem .8rem; background: var(--fertig-tb); border-bottom: var(--rule); font: var(--label); letter-spacing: .06em; text-transform: uppercase; color: var(--fertig-mut) }
 .mock-body { padding: 1.4rem; font-size: .95em }
@@ -522,49 +545,38 @@ body > nav {
 /* :not(dialog) — a modal is centred by margin:auto, so it must keep its own */
 .mock-body > :last-child:not(dialog) { margin-bottom: 0 }
 
-/* ---- transfer size --------------------------------------------- */
-.bars { display: grid; gap: .6rem; margin: 0 }
-.bar-row { display: grid; grid-template-columns: minmax(7rem, auto) minmax(0,1fr) auto; gap: .8rem; align-items: center; font: 400 .82rem/1.4 var(--font-mono) }
-.bar-row > b { font-weight: 600 }
-/* --len is the bar's length, passed in from the markup as data.
-   Not --fertig-w: that is fertig's measure token, and it inherits into this rule. */
-.bar-meter {
-  display: block; inline-size: var(--len, 100%); block-size: .9rem;
-  background: linear-gradient(90deg, var(--fertig-ac), color-mix(in srgb, var(--fertig-ac) 55%, transparent));
-  border-radius: 999px;
-  box-shadow: 0 1px 2px var(--fertig-sh1), 0 4px 12px -2px var(--glow-ac);
-}
-/* ---- palette showcase ------------------------------------------ */
+/* ---- shared elevated panel ------------------------------------- */
 .panel {
-  border: 1px solid var(--site-border); border-radius: 1rem;
+  border: 1px solid var(--site-border); border-radius: 1.25rem;
   background: var(--site-surface);
   padding: clamp(1.25rem, 3vw, 2rem);
-  box-shadow: 0 1.4rem 3rem -2.7rem var(--fertig-sh2);
+  box-shadow: var(--site-shadow);
 }
 .panel > :first-child { margin-top: 0 }
 .panel > :last-child { margin-bottom: 0 }
-.swatches { display: grid; gap: .45rem }
-.ramp { display: grid; grid-template-columns: 5rem repeat(5, minmax(0,1fr)); gap: .3rem; align-items: center }
-.ramp > b { font: var(--label); letter-spacing: .07em; text-transform: uppercase }
-.ramp span { display: block; block-size: 2.6rem; border: var(--rule); border-radius: var(--fertig-rs); position: relative }
-.ramp span::after { content: attr(data-step); position: absolute; inset: auto .35rem .25rem auto; font: 400 .6rem/1 var(--font-mono); color: var(--fertig-mut) }
-@media (width <= 46rem) {
-  .ramp { grid-template-columns: minmax(0,1fr); gap: .15rem }
-  .ramp span { block-size: 1.5rem }
+#components { background: transparent }
+.component-trio > .card {
+  block-size: 100%; border-color: var(--site-border); border-radius: 1.25rem;
+  background: var(--site-surface); box-shadow: var(--site-shadow);
 }
-
-#preview .cols-2 > *, #components .cols-2 > * { block-size: 100% }
-#preview pre { min-block-size: 100%; margin: 0 }
-#components { background: var(--fertig-bg) }
-#palette .panel { padding: clamp(1.4rem, 4vw, 2.5rem) }
+.component-trio > .card > header { font-weight: 600 }
+.component-trio [role=listbox] { margin-block: 0 }
+.home-item-list { margin: 0; padding: .35rem }
 #customize { background: color-mix(in srgb, var(--fertig-bg) 84%, var(--fertig-ac)) }
-#customize form { padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid var(--fertig-bd); border-radius: 1rem; background: var(--fertig-el) }
-#size h2 { max-width: 18ch; font-size: clamp(2.5rem, 5.2vw, 4.6rem) }
-#size .bars { margin-top: 2rem }
-#size .bar-row { grid-template-columns: minmax(8rem, auto) minmax(0, 1fr) auto }
-#size .bar-meter { block-size: 1.2rem }
-#questions details { border-radius: .8rem; padding-inline: 1rem; background: var(--fertig-el) }
-#install { background: color-mix(in srgb, var(--fertig-ac) 8%, var(--fertig-el)) }
+#customize form {
+  padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid var(--site-border);
+  border-radius: 1.25rem; background: var(--site-surface); box-shadow: var(--site-shadow);
+}
+#questions details {
+  border: 1px solid var(--site-border); border-radius: 1rem;
+  padding-inline: 1rem; background: var(--site-surface); box-shadow: var(--site-shadow);
+}
+#questions details + details { margin-top: .7rem }
+#install {
+  background:
+    radial-gradient(circle at 76% 50%, var(--glow-ac-strong), transparent 30rem),
+    color-mix(in srgb, var(--fertig-el) 94%, var(--fertig-ac));
+}
 #install h2 { max-width: 17ch }
 
 /* ================================================================
@@ -582,11 +594,11 @@ body > nav {
 .sidebar { font-size: .88rem }
 @media (width >= 60rem) {
   .sidebar {
-    position: sticky; inset-block-start: 3.4rem;
-    max-block-size: calc(100dvh - 4.5rem); overflow-y: auto; overscroll-behavior: contain;
-    /* no top padding: the first label lines up with the first heading */
-    padding-block: 0 var(--space-md); padding-inline-end: .5rem;
-    border-inline-end: var(--rule);
+    position: sticky; inset-block-start: 4.8rem;
+    max-block-size: calc(100dvh - 5.8rem); overflow-y: auto; overscroll-behavior: contain;
+    padding: 1rem;
+    border: 1px solid var(--site-border); border-radius: 1.2rem;
+    background: var(--site-surface); box-shadow: var(--site-shadow);
   }
   .sidebar > details { border: 0; padding: 0; background: none }
   .sidebar > details > summary { display: none }        /* always open on desktop */
@@ -597,11 +609,14 @@ body > nav {
   /* flex, not block: the icon rule above uses gap, and a later display:block
      here would win the cascade and collapse the space beside a glyph */
   display: flex; align-items: center; gap: .45em;
-  padding: .26rem 0 .26rem .7rem; color: var(--fertig-mut);
-  text-decoration: none; border-inline-start: 2px solid transparent;
+  padding: .38rem .65rem; color: var(--fertig-mut);
+  text-decoration: none; border-radius: .65rem;
 }
-.sidebar a:hover { color: var(--fertig-fg) }
-.sidebar a[aria-current="true"] { color: var(--fertig-ac); border-inline-start-color: var(--fertig-ac); font-weight: 500 }
+.sidebar a:hover { color: var(--fertig-fg); background: var(--fertig-face) }
+.sidebar a[aria-current="true"] {
+  color: var(--fertig-ac); background: color-mix(in srgb, var(--fertig-ac) 12%, transparent);
+  font-weight: 600;
+}
 .sidebar strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--fertig-fg); margin: 1.2rem 0 .4rem }
 .sidebar > * > :first-child { margin-top: 0 }
 /* the summary is the first child but is hidden on desktop, so the label
@@ -609,7 +624,10 @@ body > nav {
 @media (width >= 60rem) { .sidebar > details > summary + strong { margin-top: 0 } }
 /* narrow screens: the nav collapses into a disclosure the reader opens */
 @media (width <= 60rem) {
-  .sidebar > details { border: var(--rule); border-radius: var(--fertig-r); padding: .2rem .9rem; background: var(--fertig-el) }
+  .sidebar > details {
+    border: 1px solid var(--site-border); border-radius: 1rem; padding: .2rem .9rem;
+    background: var(--site-surface); box-shadow: var(--site-shadow);
+  }
   .sidebar > details > summary {
     min-block-size: 44px; padding-block: .55rem;
     font: var(--label); letter-spacing: .08em; text-transform: uppercase;
@@ -628,7 +646,10 @@ body > nav {
 
 /* example / code split */
 .example { display: grid; gap: 1rem; grid-template-columns: minmax(0,1fr); margin: 1.1rem 0; align-items: start }
-.example > .demo { border: var(--rule); border-radius: var(--fertig-r); padding: 1.1rem; background: var(--fertig-el) }
+.example > .demo {
+  border: 1px solid var(--site-border); border-radius: 1rem; padding: 1.1rem;
+  background: var(--site-surface); box-shadow: var(--site-shadow);
+}
 .example > .demo > :first-child { margin-top: 0 }
 .example > .demo > :last-child:not(dialog) { margin-bottom: 0 }
 .example pre { margin: 0; block-size: 100% }
@@ -651,7 +672,10 @@ body > nav {
 .block > .rail { margin-bottom: var(--space-sm) }
 .block h3 { font: 600 .95rem/1.3 var(--font-display); letter-spacing: -.02em; margin: 0 0 .25rem }
 .block > .rail p { margin: 0; color: var(--fertig-mut); font-size: .88rem; line-height: 1.55; max-width: 44rem }
-.block-preview { border: var(--rule); border-radius: var(--fertig-r); padding: 1.4rem; background: var(--fertig-el); margin-bottom: .5rem }
+.block-preview {
+  border: 1px solid var(--site-border); border-radius: 1.2rem; padding: 1.4rem;
+  background: var(--site-surface); box-shadow: var(--site-shadow); margin-bottom: .6rem;
+}
 .block-preview > :first-child { margin-top: 0 }
 .block-preview > :last-child:not(dialog) { margin-bottom: 0 }
 /* the code is secondary to the preview — closed until it is asked for */
@@ -664,8 +688,8 @@ body > nav {
 
 /* ---- footer ---------------------------------------------------- */
 body > footer {
-  border-top: var(--rule); padding-block: var(--space-xl);
-  background: var(--fertig-bg);
+  border-top: 1px solid var(--site-border); padding-block: var(--space-xl);
+  background: color-mix(in srgb, var(--fertig-bg) 96%, var(--fertig-ac));
   color: var(--fertig-fg);
 }
 @media (prefers-color-scheme: light) {
@@ -749,14 +773,15 @@ body > nav { view-transition-name: toolbar }
   display: flex; flex-wrap: wrap; gap: var(--space-md);
   align-items: center; justify-content: space-between;
   margin-bottom: var(--space-md);
-  padding-bottom: var(--space-md); border-bottom: var(--rule);
+  padding: 1rem; border: 1px solid var(--site-border); border-radius: 1.2rem;
+  background: var(--site-surface); box-shadow: var(--site-shadow);
 }
 .comp-filters {
   display: flex; flex-wrap: wrap; gap: .4rem;
 }
 .comp-filter {
   font: var(--label); letter-spacing: .04em; text-transform: uppercase;
-  padding: .35em .85em; border-radius: var(--fertig-r);
+  padding: .42em .9em; border-radius: var(--fertig-rp);
   border: 1px solid var(--site-border); background: transparent;
   color: var(--fertig-mut); cursor: pointer; white-space: nowrap;
 }
@@ -777,7 +802,7 @@ body > nav { view-transition-name: toolbar }
 .comp-search-wrap { flex: 1 1 14rem; max-width: 22rem }
 .comp-search {
   inline-size: 100%; font: 400 .9rem/1.4 var(--font-body);
-  padding: .45rem .85rem; border-radius: var(--fertig-r);
+  padding: .55rem .9rem; border-radius: .8rem;
   border: 1px solid var(--site-border); background: var(--fertig-el);
   color: var(--fertig-fg);
 }
@@ -789,23 +814,24 @@ body > nav { view-transition-name: toolbar }
   color: var(--fertig-mut); margin: 0 0 var(--space-md);
 }
 .comp-grid {
-  display: grid; gap: 1rem;
+  display: grid; gap: 1.2rem;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 }
 .comp-card {
-  border: 1px solid var(--site-border); border-radius: var(--fertig-rw);
-  padding: 1.25rem;
+  border: 1px solid var(--site-border); border-radius: 1.25rem;
+  padding: 1.35rem;
   background: var(--site-surface);
-  box-shadow: var(--fertig-up2);
+  box-shadow: var(--site-shadow);
   display: flex; flex-direction: column; gap: .6rem;
   min-width: 0;
 }
 .comp-card[hidden] { display: none }
 .comp-card:hover {
   border-color: var(--fertig-mut);
+  translate: 0 -.2rem;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .comp-card { transition: box-shadow .18s var(--fertig-ease-out), border-color .18s var(--fertig-ease-out) }
+  .comp-card { transition: translate .18s var(--fertig-ease-out), box-shadow .18s var(--fertig-ease-out), border-color .18s var(--fertig-ease-out) }
 }
 .comp-card-head {
   display: flex; align-items: center; justify-content: space-between;
@@ -820,9 +846,9 @@ body > nav { view-transition-name: toolbar }
   text-transform: uppercase; padding: .25em .65em;
 }
 .comp-card-preview {
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
-  padding: .9rem; background: var(--fertig-el);
-  min-height: 3rem;
+  border: 1px solid var(--site-border); border-radius: 1rem;
+  padding: 1rem; background: color-mix(in srgb, var(--fertig-bg) 72%, var(--fertig-el));
+  min-height: 7rem;
 }
 .comp-card-preview > :first-child { margin-top: 0 }
 .comp-card-preview > :last-child { margin-bottom: 0 }
@@ -832,8 +858,9 @@ body > nav { view-transition-name: toolbar }
 .comp-card-code {
   margin-top: auto; padding: .75rem .85rem;
   overflow-x: auto; overscroll-behavior-x: contain;
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
-  background: var(--fertig-face);
+  color-scheme: dark; --fertig-a1: .5; --fertig-a2: .45;
+  border: 1px solid var(--site-border); border-radius: .85rem;
+  background: var(--fertig-bg);
 }
 .comp-card-code code {
   display: block; min-width: max-content;

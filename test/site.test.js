@@ -96,6 +96,17 @@ test('every page offers a working keyboard skip link', () => {
   }
 });
 
+test('every page has a large social sharing preview', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+
+  for (const page of pages) {
+    const html = readFileSync(path.join(root, 'dist', page), 'utf8');
+    assert.match(html, /<meta property="og:image" content="https:\/\/moji2002\.github\.io\/fertig\/og\.png">/);
+    assert.match(html, /<meta name="twitter:card" content="summary_large_image">/);
+    assert.match(html, /<meta name="twitter:image" content="https:\/\/moji2002\.github\.io\/fertig\/og\.png">/);
+  }
+});
+
 test('the catalogue search uses keyboard-only focus styling', () => {
   const css = readFileSync(path.join(root, 'site.css'), 'utf8');
 
@@ -104,10 +115,10 @@ test('the catalogue search uses keyboard-only focus styling', () => {
   assert.doesNotMatch(css, /\.comp-search:focus-visible\s*\{[^}]*outline:\s*none/);
 });
 
-test('every dialog example has an accessible name', () => {
+test('catalogue and block dialog examples have accessible names', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
 
-  for (const page of ['index.html', 'components.html', 'blocks.html']) {
+  for (const page of ['components.html', 'blocks.html']) {
     const html = readFileSync(path.join(root, 'dist', page), 'utf8');
     const dialogs = [...html.matchAll(/<dialog\b[^>]*>/g)].map(match => match[0]);
     assert.ok(dialogs.length, `${page} has no dialog example`);
@@ -115,6 +126,13 @@ test('every dialog example has an accessible name', () => {
       assert.match(dialog, /aria-(?:label|labelledby)="[^"]+"/, `${page} has an unnamed dialog`);
     });
   }
+});
+
+test('the landing page has no intrusive modal demo', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+  const html = readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
+
+  assert.doesNotMatch(html, /<dialog\b/);
 });
 
 test('the catalogue teaches complete tab markup', () => {

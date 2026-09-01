@@ -41,16 +41,22 @@ const canonicalUrl = `https://moji2002.github.io/fertig/${canonical}`;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    <meta id="theme-color" name="theme-color" content="#23262b" />
+    <meta id="theme-color" name="theme-color" content="#0b0e14" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="fertig" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://moji2002.github.io/fertig/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="fertig — write HTML, it comes out finished" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content="https://moji2002.github.io/fertig/og.png" />
+    <meta name="twitter:image:alt" content="fertig — write HTML, it comes out finished" />
 
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
     <script is:inline>
@@ -60,13 +66,13 @@ const canonicalUrl = `https://moji2002.github.io/fertig/${canonical}`;
         document.documentElement.dataset.theme = "dark";
       }
       document.getElementById("theme-color").content =
-        document.documentElement.dataset.theme === "dark" ? "#23262b" : "#fafbfc";
+        document.documentElement.dataset.theme === "dark" ? "#0b0e14" : "#f4f6f9";
     </script>
     <link rel="stylesheet" href={`fertig.css?v=${site.hashes.fertig}`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href={`site.css?v=${site.hashes.site}`} />
   </head>
   <body>

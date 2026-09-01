@@ -40,9 +40,6 @@ CLAIMS = {
         ('interface: dialogs, popovers, forms, and data views in {min_gzip} gzipped', 1),
         ('semantic HTML comes out designed. {min_gzip} gzipped', 1),
         ('<div><dt>{min_gzip}</dt><dd>gzipped</dd></div>', 1),
-        ('<tr><th>Transfer size</th><td>{min_gzip} <span>— fertig.min.css, gzipped</span></td></tr>', 1),
-        ('<h2>One complete stylesheet. {min_gzip} transferred.</h2>', 1),
-        ('<b>fertig.min.css</b>\n            <span><span class="bar-meter"></span></span><span>{min_gzip}</span>', 1),
         ('reason it is {min_gzip} rather than 20', 1),
     ),
     'src/components/SiteFooter.astro': (
