@@ -7,7 +7,7 @@ A classless CSS framework for finished interfaces. Link one file and write
 semantic HTML; fertig styles the page, forms, tables, dialogs, popovers,
 navigation, feedback, and common layout patterns.
 
-**36.7 KB raw · 8.6 KB gzipped · no build step · no dependencies · no JavaScript.**
+**40.8 KB raw · 9.3 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ## Use
 
@@ -32,8 +32,8 @@ That is the complete setup. See the [documentation](https://moji2002.github.io/f
 ## What it includes
 
 - Light and dark themes through `light-dark()`
-- Accessible forms, tables, cards, alerts, tabs, menus, dialogs, drawers,
-  toasts, tooltips, skeletons, and more
+- Accessible forms, input groups, one-time codes, listboxes, surfaces, cards,
+  items, empty states, tabs, menus, dialogs, tooltips, and more
 - Native no-JavaScript behavior for popovers, dialogs, drawers, disclosures,
   toasts, and tooltips
 - Logical properties for RTL layouts

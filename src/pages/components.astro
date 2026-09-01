@@ -34,7 +34,7 @@ const description = "Browse every element, component, and utility fertig styles,
       </div>
     </div>
 
-    <p class="comp-count" role="status" aria-live="polite"><span id="comp-count-num">32</span> components</p>
+    <p class="comp-count" role="status" aria-live="polite"><span id="comp-count-num">38</span> components</p>
 
     <h2 class="sr-only">All components</h2>
     <div class="comp-grid" id="comp-grid">
@@ -132,7 +132,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <table style="margin:0">
             <thead><tr><th>Name</th><th align="right">Size</th></tr></thead>
             <tbody>
-              <tr><td>fertig</td><td align="right">8.6 KB</td></tr>
+              <tr><td>fertig</td><td align="right">9.3 KB</td></tr>
               <tr><td>Other</td><td align="right">12 KB</td></tr>
             </tbody>
           </table>
@@ -196,6 +196,69 @@ const description = "Browse every element, component, and utility fertig styles,
         <div class="comp-card-code"><code>&lt;p data-skeleton&gt;Loading text…&lt;/p&gt;</code></div>
       </article>
 
+      <!-- Surface -->
+      <article class="comp-card" data-category="layout" data-name="surface panel elevation">
+        <div class="comp-card-head">
+          <h3>Surface</h3>
+          <span class="badge">layout</span>
+        </div>
+        <div class="comp-card-preview">
+          <section data-surface style="margin:0">
+            <strong>Workspace ready</strong>
+            <p class="muted">A quiet elevated region without card anatomy.</p>
+          </section>
+        </div>
+        <p class="comp-card-desc">A general-purpose surface with shared radius and elevation tokens. Use flat or outline when hierarchy should be quieter.</p>
+        <div class="comp-card-code"><code>&lt;section data-surface&gt;…&lt;/section&gt;
+&lt;section data-surface="flat"&gt;…&lt;/section&gt;
+&lt;section data-surface="outline"&gt;…&lt;/section&gt;</code></div>
+      </article>
+
+      <!-- Item -->
+      <article class="comp-card" data-category="data" data-name="item avatar action list row">
+        <div class="comp-card-head">
+          <h3>Item</h3>
+          <span class="badge">data</span>
+        </div>
+        <div class="comp-card-preview">
+          <div data-surface="flat" style="margin:0;padding:.35rem">
+            <div data-item>
+              <span data-avatar="sm">AM</span>
+              <div><strong>Ada Morris</strong><small class="muted">Product design</small></div>
+              <button data-icon aria-label="More actions">•••</button>
+            </div>
+          </div>
+        </div>
+        <p class="comp-card-desc">A compound row for an avatar or icon, flexible content, and an optional trailing action. It also works on links and buttons.</p>
+        <div class="comp-card-code"><code>&lt;div data-item&gt;
+  &lt;span data-avatar="sm"&gt;AM&lt;/span&gt;
+  &lt;div&gt;&lt;strong&gt;Ada Morris&lt;/strong&gt;&lt;small&gt;Product design&lt;/small&gt;&lt;/div&gt;
+  &lt;button data-icon aria-label="More actions"&gt;•••&lt;/button&gt;
+&lt;/div&gt;</code></div>
+      </article>
+
+      <!-- Empty state -->
+      <article class="comp-card" data-category="feedback" data-name="empty state blank slate">
+        <div class="comp-card-head">
+          <h3>Empty State</h3>
+          <span class="badge">feedback</span>
+        </div>
+        <div class="comp-card-preview">
+          <section data-empty style="margin:0">
+            <span data-avatar aria-hidden="true">+</span>
+            <h4>No projects yet</h4>
+            <p class="muted">Create a project to start organizing your work.</p>
+            <button class="primary">Create project</button>
+          </section>
+        </div>
+        <p class="comp-card-desc">A deliberate endpoint for a collection with no content. Keep one clear explanation and one primary recovery action.</p>
+        <div class="comp-card-code"><code>&lt;section data-empty&gt;
+  &lt;h3&gt;No projects yet&lt;/h3&gt;
+  &lt;p&gt;Create one to get started.&lt;/p&gt;
+  &lt;button class="primary"&gt;Create project&lt;/button&gt;
+&lt;/section&gt;</code></div>
+      </article>
+
       <!-- Input -->
       <article class="comp-card" data-category="forms" data-name="input">
         <div class="comp-card-head">
@@ -213,6 +276,54 @@ const description = "Browse every element, component, and utility fertig styles,
 &lt;input id="e" type="email" required&gt;</code></div>
       </article>
 
+      <!-- Field and input group -->
+      <article class="comp-card" data-category="forms" data-name="field input group addon validation">
+        <div class="comp-card-head">
+          <h3>Field &amp; Input Group</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <div data-field>
+            <label for="c-workspace">Workspace URL</label>
+            <div data-input-group>
+              <span>https://</span>
+              <input id="c-workspace" aria-describedby="c-workspace-help" placeholder="acme">
+              <span>.com</span>
+            </div>
+            <small id="c-workspace-help">Lowercase letters and numbers work best.</small>
+          </div>
+        </div>
+        <p class="comp-card-desc">data-field keeps labels, help, and errors together. data-input-group gives fields, addons, and compact actions one focus surface.</p>
+        <div class="comp-card-code"><code>&lt;div data-field&gt;
+  &lt;label for="workspace"&gt;Workspace URL&lt;/label&gt;
+  &lt;div data-input-group&gt;
+    &lt;span&gt;https://&lt;/span&gt;
+    &lt;input id="workspace" aria-describedby="workspace-help"&gt;
+    &lt;span&gt;.com&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;small id="workspace-help"&gt;Lowercase letters and numbers.&lt;/small&gt;
+&lt;/div&gt;</code></div>
+      </article>
+
+      <!-- One-time code -->
+      <article class="comp-card" data-category="forms" data-name="one time code otp verification">
+        <div class="comp-card-head">
+          <h3>One-time Code</h3>
+          <span class="badge">forms</span>
+        </div>
+        <div class="comp-card-preview">
+          <div data-field>
+            <label for="c-code">Verification code</label>
+            <input id="c-code" data-otp inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" aria-describedby="c-code-help">
+            <small id="c-code-help">Enter the six-digit code.</small>
+          </div>
+        </div>
+        <p class="comp-card-desc">A single native input styled like a code control, preserving paste, password-manager, autofill, and screen-reader behavior.</p>
+        <div class="comp-card-code"><code>&lt;label for="code"&gt;Verification code&lt;/label&gt;
+&lt;input id="code" data-otp inputmode="numeric"
+  autocomplete="one-time-code" maxlength="6"&gt;</code></div>
+      </article>
+
       <!-- Select -->
       <article class="comp-card" data-category="forms" data-name="select">
         <div class="comp-card-head">
@@ -228,6 +339,27 @@ const description = "Browse every element, component, and utility fertig styles,
         <p class="comp-card-desc">Native select dropdown with a CSS-drawn chevron. Supports appearance: base-select on Chromium for full styling.</p>
         <div class="comp-card-code"><code>&lt;label for="s"&gt;Plan&lt;/label&gt;
 &lt;select id="s"&gt;&lt;option&gt;Free&lt;/option&gt;&lt;/select&gt;</code></div>
+      </article>
+
+      <!-- Listbox -->
+      <article class="comp-card" data-category="navigation" data-name="listbox option select command menu">
+        <div class="comp-card-head">
+          <h3>Listbox</h3>
+          <span class="badge">navigation</span>
+        </div>
+        <div class="comp-card-preview">
+          <ul role="listbox" tabindex="0" aria-label="Assignee" aria-activedescendant="c-option-ada" style="margin:0">
+            <li role="option" id="c-option-ada" aria-selected="true"><span data-avatar="sm">AM</span>Ada Morris</li>
+            <li role="option" id="c-option-lin" aria-selected="false"><span data-avatar="sm">LK</span>Lin Kim</li>
+            <li role="option" id="c-option-sam" aria-selected="false"><span data-avatar="sm">SR</span>Sam Rivera</li>
+          </ul>
+        </div>
+        <p class="comp-card-desc">A selectable collection styled through ARIA. JavaScript must own selection, active-descendant state, typeahead, and arrow keys.</p>
+        <div class="comp-card-code"><code>&lt;ul role="listbox" tabindex="0" aria-label="Assignee"
+  aria-activedescendant="option-ada"&gt;
+  &lt;li id="option-ada" role="option" aria-selected="true"&gt;Ada&lt;/li&gt;
+  &lt;li id="option-lin" role="option" aria-selected="false"&gt;Lin&lt;/li&gt;
+&lt;/ul&gt;</code></div>
       </article>
 
       <!-- Textarea -->
@@ -322,20 +454,24 @@ const description = "Browse every element, component, and utility fertig styles,
 &lt;button class="primary"&gt;Primary&lt;/button&gt;</code></div>
       </article>
 
-      <!-- Ghost & Link buttons -->
-      <article class="comp-card" data-category="buttons" data-name="ghost link button">
+      <!-- Button variants -->
+      <article class="comp-card" data-category="buttons" data-name="soft outline ghost link button variants">
         <div class="comp-card-head">
-          <h3>Ghost &amp; Link</h3>
+          <h3>Button Variants</h3>
           <span class="badge">buttons</span>
         </div>
         <div class="comp-card-preview">
           <p class="row" style="margin:0">
+            <button data-variant="soft">Soft</button>
+            <button data-variant="outline">Outline</button>
             <button data-variant="ghost">Ghost</button>
             <button data-variant="link">Link</button>
           </p>
         </div>
-        <p class="comp-card-desc">Ghost buttons sit on the surface without a border. Link buttons look like text links but behave as buttons.</p>
-        <div class="comp-card-code"><code>&lt;button data-variant="ghost"&gt;Ghost&lt;/button&gt;
+        <p class="comp-card-desc">Soft and outline add hierarchy without another filled action. Ghost and link variants step down further.</p>
+        <div class="comp-card-code"><code>&lt;button data-variant="soft"&gt;Soft&lt;/button&gt;
+&lt;button data-variant="outline"&gt;Outline&lt;/button&gt;
+&lt;button data-variant="ghost"&gt;Ghost&lt;/button&gt;
 &lt;button data-variant="link"&gt;Link&lt;/button&gt;</code></div>
       </article>
 
@@ -366,13 +502,13 @@ const description = "Browse every element, component, and utility fertig styles,
         </div>
         <div class="comp-card-preview">
           <p class="row" style="margin:0">
-            <button data-tone="ok">Confirm</button>
-            <button data-tone="warn">Caution</button>
-            <button data-tone="err">Delete</button>
+            <button data-variant="soft" data-tone="ok">Confirm</button>
+            <button data-variant="soft" data-tone="warn">Caution</button>
+            <button data-variant="soft" data-tone="err">Delete</button>
           </p>
         </div>
-        <p class="comp-card-desc">Combine data-tone with .primary to retint the button for ok, warn, or err states.</p>
-        <div class="comp-card-code"><code>&lt;button class="primary" data-tone="err"&gt;
+        <p class="comp-card-desc">Combine data-tone with a filled or soft variant to retint the button for ok, warn, or err states.</p>
+        <div class="comp-card-code"><code>&lt;button data-variant="soft" data-tone="err"&gt;
   Delete
 &lt;/button&gt;</code></div>
       </article>

@@ -2,7 +2,7 @@
 
 > A classless CSS stylesheet that ships components, not just styled elements.
 > Link one file, write ordinary semantic HTML, and the page is finished —
-> 36.7 KB raw, 8.6 KB gzipped, no build step, no dependencies, no JavaScript,
+> 40.8 KB raw, 9.3 KB gzipped, no build step, no dependencies, no JavaScript,
 > no classes required.
 >
 > Menus, dialogs, drawers, toasts and tooltips are addressed by ARIA and work
@@ -62,6 +62,13 @@ Plus `.primary` for a filled button, which `type="submit"` already gets.
 
 - Segmented control: `<div role="group">` of buttons with `aria-pressed`
 - ARIA tabs: `<div role="tablist">` + `<button role="tab" aria-selected>`; script owns state and arrow keys
+- Compound field: `[data-field]` around its label, control, help and error text
+- Input group: `[data-input-group]` around a field and leading/trailing addons
+- One-time code: `<input data-otp autocomplete="one-time-code">` stays one native field
+- Listbox: `[role=listbox]` + `[role=option aria-selected]`; script owns selection and keys
+- Surface: `[data-surface]`, optionally `flat` or `outline`
+- Item: `[data-item]` for an avatar/icon, flexible content and trailing action
+- Empty state: `[data-empty]` around its message and primary action
 - Switch: `<input type="checkbox" role="switch">`
 - Menu: `<button popovertarget="m">` + `<div popover id="m"><menu>…`
 - Dialog: `<dialog id="d" closedby="any">` opened with
@@ -72,7 +79,7 @@ Plus `.primary` for a filled button, which `type="submit"` already gets.
 - Breadcrumb: `<nav aria-label="Breadcrumb"><ol>`
 - Loading: `aria-busy="true"` · Tooltip: `data-tooltip="…"`
 - Tone anything: `data-tone="ok|warn|err"` on a badge, aside, card or button
-- Buttons: `data-variant="ghost|link"`, `data-size="sm|lg"`, `data-icon`,
+- Buttons: `data-variant="ghost|soft|outline|link"`, `data-size="sm|lg"`, `data-icon`,
   `data-block`
 - Layout utilities: `.flex` `.flex-col` `.flex-wrap`
   `.flex-1` `.grid-cols-2|3|4` `.items-start|center|end`
@@ -99,7 +106,7 @@ Dark mode is one `light-dark()` token block. Add `data-theme="dark"` or
 
 - Right-aligned numeric columns: `<td align="right">`; totals go in `<tfoot>`
 - Form controls inside `.row` size to the row, so filter bars lay out inline
-- Required and read-only fields, autofill, validation (`:user-invalid`)
+- Required and read-only fields, autofill, validation (`aria-invalid` or `:user-invalid`)
 - Tables scroll themselves below 40rem
 - Print styles, `prefers-reduced-motion`, `prefers-contrast`, `forced-colors`,
   `pointer: coarse` (44px targets), and safe-area insets

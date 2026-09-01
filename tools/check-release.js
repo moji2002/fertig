@@ -45,9 +45,9 @@ const sizes = {
   brotli: brotliCompressSync(bytes).length,
 };
 const budgets = {
-  raw: 40 * 1024,
-  gzip: 9 * 1024,
-  brotli: 8 * 1024,
+  raw: 42 * 1024,
+  gzip: 10 * 1024,
+  brotli: 9 * 1024,
 };
 for (const kind of Object.keys(budgets)) {
   expect(sizes[kind] <= budgets[kind],

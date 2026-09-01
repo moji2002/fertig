@@ -64,7 +64,7 @@ const description = "Reference for fertig installation, layout, component behavi
         <table>
           <thead><tr><th>Build</th><th>Raw</th><th>Gzip</th></tr></thead>
           <tbody>
-            <tr><td><code>fertig.min.css</code></td><td>36.7 KB</td><td>8.6 KB</td></tr>
+            <tr><td><code>fertig.min.css</code></td><td>40.8 KB</td><td>9.3 KB</td></tr>
           </tbody>
         </table>
       </section>
@@ -120,9 +120,9 @@ const description = "Reference for fertig installation, layout, component behavi
           <thead><tr><th>Area</th><th>What is covered</th></tr></thead>
           <tbody>
             <tr><td>Content</td><td>Typography, lists, code and quotations</td></tr>
-            <tr><td>Controls</td><td>Forms, buttons, groups, switches and tabs</td></tr>
-            <tr><td>Display</td><td>Cards, tables, badges and loading states</td></tr>
-            <tr><td>Navigation</td><td>Breadcrumbs, menus and segmented controls</td></tr>
+            <tr><td>Controls</td><td>Forms, compound fields, input groups, one-time codes, switches and tabs</td></tr>
+            <tr><td>Display</td><td>Surfaces, cards, items, empty states, tables, badges and loading states</td></tr>
+            <tr><td>Navigation</td><td>Breadcrumbs, menus, listboxes and segmented controls</td></tr>
             <tr><td>Feedback</td><td>Tones, tooltips, dialogs and disclosures</td></tr>
           </tbody>
         </table>
@@ -212,7 +212,7 @@ const description = "Reference for fertig installation, layout, component behavi
             <tr><td><code>--fertig-on-ac</code></td><td>#f7f8fb / #07071c</td><td>Off-white or ink text sitting on the accent</td></tr>
             <tr><td><code>--fertig-w</code></td><td>72rem</td><td>Toolbar content width</td></tr>
             <tr><td><code>--fertig-g</code></td><td>clamp(1.15rem, 4vw, 1.9rem)</td><td>Responsive page gutter</td></tr>
-            <tr><td><code>--fertig-r</code></td><td>8px</td><td>Control radius: fields, buttons, tabs, menu rows. The rest of the scale is <code>calc()</code>ed off it, so setting it on <code>:root</code> rescales the sheet</td></tr>
+            <tr><td><code>--fertig-r</code></td><td>10px</td><td>Control radius: fields, buttons, tabs, menu rows. The rest of the scale is <code>calc()</code>ed off it, so setting it on <code>:root</code> rescales the sheet</td></tr>
             <tr><td><code>--fertig-rp</code></td><td>calc(var(--fertig-r) * 1000)</td><td>Pill radius: badges, switches, meters and joined ends</td></tr>
             <tr><td><code>--fertig-f</code></td><td>system-ui…</td><td>Text font</td></tr>
             <tr><td><code>--fertig-fm</code></td><td>ui-monospace…</td><td>Code font</td></tr>
@@ -256,8 +256,8 @@ const description = "Reference for fertig installation, layout, component behavi
             <tr><td><code>--fertig-tb</code></td><td>Opaque toolbar fill</td></tr>
             <tr><td><code>--fertig-up</code> / <code>--fertig-up2</code> / <code>--fertig-dn</code></td><td>Elevation scale</td></tr>
             <tr><td><code>--fertig-a1</code> / <code>--fertig-a2</code></td><td>Shadow alphas, per theme (<code>@property</code> registrations, so they carry the prefix &mdash; a registration is global)</td></tr>
-            <tr><td><code>--fertig-rw</code></td><td>Large-surface radius: cards, dialogs, menus &mdash; <code>calc(var(--fertig-r) * 1.33)</code></td></tr>
-            <tr><td><code>--fertig-rs</code></td><td>Small radius: inline code and chips &mdash; <code>calc(var(--fertig-r) * .5)</code></td></tr>
+            <tr><td><code>--fertig-rw</code></td><td>Large-surface radius: cards, dialogs, menus &mdash; <code>calc(var(--fertig-r) * 1.6)</code></td></tr>
+            <tr><td><code>--fertig-rs</code></td><td>Small radius: inline code and chips &mdash; <code>calc(var(--fertig-r) * .6)</code></td></tr>
             <tr><td><code>--fertig-nw</code></td><td>The column the toolbar's contents line up with (follows <code>--fertig-w</code>; <code>&lt;nav class="wide"&gt;</code> re-points it at 80rem)</td></tr>
           </tbody>
         </table>
@@ -325,21 +325,21 @@ const description = "Reference for fertig installation, layout, component behavi
         <table>
           <thead><tr><th>Pair</th><th>Light</th><th>Dark</th></tr></thead>
           <tbody>
-            <tr><td>Body text on content surface</td><td>16.83</td><td>15.32</td></tr>
-            <tr><td>Muted text on content surface</td><td>6.92</td><td>7.15</td></tr>
-            <tr><td>Links on content surface</td><td>6.72</td><td>9.50</td></tr>
-            <tr><td>Muted on controls</td><td>6.57</td><td>6.45</td></tr>
-            <tr><td>Muted on page ground</td><td>5.89</td><td>7.88</td></tr>
+            <tr><td>Body text on content surface</td><td>17.16</td><td>15.96</td></tr>
+            <tr><td>Muted text on content surface</td><td>7.06</td><td>7.45</td></tr>
+            <tr><td>Links on content surface</td><td>6.85</td><td>9.91</td></tr>
+            <tr><td>Muted on controls</td><td>6.07</td><td>6.63</td></tr>
+            <tr><td>Muted on page ground</td><td>6.53</td><td>8.07</td></tr>
             <tr><td>Text on accent</td><td>6.16</td><td>11.22</td></tr>
-            <tr><td>Tones (ok / warn / err)</td><td>5.91–7.17</td><td>9.12–10.76</td></tr>
+            <tr><td>Tones (ok / warn / err)</td><td>6.03–7.31</td><td>9.51–11.22</td></tr>
           </tbody>
         </table>
         <ul>
           <li>Motion sits behind <code>prefers-reduced-motion</code></li>
           <li>Focus is visible via <code>:focus-visible</code>, never removed</li>
           <li>Components read the same ARIA attributes screen readers do</li>
-          <li>Errors use <code>:user-invalid</code>, firing after input rather
-            than on load</li>
+          <li>Errors use explicit <code>aria-invalid</code>, or
+            <code>:user-invalid</code> after native validation runs</li>
         </ul>
       </section>
 

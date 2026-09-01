@@ -127,6 +127,21 @@ test('the catalogue teaches complete tab markup', () => {
   assert.match(sample, /tabindex=/);
 });
 
+test('the catalogue teaches accessible modern form and list primitives', () => {
+  const source = readFileSync(path.join(root, 'src', 'pages', 'components.astro'), 'utf8');
+  const otp = source.match(/<input\b[^>]*\bdata-otp\b[^>]*>/)?.[0];
+  const listbox = source.match(/<ul\b[^>]*\brole="listbox"[^>]*>/)?.[0];
+
+  assert.match(source, /<div data-field>[\s\S]*?<label for="c-workspace">[\s\S]*?<div data-input-group>/);
+  assert.ok(otp, 'the OTP example is missing');
+  assert.match(otp, /autocomplete="one-time-code"/);
+  assert.match(otp, /inputmode="numeric"/);
+  assert.ok(listbox, 'the listbox example is missing');
+  assert.match(listbox, /aria-label="Assignee"/);
+  assert.match(listbox, /aria-activedescendant=/);
+  assert.match(source, /role="option"[^>]*aria-selected="true"/);
+});
+
 test('every visual tab is a complete keyboard-operable widget', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
 

@@ -2,15 +2,15 @@
 
 /* Opinions, so you don't have to have them:
    system type · one accent · responsive gutters · a clear content canvas.
-   The finish is platform-neutral: opaque surfaces, hairlines, restrained
-   corners and a visible accent focus ring.
+   The finish is platform-neutral: soft surfaces, rounded controls, restrained
+   depth and a visible accent focus ring.
    Override the tokens marked "yours"; the rest is the point of view. */
 
 /* typed so they interpolate; untyped custom properties cannot animate */
 /* Registrations are global: they cannot be layered, scoped or overridden.
    Hence the prefix — a bare --a1 would silently retype a property of yours. */
-@property --fertig-a1 { syntax: "<number>"; inherits: true; initial-value: .06 }
-@property --fertig-a2 { syntax: "<number>"; inherits: true; initial-value: .05 }
+@property --fertig-a1 { syntax: "<number>"; inherits: true; initial-value: .08 }
+@property --fertig-a2 { syntax: "<number>"; inherits: true; initial-value: .10 }
 
 /* Two layers, in this order. Your own unlayered CSS wins over both regardless
    of specificity, so overriding never needs !important — and neither does this
@@ -33,7 +33,7 @@
   accent-color: var(--fertig-ac);
   caret-color: var(--fertig-ac);
 
-  --fertig-f: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+  --fertig-f: Inter, ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
         Arial, sans-serif;                                            /* yours */
   --fertig-fm: ui-monospace, "Cascadia Code", "Roboto Mono", Consolas,
         "Liberation Mono", monospace;                                /* code */
@@ -42,9 +42,9 @@
   /* One radius, and the rest derived from it: set --fertig-r and the whole
      sheet rescales together. Four independent numbers meant --fertig-r: 4px
      left tight fields sitting inside cards that were still round. */
-  --fertig-r: 8px;                              /* control radius: fields, buttons, menu rows */
-  --fertig-rs: calc(var(--fertig-r) * .5);      /* small: inline chips and code */
-  --fertig-rw: calc(var(--fertig-r) * 1.33);    /* large: cards, dialogs, menus */
+  --fertig-r: 10px;                             /* control radius: fields, buttons, menu rows */
+  --fertig-rs: calc(var(--fertig-r) * .6);      /* small: inline chips and code */
+  --fertig-rw: calc(var(--fertig-r) * 1.6);     /* large: cards, dialogs, menus */
   --fertig-rp: calc(var(--fertig-r) * 1000);    /* pill: badges, switches, meters, joined ends */
   /* --fertig-rp multiplies rather than naming infinity: any non-zero radius
      still clamps to a true pill, while --fertig-r: 0 squares the whole shape
@@ -83,9 +83,9 @@
   --fertig-violet-900: oklch(28% .09 290);
 
   /* ---- semantic ----------------------------------------------- */
-  --fertig-bg:  light-dark(oklch(93.5% .008 260), oklch(15.5% .014 260));  /* page ground */
-  --fertig-el:  light-dark(oklch(99% .004 260), oklch(21% .016 260));  /* content surface */
-  --fertig-face:light-dark(oklch(97.2% .006 260), oklch(25% .018 260));  /* controls */
+  --fertig-bg:  light-dark(oklch(97% .004 260), oklch(13.5% .014 260));  /* page ground */
+  --fertig-el:  light-dark(oklch(99.7% .002 260), oklch(19% .016 260));  /* raised surface */
+  --fertig-face:light-dark(oklch(94.5% .006 260), oklch(24% .018 260));  /* quiet controls */
   --fertig-fg:  light-dark(oklch(22% .02 260),  oklch(95% .012 260));
   /* lifted from 50%/70%: the weakest pairing (muted on the page ground in
      light, muted on controls in dark) was 4.96:1 and 5.99:1, a hair over AA.
@@ -93,27 +93,27 @@
      from --fertig-fg — AAA would need ~41%, which is close enough to
      --fertig-fg that "muted" stops reading as secondary at all. */
   --fertig-mut: light-dark(oklch(46% .018 260),  oklch(72% .02 260));
-  --fertig-bd:  light-dark(oklch(22% .02 260 / .13), oklch(95% .012 260 / .13));
-  --fertig-tb:  light-dark(oklch(97.2% .006 260), oklch(25% .018 260));
+  --fertig-bd:  light-dark(oklch(22% .02 260 / .10), oklch(95% .012 260 / .12));
+  --fertig-tb:  light-dark(oklch(99% .003 260), oklch(18% .016 260));
   /* Blue is the neutral default: distinctive enough for interaction, familiar
      enough not to impose a brand. The 700/300 pair clears AA as link text and
      as a filled control in its respective theme. */
   --fertig-ac:  light-dark(var(--fertig-blue-700), var(--fertig-blue-300)); /* yours */
   --fertig-on-ac: light-dark(#f7f8fb, #07071c); /* off-white / ink text on the accent */
 
-  /* depth: hairline + compact shadow.
+  /* depth: a soft surface shadow and a broader overlay shadow.
      --fertig-sh is an ordinary colour — override it with any notation you like, and
      every shadow in the sheet retints. Lighter than a pure black so the shadows
      read as diffuse atmosphere rather than dark bars. The alphas are taken with
      color-mix against transparent rather than relative colour: same result, and
      it is three years older, which keeps Safari 17.5 inside the floor. */
-  --fertig-sh:  oklch(30% .012 270);
-  --fertig-a1: .06; --fertig-a2: .05;
+  --fertig-sh:  oklch(24% .014 270);
+  --fertig-a1: .08; --fertig-a2: .10;
   --fertig-sh1: color-mix(in srgb, var(--fertig-sh) calc(var(--fertig-a1) * 100%), transparent);
   --fertig-sh2: color-mix(in srgb, var(--fertig-sh) calc(var(--fertig-a2) * 100%), transparent);
-  --fertig-up:  0 1px 1px var(--fertig-sh1);
-  --fertig-up2: 0 1px 1px var(--fertig-sh1), 0 8px 22px -8px var(--fertig-sh2);
-  --fertig-dn:  inset 0 1px 2px color-mix(in srgb, var(--fertig-sh) 7%, transparent);
+  --fertig-up:  0 1px 2px var(--fertig-sh1), 0 0 0 1px var(--fertig-bd);
+  --fertig-up2: 0 2px 4px var(--fertig-sh1), 0 12px 32px -12px var(--fertig-sh2);
+  --fertig-dn:  var(--fertig-up);
   --fertig-caps: .74em/1.4 var(--fertig-f);
 
   /* motion. One decelerating curve for things arriving, one accelerating for
@@ -125,7 +125,7 @@
   --fertig-dur-2: .2s;    /* something appearing or leaving */
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme=light]) { --fertig-a1: .42; --fertig-a2: .38 }
+  :root:not([data-theme=light]) { --fertig-a1: .34; --fertig-a2: .30 }
 }
 /* --fertig-on-ac has to survive any --fertig-ac override, or a custom accent ships an
    unreadable label. contrast-color() does that properly but has almost no
@@ -139,8 +139,8 @@
 @supports (color: contrast-color(red)) {
   :root { --fertig-on-ac: color-mix(in oklab, contrast-color(var(--fertig-ac)) 96%, var(--fertig-ac)) }
 }
-[data-theme=light] { color-scheme: light; --fertig-a1: .06; --fertig-a2: .05 }
-[data-theme=dark]  { color-scheme: dark;  --fertig-a1: .42; --fertig-a2: .38 }
+[data-theme=light] { color-scheme: light; --fertig-a1: .08; --fertig-a2: .10 }
+[data-theme=dark]  { color-scheme: dark;  --fertig-a1: .34; --fertig-a2: .30 }
 
 /* Named accents. The ramps already exist, so this is a mapping table: put
    data-accent on any element and everything inside it — links, focus rings,
@@ -173,14 +173,14 @@ body {
    element's own corners, and setting one would reshape whatever takes focus —
    a focused dialog would snap from --fertig-rw to --fertig-r for as long as it is focused. */
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--fertig-ac) 45%, transparent);
-  outline-offset: 1px;
+  outline: 2px solid color-mix(in srgb, var(--fertig-ac) 52%, transparent);
+  outline-offset: 2px;
 }
 img, video, iframe { display: block; max-width: 100%; height: auto }
 /* svg is left inline: it is as often an icon inside a sentence or a button as
    it is a standalone figure, and display:block drops the icon onto its own row */
 svg { max-width: 100%; vertical-align: middle }
-img, video { border-radius: var(--fertig-r); box-shadow: var(--fertig-up2) }
+img, video { border-radius: var(--fertig-rw); box-shadow: var(--fertig-up2) }
 
 /* ---- layout: full-width page containers ---------------------- */
 /* The shell is body's own children — or the children of the single wrapper a
@@ -195,7 +195,7 @@ body > :where(#root, #app, #__next, [data-fertig]) > * {
 /* the wrapper is not itself a shell element; it just gets out of the way */
 body > :where(#root, #app, #__next, [data-fertig]) { padding-inline: 0 }
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > :is(header, main, footer) {
-  background: var(--fertig-el); border-inline: 1px solid var(--fertig-bd);
+  background: var(--fertig-bg);
 }
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > header { padding-block: 2.4rem .8rem }
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > main { padding-bottom: 2.8rem }
@@ -216,6 +216,7 @@ body > :where(#root, #app, #__next, [data-fertig]) { padding-inline: 0 }
   padding-block: calc(.6rem + env(safe-area-inset-top, 0px)) .6rem;
   background: var(--fertig-tb); color: var(--fertig-fg);
   border-bottom: 1px solid var(--fertig-bd); font-size: .92em;
+  box-shadow: 0 1px 10px color-mix(in srgb, var(--fertig-sh) 4%, transparent);
 }
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav a { color: var(--fertig-fg); text-decoration: none; opacity: .75 }
 :is(body, body > :where(#root, #app, #__next, [data-fertig])) > nav a:hover { opacity: 1 }
@@ -328,16 +329,21 @@ pre code { background: none; border: 0; padding: 0; font-size: 1em }
 :is(.hljs-addition, .token.inserted) { color: light-dark(#15803d, #7ee787) }
 
 /* ---- table -------------------------------------------------- */
-table { width: 100%; border-collapse: collapse; font-size: .92em }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .92em }
 th, td {
   border-bottom: 1px solid var(--fertig-bd); padding-block: .55rem;
   padding-inline: 0 .7rem; text-align: start;
 }
 th:last-child, td:last-child { padding-inline-end: 0 }
 thead th {
-  border-bottom: 1px solid color-mix(in srgb, var(--fertig-fg) 45%, transparent);
+  border-bottom: 0; background: var(--fertig-face);
   font: 700 var(--fertig-caps); text-transform: uppercase; letter-spacing: .09em; color: var(--fertig-mut);
-  padding-bottom: .4rem;
+  padding: .5rem .7rem;
+}
+thead th:first-child { border-start-start-radius: var(--fertig-r); border-end-start-radius: var(--fertig-r) }
+thead th:last-child {
+  padding-inline-end: .7rem;
+  border-start-end-radius: var(--fertig-r); border-end-end-radius: var(--fertig-r);
 }
 tbody tr:last-child td { border-bottom: 0 }
 /* a totals row is not just another row */
@@ -366,7 +372,7 @@ textarea { width: 100%; min-height: 5rem; resize: vertical }
 input:not([type=checkbox],[type=radio],[type=range],[type=color],[type=file],[type=image],[type=submit],[type=button],[type=reset]),
 select, textarea {
   display: block; width: 100%; padding: .52em .7em; background: var(--fertig-el);
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r); box-shadow: var(--fertig-dn);
+  border: 1px solid transparent; border-radius: var(--fertig-r); box-shadow: var(--fertig-dn);
 }
 select {
   appearance: none; padding-inline-end: 2.2rem;
@@ -423,8 +429,54 @@ select[multiple] { background-image: none; padding-inline-end: .6em }
     @starting-style { select:open::picker(select) { opacity: 0; translate: 0 -4px } }
   }
 }
-:is(input,select,textarea):hover:not(:disabled) { border-color: color-mix(in srgb, var(--fertig-fg) 25%, transparent) }
-:is(input,select,textarea):focus-visible { border-color: var(--fertig-ac) }
+:is(input,select,textarea):hover:not(:disabled) { background-color: color-mix(in srgb, var(--fertig-face) 55%, var(--fertig-el)) }
+:is(input,select,textarea):focus-visible { border-color: color-mix(in srgb, var(--fertig-ac) 55%, transparent) }
+:is(input,select,textarea)[data-variant=secondary] {
+  background: var(--fertig-face); border-color: transparent; box-shadow: none;
+}
+
+/* A compound field keeps its label, control, help and error text together. */
+[data-field] { display: grid; gap: .35rem; align-content: start }
+[data-field] + [data-field] { margin-top: .9rem }
+[data-field] > * { margin-block: 0 }
+[data-field] > :is(small, [role=alert]) { font-size: .82em }
+[data-field] > [role=alert] { color: light-dark(var(--fertig-red-700), var(--fertig-red-300)) }
+[data-field]:has([aria-invalid=true]) > label { color: light-dark(var(--fertig-red-700), var(--fertig-red-300)) }
+
+/* Input group: one focus surface around an input, addons and compact actions. */
+[data-input-group] {
+  display: flex; align-items: center; inline-size: 100%; overflow: clip;
+  background: var(--fertig-el); border: 1px solid transparent;
+  border-radius: var(--fertig-r); box-shadow: var(--fertig-dn);
+}
+[data-input-group] > :is(input, select, textarea) {
+  flex: 1 1 auto; min-inline-size: 0; border: 0; border-radius: 0;
+  background-color: transparent; box-shadow: none; outline: 0;
+}
+[data-input-group] > :is(input, select, textarea):hover:not(:disabled) {
+  background-color: transparent;
+}
+[data-input-group] > :where(span, small, output) {
+  flex: none; padding-inline: .75em; color: var(--fertig-mut); white-space: nowrap;
+}
+[data-input-group] > button {
+  align-self: stretch; min-width: 0; border: 0; border-radius: 0;
+  background: transparent; box-shadow: none;
+}
+[data-input-group]:focus-within {
+  border-color: color-mix(in srgb, var(--fertig-ac) 55%, transparent);
+  box-shadow: var(--fertig-up), 0 0 0 3px color-mix(in srgb, var(--fertig-ac) 16%, transparent);
+}
+[data-input-group]:has([aria-invalid=true]) {
+  border-color: light-dark(var(--fertig-red-700), var(--fertig-red-300));
+}
+[data-input-group]:has(textarea) { align-items: end }
+
+/* One native field keeps OTP autofill, paste and screen-reader behavior. */
+input[data-otp] {
+  inline-size: min(100%, 16ch); font: 650 1.25rem/1.4 var(--fertig-fm);
+  letter-spacing: .55em; text-indent: .55em; text-align: center;
+}
 input[type=checkbox], input[type=radio] {
   width: 1.15em; height: 1.15em; margin: 0; margin-inline-end: .45em; vertical-align: -.18em;
 }
@@ -456,8 +508,8 @@ input:autofill, input:autofill:hover, input:autofill:focus {
    nostalgia — a legend keeps its magic placement under block, grid and flex
    fieldsets alike, and floating it is still the only way out. */
 fieldset {
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); padding: .9rem 1rem 1rem;
-  background: var(--fertig-face);
+  border: 1px solid transparent; border-radius: var(--fertig-rw); padding: 1rem;
+  background: var(--fertig-el); box-shadow: var(--fertig-up);
 }
 fieldset:focus-within { border-color: color-mix(in srgb, var(--fertig-ac) 45%, var(--fertig-bd)) }
 legend {
@@ -470,17 +522,19 @@ legend + * { clear: left }
 button, [type=submit], [type=button], [type=reset],
 :where(a.primary, a[role=button]), ::file-selector-button {
   display: inline-block; text-decoration: none; text-align: center;
-  padding: .48em 1.1em; background: var(--fertig-el); color: var(--fertig-fg); cursor: pointer;
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
-  font: inherit; min-width: 5rem;
+  padding: .5em 1.1em; background: var(--fertig-face); color: var(--fertig-fg); cursor: pointer;
+  border: 1px solid transparent; border-radius: var(--fertig-r); box-shadow: none;
+  font: inherit; font-weight: 550; min-width: 5rem;
 }
-:is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):hover:not(:disabled) { background: var(--fertig-face) }
+:is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):hover:not(:disabled) {
+  background: color-mix(in srgb, var(--fertig-fg) 7%, var(--fertig-face));
+}
 [type=submit], .primary { background: var(--fertig-ac); border-color: transparent; color: var(--fertig-on-ac) }
 /* Filled controls must not keep their enabled accent after :disabled. This
    follows the filled rule deliberately: equal-specificity declarations later
    in the cascade restore the quiet control surface and muted text. */
 :is(button,[type=submit],[type=button],[type=reset]):disabled {
-  background: var(--fertig-face); border-color: var(--fertig-bd); color: var(--fertig-mut);
+  background: var(--fertig-face); border-color: transparent; color: var(--fertig-mut);
 }
 /* The filled button lightens on hover. color-mix does that in oklab, which is
    close enough and is Baseline; relative colour does it by adding to L
@@ -505,6 +559,16 @@ button[data-icon] { min-width: 0; padding: .38em .62em; line-height: 1 }
 :is(button, a, input, select, label)[data-block] { display: block; width: 100%; min-width: 0 }
 :is(button, a, input)[data-variant=ghost] { background: none; border-color: transparent; box-shadow: none }
 :is(button, a, input)[data-variant=ghost]:hover:not(:disabled) { background: var(--fertig-face); border-color: var(--fertig-bd) }
+:is(button, a, input)[data-variant=soft] {
+  background: color-mix(in srgb, var(--fertig-ac) 13%, var(--fertig-el));
+  border-color: transparent; box-shadow: none; color: var(--fertig-ac);
+}
+:is(button, a, input)[data-variant=soft]:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--fertig-ac) 20%, var(--fertig-el));
+}
+:is(button, a, input)[data-variant=outline] {
+  background: transparent; border-color: var(--fertig-bd); box-shadow: none;
+}
 :is(button, a, input)[data-variant=link] {
   background: none; border: 0; box-shadow: none; min-width: 0; padding-inline: .2em;
   color: var(--fertig-ac); text-decoration: underline; text-underline-offset: 3px;
@@ -517,22 +581,21 @@ button[aria-pressed=true]:hover:not(:disabled) {
 
 /* ---- disclosure / misc -------------------------------------- */
 details {
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw);
-  padding: .7rem 1.1rem; background: var(--fertig-el);
+  border: 1px solid transparent; border-radius: var(--fertig-rw);
+  padding: .8rem 1.1rem; background: var(--fertig-el); box-shadow: var(--fertig-up);
 }
 summary { cursor: pointer; font-weight: 700; list-style: none }
 summary::before { content: "▸ "; color: var(--fertig-mut) }
 details[open] > summary::before { content: "▾ " }
 details[open] > summary { margin-bottom: .6rem }
 dialog {
-  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid var(--fertig-bd);
+  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid transparent;
   border-radius: var(--fertig-rw); padding: 1.6rem; max-width: min(30rem, 92dvw);
-  box-shadow: 0 1px 1px color-mix(in srgb, var(--fertig-sh) 8%, transparent),
-              0 28px 60px -22px color-mix(in srgb, var(--fertig-sh) 28%, transparent);
+  box-shadow: var(--fertig-up2), 0 28px 70px -24px color-mix(in srgb, var(--fertig-sh) 34%, transparent);
 }
 dialog > :last-child:not(footer) { margin-bottom: 0 }
 dialog, [popover] { overscroll-behavior: contain }
-dialog::backdrop { background: color-mix(in srgb, var(--fertig-sh) 32%, transparent) }
+dialog::backdrop { background: color-mix(in srgb, var(--fertig-sh) 42%, transparent) }
 
 /* dialog anatomy: an optional header and footer, pinned while the body scrolls.
    Sticky rather than a grid, because a classless sheet has no wrapper around
@@ -608,9 +671,9 @@ dialog > footer > :is(p, span):first-child { margin: 0; margin-inline-end: auto;
 search { display: block; margin-block: 1.1rem }   /* a landmark needs its own rhythm */
 ::target-text { background: color-mix(in srgb, var(--fertig-ac) 28%, transparent) }
 aside {
-  border: 1px solid var(--fertig-bd); border-inline-start: 3px solid var(--fertig-ac);
-  border-radius: var(--fertig-rw); border-start-start-radius: 0; border-end-start-radius: 0;
-  background: var(--fertig-el); padding: .7rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--fertig-ac) 18%, transparent);
+  border-inline-start: 3px solid var(--fertig-ac); border-radius: var(--fertig-rw);
+  background: color-mix(in srgb, var(--fertig-ac) 7%, var(--fertig-el)); padding: .8rem 1.1rem;
   margin-block: 1.1rem;          /* or the next block sits flush against it */
 }
 progress { width: 100%; height: .5rem; border: 0; border-radius: var(--fertig-rp); background: var(--fertig-face) }
@@ -642,53 +705,56 @@ progress::-moz-progress-bar { background: var(--fertig-ac); border-radius: var(-
    The block axis is clipped rather than left to compute to auto alongside it:
    Safari paints a vertical scrollbar for a sub-pixel of overflow, and the row
    has no vertical overflow worth scrolling to in the first place. */
-[role=group] { display: inline-flex; vertical-align: middle; max-inline-size: 100%;
-               overflow: auto clip; overscroll-behavior-x: contain }
-[role=group] > * { border-radius: 0; margin-inline-start: -1px; box-shadow: none; min-width: 0 }
+[role=group] {
+  display: inline-flex; vertical-align: middle; max-inline-size: 100%; padding: .2rem;
+  overflow: auto clip; overscroll-behavior-x: contain;
+  border-radius: var(--fertig-rp); background: var(--fertig-face);
+}
+[role=group] > * { border: 0; border-radius: var(--fertig-rp); margin: 0; box-shadow: none; min-width: 0 }
 /* The buttons fill the group exactly and the group clips on the block axis,
    so an outset ring would be sliced off. Inside the edge, it is all there. */
 [role=group] > :focus-visible { outline-offset: -3px }
-[role=group] > :first-child {
-  margin-inline-start: 0;
-  border-start-start-radius: var(--fertig-rp); border-end-start-radius: var(--fertig-rp);
+[role=group] > [aria-pressed=true] {
+  background: var(--fertig-el); color: var(--fertig-fg); font-weight: 650; box-shadow: var(--fertig-up);
 }
-[role=group] > :last-child {
-  border-start-end-radius: var(--fertig-rp); border-end-end-radius: var(--fertig-rp);
-}
-[role=group] > [aria-pressed=true] { background: var(--fertig-face); color: var(--fertig-ac); font-weight: 700 }
 /* The press nudge would push a button half a pixel past the scroll port and
    flash a scrollbar, so joined buttons stay put and read the press by shadow. */
 [role=group] > :active:not(:disabled) { translate: none }
 
 /* tabs: <div role=tablist> of <button role=tab aria-selected> */
-[role=tablist] { display: flex; gap: .1rem; border-bottom: 1px solid var(--fertig-bd); margin: 1.1rem 0 }
+[role=tablist] {
+  display: flex; gap: .15rem; max-inline-size: 100%; overflow-x: auto;
+  margin: 1.1rem 0; padding: .25rem; border: 0; border-radius: var(--fertig-rp);
+  background: var(--fertig-face); scrollbar-width: none;
+}
+[role=tablist]::-webkit-scrollbar { display: none }
 [role=tab] {
-  background: none; border: 0; box-shadow: none; min-width: 0; color: var(--fertig-mut);
-  padding: .45em .9em; border-radius: var(--fertig-r) var(--fertig-r) 0 0; margin-bottom: -1px;
+  flex: none; background: none; border: 0; box-shadow: none; min-width: 0; color: var(--fertig-mut);
+  padding: .4em .9em; border-radius: var(--fertig-rp); margin: 0;
 }
 [role=tab]:hover:not(:disabled) { background: var(--fertig-face); color: var(--fertig-fg) }
-[role=tab][aria-selected=true] { color: var(--fertig-fg); box-shadow: inset 0 -2px 0 var(--fertig-ac) }
+[role=tab][aria-selected=true] { background: var(--fertig-el); color: var(--fertig-fg); box-shadow: var(--fertig-up) }
 
 /* switch: <input type=checkbox role=switch> */
 input[type=checkbox][switch],
 input[type=checkbox][role=switch] {
-  appearance: none; width: 2.2em; height: 1.3em; border-radius: var(--fertig-rp); border: 0;
+  appearance: none; width: 2.5em; height: 1.45em; border-radius: var(--fertig-rp); border: 0;
   background: color-mix(in srgb, var(--fertig-fg) 20%, transparent);
   position: relative; cursor: pointer; vertical-align: -.3em; margin-inline-end: .5em;
 }
 input[switch]::after, input[role=switch]::after {
   content: ""; position: absolute; inset-block-start: .14em; inset-inline-start: .14em;
-  width: 1.02em; height: 1.02em; border-radius: 50%; background: #fff; box-shadow: var(--fertig-up);
+  width: 1.17em; height: 1.17em; border-radius: 50%; background: #fff; box-shadow: var(--fertig-up);
   transition: translate .16s var(--fertig-ease-out);
 }
 input[switch]:checked, input[role=switch]:checked { background: var(--fertig-ac) }
 /* translate is physical, so the knob is told which way to travel */
-input[switch]:checked::after, input[role=switch]:checked::after { translate: .9em 0 }
-:is(input[switch], input[role=switch]):checked:dir(rtl)::after { translate: -.9em 0 }
+input[switch]:checked::after, input[role=switch]:checked::after { translate: 1.05em 0 }
+:is(input[switch], input[role=switch]):checked:dir(rtl)::after { translate: -1.05em 0 }
 
 /* menu: any [popover] */
 [popover] {
-  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid var(--fertig-bd);
+  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid transparent;
   border-radius: var(--fertig-rw); padding: .35rem; min-width: 12rem;
   max-block-size: 60dvh; overflow: auto; font-size: .95em;
   box-shadow: var(--fertig-up2), 0 24px 44px -18px color-mix(in srgb, var(--fertig-sh) 28%, transparent);
@@ -722,6 +788,22 @@ input[switch]:checked::after, input[role=switch]:checked::after { translate: .9e
 }
 [popover] :is(a, button):hover:not(:disabled) { background: var(--fertig-ac); color: var(--fertig-on-ac) }
 [popover] hr { margin: .3rem 0 }
+
+/* listbox: a selectable collection, whether standalone or inside a popover */
+[role=listbox] {
+  list-style: none; margin: 1rem 0; padding: .35rem;
+  background: var(--fertig-el); border: 1px solid transparent;
+  border-radius: var(--fertig-rw); box-shadow: var(--fertig-up);
+}
+[role=option] {
+  display: flex; align-items: center; gap: .7rem; padding: .5rem .7rem;
+  border-radius: var(--fertig-r); cursor: default;
+}
+[role=option]:is(:hover, :focus-visible) { background: var(--fertig-face) }
+[role=option][aria-selected=true] {
+  background: color-mix(in srgb, var(--fertig-ac) 13%, var(--fertig-el)); color: var(--fertig-ac);
+}
+[popover] [role=listbox] { margin: 0; padding: 0; border: 0; box-shadow: none }
 
 /* breadcrumbs: <nav aria-label="Breadcrumb"><ol> */
 nav[aria-label] ol { display: flex; flex-wrap: wrap; gap: .5em; list-style: none; padding: 0; font-size: .9em }
@@ -786,6 +868,37 @@ nav[aria-label] ol li + li::before { content: "/"; margin-inline-end: .5em; colo
   [data-skeleton] { animation: fertig-shimmer 1.4s linear infinite }
   @keyframes fertig-shimmer { to { background-position: -200% 0 } }
 }
+
+/* surface: the same elevation language as a card, without card anatomy */
+[data-surface] {
+  background: var(--fertig-el); border: 1px solid transparent;
+  border-radius: var(--fertig-rw); padding: 1rem; box-shadow: var(--fertig-up);
+}
+[data-surface=flat] { background: var(--fertig-face); box-shadow: none }
+[data-surface=outline] { background: transparent; border-color: var(--fertig-bd); box-shadow: none }
+[data-surface] > :first-child { margin-top: 0 }
+[data-surface] > :last-child { margin-bottom: 0 }
+
+/* item: avatar or icon, flexible content, and an optional trailing action */
+[data-item] {
+  display: flex; align-items: center; gap: .8rem; min-inline-size: 0;
+  padding: .7rem .8rem; border-radius: var(--fertig-r); background: var(--fertig-el);
+}
+[data-item] + [data-item] { margin-top: .35rem }
+[data-item] > :where(div, p) { flex: 1; min-inline-size: 0; margin: 0 }
+[data-item] > :where(div, p) > * { display: block; margin-block: 0 }
+:is(a, button)[data-item] {
+  inline-size: 100%; min-width: 0; text-align: start; color: inherit; text-decoration: none;
+}
+:is(a, button)[data-item]:hover:not(:disabled) { background: var(--fertig-face) }
+
+/* empty: a deliberate endpoint rather than a lonely paragraph in a panel */
+[data-empty] {
+  display: grid; justify-items: center; gap: .6rem; text-align: center;
+  padding: clamp(2rem, 7vw, 4rem); border: 1px dashed var(--fertig-bd);
+  border-radius: var(--fertig-rw); background: color-mix(in srgb, var(--fertig-face) 45%, transparent);
+}
+[data-empty] > * { max-inline-size: 32rem; margin-block: 0 }
 
 /* sheet / drawer: the same <dialog>, docked to an edge.
    Docked to a physical edge on purpose — "right" means the right edge of the
@@ -856,11 +969,12 @@ dialog[data-side=bottom] {
 /* list group: a plain <menu> outside a popover is a bordered list */
 menu {
   list-style: none; padding: 0; margin: 1.1rem 0;
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); background: var(--fertig-el);
+  border: 1px solid transparent; border-radius: var(--fertig-rw);
+  background: var(--fertig-el); box-shadow: var(--fertig-up);
 }
 menu > li { padding: .55rem .85rem }
 menu > li + li { border-top: 1px solid var(--fertig-bd) }
-[popover] menu { border: 0; padding: 0; margin: 0; background: none }
+[popover] menu { border: 0; padding: 0; margin: 0; background: none; box-shadow: none }
 [popover] menu > li { padding: 0 }
 [popover] menu > li + li { border-top: 0 }
 
@@ -926,7 +1040,7 @@ nav menu :is(a, button)[aria-current] {
 .grid + * { margin-top: 1.1rem }
 .card {
   container-type: inline-size;                 /* query it: @container (min-width: …) */
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); padding: 1.1rem;
+  border: 1px solid transparent; border-radius: var(--fertig-rw); padding: 1.1rem;
   background: var(--fertig-el); box-shadow: var(--fertig-up2);
   display: flex; flex-direction: column;      /* so footers line up across a row */
   gap: .85rem;                                /* spacing is the container's job */
@@ -985,24 +1099,18 @@ nav menu :is(a, button)[aria-current] {
 .hidden { display: none }
 
 .badge {
-  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rp); background: var(--fertig-face);
-  padding: .1em .6em; font: 700 var(--fertig-caps); color: var(--fertig-mut);
-  text-transform: uppercase; letter-spacing: .07em;   /* a label, like h5/h6 and th */
+  border: 0; border-radius: var(--fertig-rp); background: var(--fertig-face);
+  padding: .18em .65em; font: 650 .78em/1.45 var(--fertig-f); color: var(--fertig-mut);
 }
 
 /* card anatomy: an optional header, footer, and full-bleed media */
-/* No fill on the header and footer. A tinted strip across the top of a card is
-   the old panel-heading pattern and it is what dates a sheet on sight; a
-   hairline does the same separating job and lets the card read as one surface. */
-.card > :is(header, footer) { margin-inline: -1.1rem; padding-inline: 1.1rem }
+/* Header and footer are spacing hooks, not banded sub-surfaces. */
+.card > :is(header, footer) { padding-inline: 0 }
 .card > header {
-  margin-top: -.25rem; padding-bottom: .7rem; font-weight: 600;
-  border-bottom: 1px solid var(--fertig-bd);
+  margin-top: -.1rem; font-weight: 650;
 }
 .card > footer {
-  margin-top: auto; margin-bottom: -.25rem; padding-top: .7rem;
-  color: var(--fertig-mut); font-size: .85em;
-  border-top: 1px solid var(--fertig-bd);
+  margin-top: auto; margin-bottom: -.1rem; color: var(--fertig-mut); font-size: .85em;
 }
 .card > :is(img, video):first-child {
   align-self: stretch; width: auto; max-width: none; margin: -1.1rem -1.1rem 0;
@@ -1025,9 +1133,9 @@ nav menu :is(a, button)[aria-current] {
   text-decoration: none; font: inherit;
 }
 :is(a, button).card:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--fertig-ac) 45%, var(--fertig-bd));
+  border-color: color-mix(in srgb, var(--fertig-ac) 22%, var(--fertig-bd));
   box-shadow: var(--fertig-up2), 0 16px 30px -16px color-mix(in srgb, var(--fertig-sh) 28%, transparent);
-  translate: 0 -2px;
+  translate: 0 -1px;
 }
 :is(a, button).card:active:not(:disabled) { translate: 0 0 }
 
@@ -1053,8 +1161,10 @@ meter { width: 100%; height: .5rem }
 optgroup { font-weight: 700; color: var(--fertig-mut) }
 ::file-selector-button { margin-inline-end: .8em }
 ::file-selector-button:hover { background: var(--fertig-face) }
-input:user-invalid, textarea:user-invalid { border-color: light-dark(#c0392b, #ff6b6b) }
-input:user-invalid + small { color: light-dark(#c0392b, #ff6b6b) }
+:is(input,select,textarea)[aria-invalid=true],
+:is(input,textarea):user-invalid { border-color: light-dark(#c0392b, #ff6b6b) }
+:is(input,select,textarea)[aria-invalid=true] + small,
+:is(input,textarea):user-invalid + small { color: light-dark(#c0392b, #ff6b6b) }
 summary:hover { color: var(--fertig-ac) }
 /* thin, unobtrusive scrollbars */
 /* scrollbar-width is Safari 18.2, scrollbar-color Safari 26.2 — both younger
@@ -1122,7 +1232,7 @@ summary:hover { color: var(--fertig-ac) }
 @media (prefers-reduced-motion: no-preference) and (update: fast) {
   a, button, input, select, textarea, summary, tr,
   [type=submit], [type=button], [type=reset], .card, .badge,
-  [role=tab], [role=group] > *, [popover] :is(a, button) {
+  [role=tab], [role=option], [role=group] > *, [data-item], [popover] :is(a, button) {
     transition: box-shadow var(--fertig-dur-1) var(--fertig-ease),
                 background-color var(--fertig-dur-1) var(--fertig-ease),
                 border-color var(--fertig-dur-1) var(--fertig-ease),
@@ -1145,20 +1255,20 @@ summary:hover { color: var(--fertig-ac) }
    [data-tone] or [data-accent] element just inherits the one from :root. */
 @supports not (color: light-dark(#000, #fff)) {
   :root {
-    --fertig-bg: #e6eaef; --fertig-el: #fafcfe; --fertig-face: #f3f6fa; --fertig-fg: #151b24;
-    --fertig-mut: #525962; --fertig-bd: #151b2421; --fertig-tb: #f3f6fa;
+    --fertig-bg: #f4f6f9; --fertig-el: #fff; --fertig-face: #eceff4; --fertig-fg: #151b24;
+    --fertig-mut: #525962; --fertig-bd: #151b241a; --fertig-tb: #fbfcfe;
     --fertig-ac: #2850de; --fertig-on-ac: #f7f8fb;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme=light]) {
-      --fertig-bg: #090c12; --fertig-el: #141920; --fertig-face: #1c222a; --fertig-fg: #eaeff7;
-      --fertig-mut: #9da5b1; --fertig-bd: #eaeff721; --fertig-tb: #1c222a;
+      --fertig-bg: #0b0e14; --fertig-el: #151a22; --fertig-face: #202630; --fertig-fg: #eaeff7;
+      --fertig-mut: #9da5b1; --fertig-bd: #eaeff71f; --fertig-tb: #131820;
       --fertig-ac: #90b5ff; --fertig-on-ac: #07071c;
     }
   }
   [data-theme=dark] {
-    --fertig-bg: #090c12; --fertig-el: #141920; --fertig-face: #1c222a; --fertig-fg: #eaeff7;
-    --fertig-mut: #9da5b1; --fertig-bd: #eaeff721; --fertig-tb: #1c222a;
+    --fertig-bg: #0b0e14; --fertig-el: #151a22; --fertig-face: #202630; --fertig-fg: #eaeff7;
+    --fertig-mut: #9da5b1; --fertig-bd: #eaeff71f; --fertig-tb: #131820;
     --fertig-ac: #90b5ff; --fertig-on-ac: #07071c;
   }
 }
@@ -1171,12 +1281,15 @@ summary:hover { color: var(--fertig-ac) }
   @media (forced-colors: active) {
     * { box-shadow: none }
     button, [type=submit], [type=button], [type=reset], input, select, textarea,
-    .card, .badge, details, dialog, [popover], fieldset, table {
+    .card, .badge, details, dialog, [popover], fieldset, table,
+    [data-surface], [data-input-group], [data-empty], [data-item], [role=listbox] {
       border: 1px solid CanvasText;
     }
-    /* [role=tab] sets border:0, so there is nothing for border-color to land
-       on, and the rule above just removed the box-shadow that marked it */
-    [role=tab][aria-selected=true] { border-bottom: 2px solid Highlight }
+    /* Selected pills rely on fill and shadow in ordinary colours. Give them a
+       real system-colour edge when both disappear in High Contrast. */
+    [role=tab][aria-selected=true], [role=option][aria-selected=true] {
+      border: 2px solid Highlight;
+    }
     button[aria-pressed=true] { border-color: Highlight }
   }
 }

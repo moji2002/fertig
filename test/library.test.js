@@ -41,12 +41,13 @@ function contrast(a, b) {
   return (high + 0.05) / (low + 0.05);
 }
 
-test('platform-neutral defaults stay opaque and use ordinary rounded controls', () => {
+test('modern defaults stay opaque and use a shared rounded-control scale', () => {
   assert.doesNotMatch(css, /backdrop-filter|corner-shape|-apple-system|BlinkMacSystemFont/);
-  assert.match(css, /--fertig-r:\s*8px/);
+  assert.match(css, /--fertig-r:\s*10px/);
   assert.match(css, /border-radius:\s*var\(--fertig-r\)/);
   assert.ok(buttonDefaults, 'missing default button rule');
-  assert.doesNotMatch(buttonDefaults, /box-shadow|translate/);
+  assert.match(buttonDefaults, /box-shadow:\s*none/);
+  assert.doesNotMatch(buttonDefaults, /translate/);
   assert.doesNotMatch(css, /filled buttons get a lit top edge/);
   assert.equal(
     css.includes(':is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):active'),
@@ -73,13 +74,25 @@ test('a wide toolbar stays full bleed while its contents use the wide column', (
 test('disabled buttons cannot retain an enabled filled treatment', () => {
   assert.ok(disabledButtonRule, 'missing disabled button override');
   assert.match(disabledButtonRule, /background:\s*var\(--fertig-face\)/);
-  assert.match(disabledButtonRule, /border-color:\s*var\(--fertig-bd\)/);
+  assert.match(disabledButtonRule, /border-color:\s*transparent/);
   assert.match(disabledButtonRule, /color:\s*var\(--fertig-mut\)/);
   assert.ok(
     css.indexOf(':is(button,[type=submit],[type=button],[type=reset]):disabled') >
       css.indexOf('[type=submit], .primary'),
     'disabled button treatment must follow and override the filled treatment',
   );
+});
+
+test('modern compound primitives use semantic data and ARIA hooks', () => {
+  for (const selector of [
+    '[data-field]', '[data-input-group]', 'input[data-otp]', '[role=listbox]',
+    '[role=option]', '[data-surface]', '[data-item]', '[data-empty]',
+  ]) {
+    assert.ok(css.includes(selector), `missing ${selector}`);
+  }
+  assert.match(css, /\[data-input-group\]:focus-within/);
+  assert.match(css, /\[role=option\]\[aria-selected=true\]/);
+  assert.match(css, /\[data-field\]:has\(\[aria-invalid=true\]\)/);
 });
 
 test('the current palette replaces the former ramps and accent names', () => {
@@ -101,9 +114,9 @@ test('the current palette replaces the former ramps and accent names', () => {
 
     const lightAccent = palette.get(`${hue}-700`);
     const darkAccent = palette.get(`${hue}-300`);
-    assert.ok(contrast(lightAccent, [0.99, 0.004, 260]) >= 4.5, `${hue} light link fails AA`);
+    assert.ok(contrast(lightAccent, [0.997, 0.002, 260]) >= 4.5, `${hue} light link fails AA`);
     assert.ok(contrast([0.96, 0, 0], lightAccent) >= 4.5, `${hue} light fill fails AA`);
-    assert.ok(contrast(darkAccent, [0.21, 0.016, 260]) >= 4.5, `${hue} dark link fails AA`);
+    assert.ok(contrast(darkAccent, [0.19, 0.016, 260]) >= 4.5, `${hue} dark link fails AA`);
     assert.ok(contrast([0.06, 0, 0], darkAccent) >= 4.5, `${hue} dark fill fails AA`);
   }
 

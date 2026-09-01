@@ -185,8 +185,8 @@ addEventListener("DOMContentLoaded", () => {
        the tree, where that derivation has already resolved, so the cards would
        keep the default radius while the fields moved. Set all three. */
     preview.style.setProperty("--fertig-r", v.r + "px");
-    preview.style.setProperty("--fertig-rs", (v.r * 0.5) + "px");
-    preview.style.setProperty("--fertig-rw", (v.r * 1.33) + "px");
+    preview.style.setProperty("--fertig-rs", (v.r * 0.6) + "px");
+    preview.style.setProperty("--fertig-rw", (v.r * 1.6) + "px");
     preview.style.setProperty("--fertig-rp", (v.r * 1000) + "px");
     preview.style.setProperty("--fertig-w", v.w + "rem");
     v.f ? preview.style.setProperty("--fertig-f", v.f)
@@ -199,7 +199,7 @@ addEventListener("DOMContentLoaded", () => {
     $("o-w").textContent = v.w + "rem";
 
     const lines = [`  --fertig-ac: ${ac};`];
-    if (v.r !== 8)  lines.push(`  --fertig-r: ${v.r}px;`);
+    if (v.r !== 10) lines.push(`  --fertig-r: ${v.r}px;`);
     if (v.w !== 72) lines.push(`  --fertig-w: ${v.w}rem;`);
     if (v.f)        lines.push(`  --fertig-f: ${v.f};`);
     out.textContent = `:root {\n${lines.join("\n")}\n}`;
