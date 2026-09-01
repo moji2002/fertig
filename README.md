@@ -1,5 +1,8 @@
 # fertig
 
+[![Bundlephobia minified size](https://img.shields.io/bundlephobia/min/fertig?label=minified&cacheSeconds=86400)](https://bundlephobia.com/package/fertig)
+[![Bundlephobia minified and compressed size](https://img.shields.io/bundlephobia/minzip/fertig?label=min%2Bgzip&cacheSeconds=86400)](https://bundlephobia.com/package/fertig)
+
 A classless CSS file that gives you **components**, not just styled elements —
 menus, dialogs, drawers, toasts and tooltips from plain semantic HTML,
 built from native HTML and the ARIA that makes it accessible, and working with
