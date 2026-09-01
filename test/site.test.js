@@ -59,6 +59,73 @@ test('catalogue filters can hide cards', () => {
   );
 });
 
+test('catalogue starts with an accurate count and a compact mobile toolbar', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+  const html = readFileSync(path.join(root, 'dist', 'components.html'), 'utf8');
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
+  const cards = (html.match(/class="comp-card"/g) || []).length;
+  const initialCount = Number(html.match(/id="comp-count-num">(\d+)</)?.[1]);
+
+  assert.equal(initialCount, cards, 'the catalogue count has drifted from its cards');
+  assert.match(html, /search\.addEventListener\("input", update\);[\s\S]*?\n\s*update\(\);/);
+  assert.match(
+    css,
+    /@media \(width <= 46rem\)[\s\S]*?\.comp-search-wrap\s*\{[^}]*flex-basis:\s*auto/,
+    'the desktop search flex-basis becomes vertical blank space on phones',
+  );
+});
+
+test('navigation links keep native link semantics', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+
+  for (const page of pages) {
+    const html = readFileSync(path.join(root, 'dist', page), 'utf8');
+    assert.doesNotMatch(html, /<a[^>]*role="button"/, `${page} has a link exposed as a button`);
+  }
+});
+
+test('every page offers a working keyboard skip link', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+
+  for (const page of pages) {
+    const html = readFileSync(path.join(root, 'dist', page), 'utf8');
+    assert.match(html, /<a class="skip-link" href="#main-content">Skip to main content<\/a>/);
+    assert.equal((html.match(/<main\b/g) || []).length, 1, `${page} must have one main landmark`);
+    assert.match(html, /<main\b[^>]*id="main-content"|<main\s+id="main-content"/);
+  }
+});
+
+test('the catalogue search uses keyboard-only focus styling', () => {
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
+
+  assert.doesNotMatch(css, /\.comp-search:focus\s*\{/);
+  assert.match(css, /\.comp-search:focus-visible\s*\{/);
+  assert.doesNotMatch(css, /\.comp-search:focus-visible\s*\{[^}]*outline:\s*none/);
+});
+
+test('every dialog example has an accessible name', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+
+  for (const page of ['index.html', 'components.html', 'blocks.html']) {
+    const html = readFileSync(path.join(root, 'dist', page), 'utf8');
+    const dialogs = [...html.matchAll(/<dialog\b[^>]*>/g)].map(match => match[0]);
+    assert.ok(dialogs.length, `${page} has no dialog example`);
+    dialogs.forEach(dialog => {
+      assert.match(dialog, /aria-(?:label|labelledby)="[^"]+"/, `${page} has an unnamed dialog`);
+    });
+  }
+});
+
+test('the catalogue teaches complete tab markup', () => {
+  const source = readFileSync(path.join(root, 'src', 'components.njk'), 'utf8');
+  const sample = source.match(/<!-- Tabs -->[\s\S]*?<div class="comp-card-code"><code>([\s\S]*?)<\/code>/)?.[1];
+  assert.ok(sample, 'the Tabs code sample is missing');
+  assert.match(sample, /aria-controls=/);
+  assert.match(sample, /role="tabpanel"/);
+  assert.match(sample, /aria-labelledby=/);
+  assert.match(sample, /tabindex=/);
+});
+
 test('every visual tab is a complete keyboard-operable widget', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
 

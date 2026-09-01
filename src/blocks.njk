@@ -14,7 +14,7 @@ langs:
   - bash
 ---
 {% from "tab-demo.njk" import tabDemo %}
-<main class="band" style="border-top:0">
+<main id="main-content" class="band" style="border-top:0">
   <div class="wrap blocks-layout">
 
     <nav class="sidebar" aria-label="Block categories">
@@ -252,8 +252,8 @@ langs:
       </div>
       <div class="block-preview">
         <button commandfor="bdlg" command="show-modal">Delete invoice</button>
-        <dialog id="bdlg" closedby="any">
-          <header><h3>Delete INV-0231?</h3></header>
+        <dialog id="bdlg" closedby="any" aria-labelledby="bdlg-title">
+          <header><h3 id="bdlg-title">Delete INV-0231?</h3></header>
           <p class="muted">This cannot be undone.</p>
           <footer>
             <button commandfor="bdlg" command="close">Cancel</button>

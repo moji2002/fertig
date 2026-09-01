@@ -10,6 +10,8 @@ const isDarkTheme = () => document.documentElement.dataset.theme === "dark";
 const syncThemeToggle = () => {
   const control = document.querySelector("[data-theme-toggle]");
   if (!control) return;
+  const themeColor = document.getElementById("theme-color");
+  if (themeColor) themeColor.content = isDarkTheme() ? "#23262b" : "#fafbfc";
   const target = isDarkTheme() ? "light" : "dark";
   const label = `Switch to ${target} theme`;
   control.setAttribute("aria-label", label);

@@ -52,6 +52,15 @@ body > * {
 }
 body > main { padding-bottom: 0 }
 
+.skip-link {
+  position: fixed; inset-block-start: .75rem; inset-inline-start: .75rem;
+  z-index: 100; translate: 0 calc(-100% - 1.5rem);
+  padding: .65rem .9rem; border: 1px solid var(--fertig-ac);
+  border-radius: var(--fertig-r); background: var(--fertig-el);
+  color: var(--fertig-fg); font-weight: 600; text-decoration: none;
+}
+.skip-link:focus-visible { translate: 0 }
+
 .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gut) }
 
 /* the rail: a mono label in the margin, content beside it. The one structural
@@ -265,7 +274,14 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 
 /* Site actions use the same restrained control geometry as the library. */
 .cta-row { position: relative; z-index: 1 }
-.cta-row a[role=button], .cta-row button { border-radius: var(--fertig-r); padding-inline: 1.4em }
+.cta-row :is(a.primary, .button-link, button) { border-radius: var(--fertig-r); padding-inline: 1.4em }
+.button-link {
+  display: inline-block; min-width: 5rem; padding: .48em 1.1em;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
+  background: var(--fertig-el); color: var(--fertig-fg);
+  text-align: center; text-decoration: none;
+}
+.button-link:hover { background: var(--fertig-face) }
 .cta-row .primary {
   background: var(--fertig-ac);
   box-shadow: var(--fertig-up);
@@ -655,7 +671,7 @@ body > nav { view-transition-name: toolbar }
   color: var(--fertig-fg);
 }
 .comp-search::placeholder { color: var(--fertig-mut) }
-.comp-search:focus { border-color: var(--fertig-ac); outline: none;
+.comp-search:focus-visible { border-color: var(--fertig-ac);
   box-shadow: 0 0 0 2px var(--glow-ac) }
 .comp-count {
   font: var(--label); letter-spacing: .06em; text-transform: uppercase;
@@ -703,11 +719,15 @@ body > nav { view-transition-name: toolbar }
   margin: 0; font-size: .88rem; line-height: 1.6; color: var(--fertig-mut);
 }
 .comp-card-code {
-  margin-top: auto; padding-top: .5rem;
+  margin-top: auto; padding: .75rem .85rem;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
+  background: var(--fertig-face);
 }
 .comp-card-code code {
-  font-size: .72rem; line-height: 1.55; white-space: pre-wrap;
-  word-break: break-all; color: var(--fertig-mut);
+  display: block; min-width: max-content;
+  font-size: .75rem; line-height: 1.55; white-space: pre;
+  color: var(--fertig-fg);
 }
 .comp-empty {
   text-align: center; padding: var(--space-xl) 0; color: var(--fertig-mut);
@@ -715,7 +735,7 @@ body > nav { view-transition-name: toolbar }
 .comp-empty p { font-size: 1.1rem; margin-bottom: var(--space-md) }
 @media (width <= 46rem) {
   .comp-toolbar { flex-direction: column; align-items: stretch }
-  .comp-search-wrap { max-width: none }
+  .comp-search-wrap { flex-basis: auto; max-width: none }
   .comp-grid { grid-template-columns: 1fr }
 }
 

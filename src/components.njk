@@ -13,7 +13,7 @@ langs:
   - javascript
 ---
 {% from "tab-demo.njk" import tabDemo %}
-<main class="band" style="border-top:0">
+<main id="main-content" class="band" style="border-top:0">
   <div class="wrap">
 
     <div class="comp-toolbar">
@@ -33,7 +33,7 @@ langs:
       </div>
     </div>
 
-    <p class="comp-count" role="status" aria-live="polite"><span id="comp-count-num">30</span> components</p>
+    <p class="comp-count" role="status" aria-live="polite"><span id="comp-count-num">32</span> components</p>
 
     <h2 class="sr-only">All components</h2>
     <div class="comp-grid" id="comp-grid">
@@ -116,9 +116,9 @@ langs:
         <div class="comp-card-preview">
           <p style="margin:0"><a href="#">A link in the accent colour</a></p>
         </div>
-        <p class="comp-card-desc">Links use the accent colour with an underline offset. Links can also be buttons — add role="button" or .primary.</p>
+        <p class="comp-card-desc">Links use the accent colour with an underline offset. Add .primary when a prominent navigation link needs button-like styling.</p>
         <div class="comp-card-code"><code>&lt;a href="#"&gt;Link text&lt;/a&gt;
-&lt;a class="primary" role="button" href="#"&gt;Button link&lt;/a&gt;</code></div>
+&lt;a class="primary" href="/docs"&gt;Read the docs&lt;/a&gt;</code></div>
       </article>
 
       <!-- Tables -->
@@ -408,9 +408,14 @@ langs:
           {{ tabDemo("catalogue-tabs", ["Preview", "Code", "Notes"], "Component example") }}
         </div>
         <p class="comp-card-desc">Styled through ARIA. JavaScript owns selected state, panel visibility and arrow-key navigation.</p>
-        <div class="comp-card-code"><code>&lt;div role="tablist"&gt;
-  &lt;button role="tab" aria-selected="true"&gt;Tab&lt;/button&gt;
-&lt;/div&gt;</code></div>
+        <div class="comp-card-code"><code>&lt;div role="tablist" aria-label="View"&gt;
+  &lt;button id="tab-preview" role="tab" aria-controls="panel-preview"
+    aria-selected="true" tabindex="0"&gt;Preview&lt;/button&gt;
+  &lt;button id="tab-code" role="tab" aria-controls="panel-code"
+    aria-selected="false" tabindex="-1"&gt;Code&lt;/button&gt;
+&lt;/div&gt;
+&lt;section id="panel-preview" role="tabpanel" aria-labelledby="tab-preview"&gt;…&lt;/section&gt;
+&lt;section id="panel-code" role="tabpanel" aria-labelledby="tab-code" hidden&gt;…&lt;/section&gt;</code></div>
       </article>
 
       <!-- Breadcrumb -->
@@ -437,7 +442,7 @@ langs:
           <span class="badge">overlay</span>
         </div>
         <div class="comp-card-preview">
-          <p style="margin:0">
+          <div style="margin:0">
             <button popovertarget="cc-menu">Menu ▾</button>
             <div popover id="cc-menu">
               <menu>
@@ -445,7 +450,7 @@ langs:
                 <li><button>Duplicate</button></li>
               </menu>
             </div>
-          </p>
+          </div>
         </div>
         <p class="comp-card-desc">Native popover API, anchored to the button with CSS anchor positioning. No JavaScript, no positioning library.</p>
         <div class="comp-card-code"><code>&lt;button popovertarget="menu"&gt;Menu ▾&lt;/button&gt;
@@ -476,21 +481,21 @@ langs:
           <span class="badge">overlay</span>
         </div>
         <div class="comp-card-preview">
-          <p style="margin:0">
+          <div style="margin:0">
             <button commandfor="cc-dlg" command="show-modal">Open dialog</button>
-            <dialog id="cc-dlg" closedby="any">
-              <header><h3>Confirm?</h3></header>
+            <dialog id="cc-dlg" closedby="any" aria-labelledby="cc-dlg-title">
+              <header><h3 id="cc-dlg-title">Confirm?</h3></header>
               <p>This cannot be undone.</p>
               <footer>
                 <button commandfor="cc-dlg" command="close">Cancel</button>
                 <button class="primary" commandfor="cc-dlg" command="close">OK</button>
               </footer>
             </dialog>
-          </p>
+          </div>
         </div>
         <p class="comp-card-desc">Opens and closes with command/commandfor attributes — no JavaScript. closedby="any" gives light dismiss. Drawer uses the same element docked to an edge via data-side.</p>
-        <div class="comp-card-code"><code>&lt;dialog id="d" closedby="any"&gt;
-  &lt;header&gt;&lt;h3&gt;Title&lt;/h3&gt;&lt;/header&gt;
+        <div class="comp-card-code"><code>&lt;dialog id="d" closedby="any" aria-labelledby="d-title"&gt;
+  &lt;header&gt;&lt;h3 id="d-title"&gt;Title&lt;/h3&gt;&lt;/header&gt;
   &lt;p&gt;Content.&lt;/p&gt;
   &lt;footer&gt;
     &lt;button commandfor="d" command="close"&gt;Close&lt;/button&gt;
@@ -651,5 +656,7 @@ document.addEventListener("DOMContentLoaded", () => {
     filters.forEach(b => b.setAttribute("aria-pressed", b.dataset.filter === "all" ? "true" : "false"));
     update();
   });
+
+  update();
 });
 </script>

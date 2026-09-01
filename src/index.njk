@@ -31,6 +31,7 @@ schema: |
 ---
 
 {% from "tab-demo.njk" import tabDemo %}
+<main id="main-content">
 <header class="hero hero-center">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
@@ -44,9 +45,9 @@ schema: |
       attributes — no polyfills, no build step, no runtime. Link
       one file and the page is finished.</p>
     <p class="row cta-row">
-      <a class="primary" data-size="lg" role="button" href="docs.html">
+      <a class="primary" data-size="lg" href="docs.html">
         <svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Get started</a>
-      <a role="button" data-size="lg" href="blocks.html">
+      <a class="button-link" data-size="lg" href="blocks.html">
         <svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>View blocks</a>
     </p>
     <p class="proof">
@@ -173,8 +174,8 @@ schema: |
           <header>Dialog</header>
           <p>Opens and closes with no JavaScript at all.</p>
           <p class="row"><button data-tone="err" commandfor="s-dlg" command="show-modal">Delete invoice</button></p>
-          <dialog id="s-dlg" closedby="any">
-            <header><h3>Delete INV-0231?</h3></header>
+          <dialog id="s-dlg" closedby="any" aria-labelledby="s-dlg-title">
+            <header><h3 id="s-dlg-title">Delete INV-0231?</h3></header>
             <p>This cannot be undone.</p>
             <footer>
               <button commandfor="s-dlg" command="close">Cancel</button>
@@ -188,7 +189,6 @@ schema: |
   </div>
 </section>
 
-<main>
   <section class="band" style="border-top:0">
     <div class="wrap">
       <div class="panel">
@@ -536,7 +536,7 @@ schema: |
   href="https://cdn.jsdelivr.net/npm/fertig/fertig.min.css"&gt;</code></pre>
           </div>
         </div>
-        <p class="spaced"><a class="primary" role="button" href="docs.html">Read the documentation<svg class="icon" aria-hidden="true"><use href="icons.svg#arrow-right"></use></svg></a></p>
+        <p class="spaced"><a class="primary" href="docs.html">Read the documentation<svg class="icon" aria-hidden="true"><use href="icons.svg#arrow-right"></use></svg></a></p>
       </div>
     </div>
   </section>

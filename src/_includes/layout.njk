@@ -6,8 +6,7 @@
 <title>{{ title }}</title>
 <meta name="description" content="{{ description }}">
 <link rel="canonical" href="https://moji2002.github.io/fertig/{% if canonical %}{{ canonical }}{% endif %}">
-<meta name="theme-color" content="#111315" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta id="theme-color" name="theme-color" content="#23262b">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="fertig">
@@ -30,10 +29,13 @@
     document.documentElement.dataset.theme =
       localStorage.getItem("fertig-theme") || "dark";
   } catch { document.documentElement.dataset.theme = "dark" }
+  document.getElementById("theme-color").content =
+    document.documentElement.dataset.theme === "dark" ? "#23262b" : "#fafbfc";
 </script>
 <link rel="stylesheet" href="fertig.css?v={{ site.h.fertig }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css?v={{ site.h.site }}">
 <div class="reading-progress" aria-hidden="true"></div>
@@ -43,6 +45,7 @@
 {% for lang in langs %}<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/{{ lang }}.min.js"></script>
 {% endfor %}<script src="site.js?v={{ site.h.js }}" defer></script>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <nav>
   <div class="bar wrap">
     <strong><a href="index.html"><img src="favicon.svg" alt="" width="16" height="16" class="mark">fertig</a></strong>
