@@ -3,3 +3,5 @@ node_modules/
 *.log
 .playwright-mcp/
 dist/
+.astro/
+.astro-public/

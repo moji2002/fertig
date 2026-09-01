@@ -1,24 +1,17 @@
-/* Hallmark · macrostructure: Workbench · tone: technical/austere · anchor hue: 250 (ink blue)
- * nav: N9 edge-aligned · footer: Ft1 hairline · enrichment: none (typography only)
- * pre-emit critique: P5 H4 E4 S5 R5 V4
- *
- * site.css — layout for fertig's own website.
+/* site.css — layout for fertig's own website.
  * NOT part of the library and not shipped in the npm package.
  *
- * The house style is a spec sheet: set from the start edge on a label rail,
- * separated by hairlines rather than boxes, numbers in tabular mono. fertig
- * now uses a 72rem application shell; this file gives the documentation site
- * its own 74rem grid and adds the page furniture.
- * Components, colour and the dark theme still come from fertig.
+ * The site pairs an editorial product story with a working interface preview.
+ * Components, colour, and both themes still come from fertig itself.
  */
 
 /* ---- tokens ---------------------------------------------------- */
 :root {
-  --font-display: "IBM Plex Mono", var(--fertig-fm);
+  --font-display: "IBM Plex Sans", var(--fertig-f);
   --font-body:    "IBM Plex Sans", var(--fertig-f);
   --font-mono:    "IBM Plex Mono", var(--fertig-fm);
 
-  --wrap: 74rem;                /* site content width */
+  --wrap: 78rem;                /* site content width */
   --rail: 11rem;                /* the label column, everywhere */
   --gut: clamp(1.25rem, 4vw, 2.5rem);
 
@@ -77,11 +70,10 @@ body > main { padding-bottom: 0 }
 
 /* full-bleed bands, separated by hairlines. No tints: the rhythm comes from
    the rules and the spacing, not from a wash of colour behind every section. */
-.band { padding-block: var(--space-xl); position: relative }
+.band { padding-block: clamp(4.75rem, 9vw, 7.5rem); position: relative }
 .band + .band { border-top: var(--rule) }
 .band-quiet {
-  background:
-    linear-gradient(var(--fertig-bg), var(--fertig-bg)) padding-box;
+  background: color-mix(in srgb, var(--fertig-bg) 88%, var(--fertig-ac));
 }
 /* a faint accent wash on the quiet bands, so alternate sections read as
    stepping into a slightly warmer/darker plane rather than a hard toggle */
@@ -135,15 +127,15 @@ body > main { padding-bottom: 0 }
 summary > .icon { margin-inline-end: .45em }
 .rows h3 > .icon, .foot-cols strong > .icon { margin-inline-end: .4em; color: var(--fertig-ac) }
 
-/* ---- toolbar: N9, edge-aligned, hairline ----------------------- */
+/* ---- toolbar --------------------------------------------------- */
 body > nav {
   position: sticky; inset-block-start: 0; z-index: 10;
-  border-bottom: var(--rule); background: var(--fertig-tb);
+  border-bottom: var(--rule); background: color-mix(in srgb, var(--fertig-tb) 94%, transparent);
   display: block; padding: 0;
   box-shadow: 0 1px 0 color-mix(in srgb, var(--fertig-fg) 4%, transparent);
 }
-.bar { display: flex; align-items: baseline; gap: var(--space-md); padding-block: .85rem; flex-wrap: wrap }
-.bar > strong { font: 600 .95rem/1 var(--font-mono); letter-spacing: -.02em }
+.bar { display: flex; align-items: center; gap: 1rem; padding-block: .7rem; flex-wrap: wrap }
+.bar > strong { font: 600 1.05rem/1 var(--font-display); letter-spacing: -.035em }
 .bar > strong a { color: inherit; text-decoration: none; opacity: 1;
                   display: inline-flex; align-items: center; gap: .45em }
 /* The mark is an <img>, so it keeps its own two tones rather than inheriting
@@ -154,7 +146,7 @@ body > nav {
    rather than decoration */
 .hero .mark { inline-size: clamp(3rem, 7vw, 4.5rem); block-size: auto; margin-bottom: .8rem }
 .foot-mark { inline-size: 2.4rem; block-size: auto; margin-bottom: .9rem; opacity: .85 }
-.bar ul { display: flex; gap: 1.3rem; list-style: none; margin: 0; padding: 0;
+.bar ul { display: flex; gap: .2rem; list-style: none; margin: 0; padding: 0;
           margin-inline-start: auto; flex-wrap: wrap; flex: 0 1 auto; min-width: 0 }
 /* flex: 0 would set flex-basis:0 and squeeze the list until every link wrapped
    onto its own line — fertig's own toolbar rule sets flex:1, so this has to say
@@ -163,9 +155,19 @@ body > nav {
    screen; overflow-x:clip on the root then hides the last link entirely rather
    than scrolling to it. */
 .bar li { margin: 0 }
-.bar a { font: var(--label); letter-spacing: .05em; text-transform: uppercase; color: var(--fertig-mut); text-decoration: none; white-space: nowrap; opacity: 1 }
-.bar a:hover { color: var(--fertig-fg) }
-.bar a[aria-current] { color: var(--fertig-fg); text-decoration: underline; text-underline-offset: .35em }
+.bar ul a {
+  min-block-size: 2.5rem; padding: .58rem .72rem; border-radius: var(--fertig-r);
+  color: var(--fertig-mut); text-decoration: none; white-space: nowrap; opacity: 1;
+  font: 500 .8rem/1.3 var(--font-body); letter-spacing: .01em;
+}
+.bar ul a:hover { color: var(--fertig-fg); background: var(--fertig-face) }
+.bar ul a[aria-current] { color: var(--fertig-fg); background: var(--fertig-face) }
+.bar > strong a[aria-current] { color: var(--fertig-fg) }
+.bar .nav-github a {
+  margin-inline-start: .35rem; padding-inline: .9rem;
+  border: 1px solid var(--fertig-bd); color: var(--fertig-fg);
+}
+.bar .nav-github .icon { rotate: -45deg }
 
 /* Keep the sticky chrome useful on a phone. The identity and theme control
    stay in a compact first row; navigation gets the full second row and
@@ -184,129 +186,178 @@ body > nav {
   }
   .bar > ul::-webkit-scrollbar { display: none }
   .bar > ul > li { flex: none }
+  .bar .nav-github { display: none }
   .bar > strong a, .bar > ul a {
     min-block-size: 44px; align-items: center;
   }
-  .bar > ul a { padding-block: 0 }
+  .bar > ul a { padding-block: .58rem }
   .bar > button { min-inline-size: 44px; min-block-size: 44px }
 }
 
-/* ---- hero ------------------------------------------------------ */
-.hero { border-bottom: var(--rule); padding-block: clamp(3rem, 8vw, 5rem) }
-.hero h1 {
-  font: 500 clamp(2rem, 5.4vw, 3.5rem)/1.06 var(--font-display);
-  letter-spacing: -.045em; margin: 0 0 var(--space-md);
-  overflow-wrap: anywhere; min-width: 0; text-wrap: initial;
-}
-.hero h1 em { font-style: normal; color: var(--fertig-ac) }
-.dot-css { color: var(--fertig-mut); font-weight: 400 }
-.hero .lede { font-size: 1.05rem; line-height: 1.55; color: var(--fertig-mut); max-width: 40rem; margin: 0 0 var(--space-md) }
-.hero pre { margin: 0 0 var(--space-md); max-width: 36rem; font-size: .82rem }
-.hero .row { margin: 0 }
-.hero .row > * { white-space: nowrap }
-
-/* ---- landing hero: centred, announcement label, dimmed second line ----
-   The shape component-library landings converge on, because it works: one
-   claim, one qualifier, two ways in, and the proof underneath. */
-.hero-center {
-  text-align: center; border-bottom: 0;
-  padding-block: clamp(4rem, 10vw, 7rem) clamp(2.5rem, 5vw, 4rem);
-  position: relative; overflow: hidden;
-}
-.hero-center .lede { margin-inline: auto; text-align: center }
-.hero-center .row { justify-content: center }
-
-/* ambient glow: two soft radial gradients that float behind the hero text,
-   using the accent colour. Positioned absolutely inside the hero, they add
-   depth without JavaScript or images. Respects reduced-motion and only
-   shows on dark theme for maximum contrast impact. */
-.hero-glow {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+/* ---- landing hero --------------------------------------------- */
+.hero { border-bottom: var(--rule) }
+.home-hero {
+  position: relative; overflow: hidden; border-bottom: 0;
+  padding-block: clamp(4.5rem, 9vw, 8rem) 0;
   background:
-    radial-gradient(ellipse 60% 50% at 30% 40%, var(--glow-ac) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 60% at 70% 55%, var(--glow-ac) 0%, transparent 70%);
-  opacity: .7;
+    linear-gradient(115deg, transparent 0 58%, color-mix(in srgb, var(--fertig-ac) 6%, transparent) 58% 100%);
 }
-/* the site's theme is `data-theme` on <html>, not the OS — on a light
-   paper the glow is dialled right back so it reads as depth, not wash.
-   Two cases: an explicit light theme, or the OS in light with no override. */
-html[data-theme=light] .hero-glow { opacity: .3 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) .hero-glow,
-  :root:not([data-theme=dark]) .hero-glow { opacity: .3 }
+.hero-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 82% 22%, var(--glow-ac-strong), transparent 26rem),
+    linear-gradient(90deg, transparent 0 49.95%, color-mix(in srgb, var(--fertig-fg) 5%, transparent) 50%, transparent 50.05%);
+  opacity: .72;
 }
-html[data-theme=dark] .hero-glow { opacity: .7 }
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: scroll()) {
-    .hero-glow {
-      animation: hero-glow-drift linear both;
-      animation-timeline: scroll(root block);
-      animation-range: 0% 40%;
-    }
-  }
+.hero-grid {
+  position: relative; display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(28rem, .95fr);
+  gap: clamp(3rem, 7vw, 6.5rem); align-items: center;
 }
-@keyframes hero-glow-drift {
-  from { scale: 1 }
-  to   { scale: 1.15 }
+.hero-copy { min-width: 0 }
+.release-link {
+  display: inline-flex; align-items: center; gap: .65rem;
+  margin-bottom: 1.5rem; color: var(--fertig-mut); text-decoration: none;
+  font: 600 .72rem/1.4 var(--font-mono); letter-spacing: .09em; text-transform: uppercase;
 }
-
-.pill {
-  display: inline-flex; align-items: center; gap: .5em;
-  padding: .4em 1em; border: 1px solid var(--site-border);
-  border-radius: var(--fertig-r);
-  background: var(--fertig-face);
-  color: var(--fertig-mut);
-  font: 600 .72rem/1.4 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
-  text-decoration: none; margin-bottom: var(--space-md);
-  box-shadow: var(--fertig-up);
+.release-link > span {
+  inline-size: .55rem; block-size: .55rem; border-radius: 50%;
+  background: var(--fertig-ac); box-shadow: 0 0 0 .3rem var(--glow-ac);
 }
-.pill:hover { color: var(--fertig-fg); border-color: var(--fertig-mut) }
-.pill .icon { color: var(--fertig-ac) }
-
-.hero-center h1 {
-  font: 500 clamp(2.6rem, 8vw, 5rem)/1.02 var(--font-display);
-  letter-spacing: -.055em; margin: 0 0 var(--space-md);
-  position: relative; z-index: 1;
-  text-wrap: balance;
+.release-link:hover { color: var(--fertig-fg) }
+.home-hero h1 {
+  max-width: 13ch; margin: 0 0 1.5rem;
+  font: 600 clamp(3.7rem, 7vw, 6.7rem)/.92 var(--font-display);
+  letter-spacing: -.065em; text-wrap: balance;
 }
-/* the qualifier, set back rather than shouted */
-.hero-center h1 .dim { color: var(--fertig-mut); display: block }
-
-/* Site actions use the same restrained control geometry as the library. */
+.home-hero h1 span { color: var(--fertig-mut) }
+.home-hero h1 em { color: var(--fertig-ac); font-style: normal }
+.home-hero .lede {
+  max-width: 36rem; margin: 0 0 1.8rem;
+  color: var(--fertig-mut); font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.65;
+}
+.home-hero .row { margin: 0 }
+.home-hero .row > * { white-space: nowrap }
 .cta-row { position: relative; z-index: 1 }
-.cta-row :is(a.primary, .button-link, button) { border-radius: var(--fertig-r); padding-inline: 1.4em }
+.cta-row :is(a.primary, .button-link, button) {
+  min-block-size: 3.15rem; padding-inline: 1.35rem; border-radius: var(--fertig-r);
+  font-weight: 600;
+}
 .button-link {
-  display: inline-block; min-width: 5rem; padding: .48em 1.1em;
+  display: inline-flex; align-items: center; justify-content: center; min-width: 5rem; padding: .48em 1.1em;
   border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
-  background: var(--fertig-el); color: var(--fertig-fg);
+  background: transparent; color: var(--fertig-fg);
   text-align: center; text-decoration: none;
 }
-.button-link:hover { background: var(--fertig-face) }
+.button-link:hover { background: var(--fertig-face); border-color: var(--fertig-mut) }
 .cta-row .primary {
   background: var(--fertig-ac);
-  box-shadow: var(--fertig-up);
+  box-shadow: 0 .5rem 1.6rem -.7rem color-mix(in srgb, var(--fertig-ac) 70%, transparent);
 }
 .cta-row .primary:hover {
-  box-shadow: var(--fertig-up2);
+  box-shadow: 0 .7rem 2rem -.7rem color-mix(in srgb, var(--fertig-ac) 80%, transparent);
 }
+.hero-install {
+  display: inline-grid; grid-template-columns: auto auto; gap: .45rem 1.2rem; align-items: center;
+  margin-top: 1.1rem; padding: .65rem .9rem; border-inline-start: 2px solid var(--fertig-ac);
+  background: color-mix(in srgb, var(--fertig-face) 72%, transparent);
+}
+.hero-install span {
+  color: var(--fertig-mut); font: 600 .65rem/1.4 var(--font-mono);
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.hero-install code { padding: 0; border: 0; background: none; color: var(--fertig-fg); font-size: .86rem }
+.hero-workbench {
+  min-width: 0; padding: .7rem; border: 1px solid color-mix(in srgb, var(--fertig-fg) 18%, transparent);
+  border-radius: 1.35rem; background: color-mix(in srgb, var(--fertig-tb) 92%, transparent);
+  box-shadow: 0 2.5rem 7rem -3rem var(--fertig-sh2), 0 1rem 2.5rem -1.5rem var(--glow-ac-strong);
+}
+.workbench-chrome {
+  min-block-size: 2.65rem; padding-inline: .7rem; display: grid;
+  grid-template-columns: 1fr auto 1fr; gap: .7rem; align-items: center;
+  color: var(--fertig-mut); font: 500 .65rem/1.4 var(--font-mono); letter-spacing: .04em;
+}
+.workbench-chrome > span:nth-child(2) { justify-self: center }
+.workbench-chrome > b {
+  justify-self: end; display: inline-flex; gap: .45rem; align-items: center;
+  font-weight: 500; color: var(--fertig-fg);
+}
+.workbench-chrome > b i { inline-size: .45rem; block-size: .45rem; border-radius: 50%; background: var(--fertig-green-500) }
+.window-dots { display: flex; gap: .32rem }
+.window-dots i { inline-size: .52rem; block-size: .52rem; border-radius: 50%; background: var(--fertig-bd) }
+.window-dots i:first-child { background: var(--fertig-red-500) }
+.window-dots i:nth-child(2) { background: var(--fertig-amber-500) }
+.window-dots i:nth-child(3) { background: var(--fertig-green-500) }
+.workbench-screen {
+  display: grid; grid-template-columns: minmax(11rem, .8fr) minmax(17rem, 1.2fr);
+  min-block-size: 26rem; overflow: hidden;
+  border: 1px solid var(--fertig-bd); border-radius: .9rem; background: var(--fertig-el);
+}
+.workbench-code {
+  padding: 1.1rem; border-inline-end: 1px solid var(--fertig-bd);
+  background: color-mix(in srgb, var(--fertig-bg) 72%, var(--fertig-el));
+}
+.workbench-code > p, .workbench-caption {
+  margin: 0; color: var(--fertig-mut); font: 600 .62rem/1.4 var(--font-mono);
+  letter-spacing: .09em; text-transform: uppercase;
+}
+.workbench-code pre {
+  margin: 1rem 0 0; padding: 0; border: 0; background: none; box-shadow: none;
+  white-space: pre-wrap; font-size: clamp(.68rem, .9vw, .78rem); line-height: 1.75;
+}
+.workbench-output { min-width: 0; background: var(--fertig-el) }
+.output-toolbar {
+  display: flex; justify-content: space-between; gap: .75rem;
+  padding: .85rem 1rem; border-bottom: 1px solid var(--fertig-bd);
+  background: var(--fertig-tb); font-size: .7rem;
+}
+.output-toolbar span { color: var(--fertig-mut) }
+.output-body { padding: clamp(1.2rem, 3vw, 2.25rem) }
+.output-label {
+  margin: 0 0 .45rem; color: var(--fertig-mut);
+  font: 600 .66rem/1.4 var(--font-mono); letter-spacing: .09em; text-transform: uppercase;
+}
+.output-value { display: block; margin-bottom: .45rem; font: 600 clamp(2rem, 4vw, 3.2rem)/1 var(--font-display); letter-spacing: -.055em }
+.output-note { margin: 0 0 1.5rem; color: var(--fertig-mut); font-size: .78rem }
+.output-body progress { margin-bottom: 1.6rem }
+.output-row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center }
+.workbench-caption {
+  display: flex; justify-content: center; gap: .8rem; padding: .85rem .4rem .2rem;
+}
+.workbench-caption span:nth-child(2) { color: var(--fertig-ac) }
 .proof {
-  /* These are claims, not supporting copy, so they keep the foreground tone. */
-  margin: var(--space-md) 0 0; color: var(--fertig-fg);
-  font: var(--label); letter-spacing: .06em; text-transform: uppercase;
-  display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center;
-  position: relative; z-index: 1;
+  grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr);
+  margin: clamp(3rem, 7vw, 5.5rem) 0 0; padding: 0;
+  border-top: 1px solid var(--fertig-bd); border-bottom: 1px solid var(--fertig-bd);
 }
-.proof span {
-  padding-inline: .9em; padding-block: .35em;
-  border: 1px solid var(--site-border); border-radius: var(--fertig-r);
-  background: var(--fertig-face);
+.proof > div { padding: 1.35rem 1.5rem; border-inline-start: 1px solid var(--fertig-bd) }
+.proof > div:first-child { border-inline-start: 0 }
+.proof :is(dt, dd) { margin: 0 }
+.proof dt { margin-bottom: .28rem; font: 600 1.15rem/1.1 var(--font-display); letter-spacing: -.02em }
+.proof dd {
+  color: var(--fertig-mut); font: 600 .65rem/1.4 var(--font-mono);
+  letter-spacing: .08em; text-transform: uppercase;
+}
+@media (width <= 64rem) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr) }
+  .hero-copy { max-width: 46rem }
+  .hero-workbench { max-width: 44rem; justify-self: end; inline-size: min(100%, 44rem) }
+}
+@media (width <= 38rem) {
+  .home-hero { padding-top: 3.5rem }
+  .home-hero h1 { font-size: clamp(3rem, 16vw, 4.5rem) }
+  .workbench-screen { grid-template-columns: minmax(0, 1fr); min-block-size: 0 }
+  .workbench-code { display: none }
+  .proof { grid-template-columns: repeat(2, 1fr) }
+  .proof > div:nth-child(3) { border-inline-start: 0; border-top: 1px solid var(--fertig-bd) }
+  .proof > div:nth-child(4) { border-top: 1px solid var(--fertig-bd) }
 }
 
 /* ---- the showcase: real components, restyled live -------------------- */
-.showcase { padding-block: var(--space-xl) }
+.showcase { padding-block: clamp(5rem, 9vw, 7.5rem); background: var(--fertig-bg) }
 .showcase-bar {
   display: flex; align-items: center; gap: var(--space-md);
-  flex-wrap: wrap; margin-bottom: var(--space-md);
+  flex-wrap: wrap; margin-bottom: 1.2rem;
 }
 .showcase-bar [role=tablist] { flex: 1 1 auto; min-width: 0 }
 .dots { display: flex; gap: .5rem; align-items: center; margin: 0; flex-wrap: wrap }
@@ -330,10 +381,12 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 
 .stage {
   border: 1px solid var(--site-border);
-  border-radius: var(--fertig-rw);
-  background: var(--fertig-face);
-  padding: clamp(1.2rem, 3vw, 2rem);
-  box-shadow: var(--fertig-up2);
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--fertig-ac) 5%, transparent), transparent 42%),
+    var(--fertig-face);
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+  box-shadow: 0 1.8rem 5rem -3rem var(--fertig-sh2);
   container: stage / inline-size;
   position: relative;
 }
@@ -348,11 +401,28 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .stage [hidden] { display: none }
 
 /* ---- section headers ------------------------------------------- */
-.band h2 { font: 600 clamp(1.4rem, 3.4vw, 2rem)/1.15 var(--font-display); letter-spacing: -.03em; margin: 0 0 var(--space-md); text-wrap: balance }
-.head { max-width: 46rem; margin-bottom: var(--space-md) }
-.head h2 { margin-bottom: .6rem }
-.head p { color: var(--fertig-mut); margin-bottom: 0; line-height: 1.65; font-size: 1.05rem }
-.page-title { font: 500 clamp(1.9rem, 5vw, 2.6rem)/1.05 var(--font-display); letter-spacing: -.04em; margin: 0 0 var(--space-sm) }
+.band h2 {
+  max-width: 16ch; margin: 0;
+  font: 600 clamp(2.35rem, 5vw, 4rem)/1.02 var(--font-display);
+  letter-spacing: -.055em; text-wrap: balance;
+}
+.head {
+  max-width: none; margin-bottom: clamp(2rem, 5vw, 3.2rem);
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .9fr);
+  grid-template-rows: auto 1fr; column-gap: clamp(2rem, 7vw, 6rem); align-items: end;
+}
+.head > .section-kicker { grid-column: 1; grid-row: 1 }
+.head > h2 { grid-column: 1; grid-row: 2 }
+.head > p:not(.section-kicker) { grid-column: 2; grid-row: 1 / span 2; align-self: end }
+.showcase-intro > div { grid-column: 1; grid-row: 1 / span 2 }
+.showcase-intro > div + p { grid-column: 2; grid-row: 1 / span 2; align-self: end }
+.head h2 { margin-bottom: 0 }
+.head p { color: var(--fertig-mut); margin: 0; line-height: 1.75; font-size: 1.08rem }
+.section-kicker {
+  margin: 0 0 .85rem !important; color: var(--fertig-ac) !important;
+  font: 600 .68rem/1.4 var(--font-mono) !important; letter-spacing: .1em; text-transform: uppercase;
+}
+.page-title { font: 600 clamp(2.7rem, 6vw, 4.8rem)/.98 var(--font-display); letter-spacing: -.055em; margin: 0 0 var(--space-sm) }
 .page-intro { max-width: 44rem; color: var(--fertig-mut); line-height: 1.6; margin: 0 }
 /* A page header is a label, not a hero: the xl band rhythm belongs to the
    landing page's sections and leaves a docs page opening on a screen of air.
@@ -360,6 +430,10 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 .page-head { border-top: 0; padding-block: var(--space-lg) var(--space-md) }
 .page-head + .band { padding-top: var(--space-lg) }
 .eyebrow { font: 600 .8rem/1.4 var(--font-body); color: var(--fertig-ac); margin: 0 0 .7rem }
+@media (width <= 52rem) {
+  .head { display: block }
+  .head h2 { margin-bottom: 1rem }
+}
 /* A heading that names a region for a screen reader without drawing one. The
    showcase is a section of the page; it had no heading, so its first heading
    was an h3 inside a demo card and the outline jumped from h1 to h3. */
@@ -380,6 +454,8 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 }
 .spec td { padding: .85rem 0; font-family: var(--font-mono); font-size: .9rem; vertical-align: baseline }
 .spec td span { font-family: var(--font-body); color: var(--fertig-mut); font-size: .85rem }
+.facts-band { padding-block: 0 clamp(4.75rem, 9vw, 7.5rem) }
+.facts-band .panel { border-radius: 1.2rem }
 @media (width <= 40rem) {
   .spec th { inline-size: auto; display: block; padding-bottom: 0 }
   .spec td { display: block; padding-top: .2rem }
@@ -389,13 +465,15 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 /* A card grid, not hairline-separated rows. The rows read as a spec sheet,
    which fought the showcase above them — this is the same information with the
    same restraint, but it belongs to the same page. */
-.rows { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)) }
+.rows { display: grid; gap: 1rem; grid-template-columns: repeat(12, minmax(0, 1fr)) }
 .rows > * {
-  border: 1px solid var(--site-border); border-radius: var(--fertig-rw); padding: 1.4rem;
+  grid-column: span 4; min-block-size: 12rem;
+  border: 1px solid var(--site-border); border-radius: 1rem; padding: clamp(1.4rem, 3vw, 2rem);
   background: var(--site-surface);
-  box-shadow: var(--fertig-up2);
+  box-shadow: 0 1.4rem 3rem -2.6rem var(--fertig-sh2);
   min-width: 0;
 }
+.rows > :first-child, .rows > :nth-child(2) { grid-column: span 6 }
 .rows > *:hover {
   border-color: var(--fertig-mut);
 }
@@ -404,14 +482,20 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 }
 .rows h3 {
   display: flex; align-items: center; gap: .55em;
-  font: 600 1rem/1.3 var(--font-body); letter-spacing: -.01em;
-  margin: 0 0 .5rem; color: var(--fertig-fg);
+  font: 600 1.15rem/1.25 var(--font-display); letter-spacing: -.025em;
+  margin: 0 0 .7rem; color: var(--fertig-fg);
 }
 .rows h3 .icon { inline-size: 1.15em; block-size: 1.15em; color: var(--fertig-ac) }
 .rows p { margin: 0; color: var(--fertig-mut); font-size: .93rem; line-height: 1.6 }
 .rows p + p { margin-top: .5rem }
 /* a row that wants the full width — a table or a wide figure */
 .rows > .span { grid-column: 1 / -1 }
+@media (width <= 54rem) {
+  .rows > *, .rows > :first-child, .rows > :nth-child(2) { grid-column: span 6 }
+}
+@media (width <= 34rem) {
+  .rows > *, .rows > :first-child, .rows > :nth-child(2) { grid-column: 1 / -1 }
+}
 
 /* ---- grids ----------------------------------------------------- */
 .cols-2 { display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: minmax(0, 1fr); align-items: start }
@@ -428,7 +512,7 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   /* the measure is a page-level token, so the preview behaves like a page:
      drag --fertig-w below the column width and the panel narrows with it */
   max-inline-size: var(--fertig-w);
-  border: 1px solid var(--site-border); border-radius: var(--fertig-rw);
+  border: 1px solid var(--site-border); border-radius: 1rem;
   overflow: hidden; background: var(--fertig-el);
   box-shadow: 0 1px 2px var(--fertig-sh1), 0 16px 36px -16px var(--fertig-sh2);
 }
@@ -452,10 +536,10 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
 }
 /* ---- palette showcase ------------------------------------------ */
 .panel {
-  border: 1px solid var(--site-border); border-radius: var(--fertig-rw);
+  border: 1px solid var(--site-border); border-radius: 1rem;
   background: var(--site-surface);
-  padding: clamp(1.1rem, 2.5vw, 1.6rem);
-  box-shadow: var(--fertig-up2);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  box-shadow: 0 1.4rem 3rem -2.7rem var(--fertig-sh2);
 }
 .panel > :first-child { margin-top: 0 }
 .panel > :last-child { margin-bottom: 0 }
@@ -468,6 +552,20 @@ html[data-theme=dark] .hero-glow { opacity: .7 }
   .ramp { grid-template-columns: minmax(0,1fr); gap: .15rem }
   .ramp span { block-size: 1.5rem }
 }
+
+#preview .cols-2 > *, #components .cols-2 > * { block-size: 100% }
+#preview pre { min-block-size: 100%; margin: 0 }
+#components { background: var(--fertig-bg) }
+#palette .panel { padding: clamp(1.4rem, 4vw, 2.5rem) }
+#customize { background: color-mix(in srgb, var(--fertig-bg) 84%, var(--fertig-ac)) }
+#customize form { padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid var(--fertig-bd); border-radius: 1rem; background: var(--fertig-el) }
+#size h2 { max-width: 18ch; font-size: clamp(2.5rem, 5.2vw, 4.6rem) }
+#size .bars { margin-top: 2rem }
+#size .bar-row { grid-template-columns: minmax(8rem, auto) minmax(0, 1fr) auto }
+#size .bar-meter { block-size: 1.2rem }
+#questions details { border-radius: .8rem; padding-inline: 1rem; background: var(--fertig-el) }
+#install { background: color-mix(in srgb, var(--fertig-ac) 8%, var(--fertig-el)) }
+#install h2 { max-width: 17ch }
 
 /* ================================================================
    DOCS and BLOCKS — a persistent sidebar, not a table of contents
@@ -574,16 +672,29 @@ body > footer {
   :root:not([data-theme=dark]) body > footer { opacity: .98 }
 }
 html[data-theme=light] body > footer { opacity: .98 }
-.foot-cols { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)) }
+.footer-main {
+  display: grid; grid-template-columns: minmax(14rem, .8fr) minmax(0, 1.6fr);
+  gap: clamp(3rem, 8vw, 7rem); align-items: start;
+}
+.footer-brand p {
+  max-width: 13ch; margin: 0;
+  font: 600 clamp(1.7rem, 3.5vw, 2.6rem)/1.05 var(--font-display);
+  letter-spacing: -.045em;
+}
+.foot-cols { display: grid; gap: 2rem; grid-template-columns: repeat(3, minmax(0, 1fr)) }
 .foot-cols strong { display: block; font: var(--label); letter-spacing: .1em; text-transform: uppercase; color: var(--fertig-mut); margin-bottom: .6rem }
 .foot-cols ul { list-style: none; padding: 0; margin: 0 }
 .foot-cols li { margin: 0; padding-block: .18rem }
 .foot-cols a { color: var(--fertig-fg); text-decoration: none; font-size: .88rem }
 .foot-cols a:hover { color: var(--fertig-ac) }
 .foot-note {
-  margin: var(--space-md) 0 0; padding-top: var(--space-md); border-top: var(--rule);
+  margin: clamp(3rem, 7vw, 5rem) 0 0; padding-top: var(--space-md); border-top: var(--rule);
   font: var(--label); letter-spacing: .05em; color: var(--fertig-mut);
   display: flex; gap: 1.2rem; flex-wrap: wrap;
+}
+@media (width <= 48rem) {
+  .footer-main { grid-template-columns: 1fr }
+  .foot-cols { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)) }
 }
 
 /* ---- bleeding edge, site-only ---------------------------------- */
@@ -599,13 +710,13 @@ body > nav { view-transition-name: toolbar }
    must simply be there, not stuck at opacity 0. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .band > .wrap, .hero-center > .wrap {
+    .band > .wrap, .home-hero > .wrap {
       animation: rise linear both;
       animation-timeline: view();
       animation-range: entry 5% cover 22%;
     }
     /* the first screen is already in view on load; animating it just delays it */
-    .hero-center > .wrap { animation: none }
+    .home-hero > .wrap { animation: none }
   }
 }
 /* translate only, deliberately no opacity. A scroll-driven animation sits at

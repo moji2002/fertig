@@ -1,18 +1,19 @@
 ---
-layout: layout.njk
-permalink: "components.html"
-title: "Browse Components | fertig"
-description: "Browse every element, component, and utility fertig styles. Each entry shows the markup pattern, a live preview, and the category it belongs to."
-ogTitle: "Browse Components | fertig"
-ogDescription: "Browse every element, component, and utility fertig styles. Each entry shows the markup pattern, a live preview, and the category it belongs to."
-canonical: "components.html"
-active: components
-pageTitle: "Components"
-pageIntro: "Every element, component, and utility fertig styles. No classes required — each pattern is addressed by semantic HTML or ARIA attributes."
-langs:
-  - javascript
+import SiteLayout from "../layouts/SiteLayout.astro";
+import TabDemo from "../components/TabDemo.astro";
+
+const title = "Browse Components | fertig";
+const description = "Browse every element, component, and utility fertig styles, with live previews and copyable markup.";
 ---
-{% from "tab-demo.njk" import tabDemo %}
+<SiteLayout
+  title={title}
+  description={description}
+  canonical="components.html"
+  active="components"
+  pageTitle="Components"
+  pageIntro="Every element, component, and utility fertig styles. No classes required — each pattern is addressed by semantic HTML or ARIA attributes."
+  langs={["javascript"]}
+>
 <main id="main-content" class="band" style="border-top:0">
   <div class="wrap">
 
@@ -99,7 +100,7 @@ langs:
           <span class="badge">elements</span>
         </div>
         <div class="comp-card-preview">
-          <pre style="margin:0"><code>.card { border-radius: var(--fertig-r) }</code></pre>
+          <pre style="margin:0"><code>.card &#123; border-radius: var(--fertig-r) &#125;</code></pre>
         </div>
         <p class="comp-card-desc">Inline code, keyboard shortcuts, sample output, and code blocks — all with a monospace face and recessed background.</p>
         <div class="comp-card-code"><code>&lt;code&gt;inline&lt;/code&gt;
@@ -405,7 +406,7 @@ langs:
           <span class="badge">navigation</span>
         </div>
         <div class="comp-card-preview">
-          {{ tabDemo("catalogue-tabs", ["Preview", "Code", "Notes"], "Component example") }}
+          <TabDemo prefix="catalogue-tabs" labels={["Preview", "Code", "Notes"]} label="Component example" />
         </div>
         <p class="comp-card-desc">Styled through ARIA. JavaScript owns selected state, panel visibility and arrow-key navigation.</p>
         <div class="comp-card-code"><code>&lt;div role="tablist" aria-label="View"&gt;
@@ -660,3 +661,4 @@ document.addEventListener("DOMContentLoaded", () => {
   update();
 });
 </script>
+</SiteLayout>

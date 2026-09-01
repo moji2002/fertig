@@ -1,0 +1,31 @@
+---
+interface Props {
+  active?: "index" | "customize" | "docs" | "components" | "blocks";
+}
+
+const { active } = Astro.props;
+---
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<nav>
+  <div class="bar wrap">
+    <strong>
+      <a href="index.html" aria-current={active === "index" ? "page" : undefined}>
+        <img src="favicon.svg" alt="" width="16" height="16" class="mark" />fertig
+      </a>
+    </strong>
+    <ul>
+      <li><a href="index.html#customize" aria-current={active === "customize" ? "page" : undefined}>Customise</a></li>
+      <li><a href="docs.html" aria-current={active === "docs" ? "page" : undefined}>Docs</a></li>
+      <li><a href="components.html" aria-current={active === "components" ? "page" : undefined}>Components</a></li>
+      <li><a href="blocks.html" aria-current={active === "blocks" ? "page" : undefined}>Blocks</a></li>
+      <li class="nav-github">
+        <a href="https://github.com/moji2002/fertig">GitHub<svg class="icon" aria-hidden="true"><use href="icons.svg#arrow-right"></use></svg></a>
+      </li>
+    </ul>
+    <button data-size="sm" data-icon data-theme-toggle aria-label="Switch theme">
+      <svg class="icon sun" aria-hidden="true"><use href="icons.svg#sun"></use></svg>
+      <svg class="icon moon" aria-hidden="true"><use href="icons.svg#moon"></use></svg>
+    </button>
+  </div>
+</nav>

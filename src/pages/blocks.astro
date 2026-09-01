@@ -1,19 +1,19 @@
 ---
-layout: layout.njk
-permalink: "blocks.html"
-title: "fertig blocks \u2014 copy-paste HTML blocks with no classes"
-description: "Ready-to-use HTML blocks built with fertig \u2014 heroes, pricing, forms, tables, empty states. Copy the markup; the stylesheet does the rest. No classes, no JavaScript."
-ogTitle: "fertig blocks \u2014 copy-paste HTML blocks with no classes"
-ogDescription: "Ready-to-use HTML blocks built with fertig \u2014 heroes, pricing, forms, tables, empty states. Copy the markup; the stylesheet does the rest. No classes, no JavaScript."
-canonical: "blocks.html"
-active: blocks
-pageTitle: "Blocks"
-pageIntro: "Ready-to-use markup for the things every product needs. Every block below is plain HTML with no classes beyond fertig's own optional ones, and no CSS of its own — copy it and it looks like this. The code shown is generated from the live preview, so it cannot drift."
-langs:
-  - javascript
-  - bash
+import SiteLayout from "../layouts/SiteLayout.astro";
+import TabDemo from "../components/TabDemo.astro";
+
+const title = "fertig blocks — copy-paste HTML blocks with no classes";
+const description = "Ready-to-use HTML blocks built with fertig: heroes, pricing, forms, tables, empty states, and more.";
 ---
-{% from "tab-demo.njk" import tabDemo %}
+<SiteLayout
+  title={title}
+  description={description}
+  canonical="blocks.html"
+  active="blocks"
+  pageTitle="Blocks"
+  pageIntro="Ready-to-use markup for the things every product needs. Every preview is generated from plain HTML and the code cannot drift from what you see."
+  langs={["javascript", "bash"]}
+>
 <main id="main-content" class="band" style="border-top:0">
   <div class="wrap blocks-layout">
 
@@ -312,7 +312,7 @@ langs:
         </div>
       </div>
       <div class="block-preview">
-        {{ tabDemo("blocks-tabs", ["Summary", "Line items", "History"], "Account sections") }}
+        <TabDemo prefix="blocks-tabs" labels={["Summary", "Line items", "History"]} label="Account sections" />
       </div>
       <details class="block-code"><summary><svg class="icon" aria-hidden="true"><use href="icons.svg#file-code"></use></svg>Markup</summary><pre><code></code></pre></details>
     </article>
@@ -420,3 +420,4 @@ document.querySelectorAll('.block').forEach(block => {
   block.querySelector('.block-code').append(copy);  // not prepend: <summary> must stay first
 });
 </script>
+</SiteLayout>

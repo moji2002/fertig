@@ -1,0 +1,85 @@
+---
+import PageHeader from "../components/PageHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { site } from "../lib/site";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  active?: "index" | "customize" | "docs" | "components" | "blocks";
+  pageTitle?: string;
+  pageIntro?: string;
+  langs?: string[];
+  schema?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  canonical = "",
+  ogTitle = title,
+  ogDescription = description,
+  active,
+  pageTitle,
+  pageIntro,
+  langs = [],
+  schema,
+} = Astro.props;
+const canonicalUrl = `https://moji2002.github.io/fertig/${canonical}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta id="theme-color" name="theme-color" content="#23262b" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="fertig" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    <script is:inline>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem("fertig-theme") || "dark";
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+      document.getElementById("theme-color").content =
+        document.documentElement.dataset.theme === "dark" ? "#23262b" : "#fafbfc";
+    </script>
+    <link rel="stylesheet" href={`fertig.css?v=${site.hashes.fertig}`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href={`site.css?v=${site.hashes.site}`} />
+  </head>
+  <body>
+    <div class="reading-progress" aria-hidden="true"></div>
+    <SiteNav active={active} />
+    {pageTitle && pageIntro && <PageHeader title={pageTitle} intro={pageIntro} />}
+    <slot />
+    <SiteFooter />
+
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/xml.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/css.min.js"></script>
+    {langs.map((lang) => <script is:inline src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/${lang}.min.js`}></script>)}
+    <script is:inline src={`site.js?v=${site.hashes.script}`} defer></script>
+  </body>
+</html>

@@ -62,12 +62,13 @@ test('catalogue filters can hide cards', () => {
 test('catalogue starts with an accurate count and a compact mobile toolbar', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
   const html = readFileSync(path.join(root, 'dist', 'components.html'), 'utf8');
+  const source = readFileSync(path.join(root, 'src', 'pages', 'components.astro'), 'utf8');
   const css = readFileSync(path.join(root, 'site.css'), 'utf8');
   const cards = (html.match(/class="comp-card"/g) || []).length;
   const initialCount = Number(html.match(/id="comp-count-num">(\d+)</)?.[1]);
 
   assert.equal(initialCount, cards, 'the catalogue count has drifted from its cards');
-  assert.match(html, /search\.addEventListener\("input", update\);[\s\S]*?\n\s*update\(\);/);
+  assert.match(source, /search\.addEventListener\("input", update\);[\s\S]*?\n\s*update\(\);/);
   assert.match(
     css,
     /@media \(width <= 46rem\)[\s\S]*?\.comp-search-wrap\s*\{[^}]*flex-basis:\s*auto/,
@@ -117,7 +118,7 @@ test('every dialog example has an accessible name', () => {
 });
 
 test('the catalogue teaches complete tab markup', () => {
-  const source = readFileSync(path.join(root, 'src', 'components.njk'), 'utf8');
+  const source = readFileSync(path.join(root, 'src', 'pages', 'components.astro'), 'utf8');
   const sample = source.match(/<!-- Tabs -->[\s\S]*?<div class="comp-card-code"><code>([\s\S]*?)<\/code>/)?.[1];
   assert.ok(sample, 'the Tabs code sample is missing');
   assert.match(sample, /aria-controls=/);

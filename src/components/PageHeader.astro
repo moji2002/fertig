@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  intro: string;
+}
+
+const { title, intro } = Astro.props;
+---
+
+<header class="band page-head">
+  <div class="wrap">
+    <nav aria-label="Breadcrumb">
+      <ol><li><a href="index.html"><svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>Home</a></li><li>{title}</li></ol>
+    </nav>
+    <h1 class="page-title">{title}</h1>
+    <p class="muted page-intro">{intro}</p>
+  </div>
+</header>

@@ -1,6 +1,6 @@
 {
   "name": "fertig",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "A classless CSS stylesheet with no legacy in it: no polyfills, no required classes. Link one file, write ordinary HTML, done — 8.6 KB gzipped, no build step, no dependencies.",
   "keywords": [
     "fertig",
@@ -55,7 +55,6 @@
     "fertig.css",
     "fertig.min.css",
     "README.md",
-    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -67,14 +66,14 @@
     "check:site": "npm run site && node tools/check-site.js",
     "check:package": "npm pack --dry-run --ignore-scripts",
     "hooks:install": "git config core.hooksPath .githooks",
-    "site": "eleventy --config=.eleventy.js",
-    "site:serve": "eleventy --config=.eleventy.js --serve",
-    "site:clean": "rm -rf dist",
-    "dev": "python3 -m http.server 8899",
+    "site:prepare": "node tools/prepare-site.mjs",
+    "site": "npm run site:prepare && astro build",
+    "site:serve": "npm run site:prepare && astro dev",
+    "dev": "npm run site:serve",
     "prepublishOnly": "node build.js",
     "sizes": "python3 tools/sizes.py"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.6"
+    "astro": "^5.18.2"
   }
 }

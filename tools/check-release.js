@@ -24,9 +24,6 @@ expect(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version),
 expect(lock.version === version, 'package-lock.json top-level version is stale');
 expect(lock.packages?.['']?.version === version,
   'package-lock.json root package version is stale');
-expect(read('CHANGELOG.md').includes(`## [${version}]`),
-  `CHANGELOG.md has no ${version} release entry`);
-
 const source = read('fertig.css');
 const minified = read('fertig.min.css');
 const banner = source.match(/\/\*![^]*?\*\//)?.[0];
@@ -68,11 +65,11 @@ for (const file of ['fertig.css', 'fertig.min.css']) {
     `tools/sizes.json raw measurement is stale for ${file}`);
 }
 
-const indexSource = read('src/index.njk');
-expect(indexSource.includes(`"softwareVersion": "${version}"`),
-  `site schema softwareVersion does not use ${version}`);
+const indexSource = read('src/pages/index.astro');
+expect(indexSource.includes('softwareVersion: site.version'),
+  'site schema does not read the package version');
 
-for (const file of ['README.md', 'src/docs.njk']) {
+for (const file of ['README.md', 'src/pages/docs.astro']) {
   const pins = [...read(file).matchAll(/cdn\s*\.jsdelivr\.net\/npm\/fertig@(\d+)/g)]
     .map(match => match[1]);
   expect(pins.length === 1, `${file} must contain one pinned CDN example`);
@@ -96,9 +93,10 @@ for (const [key, target] of Object.entries(manifest.exports)) {
 }
 
 const publicFiles = [
-  'README.md', 'llms.txt', 'src/index.njk', 'src/docs.njk',
-  'src/components.njk', 'src/blocks.njk', 'src/_includes/layout.njk',
-  'src/_includes/page-header.njk', 'src/_includes/footer.njk',
+  'README.md', 'llms.txt', 'src/pages/index.astro', 'src/pages/docs.astro',
+  'src/pages/components.astro', 'src/pages/blocks.astro',
+  'src/layouts/SiteLayout.astro', 'src/components/PageHeader.astro',
+  'src/components/SiteFooter.astro', 'src/components/SiteNav.astro',
 ];
 const forbiddenCopy = [
   ['platform-specific command symbol', '⌘'],

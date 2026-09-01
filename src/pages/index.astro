@@ -1,68 +1,111 @@
 ---
-layout: layout.njk
-permalink: "index.html"
-title: "fertig \u2014 classless CSS framework, no JavaScript, 8.6 KB"
-description: "fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. 8.6 KB gzipped, no build step, MIT."
-ogTitle: "fertig \u2014 classless CSS framework, no JavaScript"
-ogDescription: "Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. 8.6 KB gzipped, no build step, no runtime."
-canonical: ""
-active: index
-langs:
-  - bash
-schema: |
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "fertig",
-    "applicationCategory": "DeveloperApplication",
-    "description": "A classless CSS framework built only on CSS that every current engine already ships. Semantic HTML in, a designed page out, with no JavaScript and no build step.",
-    "url": "https://moji2002.github.io/fertig/",
-    "downloadUrl": "https://www.npmjs.com/package/fertig",
-    "codeRepository": "https://github.com/moji2002/fertig",
-    "softwareVersion": "4.0.3",
-    "operatingSystem": "Any",
-    "license": "https://opensource.org/licenses/MIT",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }
+import SiteLayout from "../layouts/SiteLayout.astro";
+import TabDemo from "../components/TabDemo.astro";
+import { site } from "../lib/site";
+
+const title = "fertig — classless CSS framework, no JavaScript, 8.6 KB";
+const description = "fertig styles semantic HTML as a finished interface: dialogs, popovers, forms, and data views in 8.6 KB gzipped, with no runtime or build step.";
+const hues = ["gray", "blue", "cyan", "green", "amber", "red", "violet"];
+const steps = [100, 300, 500, 700, 900];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "fertig",
+  applicationCategory: "DeveloperApplication",
+  description,
+  url: "https://moji2002.github.io/fertig/",
+  downloadUrl: "https://www.npmjs.com/package/fertig",
+  codeRepository: "https://github.com/moji2002/fertig",
+  softwareVersion: site.version,
+  operatingSystem: "Any",
+  license: "https://opensource.org/licenses/MIT",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
 ---
 
-{% from "tab-demo.njk" import tabDemo %}
+<SiteLayout
+  title={title}
+  description={description}
+  ogTitle="fertig — classless CSS framework, no JavaScript"
+  ogDescription="Link one stylesheet and semantic HTML comes out designed. 8.6 KB gzipped, no build step, no runtime."
+  active="index"
+  langs={["bash"]}
+  schema={schema}
+>
 <main id="main-content">
-<header class="hero hero-center">
+<header class="hero home-hero">
   <div class="hero-glow" aria-hidden="true"></div>
-  <div class="wrap">
-    <a class="pill" href="https://github.com/moji2002/fertig/blob/main/CHANGELOG.md">
-      <svg class="icon" aria-hidden="true"><use href="icons.svg#zap"></use></svg>
-      v{{ site.version }} — polished controls
-    </a>
-    <h1>Modern HTML and CSS.<br><span class="dim">No JavaScript at all.</span></h1>
-    <p class="lede">A classless stylesheet built only on CSS that every current
-      engine already ships. Dialogs, popovers and tooltips run on native HTML
-      attributes — no polyfills, no build step, no runtime. Link
-      one file and the page is finished.</p>
-    <p class="row cta-row">
-      <a class="primary" data-size="lg" href="docs.html">
-        <svg class="icon" aria-hidden="true"><use href="icons.svg#book-open"></use></svg>Get started</a>
-      <a class="button-link" data-size="lg" href="blocks.html">
-        <svg class="icon" aria-hidden="true"><use href="icons.svg#blocks"></use></svg>View blocks</a>
-    </p>
-    <p class="proof">
-      <span>8.6 KB gzipped</span>
-      <span>0 JavaScript</span>
-      <span>0 dependencies</span>
-      <span>0 required classes</span>
-      <span>MIT</span>
-    </p>
+  <div class="hero-grid wrap">
+    <div class="hero-copy">
+      <a class="release-link" href={`https://www.npmjs.com/package/fertig/v/${site.version}`}>
+        <span aria-hidden="true"></span>Version {site.version} is out
+      </a>
+      <h1>Write HTML.<br><span>It comes out <em>finished.</em></span></h1>
+      <p class="lede">fertig is the classless stylesheet for interfaces that
+        should feel designed before you write a single class. Native dialogs,
+        popovers, forms and data views — one CSS file, no runtime.</p>
+      <p class="row cta-row">
+        <a class="primary" data-size="lg" href="docs.html">Get started
+          <svg class="icon" aria-hidden="true"><use href="icons.svg#arrow-right"></use></svg></a>
+        <a class="button-link" data-size="lg" href="components.html">See every component</a>
+      </p>
+      <div class="hero-install" aria-label="Install from npm">
+        <span>Terminal</span>
+        <code>npm install fertig</code>
+      </div>
+    </div>
+
+    <div class="hero-workbench" aria-label="Plain HTML transformed into a finished interface">
+      <div class="workbench-chrome">
+        <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>invoice.html</span>
+        <b><i aria-hidden="true"></i>Live preview</b>
+      </div>
+      <div class="workbench-screen">
+        <div class="workbench-code">
+          <p>HTML in</p>
+          <pre><code class="language-html">&lt;main&gt;
+  &lt;h1&gt;Invoices&lt;/h1&gt;
+  &lt;button&gt;New invoice&lt;/button&gt;
+  &lt;progress value="72"&gt;
+&lt;/main&gt;</code></pre>
+        </div>
+        <div class="workbench-output">
+          <div class="output-toolbar"><strong>Ledger</strong><span>Overview&nbsp;·&nbsp; Invoices</span></div>
+          <div class="output-body">
+            <p class="output-label">Outstanding</p>
+            <strong class="output-value">$48,200</strong>
+            <p class="output-note">12 invoices · 72% collected</p>
+            <progress value="72" max="100">72%</progress>
+            <div class="output-row">
+              <button class="primary" data-size="sm">New invoice</button>
+              <span class="badge" data-tone="ok">on track</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="workbench-caption"><span>Semantic HTML</span><span aria-hidden="true">→</span><span>Finished interface</span></p>
+    </div>
+
+    <dl class="proof">
+      <div><dt>8.6 KB</dt><dd>gzipped</dd></div>
+      <div><dt>0</dt><dd>JavaScript</dd></div>
+      <div><dt>0</dt><dd>dependencies</dd></div>
+      <div><dt>0</dt><dd>required classes</dd></div>
+    </dl>
   </div>
 </header>
 
 <section class="band showcase" style="border-top:0">
   <div class="wrap">
-    <h2 class="sr-only">Live components</h2>
+    <div class="showcase-intro head">
+      <div>
+        <p class="section-kicker">01 — Live system</p>
+        <h2>One stylesheet. A complete interface language.</h2>
+      </div>
+      <p>Switch the tabs and the accent. Every control below is real semantic
+        HTML styled by the same file you came here to download.</p>
+    </div>
     <div class="showcase-bar">
       <div role="tablist" aria-label="Showcase">
         <button role="tab" aria-selected="true" aria-controls="s-form" id="tab-form" tabindex="0">Forms</button>
@@ -189,7 +232,7 @@ schema: |
   </div>
 </section>
 
-  <section class="band" style="border-top:0">
+  <section class="band facts-band" style="border-top:0">
     <div class="wrap">
       <div class="panel">
       <table class="spec">
@@ -208,6 +251,7 @@ schema: |
   <section class="band" id="nojs">
     <div class="wrap">
       <div class="head">
+        <p class="section-kicker">02 — Native behaviour</p>
         <h2>Switch JavaScript off. It still works.</h2>
         <p>Every other classless sheet that styles a <code>&lt;dialog&gt;</code>
           leaves you to write the open and close yourself. fertig leans on what
@@ -239,6 +283,7 @@ schema: |
   <section class="band band-quiet" id="why">
     <div class="wrap">
       <div class="head">
+        <p class="section-kicker">03 — Design principles</p>
         <h2>Why another classless sheet</h2>
         <p>Most are either too plain to ship or too heavy to justify. fertig
           sits between them: opinionated enough to look finished, small enough
@@ -283,6 +328,7 @@ schema: |
   <section class="band" id="preview">
     <div class="wrap">
       <div class="head">
+        <p class="section-kicker">04 — The input</p>
         <h2>Plain HTML, finished page</h2>
         <p>The markup on the left is the whole input. The preview on the right
           is what the browser renders with the sheet linked.</p>
@@ -331,6 +377,7 @@ schema: |
   <section class="band band-quiet" id="components">
     <div class="wrap">
       <div class="head">
+        <p class="section-kicker">05 — Component layer</p>
         <h2>A component layer, built on semantics</h2>
         <p>Native disclosures, switches, menus and segmented controls are styled
           through the HTML and ARIA that make them accessible in the first
@@ -346,7 +393,7 @@ schema: |
               <button aria-pressed="false">Month</button>
             </span>
           </p>
-          {{ tabDemo("home-tabs", ["Preview", "Code"], "Component example") }}
+          <TabDemo prefix="home-tabs" labels={["Preview", "Code"]} label="Component example" />
           <footer><code>role="group"</code> · <code>role="tablist"</code></footer>
         </div>
 
@@ -375,6 +422,7 @@ schema: |
   <section class="band" id="palette">
     <div class="wrap">
       <div class="head">
+        <p class="section-kicker">06 — Colour system</p>
         <h2>A practical colour spectrum</h2>
         <p>Seven familiar hues, five steps each, in OKLCH. Chroma rises toward
           the useful middle stops while the endpoints stay composed enough for
@@ -382,11 +430,11 @@ schema: |
       </div>
       <div class="panel">
       <div class="swatches">
-        {%- for hue in ["gray", "blue", "cyan", "green", "amber", "red", "violet"] %}
-        <div class="ramp"><b>{{ hue }}</b>
-          {%- for step in [100, 300, 500, 700, 900] %}<span data-step="{{ step }}" style="background:var(--fertig-{{ hue }}-{{ step }})"></span>{% endfor %}
-        </div>
-        {%- endfor %}
+        {hues.map((hue) => (
+          <div class="ramp"><b>{hue}</b>
+            {steps.map((step) => <span data-step={step} style={`background:var(--fertig-${hue}-${step})`}></span>)}
+          </div>
+        ))}
       </div>
       </div>
     </div>
@@ -395,6 +443,7 @@ schema: |
   <section class="band band-quiet" id="customize">
     <div class="wrap">
       <div class="head">
+        <p class="section-kicker">07 — Your system</p>
         <h2>Make it yours, here</h2>
         <p>Most theming is one token. Move these and the panel beside them is
           restyled live — it is real markup with the real sheet, not a picture
@@ -465,7 +514,7 @@ schema: |
 
   <section class="band band-quiet" id="size">
     <div class="wrap rail">
-      <p class="tag">Transfer size</p>
+      <p class="tag">08 — Transfer size</p>
       <div>
         <h2>One complete stylesheet. 8.6 KB transferred.</h2>
         <p class="page-intro" style="margin-bottom:1.5rem"><code>fertig.min.css</code>
@@ -484,7 +533,7 @@ schema: |
 
   <section class="band band-quiet" id="questions">
     <div class="wrap rail">
-      <p class="tag">Questions</p>
+      <p class="tag">09 — Questions</p>
       <div>
         <details>
           <summary>Does it really need no classes?</summary>
@@ -522,7 +571,7 @@ schema: |
 
   <section class="band" id="install">
     <div class="wrap rail">
-      <p class="tag">Install</p>
+      <p class="tag">10 — Install</p>
       <div>
         <h2>Ship it from npm, or link it from a CDN</h2>
         <div class="cols-2 spaced">
@@ -541,3 +590,4 @@ schema: |
     </div>
   </section>
 </main>
+</SiteLayout>

@@ -68,8 +68,12 @@ for (const page of pages) {
 
 if (existsSync(path.join(output, 'index.html'))) {
   const homepage = readFileSync(path.join(output, 'index.html'), 'utf8');
-  expect(homepage.includes(`"softwareVersion": "${version}"`),
-    'generated schema version is stale');
+  const schemaSource = homepage.match(
+    /<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/,
+  )?.[1];
+  let schema;
+  try { schema = schemaSource ? JSON.parse(schemaSource) : null; } catch { schema = null; }
+  expect(schema?.softwareVersion === version, 'generated schema version is stale');
   expect(homepage.includes(`v${version}`), 'generated homepage version is stale');
 }
 

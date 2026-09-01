@@ -1,18 +1,18 @@
 ---
-layout: layout.njk
-permalink: "docs.html"
-title: "fertig docs \u2014 classless CSS reference, tokens and components"
-description: "Reference for fertig installation, layout, component behavior, design tokens, recipes, accessibility and browser support."
-ogTitle: "fertig docs \u2014 classless CSS reference, tokens and components"
-ogDescription: "Reference for fertig installation, layout, component behavior, design tokens, recipes, accessibility and browser support."
-canonical: "docs.html"
-active: docs
-pageTitle: "Documentation"
-pageIntro: "Installation, layout, component behavior, design tokens, accessibility and browser support. Visual examples live in the component catalogue."
-langs:
-  - javascript
-  - bash
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const title = "fertig docs — classless CSS reference, tokens and components";
+const description = "Reference for fertig installation, layout, component behavior, design tokens, recipes, accessibility, and browser support.";
 ---
+<SiteLayout
+  title={title}
+  description={description}
+  canonical="docs.html"
+  active="docs"
+  pageTitle="Documentation"
+  pageIntro="Installation, layout, component behavior, design tokens, accessibility and browser support. Visual examples live in the component catalogue."
+  langs={["javascript", "bash"]}
+>
 <main id="main-content" class="band">
   <div class="wrap docs">
     <nav class="sidebar" aria-label="Documentation sections">
@@ -99,8 +99,8 @@ langs:
         <p>Deeper than that, or a mount node named something else, and you
           re-point the shell yourself &mdash; it is the only place
           <code>body &gt;</code> appears:</p>
-        <pre><code>#shell > * { padding-inline: var(--fertig-g) }
-#shell > header, #shell > main, #shell > footer { background: var(--fertig-el) }</code></pre>
+        <pre><code>#shell > * &#123; padding-inline: var(--fertig-g) &#125;
+#shell > header, #shell > main, #shell > footer &#123; background: var(--fertig-el) &#125;</code></pre>
 
         <h3>Width</h3>
         <p>Body-level containers have no maximum width. Add a
@@ -132,17 +132,17 @@ langs:
         <p>CSS can style an ARIA tab widget, but it cannot update
           <code>aria-selected</code>, switch the associated panel or manage
           arrow-key focus. Use a small controller for those behaviors:</p>
-        <pre><code class="language-javascript">document.querySelectorAll('[role=tablist]').forEach(list =&gt; {
+        <pre><code class="language-javascript">document.querySelectorAll('[role=tablist]').forEach(list =&gt; &#123;
   const tabs = [...list.querySelectorAll('[role=tab]')];
-  const show = tab =&gt; tabs.forEach(t =&gt; {
+  const show = tab =&gt; tabs.forEach(t =&gt; &#123;
     const on = t === tab;
     t.setAttribute('aria-selected', on);
     t.tabIndex = on ? 0 : -1;
     document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-  });
-  tabs.forEach((t, i) =&gt; {
+  &#125;);
+  tabs.forEach((t, i) =&gt; &#123;
     t.addEventListener('click', () =&gt; show(t));
-    t.addEventListener('keydown', e =&gt; {
+    t.addEventListener('keydown', e =&gt; &#123;
       let next;
       if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
       if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
@@ -152,10 +152,10 @@ langs:
       e.preventDefault();
       show(next);
       next.focus();
-    });
-  });
+    &#125;);
+  &#125;);
   show(tabs.find(t =&gt; t.getAttribute('aria-selected') === 'true') || tabs[0]);
-});</code></pre>
+&#125;);</code></pre>
         <aside><code>&lt;details&gt;</code> is a disclosure control, not a tab.
           Its semantics and keyboard behavior are different, so it should not
           be given tab roles or tab-like styling.</aside>
@@ -271,23 +271,23 @@ langs:
         <div class="cols-2">
           <div>
             <h3>Your brand accent</h3>
-            <pre><code>:root {
+            <pre><code>:root &#123;
   --fertig-ac:    light-dark(#c2410c, #fb923c);
   --fertig-on-ac: light-dark(#f7f8fb, #1a0b02);
-}</code></pre>
+&#125;</code></pre>
             <h3>Sharp corners</h3>
-            <pre><code>:root { --fertig-r: 0 }   /* squares the pills too */</code></pre>
+            <pre><code>:root &#123; --fertig-r: 0 &#125;   /* squares the pills too */</code></pre>
             <h3>Flat, no depth</h3>
-            <pre><code>:root { --fertig-up: none; --fertig-up2: none; --fertig-dn: none }</code></pre>
+            <pre><code>:root &#123; --fertig-up: none; --fertig-up2: none; --fertig-dn: none &#125;</code></pre>
           </div>
           <div>
             <h3>A different font</h3>
-            <pre><code>:root {
+            <pre><code>:root &#123;
   --fertig-f:  "Inter", system-ui, sans-serif;
   --fertig-fm: "Berkeley Mono", ui-monospace, monospace;
-}</code></pre>
+&#125;</code></pre>
             <h3>Narrower toolbar column</h3>
-            <pre><code>:root { --fertig-w: 52rem }</code></pre>
+            <pre><code>:root &#123; --fertig-w: 52rem &#125;</code></pre>
             <h3>Force a theme</h3>
             <pre><code>&lt;html data-theme="dark"&gt;
 &lt;!-- or "light"; omit to follow the OS --&gt;</code></pre>
@@ -436,7 +436,7 @@ langs:
           never turns into a specificity fight and never needs
           <code>!important</code>:</p>
         <pre><code>/* this wins over everything in the sheet */
-button { background: hotpink }</code></pre>
+button &#123; background: hotpink &#125;</code></pre>
 
         <h3>Progressive enhancement</h3>
         <p>Everything newer than that floor is strictly additive — if the
@@ -559,3 +559,4 @@ button { background: hotpink }</code></pre>
     </div>
   </div>
 </main>
+</SiteLayout>

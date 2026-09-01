@@ -160,9 +160,10 @@ color-mix instead), field-sizing 123/26.2/152,
 ::details-content 131/18.4/143, interpolate-size 129/-/-, contrast-color()
 147/26/146, text-box: trim-both 133/18.2/154, appearance: base-select
 135/27/-, ::spelling-error 121/17.4/-, text-wrap: pretty
-117/26/-. Full tables in docs/browser-support-research.md.
+117/26/-.
 
-## Known gaps
+## Known limit
 
-No toasts, avatars, empty-state component, pagination component, sticky table
-header or icons. Compose those from the blocks above.
+ARIA tabs are styled, but selection, roving focus, panel visibility, and arrow
+keys require the small controller shown in the documentation. CSS cannot update
+ARIA state honestly.

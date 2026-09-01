@@ -25,30 +25,27 @@ CLAIMS = {
     ),
     'README.md': (
         ('**{min_raw} raw · {min_gzip} gzipped · no build step', 1),
-        ('`fertig.min.css` is {min_gzip} gzipped.', 1),
-        ('| **fertig.min.css** | **{min_raw}** | **{min_gzip}** |', 1),
-        ('| `fertig.min.css` | {min_raw} | {min_gzip} | everything |', 1),
     ),
     'llms.txt': (
         ('> {min_raw} raw, {min_gzip} gzipped, no build step', 1),
     ),
-    'src/docs.njk': (
+    'src/pages/docs.astro': (
         ('<tr><td><code>fertig.min.css</code></td><td>{min_raw}</td><td>{min_gzip}</td></tr>', 1),
     ),
-    'src/components.njk': (
+    'src/pages/components.astro': (
         ('<tr><td>fertig</td><td align="right">{min_gzip}</td></tr>', 1),
     ),
-    'src/index.njk': (
-        ('title: "fertig \\u2014 classless CSS framework, no JavaScript, {min_gzip}"', 1),
-        ('description: "fertig is a classless CSS framework built only on CSS that every current engine already ships. Style semantic HTML with one link tag: dialogs, popovers and tooltips work with no JavaScript. {min_gzip} gzipped', 1),
-        ('ogDescription: "Link one stylesheet and semantic HTML comes out designed. Built only on CSS every current engine ships. {min_gzip} gzipped', 1),
-        ('<span>{min_gzip} gzipped</span>', 1),
+    'src/pages/index.astro': (
+        ('const title = "fertig — classless CSS framework, no JavaScript, {min_gzip}";', 1),
+        ('interface: dialogs, popovers, forms, and data views in {min_gzip} gzipped', 1),
+        ('semantic HTML comes out designed. {min_gzip} gzipped', 1),
+        ('<div><dt>{min_gzip}</dt><dd>gzipped</dd></div>', 1),
         ('<tr><th>Transfer size</th><td>{min_gzip} <span>— fertig.min.css, gzipped</span></td></tr>', 1),
         ('<h2>One complete stylesheet. {min_gzip} transferred.</h2>', 1),
         ('<b>fertig.min.css</b>\n            <span><span class="bar-meter"></span></span><span>{min_gzip}</span>', 1),
         ('reason it is {min_gzip} rather than 20', 1),
     ),
-    'src/_includes/footer.njk': (
+    'src/components/SiteFooter.astro': (
         ('<span>{min_gzip} gzipped</span>', 1),
     ),
 }

@@ -19,12 +19,10 @@ const syncedFiles = [
   'package.json',
   'README.md',
   'llms.txt',
-  'context7.json',
-  'src/index.njk',
-  'src/docs.njk',
-  'src/components.njk',
-  'src/blocks.njk',
-  'src/_includes/footer.njk',
+  'src/pages/index.astro',
+  'src/pages/docs.astro',
+  'src/pages/components.astro',
+  'src/components/SiteFooter.astro',
 ];
 
 function createFixture(t) {
@@ -80,7 +78,7 @@ test('size sync leaves unrelated matching measurements unchanged', t => {
 
   assert.notEqual(nextGzip, unrelatedGzip);
   assert.ok(readme.includes(
-    `| **fertig.min.css** | **${nextState['fertig.min.css'].raw}** | **${nextGzip}** |`,
+    `**${nextState['fertig.min.css'].raw} raw · ${nextGzip} gzipped · no build step`,
   ));
   assert.ok(readme.includes(`Unrelated asset: ${unrelatedGzip}`));
 });

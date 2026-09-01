@@ -1,0 +1,33 @@
+---
+interface Props {
+  prefix: string;
+  labels: string[];
+  label: string;
+}
+
+const { prefix, labels, label } = Astro.props;
+---
+
+<div class="tab-demo">
+  <div role="tablist" aria-label={label}>
+    {labels.map((text, index) => (
+      <button
+        type="button"
+        role="tab"
+        id={`${prefix}-tab-${index + 1}`}
+        aria-controls={`${prefix}-panel-${index + 1}`}
+        aria-selected={index === 0 ? "true" : "false"}
+        tabindex={index === 0 ? "0" : "-1"}
+      >{text}</button>
+    ))}
+  </div>
+  {labels.map((text, index) => (
+    <p
+      role="tabpanel"
+      id={`${prefix}-panel-${index + 1}`}
+      aria-labelledby={`${prefix}-tab-${index + 1}`}
+      tabindex="0"
+      hidden={index === 0 ? undefined : true}
+    >{text} panel</p>
+  ))}
+</div>
