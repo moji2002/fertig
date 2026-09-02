@@ -676,7 +676,7 @@ search { display: block; margin-block: 1.1rem }   /* a landmark needs its own rh
 ::target-text { background: color-mix(in srgb, var(--fertig-ac) 28%, transparent) }
 aside {
   border: 1px solid color-mix(in srgb, var(--fertig-ac) 18%, transparent);
-  border-inline-start: 3px solid var(--fertig-ac); border-radius: var(--fertig-rw);
+  border-radius: var(--fertig-rw);
   background: color-mix(in srgb, var(--fertig-ac) 7%, var(--fertig-el)); padding: .8rem 1.1rem;
   margin-block: 1.1rem;          /* or the next block sits flush against it */
 }
