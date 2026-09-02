@@ -7,7 +7,7 @@ A classless CSS framework for finished interfaces. Link one file and write
 semantic HTML; fertig styles the page, forms, tables, dialogs, popovers,
 navigation, feedback, and common layout patterns.
 
-**40.8 KB raw · 9.3 KB gzipped · no build step · no dependencies · no JavaScript.**
+**41.1 KB raw · 9.3 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ## Use
 

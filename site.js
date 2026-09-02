@@ -124,6 +124,8 @@ addEventListener("DOMContentLoaded", () => {
   const paintEditor = () => {
     if (!(editorStack instanceof HTMLElement) ||
         !(highlightedCode instanceof HTMLElement) || !window.hljs) return;
+    const scrollbarWidth = editor.offsetWidth - editor.clientWidth;
+    editorStack.style.setProperty("--workbench-editor-gutter", `${scrollbarWidth}px`);
     highlightedCode.innerHTML = hljs.highlight(editor.value, {
       language: "xml", ignoreIllegals: true,
     }).value + "\n";
@@ -160,11 +162,65 @@ addEventListener("DOMContentLoaded", () => {
     updateFrame = requestAnimationFrame(update);
   };
 
-  editor.addEventListener("input", scheduleUpdate);
-  editor.addEventListener("scroll", () => {
+  const stageThrough = marker => {
+    const end = initialMarkup.indexOf(marker);
+    return end < 0
+      ? initialMarkup
+      : `${initialMarkup.slice(0, end + marker.length)}\n</main>`;
+  };
+  const idleStages = ["</hgroup>", "</section>", "</table>"]
+    .map(stageThrough)
+    .concat(initialMarkup);
+  const workbench = editor.closest(".hero-workbench");
+  let idleTimer = 0;
+  let idleObserver;
+  let idleStopped = false;
+
+  const syncEditorScroll = () => {
     const mirror = highlightedCode?.parentElement;
-    if (!mirror) return;
-    mirror.scrollTop = editor.scrollTop;
+    if (mirror) mirror.scrollTop = editor.scrollTop;
+  };
+  const cancelIdleDemo = () => {
+    idleStopped = true;
+    clearTimeout(idleTimer);
+    idleObserver?.disconnect();
+    if (workbench instanceof HTMLElement) delete workbench.dataset.demoRunning;
+  };
+  const showIdleStage = index => {
+    if (idleStopped) return;
+    editor.value = idleStages[index];
+    update();
+    requestAnimationFrame(() => {
+      if (idleStopped) return;
+      editor.scrollTop = editor.scrollHeight;
+      syncEditorScroll();
+    });
+
+    if (index < idleStages.length - 1) {
+      idleTimer = setTimeout(() => showIdleStage(index + 1), 1050);
+    } else if (workbench instanceof HTMLElement) {
+      delete workbench.dataset.demoRunning;
+    }
+  };
+  const startIdleDemo = () => {
+    if (idleStopped) return;
+    idleObserver?.disconnect();
+    if (workbench instanceof HTMLElement) workbench.dataset.demoRunning = "";
+    showIdleStage(0);
+  };
+
+  editor.addEventListener("input", () => {
+    cancelIdleDemo();
+    scheduleUpdate();
+  });
+  ["focus", "pointerdown", "keydown"].forEach(type => {
+    editor.addEventListener(type, cancelIdleDemo);
+  });
+  ["beforeinput", "paste", "drop"].forEach(type => {
+    editor.addEventListener(type, cancelIdleDemo);
+  });
+  editor.addEventListener("scroll", () => {
+    syncEditorScroll();
   });
   editor.addEventListener("keydown", event => {
     if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
@@ -173,12 +229,34 @@ addEventListener("DOMContentLoaded", () => {
     scheduleUpdate();
   });
   reset?.addEventListener("click", () => {
+    cancelIdleDemo();
     editor.value = initialMarkup;
     update();
     editor.focus();
   });
   addEventListener("themechange", render);
-  update();
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const animationTarget = workbench || editor;
+  const targetRect = animationTarget.getBoundingClientRect();
+  const visibleHeight = Math.max(0,
+    Math.min(targetRect.bottom, innerHeight) - Math.max(targetRect.top, 0));
+  const visibleRatio = visibleHeight / Math.max(targetRect.height, 1);
+  if (reducedMotion) {
+    update();
+  } else if (visibleRatio >= .25) {
+    startIdleDemo();
+  } else if ("IntersectionObserver" in window) {
+    update();
+    idleObserver = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .25)) {
+        startIdleDemo();
+      }
+    }, { threshold: .25 });
+    idleObserver.observe(animationTarget);
+  } else {
+    startIdleDemo();
+  }
 });
 
 /* The docs and blocks sidebars mark the section you are actually in. An

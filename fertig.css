@@ -487,7 +487,7 @@ input[type=checkbox], input[type=radio] {
 }
 :is(input, textarea, [contenteditable]) { caret-color: var(--fertig-ac) }
 label:has(input[type=checkbox]), label:has(input[type=radio]) { line-height: 1.9 }
-input[type=range] { width: 100%; height: 1.15em }
+input[type=range] { width: 100%; height: 1.15em; margin-inline: 0 }
 ::placeholder { color: var(--fertig-mut) }
 @supports selector(::spelling-error) {
   ::spelling-error { text-decoration: wavy underline light-dark(#c0392b, #ff6b6b) }
@@ -589,8 +589,9 @@ summary::before { content: "▸ "; color: var(--fertig-mut) }
 details[open] > summary::before { content: "▾ " }
 details[open] > summary { margin-bottom: .6rem }
 dialog {
+  --fertig-dialog-inset: 1.25rem;
   background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid transparent;
-  border-radius: var(--fertig-rw); padding: 1.6rem; max-width: min(30rem, 92dvw);
+  border-radius: var(--fertig-rw); padding: var(--fertig-dialog-inset); max-width: min(30rem, 92dvw);
   box-shadow: var(--fertig-up2), 0 28px 70px -24px color-mix(in srgb, var(--fertig-sh) 34%, transparent);
 }
 dialog > :last-child:not(footer) { margin-bottom: 0 }
@@ -606,12 +607,13 @@ dialog::backdrop { background: color-mix(in srgb, var(--fertig-sh) 42%, transpar
 dialog:has(> :is(header, footer)) { max-block-size: min(44rem, 85dvh); overflow: auto }
 dialog > :is(header, footer) {
   position: sticky; z-index: 1;
-  margin-inline: -1.6rem;
+  margin-inline: calc(0rem - var(--fertig-dialog-inset));
   background: var(--fertig-el);          /* the dialog's own surface, so it reads as one sheet */
 }
 dialog > header {
-  inset-block-start: -1.6rem; margin-block: -1.6rem .35rem;
-  padding: 1.6rem 1.6rem .5rem; font-weight: 700;
+  inset-block-start: calc(0rem - var(--fertig-dialog-inset));
+  margin-block: calc(0rem - var(--fertig-dialog-inset)) .35rem;
+  padding: var(--fertig-dialog-inset) var(--fertig-dialog-inset) .5rem; font-weight: 700;
   border-radius: var(--fertig-rw) var(--fertig-rw) 0 0;
 }
 /* The title carries the header's weight, so it needs no margins of its own,
@@ -625,8 +627,10 @@ dialog:is([open], :modal) > header > :is(h1, h2, h3, h4, p) {
   line-height: 1.3; letter-spacing: -.01em;
 }
 dialog > footer {
-  inset-block-end: -1.6rem; margin-block: 1.35rem -1.6rem;
-  padding: .5rem 1.6rem 1.6rem; border-radius: 0 0 var(--fertig-rw) var(--fertig-rw);
+  inset-block-end: calc(0rem - var(--fertig-dialog-inset));
+  margin-block: 1.35rem calc(0rem - var(--fertig-dialog-inset));
+  padding: .5rem var(--fertig-dialog-inset) var(--fertig-dialog-inset);
+  border-radius: 0 0 var(--fertig-rw) var(--fertig-rw);
   display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
   justify-content: flex-end;                  /* actions sit at the end edge */
 }
@@ -907,7 +911,7 @@ nav[aria-label] ol li + li::before { content: "/"; margin-inline-end: .5em; colo
    translate is physical for the same reason: 100% of the drawer's own inline
    width moves it off the edge it came from. RTL readers still get the same
    right/left drawer as anyone else; direction would make "right" ambiguous. */
-dialog[data-side] { max-width: none; margin: 0; border-radius: 0; padding: 1.4rem }
+dialog[data-side] { max-width: none; margin: 0; border-radius: 0 }
 dialog[data-side=right] {
   inset: 0 0 0 auto; block-size: 100dvh; inline-size: min(28rem, 92dvw);
   border-block: 0; border-inline-end: 0;

@@ -397,10 +397,20 @@ const tidy = html => {
   const cut = Math.min(...indents);
   return lines.map(l => l.slice(cut)).join('\n').trim();
 };
+const previewHTML = preview => {
+  if (!import.meta.env.DEV) return preview.innerHTML;
+  const snapshot = preview.cloneNode(true);
+  snapshot.querySelectorAll('*').forEach(element => {
+    for (const name of element.getAttributeNames()) {
+      if (name.startsWith('data-astro-source-')) element.removeAttribute(name);
+    }
+  });
+  return snapshot.innerHTML;
+};
 document.querySelectorAll('.block').forEach(block => {
   const preview = block.querySelector('.block-preview');
   const code = block.querySelector('.block-code code');  // scoped: a description may contain <code> too
-  code.textContent = tidy(preview.innerHTML);
+  code.textContent = tidy(previewHTML(preview));
   code.classList.add("language-html");
   if (window.hljs) hljs.highlightElement(code);
   const copy = document.createElement('button');

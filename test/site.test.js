@@ -74,6 +74,23 @@ test('catalogue starts with an accurate count and a compact mobile toolbar', () 
     /@media \(width <= 46rem\)[\s\S]*?\.comp-search-wrap\s*\{[^}]*flex-basis:\s*auto/,
     'the desktop search flex-basis becomes vertical blank space on phones',
   );
+  assert.match(
+    css,
+    /@media \(width <= 46rem\)[\s\S]*?\.comp-filters\s*\{[^}]*flex-wrap:\s*wrap;[^}]*overflow:\s*visible;/,
+    'the mobile filter controls should wrap instead of looking clipped',
+  );
+});
+
+test('the install examples reflow before their code becomes cramped', () => {
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
+  const source = readFileSync(path.join(root, 'src', 'pages', 'docs.astro'), 'utf8');
+
+  assert.match(css, /\.doc-body > #install \.cols-2\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /@container doc \(width >= 44rem\)[\s\S]*?\.doc-body > #install \.cols-2/);
+  assert.match(css, /\.doc-body > #install pre code\s*\{[^}]*white-space:\s*pre-wrap;[^}]*overflow-wrap:\s*anywhere;/);
+  assert.match(css, /main > #install\s*\{/);
+  assert.doesNotMatch(css, /\n#install\s*\{/);
+  assert.match(source, /https:\/\/cdn\.jsdelivr\.net\/npm\/fertig@4\/fertig\.min\.css/);
 });
 
 test('every catalogue component exposes a working copy action', () => {
@@ -199,16 +216,35 @@ test('the hero workbench renders editable HTML in a sandboxed live preview', () 
   assert.match(html, /data-hero-highlight data-highlighted/);
   assert.ok(preview, 'the hero live preview iframe is missing');
   assert.match(preview, /title="Live rendered HTML preview"/);
-  assert.match(preview, /\ssandbox(?:="")?(?:\s|>)/);
+  assert.match(preview, /\ssandbox="allow-same-origin"/);
   assert.doesNotMatch(preview, /allow-scripts/);
   assert.match(script, /hljs\.highlight\(editor\.value/);
-  assert.match(script, /editor\.addEventListener\("input", scheduleUpdate\)/);
+  assert.match(script, /editor\.offsetWidth - editor\.clientWidth/);
+  assert.match(
+    script,
+    /editor\.addEventListener\("input", \(\) => \{[\s\S]*?cancelIdleDemo\(\);[\s\S]*?scheduleUpdate\(\);/,
+  );
   assert.match(script, /editor\.addEventListener\("scroll"/);
   assert.match(script, /preview\.srcdoc =/);
   assert.match(script, /Content-Security-Policy/);
+  assert.match(script, /const idleStages = \["<\/hgroup>", "<\/section>", "<\/table>"\]/);
+  assert.match(script, /matchMedia\("\(prefers-reduced-motion: reduce\)"\)\.matches/);
+  assert.match(script, /new IntersectionObserver\([\s\S]*?startIdleDemo/);
+  assert.match(script, /entry\.intersectionRatio >= \.25/);
+  assert.match(script, /\["focus", "pointerdown", "keydown"\][\s\S]*?cancelIdleDemo/);
   assert.match(script, /reset\?\.addEventListener\("click"/);
-  assert.match(css, /\.workbench-highlight,[\s\S]*?white-space:\s*pre-wrap;\s*overflow-wrap:\s*anywhere/);
+  assert.match(css, /\.workbench-highlight,[\s\S]*?max-block-size:\s*none;[\s\S]*?white-space:\s*pre-wrap;\s*overflow-wrap:\s*anywhere/);
+  assert.match(css, /\.workbench-highlight\s*\{[^}]*overflow:\s*hidden;[^}]*scrollbar-gutter:\s*auto;/);
+  assert.match(css, /padding-inline-end:\s*calc\(1rem \+ var\(--workbench-editor-gutter, 0px\)\)/);
   assert.match(css, /\.workbench-highlight code\s*\{[^}]*min-width:\s*0/);
+});
+
+test('block copy markup removes Astro development metadata', () => {
+  const source = readFileSync(path.join(root, 'src', 'pages', 'blocks.astro'), 'utf8');
+
+  assert.match(source, /preview\.cloneNode\(true\)/);
+  assert.match(source, /name\.startsWith\(['"]data-astro-source-['"]\)/);
+  assert.match(source, /removeAttribute\(name\)/);
 });
 
 test('the catalogue teaches complete tab markup', () => {
