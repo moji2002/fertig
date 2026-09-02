@@ -4,6 +4,16 @@ import { site } from "../lib/site";
 
 const title = "fertig — classless CSS framework, no JavaScript, 9.3 KB";
 const description = "fertig styles semantic HTML as a finished interface: dialogs, popovers, forms, and data views in 9.3 KB gzipped, with no runtime or build step.";
+const heroMarkup = `<main>
+  <h1>Invoices</h1>
+  <progress
+    value="72" max="100"
+  >72%</progress>
+  <button popovertarget="new">
+    New invoice
+  </button>
+  <form popover id="new">…</form>
+</main>`;
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -60,47 +70,34 @@ const schema = {
       </div>
       <div class="workbench-screen">
         <div class="workbench-code">
-          <p>HTML in</p>
-          <pre><code class="language-html">&lt;main&gt;
-  &lt;h1&gt;Invoices&lt;/h1&gt;
-  &lt;progress
-    value="72" max="100"
-  &gt;72%&lt;/progress&gt;
-  &lt;button popovertarget="new"&gt;
-    New invoice
-  &lt;/button&gt;
-  &lt;form popover id="new"&gt;…&lt;/form&gt;
-&lt;/main&gt;</code></pre>
+          <div class="workbench-codebar">
+            <label for="hero-editor">HTML in</label>
+            <button type="button" data-hero-reset>Reset</button>
+          </div>
+          <span id="hero-editor-help" class="sr-only">Edit the HTML to update the preview beside it.</span>
+          <textarea
+            id="hero-editor"
+            class="workbench-editor"
+            data-hero-editor
+            aria-describedby="hero-editor-help"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >{heroMarkup}</textarea>
         </div>
         <div class="workbench-output">
-          <div class="output-toolbar"><strong>Ledger</strong><span>Overview&nbsp;·&nbsp; Invoices</span></div>
-          <div class="output-body">
-            <p class="output-label">Outstanding</p>
-            <strong class="output-value" data-hero-value>$48,200</strong>
-            <p class="output-note" data-hero-note>12 invoices · 72% collected</p>
-            <progress data-hero-progress value="72" max="100" aria-label="72% collected">72%</progress>
-            <div class="output-row">
-              <button type="button" class="primary" data-size="sm" popovertarget="hero-invoice">New invoice</button>
-              <span class="badge" data-tone="ok" data-hero-status role="status" aria-live="polite" aria-atomic="true">on track</span>
-            </div>
-            <form popover id="hero-invoice" class="hero-invoice-popover" data-hero-invoice aria-labelledby="hero-invoice-title">
-              <header>
-                <strong id="hero-invoice-title">New invoice</strong>
-                <button type="button" data-icon popovertarget="hero-invoice" popovertargetaction="hide" aria-label="Close invoice form">×</button>
-              </header>
-              <label for="hero-client">Client</label>
-              <input id="hero-client" name="client" autocomplete="organization" placeholder="Acme Corp" required autofocus>
-              <label for="hero-amount">Amount</label>
-              <div data-input-group>
-                <span>$</span>
-                <input id="hero-amount" name="amount" type="number" inputmode="decimal" min="1" max="50000" step="1" value="1250" required>
-              </div>
-              <footer><button type="submit" class="primary">Create invoice</button></footer>
-            </form>
-          </div>
+          <div class="output-toolbar"><strong>Preview</strong><span>fertig.css</span></div>
+          <iframe
+            class="workbench-preview"
+            data-hero-preview
+            data-stylesheet={`fertig.css?v=${site.hashes.fertig}`}
+            title="Live rendered HTML preview"
+            sandbox=""
+            srcdoc="<!doctype html><title>Live preview loading</title>"
+          ></iframe>
         </div>
       </div>
-      <p class="workbench-caption"><span>Semantic HTML</span><span aria-hidden="true">→</span><span>Finished interface</span></p>
+      <p class="workbench-caption"><span>Edit HTML</span><span aria-hidden="true">→</span><span>Preview instantly</span></p>
     </div>
 
     <dl class="proof">

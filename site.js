@@ -56,43 +56,59 @@ addEventListener("DOMContentLoaded", () => {
     .forEach(el => hljs.highlightElement(el));
 });
 
-/* The hero preview earns its "live" label. The popover itself is native; this
-   small controller applies the submitted invoice to the mock ledger and keeps
-   its text, meter, and status announcement in sync. */
+/* The hero is a small, real HTML playground. It renders into a sandboxed
+   iframe so visitors can freely edit markup without letting that markup reach
+   or restyle the surrounding site. Native controls (including popovers) keep
+   working in the preview without allowing scripts to run there. */
 addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("[data-hero-invoice]");
-  if (!(form instanceof HTMLFormElement)) return;
+  const editor = document.querySelector("[data-hero-editor]");
+  const preview = document.querySelector("[data-hero-preview]");
+  const reset = document.querySelector("[data-hero-reset]");
+  if (!(editor instanceof HTMLTextAreaElement) || !(preview instanceof HTMLIFrameElement)) return;
 
-  const trigger = document.querySelector('[popovertarget="hero-invoice"]');
-  const value = document.querySelector("[data-hero-value]");
-  const note = document.querySelector("[data-hero-note]");
-  const progress = document.querySelector("[data-hero-progress]");
-  const status = document.querySelector("[data-hero-status]");
-  const amount = form.elements.namedItem("amount");
-  if (!(amount instanceof HTMLInputElement) || !value || !note || !progress || !status) return;
+  const initialMarkup = editor.value;
+  const escapeAttribute = value => value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 
-  const money = new Intl.NumberFormat("en-US", {
-    style: "currency", currency: "USD", maximumFractionDigits: 0,
+  const render = () => {
+    const theme = isDarkTheme() ? "dark" : "light";
+    const stylesheet = new URL(preview.dataset.stylesheet || "fertig.css", document.baseURI);
+    const policy = `default-src 'none'; style-src ${stylesheet.origin}; form-action 'none'; base-uri 'none'`;
+    preview.srcdoc = `<!doctype html>
+<html data-theme="${theme}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="${escapeAttribute(policy)}">
+    <link rel="stylesheet" href="${escapeAttribute(stylesheet.href)}">
+  </head>
+  <body>${editor.value}</body>
+</html>`;
+  };
+
+  let renderFrame = 0;
+  const scheduleRender = () => {
+    cancelAnimationFrame(renderFrame);
+    renderFrame = requestAnimationFrame(render);
+  };
+
+  editor.addEventListener("input", scheduleRender);
+  editor.addEventListener("keydown", event => {
+    if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
+    event.preventDefault();
+    editor.setRangeText("  ", editor.selectionStart, editor.selectionEnd, "end");
+    scheduleRender();
   });
-  let outstanding = 48200, invoiceCount = 12, collected = 72;
-
-  form.addEventListener("submit", () => {
-    const addition = Number(amount.value);
-    if (!Number.isFinite(addition) || addition <= 0) return;
-
-    outstanding += addition;
-    invoiceCount += 1;
-    collected = Math.max(40, collected - 2);
-    value.textContent = money.format(outstanding);
-    note.textContent = `${invoiceCount} invoices · ${collected}% collected`;
-    progress.value = collected;
-    progress.textContent = `${collected}%`;
-    progress.setAttribute("aria-label", `${collected}% collected`);
-    status.textContent = "draft added";
-    form.reset();
-    if (typeof form.hidePopover === "function") form.hidePopover();
-    trigger?.focus();
+  reset?.addEventListener("click", () => {
+    editor.value = initialMarkup;
+    render();
+    editor.focus();
   });
+  addEventListener("themechange", scheduleRender);
+  render();
 });
 
 /* The docs and blocks sidebars mark the section you are actually in. An

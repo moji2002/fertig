@@ -135,17 +135,22 @@ test('the landing page has no intrusive modal demo', () => {
   assert.doesNotMatch(html, /<dialog\b/);
 });
 
-test('the hero workbench creates invoices through an accessible popover', () => {
+test('the hero workbench renders editable HTML in a sandboxed live preview', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
   const html = readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
   const script = readFileSync(path.join(root, 'site.js'), 'utf8');
+  const preview = html.match(/<iframe\b[^>]*data-hero-preview[^>]*>/)?.[0];
 
-  assert.match(html, /<button[^>]*popovertarget="hero-invoice"[^>]*>New invoice<\/button>/);
-  assert.match(html, /<form popover id="hero-invoice"[^>]*aria-labelledby="hero-invoice-title"/);
-  assert.match(html, /data-hero-status role="status" aria-live="polite"/);
-  assert.match(script, /form\.addEventListener\("submit"/);
-  assert.match(script, /progress\.setAttribute\("aria-label"/);
-  assert.match(script, /form\.hidePopover/);
+  assert.match(html, /<textarea\b[^>]*data-hero-editor[^>]*aria-describedby="hero-editor-help"/);
+  assert.match(html, /&lt;button popovertarget=&quot;new&quot;&gt;/);
+  assert.ok(preview, 'the hero live preview iframe is missing');
+  assert.match(preview, /title="Live rendered HTML preview"/);
+  assert.match(preview, /\ssandbox(?:="")?(?:\s|>)/);
+  assert.doesNotMatch(preview, /allow-scripts/);
+  assert.match(script, /editor\.addEventListener\("input", scheduleRender\)/);
+  assert.match(script, /preview\.srcdoc =/);
+  assert.match(script, /Content-Security-Policy/);
+  assert.match(script, /reset\?\.addEventListener\("click"/);
 });
 
 test('the catalogue teaches complete tab markup', () => {
