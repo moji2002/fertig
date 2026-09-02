@@ -108,6 +108,33 @@ test('every catalogue component exposes a working copy action', () => {
   assert.match(css, /\.comp-copy\[data-copied\]/);
 });
 
+test('every block code example declares its language and uses one highlighter', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+  const script = readFileSync(path.join(root, 'site.js'), 'utf8');
+  let examples = 0;
+
+  for (const page of pages) {
+    const html = readFileSync(path.join(root, 'dist', page), 'utf8');
+    const codeBlocks = [...html.matchAll(/<(?:pre\b[^>]*|div class="comp-card-code")>\s*<code\b([^>]*)>/g)];
+    examples += codeBlocks.length;
+    codeBlocks.forEach(([, attributes]) => {
+      assert.match(attributes, /class="[^"]*language-[^"]+"/, `${page} has a code example without a language`);
+    });
+  }
+
+  assert.ok(examples >= 70, 'the code example inventory unexpectedly shrank');
+  assert.match(script, /pre > code:not\(\[data-highlighted\]\), \.comp-card-code > code:not\(\[data-highlighted\]\)/);
+  assert.equal((script.match(/hljs\.highlight(?:Element)?\(/g) || []).length, 1);
+});
+
+test('the component catalogue includes a visible semantic switch', () => {
+  const source = readFileSync(path.join(root, 'src', 'pages', 'components.astro'), 'utf8');
+
+  assert.match(source, /data-name="checkbox radio switch toggle"/);
+  assert.match(source, /<input type="checkbox" role="switch" checked> Email updates/);
+  assert.match(source, /&lt;input type="checkbox" role="switch" checked&gt;/);
+});
+
 test('navigation links keep native link semantics', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
 
@@ -218,7 +245,7 @@ test('the hero workbench renders editable HTML in a sandboxed live preview', () 
   assert.match(preview, /title="Live rendered HTML preview"/);
   assert.match(preview, /\ssandbox="allow-same-origin"/);
   assert.doesNotMatch(preview, /allow-scripts/);
-  assert.match(script, /hljs\.highlight\(editor\.value/);
+  assert.match(script, /highlightCode\(highlightedCode, `\$\{editor\.value\}\\n`, "html"\)/);
   assert.match(script, /editor\.offsetWidth - editor\.clientWidth/);
   assert.match(
     script,
@@ -245,11 +272,27 @@ test('block copy markup removes Astro development metadata', () => {
   assert.match(source, /preview\.cloneNode\(true\)/);
   assert.match(source, /name\.startsWith\(['"]data-astro-source-['"]\)/);
   assert.match(source, /removeAttribute\(name\)/);
+  assert.match(source, /const formatNode = \(node, depth\) =>/);
+  assert.match(source, /const openingTag = element =>/);
+  assert.match(source, /return formatHTML\(snapshot\)/);
+  assert.doesNotMatch(source, /const tidy =/);
+});
+
+test('the landing hero uses the available viewport without a reading bar', () => {
+  const html = readFileSync(path.join(root, 'src', 'layouts', 'SiteLayout.astro'), 'utf8');
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
+
+  assert.doesNotMatch(html, /reading-progress/);
+  assert.doesNotMatch(css, /\.reading-progress/);
+  assert.match(css, /\.home-hero\s*\{[^}]*min-block-size:\s*calc\(100svh - 3\.9rem\)/);
+  assert.match(css, /\.workbench-screen\s*\{[^}]*block-size:\s*clamp\(24rem, 58svh, 32rem\)/);
+  assert.match(css, /\.proof\s*\{[^}]*margin:\s*0 0 \.25rem/);
+  assert.match(css, /@media \(width <= 48rem\)[\s\S]*?\.workbench-screen\s*\{[^}]*block-size:\s*auto/);
 });
 
 test('the catalogue teaches complete tab markup', () => {
   const source = readFileSync(path.join(root, 'src', 'pages', 'components.astro'), 'utf8');
-  const sample = source.match(/<!-- Tabs -->[\s\S]*?<div class="comp-card-code"><code>([\s\S]*?)<\/code>/)?.[1];
+  const sample = source.match(/<!-- Tabs -->[\s\S]*?<div class="comp-card-code"><code\b[^>]*>([\s\S]*?)<\/code>/)?.[1];
   assert.ok(sample, 'the Tabs code sample is missing');
   assert.match(sample, /aria-controls=/);
   assert.match(sample, /role="tabpanel"/);

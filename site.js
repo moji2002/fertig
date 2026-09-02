@@ -48,12 +48,25 @@ addEventListener("click", e => {
 /* Every form here is a demo with nowhere to submit to. */
 addEventListener("submit", e => e.preventDefault());
 
-/* highlight.js ships no CSS here on purpose: fertig themes the tokens.
-   Blocks that build their own snippets highlight them first and mark them. */
+/* highlight.js ships no CSS here on purpose: fertig themes the tokens. Keep
+   one deterministic path for every example so snippets never depend on
+   language auto-detection and copied text always stays source, not markup. */
+const codeLanguage = code => [...code.classList]
+  .find(name => name.startsWith("language-"))?.slice("language-".length);
+
+const highlightCode = (code, source = code.textContent, language = codeLanguage(code)) => {
+  code.textContent = source;
+  if (!window.hljs || !language || !hljs.getLanguage(language)) return false;
+  code.innerHTML = hljs.highlight(source, { language, ignoreIllegals: true }).value;
+  code.classList.add("hljs");
+  code.dataset.highlighted = "";
+  return true;
+};
+
 addEventListener("DOMContentLoaded", () => {
-  if (!window.hljs) return;
-  document.querySelectorAll("pre code:not([data-highlighted])")
-    .forEach(el => hljs.highlightElement(el));
+  document.querySelectorAll(
+    "pre > code:not([data-highlighted]), .comp-card-code > code:not([data-highlighted])",
+  ).forEach(code => highlightCode(code));
 });
 
 /* Every catalogue card gets the same progressively enhanced copy action. The
@@ -123,12 +136,10 @@ addEventListener("DOMContentLoaded", () => {
 
   const paintEditor = () => {
     if (!(editorStack instanceof HTMLElement) ||
-        !(highlightedCode instanceof HTMLElement) || !window.hljs) return;
+        !(highlightedCode instanceof HTMLElement)) return;
     const scrollbarWidth = editor.offsetWidth - editor.clientWidth;
     editorStack.style.setProperty("--workbench-editor-gutter", `${scrollbarWidth}px`);
-    highlightedCode.innerHTML = hljs.highlight(editor.value, {
-      language: "xml", ignoreIllegals: true,
-    }).value + "\n";
+    if (!highlightCode(highlightedCode, `${editor.value}\n`, "html")) return;
     editorStack.dataset.highlighted = "";
     const mirror = highlightedCode.parentElement;
     if (mirror) {
@@ -406,8 +417,7 @@ addEventListener("DOMContentLoaded", () => {
     if (v.w !== 72) lines.push(`  --fertig-w: ${v.w}rem;`);
     if (v.f)        lines.push(`  --fertig-f: ${v.f};`);
     out.textContent = `:root {\n${lines.join("\n")}\n}`;
-    out.removeAttribute("data-highlighted");
-    if (window.hljs) hljs.highlightElement(out);
+    highlightCode(out, out.textContent, "css");
 
     /* the accent has two jobs: it is link text on the paper, and it is the
        fill under button text. Both have to hold. */

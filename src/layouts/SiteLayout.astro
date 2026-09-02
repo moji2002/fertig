@@ -76,7 +76,6 @@ const canonicalUrl = `https://moji2002.github.io/fertig/${canonical}`;
     <link rel="stylesheet" href={`site.css?v=${site.hashes.site}`} />
   </head>
   <body>
-    <div class="reading-progress" aria-hidden="true"></div>
     <SiteNav active={active} />
     {pageTitle && pageIntro && <PageHeader title={pageTitle} intro={pageIntro} />}
     <slot />

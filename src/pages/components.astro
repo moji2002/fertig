@@ -49,7 +49,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <p>Body text with <strong>bold</strong>, <em>italic</em>, <a href="#">links</a>, and <code>inline code</code>.</p>
         </div>
         <p class="comp-card-desc">Semantic inline elements are styled directly — strong, em, a, mark, s, ins, abbr, code, kbd, samp. No classes needed.</p>
-        <div class="comp-card-code"><code>&lt;p&gt;Text with &lt;strong&gt;bold&lt;/strong&gt;, &lt;em&gt;italic&lt;/em&gt;, &lt;a&gt;links&lt;/a&gt;.&lt;/p&gt;</code></div>
+        <div class="comp-card-code"><code class="language-html">&lt;p&gt;Text with &lt;strong&gt;bold&lt;/strong&gt;, &lt;em&gt;italic&lt;/em&gt;, &lt;a&gt;links&lt;/a&gt;.&lt;/p&gt;</code></div>
       </article>
 
       <!-- Headings -->
@@ -63,7 +63,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <h5 style="margin:0">Heading h5</h5>
         </div>
         <p class="comp-card-desc">h1–h4 descend in size; h5 and h6 become small uppercase labels, which is how they are usually used in practice.</p>
-        <div class="comp-card-code"><code>&lt;h1&gt;…&lt;/h1&gt; through &lt;h6&gt;…&lt;/h6&gt;</code></div>
+        <div class="comp-card-code"><code class="language-html">&lt;h1&gt;…&lt;/h1&gt; through &lt;h6&gt;…&lt;/h6&gt;</code></div>
       </article>
 
       <!-- Lists -->
@@ -76,7 +76,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <ul style="margin:0"><li>Unordered list</li><li>Second item</li></ul>
         </div>
         <p class="comp-card-desc">Ordered, unordered, and definition lists. Description lists become a two-column grid automatically.</p>
-        <div class="comp-card-code"><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;
 &lt;dl&gt;&lt;dt&gt;Key&lt;/dt&gt;&lt;dd&gt;Value&lt;/dd&gt;&lt;/dl&gt;</code></div>
       </article>
 
@@ -90,7 +90,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <blockquote style="margin:0">A quoted passage with an accent rule and muted text.</blockquote>
         </div>
         <p class="comp-card-desc">Block quotes take an accent rule on the start edge and mute their text colour.</p>
-        <div class="comp-card-code"><code>&lt;blockquote&gt;…&lt;/blockquote&gt;</code></div>
+        <div class="comp-card-code"><code class="language-html">&lt;blockquote&gt;…&lt;/blockquote&gt;</code></div>
       </article>
 
       <!-- Code blocks -->
@@ -100,10 +100,10 @@ const description = "Browse every element, component, and utility fertig styles,
           <span class="badge">elements</span>
         </div>
         <div class="comp-card-preview">
-          <pre style="margin:0"><code>.card &#123; border-radius: var(--fertig-r) &#125;</code></pre>
+          <pre style="margin:0"><code class="language-css">.card &#123; border-radius: var(--fertig-r) &#125;</code></pre>
         </div>
         <p class="comp-card-desc">Inline code, keyboard shortcuts, sample output, and code blocks — all with a monospace face and recessed background.</p>
-        <div class="comp-card-code"><code>&lt;code&gt;inline&lt;/code&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;code&gt;inline&lt;/code&gt;
 &lt;pre&gt;&lt;code&gt;block&lt;/code&gt;&lt;/pre&gt;
 &lt;kbd&gt;Enter&lt;/kbd&gt;</code></div>
       </article>
@@ -118,7 +118,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <p style="margin:0"><a href="#">A link in the accent colour</a></p>
         </div>
         <p class="comp-card-desc">Links use the accent colour with an underline offset. Add .primary when a prominent navigation link needs button-like styling.</p>
-        <div class="comp-card-code"><code>&lt;a href="#"&gt;Link text&lt;/a&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;a href="#"&gt;Link text&lt;/a&gt;
 &lt;a class="primary" href="/docs"&gt;Read the docs&lt;/a&gt;</code></div>
       </article>
 
@@ -138,7 +138,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </table>
         </div>
         <p class="comp-card-desc">Editorial tables with hairline rules, hover tint, and self-scrolling on narrow screens. Numbers right-align with align="right".</p>
-        <div class="comp-card-code"><code>&lt;table&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;table&gt;
   &lt;thead&gt;&lt;tr&gt;&lt;th&gt;…&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
   &lt;tbody&gt;&lt;tr&gt;&lt;td&gt;…&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;</code></div>
@@ -157,7 +157,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </div>
         </div>
         <p class="comp-card-desc">Raised panels taking optional header and footer that bleed to its edges. Cards are columns — footers align across a row.</p>
-        <div class="comp-card-code"><code>&lt;div class="card"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;div class="card"&gt;
   &lt;header&gt;Title&lt;/header&gt;
   &lt;p&gt;Content.&lt;/p&gt;
   &lt;footer&gt;Meta&lt;/footer&gt;
@@ -178,7 +178,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">Small pill labels for status, counts, or categories. Combine with data-tone for ok/warn/err colours.</p>
-        <div class="comp-card-code"><code>&lt;span class="badge"&gt;default&lt;/span&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;span class="badge"&gt;default&lt;/span&gt;
 &lt;span class="badge" data-tone="ok"&gt;pass&lt;/span&gt;
 &lt;span class="badge" data-tone="err"&gt;fail&lt;/span&gt;</code></div>
       </article>
@@ -193,7 +193,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <p data-skeleton style="margin:0">This paragraph is a skeleton placeholder.</p>
         </div>
         <p class="comp-card-desc">Placeholder shapes that show where content will appear once it finishes loading, reducing perceived wait time.</p>
-        <div class="comp-card-code"><code>&lt;p data-skeleton&gt;Loading text…&lt;/p&gt;</code></div>
+        <div class="comp-card-code"><code class="language-html">&lt;p data-skeleton&gt;Loading text…&lt;/p&gt;</code></div>
       </article>
 
       <!-- Surface -->
@@ -209,7 +209,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </section>
         </div>
         <p class="comp-card-desc">A general-purpose surface with shared radius and elevation tokens. Use flat or outline when hierarchy should be quieter.</p>
-        <div class="comp-card-code"><code>&lt;section data-surface&gt;…&lt;/section&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;section data-surface&gt;…&lt;/section&gt;
 &lt;section data-surface="flat"&gt;…&lt;/section&gt;
 &lt;section data-surface="outline"&gt;…&lt;/section&gt;</code></div>
       </article>
@@ -230,7 +230,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </div>
         </div>
         <p class="comp-card-desc">A compound row for an avatar or icon, flexible content, and an optional trailing action. It also works on links and buttons.</p>
-        <div class="comp-card-code"><code>&lt;div data-item&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;div data-item&gt;
   &lt;span data-avatar="sm"&gt;AM&lt;/span&gt;
   &lt;div&gt;&lt;strong&gt;Ada Morris&lt;/strong&gt;&lt;small&gt;Product design&lt;/small&gt;&lt;/div&gt;
   &lt;button data-icon aria-label="More actions"&gt;•••&lt;/button&gt;
@@ -252,7 +252,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </section>
         </div>
         <p class="comp-card-desc">A deliberate endpoint for a collection with no content. Keep one clear explanation and one primary recovery action.</p>
-        <div class="comp-card-code"><code>&lt;section data-empty&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;section data-empty&gt;
   &lt;h3&gt;No projects yet&lt;/h3&gt;
   &lt;p&gt;Create one to get started.&lt;/p&gt;
   &lt;button class="primary"&gt;Create project&lt;/button&gt;
@@ -272,7 +272,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </form>
         </div>
         <p class="comp-card-desc">Single-line text fields with labels, placeholders, hints, and validation. Errors fire on :user-invalid after input.</p>
-        <div class="comp-card-code"><code>&lt;label for="e"&gt;Email&lt;/label&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;label for="e"&gt;Email&lt;/label&gt;
 &lt;input id="e" type="email" required&gt;</code></div>
       </article>
 
@@ -294,7 +294,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </div>
         </div>
         <p class="comp-card-desc">data-field keeps labels, help, and errors together. data-input-group gives fields, addons, and compact actions one focus surface.</p>
-        <div class="comp-card-code"><code>&lt;div data-field&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;div data-field&gt;
   &lt;label for="workspace"&gt;Workspace URL&lt;/label&gt;
   &lt;div data-input-group&gt;
     &lt;span&gt;https://&lt;/span&gt;
@@ -319,7 +319,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </div>
         </div>
         <p class="comp-card-desc">A single native input styled like a code control, preserving paste, password-manager, autofill, and screen-reader behavior.</p>
-        <div class="comp-card-code"><code>&lt;label for="code"&gt;Verification code&lt;/label&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;label for="code"&gt;Verification code&lt;/label&gt;
 &lt;input id="code" data-otp inputmode="numeric"
   autocomplete="one-time-code" maxlength="6"&gt;</code></div>
       </article>
@@ -337,7 +337,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </form>
         </div>
         <p class="comp-card-desc">Native select dropdown with a CSS-drawn chevron. Supports appearance: base-select on Chromium for full styling.</p>
-        <div class="comp-card-code"><code>&lt;label for="s"&gt;Plan&lt;/label&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;label for="s"&gt;Plan&lt;/label&gt;
 &lt;select id="s"&gt;&lt;option&gt;Free&lt;/option&gt;&lt;/select&gt;</code></div>
       </article>
 
@@ -355,7 +355,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </ul>
         </div>
         <p class="comp-card-desc">A selectable collection styled through ARIA. JavaScript must own selection, active-descendant state, typeahead, and arrow keys.</p>
-        <div class="comp-card-code"><code>&lt;ul role="listbox" tabindex="0" aria-label="Assignee"
+        <div class="comp-card-code"><code class="language-html">&lt;ul role="listbox" tabindex="0" aria-label="Assignee"
   aria-activedescendant="option-ada"&gt;
   &lt;li id="option-ada" role="option" aria-selected="true"&gt;Ada&lt;/li&gt;
   &lt;li id="option-lin" role="option" aria-selected="false"&gt;Lin&lt;/li&gt;
@@ -375,25 +375,30 @@ const description = "Browse every element, component, and utility fertig styles,
           </form>
         </div>
         <p class="comp-card-desc">Multi-line text input with optional resizing and field-sizing: content for auto-grow.</p>
-        <div class="comp-card-code"><code>&lt;label for="t"&gt;Notes&lt;/label&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;label for="t"&gt;Notes&lt;/label&gt;
 &lt;textarea id="t" placeholder="Type here…"&gt;&lt;/textarea&gt;</code></div>
       </article>
 
-      <!-- Checkbox & Radio -->
-      <article class="comp-card" data-category="forms" data-name="checkbox radio">
+      <!-- Checkbox, Radio & Switch -->
+      <article class="comp-card" data-category="forms" data-name="checkbox radio switch toggle">
         <div class="comp-card-head">
-          <h3>Checkbox &amp; Radio</h3>
+          <h3>Checkbox, Radio &amp; Switch</h3>
           <span class="badge">forms</span>
         </div>
         <div class="comp-card-preview">
           <form style="margin:0">
             <p><label><input type="checkbox" checked> Checkbox</label></p>
             <p><label><input type="radio" name="cr" checked> Radio</label></p>
+            <p><label><input type="checkbox" role="switch" checked> Email updates</label></p>
           </form>
         </div>
-        <p class="comp-card-desc">Toggle options on/off or select one from a set. Both inherit accent-color for easy theming.</p>
-        <div class="comp-card-code"><code>&lt;label&gt;&lt;input type="checkbox"&gt; Check&lt;/label&gt;
-&lt;label&gt;&lt;input type="radio" name="r"&gt; Radio&lt;/label&gt;</code></div>
+        <p class="comp-card-desc">Check options, select one choice, or expose a clear on/off setting. Every control inherits the active accent.</p>
+        <div class="comp-card-code"><code class="language-html">&lt;label&gt;&lt;input type="checkbox"&gt; Check&lt;/label&gt;
+&lt;label&gt;&lt;input type="radio" name="r"&gt; Radio&lt;/label&gt;
+&lt;label&gt;
+  &lt;input type="checkbox" role="switch" checked&gt;
+  Email updates
+&lt;/label&gt;</code></div>
       </article>
 
       <!-- Range & Progress -->
@@ -410,7 +415,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </form>
         </div>
         <p class="comp-card-desc">Range sliders for numeric values within a range. Progress bars show determinate fill for ongoing operations.</p>
-        <div class="comp-card-code"><code>&lt;input type="range" value="60"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;input type="range" value="60"&gt;
 &lt;progress value="0.6"&gt;&lt;/progress&gt;</code></div>
       </article>
 
@@ -430,7 +435,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </form>
         </div>
         <p class="comp-card-desc">Groups related form controls. The legend is styled as a panel title rather than notching the border.</p>
-        <div class="comp-card-code"><code>&lt;fieldset&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;fieldset&gt;
   &lt;legend&gt;Account&lt;/legend&gt;
   &lt;label for="n"&gt;Name&lt;/label&gt;
   &lt;input id="n" type="text"&gt;
@@ -450,7 +455,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">A plain button is already styled. type="submit" gets the filled treatment automatically — most forms need no attributes.</p>
-        <div class="comp-card-code"><code>&lt;button&gt;Default&lt;/button&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;button&gt;Default&lt;/button&gt;
 &lt;button class="primary"&gt;Primary&lt;/button&gt;</code></div>
       </article>
 
@@ -469,7 +474,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">Soft and outline add hierarchy without another filled action. Ghost and link variants step down further.</p>
-        <div class="comp-card-code"><code>&lt;button data-variant="soft"&gt;Soft&lt;/button&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;button data-variant="soft"&gt;Soft&lt;/button&gt;
 &lt;button data-variant="outline"&gt;Outline&lt;/button&gt;
 &lt;button data-variant="ghost"&gt;Ghost&lt;/button&gt;
 &lt;button data-variant="link"&gt;Link&lt;/button&gt;</code></div>
@@ -489,7 +494,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">Three sizes via data-size: sm, default, lg. Also supports data-block for full width and data-icon for icon-only.</p>
-        <div class="comp-card-code"><code>&lt;button data-size="sm"&gt;Small&lt;/button&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;button data-size="sm"&gt;Small&lt;/button&gt;
 &lt;button data-size="lg"&gt;Large&lt;/button&gt;
 &lt;button data-block&gt;Full width&lt;/button&gt;</code></div>
       </article>
@@ -508,7 +513,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">Combine data-tone with a filled or soft variant to retint the button for ok, warn, or err states.</p>
-        <div class="comp-card-code"><code>&lt;button data-variant="soft" data-tone="err"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;button data-variant="soft" data-tone="err"&gt;
   Delete
 &lt;/button&gt;</code></div>
       </article>
@@ -529,7 +534,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">Mutually exclusive options styled through role="group" and aria-pressed. No classes needed.</p>
-        <div class="comp-card-code"><code>&lt;span role="group"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;span role="group"&gt;
   &lt;button aria-pressed="true"&gt;Day&lt;/button&gt;
   &lt;button aria-pressed="false"&gt;Week&lt;/button&gt;
 &lt;/span&gt;</code></div>
@@ -545,7 +550,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <TabDemo prefix="catalogue-tabs" labels={["Preview", "Code", "Notes"]} label="Component example" />
         </div>
         <p class="comp-card-desc">Styled through ARIA. JavaScript owns selected state, panel visibility and arrow-key navigation.</p>
-        <div class="comp-card-code"><code>&lt;div role="tablist" aria-label="View"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;div role="tablist" aria-label="View"&gt;
   &lt;button id="tab-preview" role="tab" aria-controls="panel-preview"
     aria-selected="true" tabindex="0"&gt;Preview&lt;/button&gt;
   &lt;button id="tab-code" role="tab" aria-controls="panel-code"
@@ -567,7 +572,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </nav>
         </div>
         <p class="comp-card-desc">Trail of links showing hierarchy position. Separator and current-page styling are automatic.</p>
-        <div class="comp-card-code"><code>&lt;nav aria-label="Breadcrumb"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;nav aria-label="Breadcrumb"&gt;
   &lt;ol&gt;&lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;
 &lt;/nav&gt;</code></div>
       </article>
@@ -590,7 +595,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </div>
         </div>
         <p class="comp-card-desc">Native popover API, anchored to the button with CSS anchor positioning. No JavaScript, no positioning library.</p>
-        <div class="comp-card-code"><code>&lt;button popovertarget="menu"&gt;Menu ▾&lt;/button&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;button popovertarget="menu"&gt;Menu ▾&lt;/button&gt;
 &lt;div popover id="menu"&gt;
   &lt;menu&gt;&lt;li&gt;&lt;button&gt;New&lt;/button&gt;&lt;/li&gt;&lt;/menu&gt;
 &lt;/div&gt;</code></div>
@@ -606,7 +611,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <p style="margin:0"><button data-tooltip="One attribute, no JavaScript">Hover me</button></p>
         </div>
         <p class="comp-card-desc">Pure CSS tooltips via data-tooltip. Decorative only — put the same text in aria-label for assistive tech.</p>
-        <div class="comp-card-code"><code>&lt;button data-tooltip="Helpful tip"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;button data-tooltip="Helpful tip"&gt;
   Hover me
 &lt;/button&gt;</code></div>
       </article>
@@ -631,7 +636,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </div>
         </div>
         <p class="comp-card-desc">Opens and closes with command/commandfor attributes — no JavaScript. closedby="any" gives light dismiss. Drawer uses the same element docked to an edge via data-side.</p>
-        <div class="comp-card-code"><code>&lt;dialog id="d" closedby="any" aria-labelledby="d-title"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;dialog id="d" closedby="any" aria-labelledby="d-title"&gt;
   &lt;header&gt;&lt;h3 id="d-title"&gt;Title&lt;/h3&gt;&lt;/header&gt;
   &lt;p&gt;Content.&lt;/p&gt;
   &lt;footer&gt;
@@ -651,7 +656,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <aside data-tone="ok" style="margin:0"><strong>Done.</strong> Payment received.</aside>
         </div>
         <p class="comp-card-desc">Callouts and asides retinted with data-tone. One attribute changes the accent for the whole element.</p>
-        <div class="comp-card-code"><code>&lt;aside data-tone="ok"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;aside data-tone="ok"&gt;
   &lt;strong&gt;Done.&lt;/strong&gt; Payment received.
 &lt;/aside&gt;</code></div>
       </article>
@@ -666,7 +671,7 @@ const description = "Browse every element, component, and utility fertig styles,
           <p style="margin:0"><button aria-busy="true">Saving</button></p>
         </div>
         <p class="comp-card-desc">Add aria-busy="true" to any button for a spinner. Works with any element — the spinner is drawn with CSS.</p>
-        <div class="comp-card-code"><code>&lt;button aria-busy="true"&gt;Saving&lt;/button&gt;</code></div>
+        <div class="comp-card-code"><code class="language-html">&lt;button aria-busy="true"&gt;Saving&lt;/button&gt;</code></div>
       </article>
 
       <!-- Tones -->
@@ -683,7 +688,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">data-tone redefines --fertig-ac on the element. Anything inside it — buttons, links, badges — follows automatically.</p>
-        <div class="comp-card-code"><code>&lt;span class="badge" data-tone="ok"&gt;pass&lt;/span&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;span class="badge" data-tone="ok"&gt;pass&lt;/span&gt;
 &lt;div class="card" data-tone="err"&gt;…&lt;/div&gt;</code></div>
       </article>
 
@@ -700,7 +705,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </details>
         </div>
         <p class="comp-card-desc">Native details/summary with a rotating caret. Animates open and closed where ::details-content is supported.</p>
-        <div class="comp-card-code"><code>&lt;details&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;details&gt;
   &lt;summary&gt;Title&lt;/summary&gt;
   &lt;p&gt;Body.&lt;/p&gt;
 &lt;/details&gt;</code></div>
@@ -719,7 +724,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </div>
         </div>
         <p class="comp-card-desc">Layout utilities: .flex, .grid, .gap-*, .mx-auto, .ms-auto, .me-auto, .w-full and .hidden. All flow-relative.</p>
-        <div class="comp-card-code"><code>&lt;div class="grid grid-cols-3 gap-4"&gt;…&lt;/div&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;div class="grid grid-cols-3 gap-4"&gt;…&lt;/div&gt;
 &lt;p class="row justify-end"&gt;…&lt;/p&gt;</code></div>
       </article>
 
@@ -736,7 +741,7 @@ const description = "Browse every element, component, and utility fertig styles,
           </p>
         </div>
         <p class="comp-card-desc">Seven named accents (blue, cyan, green, amber, red, violet, gray). Put data-accent on any element and everything inside follows.</p>
-        <div class="comp-card-code"><code>&lt;section data-accent="green"&gt;
+        <div class="comp-card-code"><code class="language-html">&lt;section data-accent="green"&gt;
   &lt;button class="primary"&gt;Save&lt;/button&gt;
 &lt;/section&gt;</code></div>
       </article>

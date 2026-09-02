@@ -46,13 +46,13 @@ const description = "Reference for fertig installation, layout, component behavi
         <div class="cols-2">
           <div>
             <h3>From npm</h3>
-            <pre><code>npm install fertig</code></pre>
+            <pre><code class="language-bash">npm install fertig</code></pre>
             <p class="muted">Then import it through your bundler:</p>
-            <pre><code>@import "fertig";</code></pre>
+            <pre><code class="language-css">@import "fertig";</code></pre>
           </div>
           <div>
             <h3>From a CDN</h3>
-            <pre><code>&lt;link rel="stylesheet"
+            <pre><code class="language-html">&lt;link rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/fertig@4/fertig.min.css"&gt;</code></pre>
             <p class="muted">No tooling required at all.</p>
           </div>
@@ -73,7 +73,7 @@ const description = "Reference for fertig installation, layout, component behavi
         <p>fertig has no <code>.container</code>. Direct children of
           <code>&lt;body&gt;</code> are the containers, so page structure
           <em>is</em> layout.</p>
-        <pre><code>&lt;body&gt;
+        <pre><code class="language-html">&lt;body&gt;
   &lt;nav&gt;…&lt;/nav&gt;       &lt;!-- full-bleed toolbar, contents on the measure --&gt;
   &lt;header&gt;…&lt;/header&gt;  &lt;!-- the content canvas starts here --&gt;
   &lt;main&gt;…&lt;/main&gt;
@@ -89,7 +89,7 @@ const description = "Reference for fertig installation, layout, component behavi
           <em>or</em> the children of a single <code>#root</code>,
           <code>#app</code>, <code>#__next</code> or
           <code>[data-fertig]</code> wrapper &mdash; no configuration:</p>
-        <pre><code>&lt;body&gt;
+        <pre><code class="language-html">&lt;body&gt;
   &lt;div id="root"&gt;
     &lt;nav&gt;&hellip;&lt;/nav&gt;
     &lt;main&gt;&hellip;&lt;/main&gt;
@@ -98,7 +98,7 @@ const description = "Reference for fertig installation, layout, component behavi
         <p>Deeper than that, or a mount node named something else, and you
           re-point the shell yourself &mdash; it is the only place
           <code>body &gt;</code> appears:</p>
-        <pre><code>#shell > * &#123; padding-inline: var(--fertig-g) &#125;
+        <pre><code class="language-css">#shell > * &#123; padding-inline: var(--fertig-g) &#125;
 #shell > header, #shell > main, #shell > footer &#123; background: var(--fertig-bg) &#125;</code></pre>
 
         <h3>Width</h3>
@@ -131,7 +131,7 @@ const description = "Reference for fertig installation, layout, component behavi
         <p>CSS can style an ARIA tab widget, but it cannot update
           <code>aria-selected</code>, switch the associated panel or manage
           arrow-key focus. Use a small controller for those behaviors:</p>
-        <pre><code class="language-javascript">document.querySelectorAll('[role=tablist]').forEach(list =&gt; &#123;
+        <pre class="doc-code-scroll" tabindex="0" aria-label="JavaScript tab controller"><code class="language-javascript">document.querySelectorAll('[role=tablist]').forEach(list =&gt; &#123;
   const tabs = [...list.querySelectorAll('[role=tab]')];
   const show = tab =&gt; tabs.forEach(t =&gt; &#123;
     const on = t === tab;
@@ -181,7 +181,7 @@ const description = "Reference for fertig installation, layout, component behavi
         <h3>Layout utilities</h3>
         <p>A compact set of predictable layout helpers covers common flex,
           grid, alignment, gap, margin and visibility needs.</p>
-        <pre><code>.flex  .flex-col  .flex-wrap  .flex-1
+        <pre><code class="language-plaintext">.flex  .flex-col  .flex-wrap  .flex-1
 .grid-cols-2  .grid-cols-3  .grid-cols-4
 .items-start  .items-center  .items-end
 .justify-start  .justify-center  .justify-end  .justify-between
@@ -195,7 +195,7 @@ const description = "Reference for fertig installation, layout, component behavi
           still lands correctly in Persian or Arabic.
           <code>.grid</code> is the auto-fit grid above; adding
           <code>.grid-cols-3</code> pins it to three columns.</p>
-        <pre><code>&lt;p class="row justify-end"&gt;&lt;button&gt;Save&lt;/button&gt;&lt;/p&gt;
+        <pre><code class="language-html">&lt;p class="row justify-end"&gt;&lt;button&gt;Save&lt;/button&gt;&lt;/p&gt;
 &lt;div class="grid grid-cols-3 gap-4"&gt;…&lt;/div&gt;</code></pre>
 
       </section>
@@ -270,25 +270,25 @@ const description = "Reference for fertig installation, layout, component behavi
         <div class="cols-2">
           <div>
             <h3>Your brand accent</h3>
-            <pre><code>:root &#123;
+            <pre><code class="language-css">:root &#123;
   --fertig-ac:    light-dark(#c2410c, #fb923c);
   --fertig-on-ac: light-dark(#f7f8fb, #1a0b02);
 &#125;</code></pre>
             <h3>Sharp corners</h3>
-            <pre><code>:root &#123; --fertig-r: 0 &#125;   /* squares the pills too */</code></pre>
+            <pre><code class="language-css">:root &#123; --fertig-r: 0 &#125;   /* squares the pills too */</code></pre>
             <h3>Flat, no depth</h3>
-            <pre><code>:root &#123; --fertig-up: none; --fertig-up2: none; --fertig-dn: none &#125;</code></pre>
+            <pre><code class="language-css">:root &#123; --fertig-up: none; --fertig-up2: none; --fertig-dn: none &#125;</code></pre>
           </div>
           <div>
             <h3>A different font</h3>
-            <pre><code>:root &#123;
+            <pre><code class="language-css">:root &#123;
   --fertig-f:  "Inter", system-ui, sans-serif;
   --fertig-fm: "Berkeley Mono", ui-monospace, monospace;
 &#125;</code></pre>
             <h3>Narrower toolbar column</h3>
-            <pre><code>:root &#123; --fertig-w: 52rem &#125;</code></pre>
+            <pre><code class="language-css">:root &#123; --fertig-w: 52rem &#125;</code></pre>
             <h3>Force a theme</h3>
-            <pre><code>&lt;html data-theme="dark"&gt;
+            <pre><code class="language-html">&lt;html data-theme="dark"&gt;
 &lt;!-- or "light"; omit to follow the OS --&gt;</code></pre>
           </div>
         </div>
@@ -298,7 +298,7 @@ const description = "Reference for fertig installation, layout, component behavi
         <h2>Right-to-left</h2>
         <p>Set the direction and the sheet mirrors. There is nothing to
           configure and no second file to load:</p>
-        <pre><code>&lt;html lang="fa" dir="rtl"&gt;</code></pre>
+        <pre><code class="language-html">&lt;html lang="fa" dir="rtl"&gt;</code></pre>
         <p>Every inline-direction rule is flow-relative —
           <code>padding-inline-start</code>, <code>border-inline-start</code>,
           <code>margin-inline-end</code>, <code>text-align: start</code>,
@@ -434,7 +434,7 @@ const description = "Reference for fertig installation, layout, component behavi
           layer beats both regardless of specificity, so overriding a rule
           never turns into a specificity fight and never needs
           <code>!important</code>:</p>
-        <pre><code>/* this wins over everything in the sheet */
+        <pre><code class="language-css">/* this wins over everything in the sheet */
 button &#123; background: hotpink &#125;</code></pre>
 
         <h3>Progressive enhancement</h3>
@@ -553,7 +553,7 @@ button &#123; background: hotpink &#125;</code></pre>
         <p>The demo pages additionally use <code>command</code> /
           <code>commandfor</code> and <code>closedby</code> to drive dialogs
           with no JavaScript at all, plus cross-document
-          <code>@view-transition</code> and a scroll-driven reading bar.</p>
+          <code>@view-transition</code>.</p>
       </section>
     </div>
   </div>
