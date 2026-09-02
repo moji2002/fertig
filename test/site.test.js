@@ -135,6 +135,19 @@ test('the landing page has no intrusive modal demo', () => {
   assert.doesNotMatch(html, /<dialog\b/);
 });
 
+test('the hero workbench creates invoices through an accessible popover', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+  const html = readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
+  const script = readFileSync(path.join(root, 'site.js'), 'utf8');
+
+  assert.match(html, /<button[^>]*popovertarget="hero-invoice"[^>]*>New invoice<\/button>/);
+  assert.match(html, /<form popover id="hero-invoice"[^>]*aria-labelledby="hero-invoice-title"/);
+  assert.match(html, /data-hero-status role="status" aria-live="polite"/);
+  assert.match(script, /form\.addEventListener\("submit"/);
+  assert.match(script, /progress\.setAttribute\("aria-label"/);
+  assert.match(script, /form\.hidePopover/);
+});
+
 test('the catalogue teaches complete tab markup', () => {
   const source = readFileSync(path.join(root, 'src', 'pages', 'components.astro'), 'utf8');
   const sample = source.match(/<!-- Tabs -->[\s\S]*?<div class="comp-card-code"><code>([\s\S]*?)<\/code>/)?.[1];

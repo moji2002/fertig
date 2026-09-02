@@ -56,6 +56,45 @@ addEventListener("DOMContentLoaded", () => {
     .forEach(el => hljs.highlightElement(el));
 });
 
+/* The hero preview earns its "live" label. The popover itself is native; this
+   small controller applies the submitted invoice to the mock ledger and keeps
+   its text, meter, and status announcement in sync. */
+addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("[data-hero-invoice]");
+  if (!(form instanceof HTMLFormElement)) return;
+
+  const trigger = document.querySelector('[popovertarget="hero-invoice"]');
+  const value = document.querySelector("[data-hero-value]");
+  const note = document.querySelector("[data-hero-note]");
+  const progress = document.querySelector("[data-hero-progress]");
+  const status = document.querySelector("[data-hero-status]");
+  const amount = form.elements.namedItem("amount");
+  if (!(amount instanceof HTMLInputElement) || !value || !note || !progress || !status) return;
+
+  const money = new Intl.NumberFormat("en-US", {
+    style: "currency", currency: "USD", maximumFractionDigits: 0,
+  });
+  let outstanding = 48200, invoiceCount = 12, collected = 72;
+
+  form.addEventListener("submit", () => {
+    const addition = Number(amount.value);
+    if (!Number.isFinite(addition) || addition <= 0) return;
+
+    outstanding += addition;
+    invoiceCount += 1;
+    collected = Math.max(40, collected - 2);
+    value.textContent = money.format(outstanding);
+    note.textContent = `${invoiceCount} invoices · ${collected}% collected`;
+    progress.value = collected;
+    progress.textContent = `${collected}%`;
+    progress.setAttribute("aria-label", `${collected}% collected`);
+    status.textContent = "draft added";
+    form.reset();
+    if (typeof form.hidePopover === "function") form.hidePopover();
+    trigger?.focus();
+  });
+});
+
 /* The docs and blocks sidebars mark the section you are actually in. An
    IntersectionObserver rather than a scroll handler: the browser does the
    hit-testing, and it costs nothing while you are not scrolling.

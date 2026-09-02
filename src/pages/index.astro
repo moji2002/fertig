@@ -63,21 +63,40 @@ const schema = {
           <p>HTML in</p>
           <pre><code class="language-html">&lt;main&gt;
   &lt;h1&gt;Invoices&lt;/h1&gt;
-  &lt;button&gt;New invoice&lt;/button&gt;
-  &lt;progress value="72"&gt;
+  &lt;progress
+    value="72" max="100"
+  &gt;72%&lt;/progress&gt;
+  &lt;button popovertarget="new"&gt;
+    New invoice
+  &lt;/button&gt;
+  &lt;form popover id="new"&gt;…&lt;/form&gt;
 &lt;/main&gt;</code></pre>
         </div>
         <div class="workbench-output">
           <div class="output-toolbar"><strong>Ledger</strong><span>Overview&nbsp;·&nbsp; Invoices</span></div>
           <div class="output-body">
             <p class="output-label">Outstanding</p>
-            <strong class="output-value">$48,200</strong>
-            <p class="output-note">12 invoices · 72% collected</p>
-            <progress value="72" max="100">72%</progress>
+            <strong class="output-value" data-hero-value>$48,200</strong>
+            <p class="output-note" data-hero-note>12 invoices · 72% collected</p>
+            <progress data-hero-progress value="72" max="100" aria-label="72% collected">72%</progress>
             <div class="output-row">
-              <button class="primary" data-size="sm">New invoice</button>
-              <span class="badge" data-tone="ok">on track</span>
+              <button type="button" class="primary" data-size="sm" popovertarget="hero-invoice">New invoice</button>
+              <span class="badge" data-tone="ok" data-hero-status role="status" aria-live="polite" aria-atomic="true">on track</span>
             </div>
+            <form popover id="hero-invoice" class="hero-invoice-popover" data-hero-invoice aria-labelledby="hero-invoice-title">
+              <header>
+                <strong id="hero-invoice-title">New invoice</strong>
+                <button type="button" data-icon popovertarget="hero-invoice" popovertargetaction="hide" aria-label="Close invoice form">×</button>
+              </header>
+              <label for="hero-client">Client</label>
+              <input id="hero-client" name="client" autocomplete="organization" placeholder="Acme Corp" required autofocus>
+              <label for="hero-amount">Amount</label>
+              <div data-input-group>
+                <span>$</span>
+                <input id="hero-amount" name="amount" type="number" inputmode="decimal" min="1" max="50000" step="1" value="1250" required>
+              </div>
+              <footer><button type="submit" class="primary">Create invoice</button></footer>
+            </form>
           </div>
         </div>
       </div>
