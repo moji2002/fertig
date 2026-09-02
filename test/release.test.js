@@ -12,6 +12,7 @@ const {
 const { tmpdir } = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
+const { parsePackResult } = require('../tools/parse-pack-result.js');
 
 const root = path.resolve(__dirname, '..');
 const releaseScript = path.join(root, 'tools', 'sync-release.js');
@@ -112,7 +113,10 @@ test('the release workflow rejects metadata drift and npm byte collisions', () =
 
   assert.match(workflow, /cancel-in-progress:\s*false/);
   assert.match(workflow, /Repository description is out of sync/);
-  assert.match(workflow, /npm pack --ignore-scripts --json/);
+  assert.match(
+    workflow,
+    /npm pack --ignore-scripts --json[\s\\]*\| node tools\/parse-pack-result\.js/,
+  );
   assert.match(workflow, /LOCAL_INTEGRITY/);
   assert.match(workflow, /REMOTE_INTEGRITY/);
   assert.match(workflow, /already exists with different bytes/);
@@ -121,4 +125,19 @@ test('the release workflow rejects metadata drift and npm byte collisions', () =
 
   assert.match(hook, /npm run release:sync/);
   assert.match(hook, /git add --[\s\S]*tools\/release-state\.json/);
+});
+
+test('npm pack metadata supports both legacy and npm 12 JSON shapes', () => {
+  const expected = {
+    filename: 'fertig-4.0.6.tgz',
+    integrity: 'sha512-example',
+  };
+
+  assert.deepEqual(parsePackResult([expected]), expected);
+  assert.deepEqual(parsePackResult({ fertig: expected }), expected);
+  assert.throws(() => parsePackResult({}), /exactly one package/i);
+  assert.throws(
+    () => parsePackResult({ fertig: { filename: expected.filename } }),
+    /integrity/i,
+  );
 });

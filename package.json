@@ -1,6 +1,6 @@
 {
   "name": "fertig",
-  "version": "4.0.5",
+  "version": "4.0.7",
   "description": "A classless CSS stylesheet with no legacy: link one file, write ordinary HTML, done. No build step, no dependencies.",
   "keywords": [
     "fertig",

@@ -79,11 +79,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          PACKAGE_JSON=$(npm pack --ignore-scripts --json)
-          PACKAGE_FILE=$(node -e 'process.stdout.write(JSON.parse(process.argv[1])[0].filename)' "$PACKAGE_JSON")
-          LOCAL_INTEGRITY=$(node -e 'process.stdout.write(JSON.parse(process.argv[1])[0].integrity)' "$PACKAGE_JSON")
-          echo "file=$PACKAGE_FILE" >> "$GITHUB_OUTPUT"
-          echo "integrity=$LOCAL_INTEGRITY" >> "$GITHUB_OUTPUT"
+          npm pack --ignore-scripts --json \
+            | node tools/parse-pack-result.js \
+            >> "$GITHUB_OUTPUT"
       - id: published
         shell: bash
         env:
