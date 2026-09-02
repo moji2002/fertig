@@ -56,12 +56,60 @@ addEventListener("DOMContentLoaded", () => {
     .forEach(el => hljs.highlightElement(el));
 });
 
+/* Every catalogue card gets the same progressively enhanced copy action. The
+   button lives in the card header while its source remains a plain code block,
+   so the catalogue is still useful if Clipboard access is unavailable. */
+addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".comp-card-code").forEach(block => {
+    const card = block.closest(".comp-card");
+    const head = card?.querySelector(".comp-card-head");
+    const code = block.querySelector(":scope > code");
+    if (!head || !code || head.querySelector("[data-copy-component]")) return;
+
+    const name = head.querySelector("h3")?.textContent.trim() || "component";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "comp-copy";
+    button.dataset.copyComponent = "";
+    button.textContent = "Copy";
+    button.setAttribute("aria-label", `Copy ${name} markup`);
+    head.append(button);
+
+    let feedbackTimer;
+    button.addEventListener("click", async () => {
+      let feedback = "Copied";
+      try {
+        await navigator.clipboard.writeText(code.textContent);
+      } catch {
+        const range = document.createRange();
+        const selection = getSelection();
+        range.selectNodeContents(code);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        feedback = selection ? "Selected" : "Try again";
+      }
+
+      button.textContent = feedback;
+      button.dataset.copied = "";
+      button.setAttribute("aria-label", `${name} markup ${feedback.toLowerCase()}`);
+      clearTimeout(feedbackTimer);
+      feedbackTimer = setTimeout(() => {
+        button.textContent = "Copy";
+        button.removeAttribute("data-copied");
+        button.setAttribute("aria-label", `Copy ${name} markup`);
+      }, 1600);
+    });
+  });
+});
+
 /* The hero is a small, real HTML playground. It renders into a sandboxed
    iframe so visitors can freely edit markup without letting that markup reach
-   or restyle the surrounding site. Native controls (including popovers) keep
+   or restyle the surrounding site. Native controls (including dialogs) keep
    working in the preview without allowing scripts to run there. */
 addEventListener("DOMContentLoaded", () => {
   const editor = document.querySelector("[data-hero-editor]");
+  const editorStack = document.querySelector("[data-hero-editor-stack]");
+  const highlightedCode = document.querySelector("[data-hero-highlight]");
   const preview = document.querySelector("[data-hero-preview]");
   const reset = document.querySelector("[data-hero-reset]");
   if (!(editor instanceof HTMLTextAreaElement) || !(preview instanceof HTMLIFrameElement)) return;
@@ -72,6 +120,19 @@ addEventListener("DOMContentLoaded", () => {
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+
+  const paintEditor = () => {
+    if (!(editorStack instanceof HTMLElement) ||
+        !(highlightedCode instanceof HTMLElement) || !window.hljs) return;
+    highlightedCode.innerHTML = hljs.highlight(editor.value, {
+      language: "xml", ignoreIllegals: true,
+    }).value + "\n";
+    editorStack.dataset.highlighted = "";
+    const mirror = highlightedCode.parentElement;
+    if (mirror) {
+      mirror.scrollTop = editor.scrollTop;
+    }
+  };
 
   const render = () => {
     const theme = isDarkTheme() ? "dark" : "light";
@@ -89,26 +150,35 @@ addEventListener("DOMContentLoaded", () => {
 </html>`;
   };
 
-  let renderFrame = 0;
-  const scheduleRender = () => {
-    cancelAnimationFrame(renderFrame);
-    renderFrame = requestAnimationFrame(render);
+  let updateFrame = 0;
+  const update = () => {
+    paintEditor();
+    render();
+  };
+  const scheduleUpdate = () => {
+    cancelAnimationFrame(updateFrame);
+    updateFrame = requestAnimationFrame(update);
   };
 
-  editor.addEventListener("input", scheduleRender);
+  editor.addEventListener("input", scheduleUpdate);
+  editor.addEventListener("scroll", () => {
+    const mirror = highlightedCode?.parentElement;
+    if (!mirror) return;
+    mirror.scrollTop = editor.scrollTop;
+  });
   editor.addEventListener("keydown", event => {
     if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
     event.preventDefault();
     editor.setRangeText("  ", editor.selectionStart, editor.selectionEnd, "end");
-    scheduleRender();
+    scheduleUpdate();
   });
   reset?.addEventListener("click", () => {
     editor.value = initialMarkup;
-    render();
+    update();
     editor.focus();
   });
-  addEventListener("themechange", scheduleRender);
-  render();
+  addEventListener("themechange", render);
+  update();
 });
 
 /* The docs and blocks sidebars mark the section you are actually in. An

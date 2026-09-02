@@ -76,6 +76,21 @@ test('catalogue starts with an accurate count and a compact mobile toolbar', () 
   );
 });
 
+test('every catalogue component exposes a working copy action', () => {
+  assert.equal(build.status, 0, build.stderr || build.stdout);
+  const html = readFileSync(path.join(root, 'dist', 'components.html'), 'utf8');
+  const script = readFileSync(path.join(root, 'site.js'), 'utf8');
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
+  const cards = (html.match(/class="comp-card"/g) || []).length;
+  const snippets = (html.match(/class="comp-card-code"/g) || []).length;
+
+  assert.equal(snippets, cards, 'every component card needs copyable markup');
+  assert.match(script, /document\.querySelectorAll\("\.comp-card-code"\)\.forEach/);
+  assert.match(script, /navigator\.clipboard\.writeText\(code\.textContent\)/);
+  assert.match(script, /button\.dataset\.copyComponent = ""/);
+  assert.match(css, /\.comp-copy\[data-copied\]/);
+});
+
 test('navigation links keep native link semantics', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
 
@@ -115,6 +130,39 @@ test('the catalogue search uses keyboard-only focus styling', () => {
   assert.doesNotMatch(css, /\.comp-search:focus-visible\s*\{[^}]*outline:\s*none/);
 });
 
+test('the site navigation uses one aligned control box', () => {
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
+
+  assert.match(
+    css,
+    /\.bar ul a\s*\{[^}]*display:\s*inline-flex;[^}]*align-items:\s*center;/,
+  );
+});
+
+test('block demos keep their chrome clear and content product-sized', () => {
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
+
+  assert.match(
+    css,
+    /@media \(width >= 60rem\)[\s\S]*?\.sidebar > details\s*\{[^}]*box-shadow:\s*none;/,
+  );
+  assert.match(
+    css,
+    /\.block-preview > form\s*\{[^}]*inline-size:\s*min\(100%, 30rem\);[^}]*margin-inline:\s*auto;/,
+  );
+  assert.match(css, /\.block-preview dialog\s*\{[^}]*width:\s*min\(36rem,/);
+  assert.match(css, /\.block-code > summary\s*\{[^}]*padding-inline-end:\s*6rem;/);
+  assert.match(css, /\.block-code button\s*\{[^}]*inset-block-start:\s*\.3rem;/);
+  assert.match(
+    css,
+    /\.block-code pre\s*\{[^}]*white-space:\s*pre-wrap;[^}]*overflow-wrap:\s*anywhere;/,
+  );
+  assert.match(
+    css,
+    /\.comp-card-code code\s*\{[^}]*min-width:\s*0;[^}]*white-space:\s*pre-wrap;[^}]*overflow-wrap:\s*anywhere;/,
+  );
+});
+
 test('catalogue and block dialog examples have accessible names', () => {
   assert.equal(build.status, 0, build.stderr || build.stdout);
 
@@ -139,18 +187,28 @@ test('the hero workbench renders editable HTML in a sandboxed live preview', () 
   assert.equal(build.status, 0, build.stderr || build.stdout);
   const html = readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
   const script = readFileSync(path.join(root, 'site.js'), 'utf8');
+  const css = readFileSync(path.join(root, 'site.css'), 'utf8');
   const preview = html.match(/<iframe\b[^>]*data-hero-preview[^>]*>/)?.[0];
 
-  assert.match(html, /<textarea\b[^>]*data-hero-editor[^>]*aria-describedby="hero-editor-help"/);
-  assert.match(html, /&lt;button popovertarget=&quot;new&quot;&gt;/);
+  assert.match(html, /<textarea\b[^>]*data-hero-editor[^>]*aria-describedby="hero-editor-help"[^>]*wrap="soft"/);
+  assert.match(html, /&lt;button commandfor=&quot;new&quot; command=&quot;show-modal&quot;&gt;/);
+  assert.match(html, /&lt;dialog id=&quot;new&quot; closedby=&quot;any&quot;\s+aria-labelledby=&quot;new-title&quot;&gt;/);
+  assert.doesNotMatch(html, /&lt;form popover id=&quot;new&quot;/);
+  assert.match(html, /&lt;section data-surface&gt;/);
+  assert.match(html, /&lt;table&gt;/);
+  assert.match(html, /data-hero-highlight data-highlighted/);
   assert.ok(preview, 'the hero live preview iframe is missing');
   assert.match(preview, /title="Live rendered HTML preview"/);
   assert.match(preview, /\ssandbox(?:="")?(?:\s|>)/);
   assert.doesNotMatch(preview, /allow-scripts/);
-  assert.match(script, /editor\.addEventListener\("input", scheduleRender\)/);
+  assert.match(script, /hljs\.highlight\(editor\.value/);
+  assert.match(script, /editor\.addEventListener\("input", scheduleUpdate\)/);
+  assert.match(script, /editor\.addEventListener\("scroll"/);
   assert.match(script, /preview\.srcdoc =/);
   assert.match(script, /Content-Security-Policy/);
   assert.match(script, /reset\?\.addEventListener\("click"/);
+  assert.match(css, /\.workbench-highlight,[\s\S]*?white-space:\s*pre-wrap;\s*overflow-wrap:\s*anywhere/);
+  assert.match(css, /\.workbench-highlight code\s*\{[^}]*min-width:\s*0/);
 });
 
 test('the catalogue teaches complete tab markup', () => {

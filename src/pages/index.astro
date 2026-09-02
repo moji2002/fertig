@@ -5,14 +5,79 @@ import { site } from "../lib/site";
 const title = "fertig — classless CSS framework, no JavaScript, 9.3 KB";
 const description = "fertig styles semantic HTML as a finished interface: dialogs, popovers, forms, and data views in 9.3 KB gzipped, with no runtime or build step.";
 const heroMarkup = `<main>
-  <h1>Invoices</h1>
-  <progress
-    value="72" max="100"
-  >72%</progress>
-  <button popovertarget="new">
-    New invoice
-  </button>
-  <form popover id="new">…</form>
+  <hgroup>
+    <p><small>ACME / BILLING</small></p>
+    <h1>Invoices</h1>
+    <p>September overview</p>
+  </hgroup>
+
+  <section data-surface>
+    <small>OUTSTANDING</small>
+    <h2>$48,200</h2>
+    <p>12 invoices · 72% collected</p>
+    <progress value="72" max="100">
+      72%
+    </progress>
+  </section>
+
+  <p>
+    <button commandfor="new" command="show-modal">
+      New invoice
+    </button>
+    <span class="badge" data-tone="ok">
+      On track
+    </span>
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Invoice</th>
+        <th>Status</th>
+        <th align="right">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>INV-0232</td>
+        <td><span class="badge"
+          data-tone="ok">Paid</span></td>
+        <td align="right">$12,850</td>
+      </tr>
+      <tr>
+        <td>INV-0233</td>
+        <td><span class="badge">Sent</span></td>
+        <td align="right">$4,200</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <dialog id="new" closedby="any"
+    aria-labelledby="new-title">
+    <header>
+      <h3 id="new-title">New invoice</h3>
+    </header>
+    <form id="invoice-form" method="dialog">
+      <label>
+        Client
+        <input placeholder="Acme Corp" required>
+      </label>
+      <label>
+        Amount
+        <input type="number" value="1250" required>
+      </label>
+    </form>
+    <footer>
+      <button type="button"
+        commandfor="new" command="close">
+        Cancel
+      </button>
+      <button class="primary"
+        form="invoice-form" value="create">
+        Create invoice
+      </button>
+    </footer>
+  </dialog>
 </main>`;
 const schema = {
   "@context": "https://schema.org",
@@ -75,15 +140,19 @@ const schema = {
             <button type="button" data-hero-reset>Reset</button>
           </div>
           <span id="hero-editor-help" class="sr-only">Edit the HTML to update the preview beside it.</span>
-          <textarea
-            id="hero-editor"
-            class="workbench-editor"
-            data-hero-editor
-            aria-describedby="hero-editor-help"
-            autocomplete="off"
-            autocapitalize="off"
-            spellcheck="false"
-          >{heroMarkup}</textarea>
+          <div class="workbench-editor-stack" data-hero-editor-stack>
+            <pre class="workbench-highlight" aria-hidden="true"><code class="language-html" data-hero-highlight data-highlighted></code></pre>
+            <textarea
+              id="hero-editor"
+              class="workbench-editor"
+              data-hero-editor
+              aria-describedby="hero-editor-help"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              wrap="soft"
+            >{heroMarkup}</textarea>
+          </div>
         </div>
         <div class="workbench-output">
           <div class="output-toolbar"><strong>Preview</strong><span>fertig.css</span></div>
