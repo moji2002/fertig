@@ -20,9 +20,6 @@ STATE = Path(__file__).with_name('sizes.json')
 # (literal template, expected occurrence count). Available fields are
 # {source_raw}, {source_gzip}, {min_raw}, and {min_gzip}.
 CLAIMS = {
-    'package.json': (
-        ('done — {min_gzip} gzipped, no build step', 1),
-    ),
     'README.md': (
         ('**{min_raw} raw · {min_gzip} gzipped · no build step', 1),
     ),

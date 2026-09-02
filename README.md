@@ -60,6 +60,7 @@ Override tokens in your own CSS:
 
 ```sh
 npm install
+npm run hooks:install # enable automatic patch versioning for commits
 npm run build       # regenerate fertig.min.css
 npm test            # library and site tests
 npm run site        # Astro production build

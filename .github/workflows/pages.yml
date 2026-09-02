@@ -12,7 +12,8 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  # A newer site edit must never interrupt an npm publish in flight.
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -29,8 +30,27 @@ jobs:
         with:
           path: dist
 
-  deploy:
+  metadata:
     needs: build
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('node:fs');
+            const manifest = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            const repository = await github.rest.repos.get(context.repo);
+            if (repository.data.description !== manifest.description) {
+              core.setFailed(
+                `Repository description is out of sync. Expected: ${manifest.description}`,
+              );
+            }
+
+  deploy:
+    needs: [build, metadata]
     runs-on: ubuntu-slim
     environment:
       name: github-pages
@@ -40,7 +60,7 @@ jobs:
         uses: actions/deploy-pages@v5
 
   publish:
-    needs: build
+    needs: [build, metadata]
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -51,23 +71,59 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-      # OIDC trusted publishing needs npm >= 11.5.1, and no Node line is
-      # guaranteed to ship it. Without it npm publishes unauthenticated and the
-      # registry answers 404 on an existing package, which reads as "no such
-      # package" and is really "not your package".
-      - run: npm install -g npm@latest
+      # Pin the packer as well as the publisher: integrity comparisons are only
+      # useful when retries produce the same tarball.
+      - run: npm install -g npm@12.0.2
       - run: npm --version
-      # Every push to main runs this job, but a version is published once. Ask
-      # the registry first, or a site-only deploy fails the run on a version
-      # conflict and the red X stops meaning anything.
-      - id: published
+      - id: package
+        shell: bash
         run: |
+          set -euo pipefail
+          PACKAGE_JSON=$(npm pack --ignore-scripts --json)
+          PACKAGE_FILE=$(node -e 'process.stdout.write(JSON.parse(process.argv[1])[0].filename)' "$PACKAGE_JSON")
+          LOCAL_INTEGRITY=$(node -e 'process.stdout.write(JSON.parse(process.argv[1])[0].integrity)' "$PACKAGE_JSON")
+          echo "file=$PACKAGE_FILE" >> "$GITHUB_OUTPUT"
+          echo "integrity=$LOCAL_INTEGRITY" >> "$GITHUB_OUTPUT"
+      - id: published
+        shell: bash
+        env:
+          LOCAL_INTEGRITY: ${{ steps.package.outputs.integrity }}
+        run: |
+          set -euo pipefail
           V=$(node -p "require('./package.json').version")
-          if npm view "fertig@$V" version >/dev/null 2>&1; then
-            echo "fertig@$V is already on the registry — skipping publish"
+          ERROR_FILE=$(mktemp)
+          if REMOTE_INTEGRITY=$(npm view "fertig@$V" dist.integrity 2>"$ERROR_FILE"); then
+            if [ "$REMOTE_INTEGRITY" != "$LOCAL_INTEGRITY" ]; then
+              echo "fertig@$V already exists with different bytes" >&2
+              exit 1
+            fi
+            echo "fertig@$V already exists with identical bytes — skipping publish"
             echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
+          elif grep -q "E404" "$ERROR_FILE"; then
+            echo "fertig@$V is not published yet"
             echo "skip=false" >> "$GITHUB_OUTPUT"
+          else
+            cat "$ERROR_FILE" >&2
+            exit 1
           fi
       - if: steps.published.outputs.skip == 'false'
-        run: npm publish
+        env:
+          PACKAGE_FILE: ${{ steps.package.outputs.file }}
+        run: npm publish "$PACKAGE_FILE" --ignore-scripts
+      - if: steps.published.outputs.skip == 'false'
+        shell: bash
+        env:
+          LOCAL_INTEGRITY: ${{ steps.package.outputs.integrity }}
+        run: |
+          set -euo pipefail
+          V=$(node -p "require('./package.json').version")
+          for attempt in {1..10}; do
+            REMOTE_INTEGRITY=$(npm view "fertig@$V" dist.integrity 2>/dev/null || true)
+            if [ "$REMOTE_INTEGRITY" = "$LOCAL_INTEGRITY" ]; then
+              echo "Verified fertig@$V on npm"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "npm did not return the published integrity for fertig@$V" >&2
+          exit 1

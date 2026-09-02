@@ -1,7 +1,7 @@
 {
   "name": "fertig",
-  "version": "4.0.4",
-  "description": "A classless CSS stylesheet with no legacy in it: no polyfills, no required classes. Link one file, write ordinary HTML, done — 9.3 KB gzipped, no build step, no dependencies.",
+  "version": "4.0.5",
+  "description": "A classless CSS stylesheet with no legacy: link one file, write ordinary HTML, done. No build step, no dependencies.",
   "keywords": [
     "fertig",
     "fertig.css",
@@ -61,16 +61,17 @@
     "test": "node --test",
     "build": "node build.js",
     "check": "npm run check:release && npm run check:sizes && npm test && npm run check:site && npm run check:package",
-    "check:release": "node tools/check-release.js",
+    "check:release": "node tools/sync-release.js --check && node tools/check-release.js",
     "check:sizes": "python3 tools/sizes.py --check",
     "check:site": "npm run site && node tools/check-site.js",
     "check:package": "npm pack --dry-run --ignore-scripts",
     "hooks:install": "git config core.hooksPath .githooks",
+    "release:sync": "node tools/sync-release.js",
     "site:prepare": "node tools/prepare-site.mjs",
     "site": "npm run site:prepare && astro build",
     "site:serve": "npm run site:prepare && astro dev",
     "dev": "npm run site:serve",
-    "prepublishOnly": "node build.js",
+    "prepublishOnly": "node build.js && npm run check:release && npm run check:sizes",
     "sizes": "python3 tools/sizes.py"
   },
   "devDependencies": {

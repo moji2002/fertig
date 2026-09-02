@@ -10,6 +10,21 @@ if ! git diff --quiet; then
   exit 1
 fi
 
+echo "Synchronizing the release fingerprint…"
+npm run release:sync
+git add -- \
+  package.json package-lock.json \
+  fertig.css fertig.min.css \
+  tools/release-state.json tools/sizes.json \
+  README.md llms.txt \
+  src/pages/index.astro src/pages/docs.astro src/pages/components.astro \
+  src/components/SiteFooter.astro
+
+if ! git diff --quiet; then
+  echo "Pre-commit stopped: release synchronization left unstaged tracked changes."
+  exit 1
+fi
+
 echo "Checking staged whitespace…"
 git diff --cached --check
 
