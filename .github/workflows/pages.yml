@@ -115,13 +115,24 @@ jobs:
         run: |
           set -euo pipefail
           V=$(node -p "require('./package.json').version")
-          for attempt in {1..10}; do
+          # The publish above succeeded; this only waits for the registry to serve it
+          # back. Ten tries three seconds apart is 30s, and npm has twice taken longer
+          # than that -- 4.0.8 and 4.0.9 both failed here after publishing correctly.
+          # Three minutes, quick at first for the ordinary case.
+          for attempt in {1..15}; do
             REMOTE_INTEGRITY=$(npm view "fertig@$V" dist.integrity 2>/dev/null || true)
             if [ "$REMOTE_INTEGRITY" = "$LOCAL_INTEGRITY" ]; then
-              echo "Verified fertig@$V on npm"
+              echo "Verified fertig@$V on npm after ${attempt} attempt(s)"
               exit 0
             fi
-            sleep 3
+            if [ -n "$REMOTE_INTEGRITY" ]; then
+              echo "fertig@$V is on npm but the integrity differs" >&2
+              echo "  local:  $LOCAL_INTEGRITY" >&2
+              echo "  remote: $REMOTE_INTEGRITY" >&2
+              exit 1
+            fi
+            if [ "$attempt" -lt 5 ]; then sleep 5; else sleep 15; fi
           done
-          echo "npm did not return the published integrity for fertig@$V" >&2
+          echo "npm did not serve fertig@$V back within three minutes." >&2
+          echo "The publish step itself succeeded; check the registry before republishing." >&2
           exit 1
