@@ -1,4 +1,4 @@
-/*! fertig v4.0.7 — a classless CSS stylesheet. MIT */
+/*! fertig v4.0.8 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
    system type · one accent · responsive gutters · a clear content canvas.
@@ -583,6 +583,13 @@ button[aria-pressed=true]:hover:not(:disabled) {
 details {
   border: 1px solid transparent; border-radius: var(--fertig-rw);
   padding: .8rem 1.1rem; background: var(--fertig-el); box-shadow: var(--fertig-up);
+}
+/* A disclosure inside a surface that is already a panel -- a table cell or a
+   dialog -- is a control, not a panel of its own: it should not repeat the
+   background, the shadow or the padding, and it must not set the height of the
+   row it sits in. */
+:is(td, th, dialog) details {
+  border: 0; border-radius: 0; padding: 0; margin: 0; background: none; box-shadow: none;
 }
 summary { cursor: pointer; font-weight: 700; list-style: none }
 summary::before { content: "▸ "; color: var(--fertig-mut) }
