@@ -1,4 +1,4 @@
-/*! fertig v4.0.8 — a classless CSS stylesheet. MIT */
+/*! fertig v4.0.9 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
    system type · one accent · responsive gutters · a clear content canvas.
@@ -1109,8 +1109,11 @@ nav menu :is(a, button)[aria-current] {
 .max-w-prose { max-inline-size: 38rem }
 .hidden { display: none }
 
+/* The border is transparent rather than absent so a tone can colour it: with
+   `border: 0` the border-colour [data-tone] sets had nothing to paint, and a
+   toned badge came out as coloured text on the plain face. */
 .badge {
-  border: 0; border-radius: var(--fertig-rp); background: var(--fertig-face);
+  border: 1px solid transparent; border-radius: var(--fertig-rp); background: var(--fertig-face);
   padding: .18em .65em; font: 650 .78em/1.45 var(--fertig-f); color: var(--fertig-mut);
 }
 
