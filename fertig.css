@@ -1,9 +1,9 @@
-/*! fertig v4.0.10 — a classless CSS stylesheet. MIT */
+/*! fertig v5.0.0 — a classless CSS stylesheet. MIT */
 
 /* Opinions, so you don't have to have them:
    system type · one accent · responsive gutters · a clear content canvas.
-   The finish is platform-neutral: soft surfaces, rounded controls, restrained
-   depth and a visible accent focus ring.
+   The finish is confident: bordered, raised surfaces; rendered buttons that
+   lift under the pointer and press down; a visible accent focus ring.
    Override the tokens marked "yours"; the rest is the point of view. */
 
 /* typed so they interpolate; untyped custom properties cannot animate */
@@ -93,7 +93,7 @@
      from --fertig-fg — AAA would need ~41%, which is close enough to
      --fertig-fg that "muted" stops reading as secondary at all. */
   --fertig-mut: light-dark(oklch(46% .018 260),  oklch(72% .02 260));
-  --fertig-bd:  light-dark(oklch(22% .02 260 / .10), oklch(95% .012 260 / .12));
+  --fertig-bd:  light-dark(oklch(22% .02 260 / .14), oklch(95% .012 260 / .17));
   --fertig-tb:  light-dark(oklch(99% .003 260), oklch(18% .016 260));
   /* Blue is the neutral default: distinctive enough for interaction, familiar
      enough not to impose a brand. The 700/300 pair clears AA as link text and
@@ -329,7 +329,10 @@ pre code { background: none; border: 0; padding: 0; font-size: 1em }
 :is(.hljs-addition, .token.inserted) { color: light-dark(#15803d, #7ee787) }
 
 /* ---- table -------------------------------------------------- */
-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .92em }
+table {
+  width: 100%; border-collapse: separate; border-spacing: 0; font-size: .92em;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); overflow: hidden;
+}
 th, td {
   border-bottom: 1px solid var(--fertig-bd); padding-block: .55rem;
   padding-inline: 0 .7rem; text-align: start;
@@ -371,8 +374,8 @@ textarea { width: 100%; min-height: 5rem; resize: vertical }
 }
 input:not([type=checkbox],[type=radio],[type=range],[type=color],[type=file],[type=image],[type=submit],[type=button],[type=reset]),
 select, textarea {
-  display: block; width: 100%; padding: .52em .7em; background: var(--fertig-el);
-  border: 1px solid transparent; border-radius: var(--fertig-r); box-shadow: var(--fertig-dn);
+  display: block; width: 100%; padding: .6em .8em; background: var(--fertig-el);
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r); box-shadow: none;
 }
 select {
   appearance: none; padding-inline-end: 2.2rem;
@@ -508,7 +511,7 @@ input:autofill, input:autofill:hover, input:autofill:focus {
    nostalgia — a legend keeps its magic placement under block, grid and flex
    fieldsets alike, and floating it is still the only way out. */
 fieldset {
-  border: 1px solid transparent; border-radius: var(--fertig-rw); padding: 1rem;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); padding: 1rem;
   background: var(--fertig-el); box-shadow: var(--fertig-up);
 }
 fieldset:focus-within { border-color: color-mix(in srgb, var(--fertig-ac) 45%, var(--fertig-bd)) }
@@ -522,19 +525,32 @@ legend + * { clear: left }
 button, [type=submit], [type=button], [type=reset],
 :where(a.primary, a[role=button]), ::file-selector-button {
   display: inline-block; text-decoration: none; text-align: center;
-  padding: .5em 1.1em; background: var(--fertig-face); color: var(--fertig-fg); cursor: pointer;
-  border: 1px solid transparent; border-radius: var(--fertig-r); box-shadow: none;
+  padding: .55em 1.2em; background: var(--fertig-face); color: var(--fertig-fg); cursor: pointer;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
+  /* a rendered edge: a hard 1px "belt" under the control plus a soft lift.
+     The belt is the whole press metaphor — on :active it goes away and the
+     control sinks the same 1px it just lost. */
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--fertig-sh) 9%, transparent),
+              0 1px 2px var(--fertig-sh1);
   font: inherit; font-weight: 550; min-width: 5rem;
 }
 :is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):hover:not(:disabled) {
-  background: color-mix(in srgb, var(--fertig-fg) 7%, var(--fertig-face));
+  background: color-mix(in srgb, var(--fertig-fg) 6%, var(--fertig-face));
+  border-color: color-mix(in srgb, var(--fertig-fg) 20%, var(--fertig-bd));
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--fertig-sh) 9%, transparent),
+              var(--fertig-up2);
+  translate: 0 -1px;                       /* the control lifts to meet the pointer */
 }
-[type=submit], .primary { background: var(--fertig-ac); border-color: transparent; color: var(--fertig-on-ac) }
+[type=submit], .primary {
+  background: var(--fertig-ac); border-color: transparent; color: var(--fertig-on-ac);
+  box-shadow: 0 2px 0 0 color-mix(in srgb, var(--fertig-sh) 30%, transparent);
+}
 /* Filled controls must not keep their enabled accent after :disabled. This
    follows the filled rule deliberately: equal-specificity declarations later
    in the cascade restore the quiet control surface and muted text. */
 :is(button,[type=submit],[type=button],[type=reset]):disabled {
-  background: var(--fertig-face); border-color: transparent; color: var(--fertig-mut);
+  background: var(--fertig-face); border-color: var(--fertig-bd); color: var(--fertig-mut);
+  box-shadow: none;
 }
 /* The filled button lightens on hover. color-mix does that in oklab, which is
    close enough and is Baseline; relative colour does it by adding to L
@@ -542,11 +558,19 @@ button, [type=submit], [type=button], [type=reset],
    Both derive from --fertig-ac, so a custom accent never needs a second declaration. */
 :is([type=submit], .primary, a.primary):hover:not(:disabled) {
   background: color-mix(in oklab, var(--fertig-ac), #fff 9%);
+  translate: 0;                            /* filled controls stay put; the shadow does the work */
+  box-shadow: 0 2px 0 0 color-mix(in srgb, var(--fertig-sh) 34%, transparent),
+              0 8px 18px -8px color-mix(in srgb, var(--fertig-sh) 34%, transparent);
 }
 @supports (color: oklch(from red l c h)) {
   :is([type=submit], .primary, a.primary):hover:not(:disabled) {
     background: oklch(from var(--fertig-ac) calc(l + .05) c h);
   }
+}
+/* The press: the belt disappears and the control sinks the 1px it held. */
+:is(button, [type=submit], [type=button], [type=reset], a.primary,
+    a[role=button]):active:not(:disabled) {
+  translate: 0 1px; box-shadow: none;
 }
 
 /* button detail: sizes, variants, toggles, icon and block forms */
@@ -558,13 +582,16 @@ button, [type=submit], [type=button], [type=reset],
 button[data-icon] { min-width: 0; padding: .38em .62em; line-height: 1 }
 :is(button, a, input, select, label)[data-block] { display: block; width: 100%; min-width: 0 }
 :is(button, a, input)[data-variant=ghost] { background: none; border-color: transparent; box-shadow: none }
-:is(button, a, input)[data-variant=ghost]:hover:not(:disabled) { background: var(--fertig-face); border-color: var(--fertig-bd) }
+:is(button, a, input)[data-variant=ghost]:hover:not(:disabled) {
+  background: var(--fertig-face); border-color: var(--fertig-bd); translate: 0; box-shadow: none;
+}
 :is(button, a, input)[data-variant=soft] {
   background: color-mix(in srgb, var(--fertig-ac) 13%, var(--fertig-el));
   border-color: transparent; box-shadow: none; color: var(--fertig-ac);
 }
 :is(button, a, input)[data-variant=soft]:hover:not(:disabled) {
   background: color-mix(in srgb, var(--fertig-ac) 20%, var(--fertig-el));
+  translate: 0; box-shadow: none;
 }
 :is(button, a, input)[data-variant=outline] {
   background: transparent; border-color: var(--fertig-bd); box-shadow: none;
@@ -573,15 +600,18 @@ button[data-icon] { min-width: 0; padding: .38em .62em; line-height: 1 }
   background: none; border: 0; box-shadow: none; min-width: 0; padding-inline: .2em;
   color: var(--fertig-ac); text-decoration: underline; text-underline-offset: 3px;
 }
-:is(button, a, input)[data-variant=link]:hover:not(:disabled) { background: none; text-decoration-thickness: 2px }
-button[aria-pressed=true] { background: var(--fertig-face); color: var(--fertig-ac); font-weight: 700 }
-button[aria-pressed=true]:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--fertig-fg) 7%, var(--fertig-face));
+:is(button, a, input)[data-variant=link]:hover:not(:disabled) {
+  background: none; text-decoration-thickness: 2px; translate: 0; box-shadow: none;
 }
+button[aria-pressed=true] {
+  background: var(--fertig-face); color: var(--fertig-ac); font-weight: 700;
+  border-color: var(--fertig-bd); box-shadow: var(--fertig-up);
+}
+button[aria-pressed=true]:hover:not(:disabled) { translate: 0; box-shadow: var(--fertig-up) }
 
 /* ---- disclosure / misc -------------------------------------- */
 details {
-  border: 1px solid transparent; border-radius: var(--fertig-rw);
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw);
   padding: .8rem 1.1rem; background: var(--fertig-el); box-shadow: var(--fertig-up);
 }
 /* A disclosure inside a surface that is already a panel -- a table cell, a card,
@@ -597,7 +627,7 @@ details[open] > summary::before { content: "▾ " }
 details[open] > summary { margin-bottom: .6rem }
 dialog {
   --fertig-dialog-inset: 1.25rem;
-  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid transparent;
+  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid var(--fertig-bd);
   border-radius: var(--fertig-rw); padding: var(--fertig-dialog-inset); max-width: min(30rem, 92dvw);
   box-shadow: var(--fertig-up2), 0 28px 70px -24px color-mix(in srgb, var(--fertig-sh) 34%, transparent);
 }
@@ -682,9 +712,9 @@ dialog > footer > :is(p, span):first-child { margin: 0; margin-inline-end: auto;
 search { display: block; margin-block: 1.1rem }   /* a landmark needs its own rhythm */
 ::target-text { background: color-mix(in srgb, var(--fertig-ac) 28%, transparent) }
 aside {
-  border: 1px solid color-mix(in srgb, var(--fertig-ac) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fertig-ac) 26%, transparent);
   border-radius: var(--fertig-rw);
-  background: color-mix(in srgb, var(--fertig-ac) 7%, var(--fertig-el)); padding: .8rem 1.1rem;
+  background: color-mix(in srgb, var(--fertig-ac) 9%, var(--fertig-el)); padding: .85rem 1.15rem;
   margin-block: 1.1rem;          /* or the next block sits flush against it */
 }
 progress { width: 100%; height: .5rem; border: 0; border-radius: var(--fertig-rp); background: var(--fertig-face) }
@@ -765,7 +795,7 @@ input[switch]:checked::after, input[role=switch]:checked::after { translate: 1.0
 
 /* menu: any [popover] */
 [popover] {
-  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid transparent;
+  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid var(--fertig-bd);
   border-radius: var(--fertig-rw); padding: .35rem; min-width: 12rem;
   max-block-size: 60dvh; overflow: auto; font-size: .95em;
   box-shadow: var(--fertig-up2), 0 24px 44px -18px color-mix(in srgb, var(--fertig-sh) 28%, transparent);
@@ -803,7 +833,7 @@ input[switch]:checked::after, input[role=switch]:checked::after { translate: 1.0
 /* listbox: a selectable collection, whether standalone or inside a popover */
 [role=listbox] {
   list-style: none; margin: 1rem 0; padding: .35rem;
-  background: var(--fertig-el); border: 1px solid transparent;
+  background: var(--fertig-el); border: 1px solid var(--fertig-bd);
   border-radius: var(--fertig-rw); box-shadow: var(--fertig-up);
 }
 [role=option] {
@@ -882,7 +912,7 @@ nav[aria-label] ol li + li::before { content: "/"; margin-inline-end: .5em; colo
 
 /* surface: the same elevation language as a card, without card anatomy */
 [data-surface] {
-  background: var(--fertig-el); border: 1px solid transparent;
+  background: var(--fertig-el); border: 1px solid var(--fertig-bd);
   border-radius: var(--fertig-rw); padding: 1rem; box-shadow: var(--fertig-up);
 }
 [data-surface=flat] { background: var(--fertig-face); box-shadow: none }
@@ -894,6 +924,7 @@ nav[aria-label] ol li + li::before { content: "/"; margin-inline-end: .5em; colo
 [data-item] {
   display: flex; align-items: center; gap: .8rem; min-inline-size: 0;
   padding: .7rem .8rem; border-radius: var(--fertig-r); background: var(--fertig-el);
+  border: 1px solid var(--fertig-bd);
 }
 [data-item] + [data-item] { margin-top: .35rem }
 [data-item] > :where(div, p) { flex: 1; min-inline-size: 0; margin: 0 }
@@ -980,7 +1011,7 @@ dialog[data-side=bottom] {
 /* list group: a plain <menu> outside a popover is a bordered list */
 menu {
   list-style: none; padding: 0; margin: 1.1rem 0;
-  border: 1px solid transparent; border-radius: var(--fertig-rw);
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw);
   background: var(--fertig-el); box-shadow: var(--fertig-up);
 }
 menu > li { padding: .55rem .85rem }
@@ -1051,7 +1082,7 @@ nav menu :is(a, button)[aria-current] {
 .grid + * { margin-top: 1.1rem }
 .card {
   container-type: inline-size;                 /* query it: @container (min-width: …) */
-  border: 1px solid transparent; border-radius: var(--fertig-rw); padding: 1.1rem;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); padding: 1.1rem;
   background: var(--fertig-el); box-shadow: var(--fertig-up2);
   display: flex; flex-direction: column;      /* so footers line up across a row */
   gap: .85rem;                                /* spacing is the container's job */
@@ -1109,12 +1140,14 @@ nav menu :is(a, button)[aria-current] {
 .max-w-prose { max-inline-size: 38rem }
 .hidden { display: none }
 
-/* The border is transparent rather than absent so a tone can colour it: with
-   `border: 0` the border-colour [data-tone] sets had nothing to paint, and a
-   toned badge came out as coloured text on the plain face. */
+/* A badge is born toned: a soft accent fill, an accent edge and accent text.
+   [data-tone] re-paints it by redefining --fertig-ac, so a toned badge is the
+   same rule with different tokens — no second badge variant exists. */
 .badge {
-  border: 1px solid transparent; border-radius: var(--fertig-rp); background: var(--fertig-face);
-  padding: .18em .65em; font: 650 .78em/1.45 var(--fertig-f); color: var(--fertig-mut);
+  border: 1px solid color-mix(in srgb, var(--fertig-ac) 24%, transparent);
+  border-radius: var(--fertig-rp);
+  background: color-mix(in srgb, var(--fertig-ac) 12%, var(--fertig-el));
+  padding: .18em .65em; font: 650 .78em/1.45 var(--fertig-f); color: var(--fertig-ac);
 }
 
 /* card anatomy: an optional header, footer, and full-bleed media */
@@ -1136,6 +1169,7 @@ nav menu :is(a, button)[aria-current] {
    radius cleanly at this size — it reads as a detached bar with gaps at the
    top corners. A gradient is clipped by the radius, so the tone hugs the curve. */
 .card[data-tone] {
+  border-color: color-mix(in srgb, var(--fertig-ac) 32%, var(--fertig-bd));
   background: linear-gradient(var(--fertig-ac), var(--fertig-ac)) top / 100% 3px no-repeat,
               var(--fertig-el);
 }

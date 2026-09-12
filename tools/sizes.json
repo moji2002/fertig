@@ -1,10 +1,26 @@
 {
   "fertig.css": {
-    "raw": "68.1 KB",
-    "gzip": "19.4 KB"
+    "raw": "69.7 KB",
+    "gzip": "19.7 KB"
   },
   "fertig.min.css": {
-    "raw": "41.2 KB",
-    "gzip": "9.4 KB"
+    "raw": "42.2 KB",
+    "gzip": "9.5 KB"
+  },
+  "fertig-classes.css": {
+    "raw": "18.2 KB",
+    "gzip": "4.0 KB"
+  },
+  "fertig-classes.min.css": {
+    "raw": "14.1 KB",
+    "gzip": "3.2 KB"
+  },
+  "fertig-themes.css": {
+    "raw": "7.1 KB",
+    "gzip": "1.7 KB"
+  },
+  "fertig-themes.min.css": {
+    "raw": "4.4 KB",
+    "gzip": "0.8 KB"
   }
 }

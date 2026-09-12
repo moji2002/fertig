@@ -5,3 +5,4 @@ node_modules/
 dist/
 .astro/
 .astro-public/
+__pycache__/

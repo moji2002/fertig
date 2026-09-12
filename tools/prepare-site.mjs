@@ -6,6 +6,10 @@ const publicDir = resolve(root, ".astro-public");
 const assets = [
   "fertig.css",
   "fertig.min.css",
+  "fertig-classes.css",
+  "fertig-classes.min.css",
+  "fertig-themes.css",
+  "fertig-themes.min.css",
   "site.css",
   "site.js",
   "favicon.svg",

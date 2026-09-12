@@ -1,6 +1,6 @@
 {
   "name": "fertig",
-  "version": "4.0.10",
+  "version": "5.0.0",
   "description": "A classless CSS stylesheet with no legacy: link one file, write ordinary HTML, done. No build step, no dependencies.",
   "keywords": [
     "fertig",
@@ -47,13 +47,25 @@
   "exports": {
     ".": "./fertig.css",
     "./min": "./fertig.min.css",
+    "./classes": "./fertig-classes.css",
+    "./classes/min": "./fertig-classes.min.css",
+    "./themes": "./fertig-themes.css",
+    "./themes/min": "./fertig-themes.min.css",
     "./fertig.css": "./fertig.css",
     "./fertig.min.css": "./fertig.min.css",
+    "./fertig-classes.css": "./fertig-classes.css",
+    "./fertig-classes.min.css": "./fertig-classes.min.css",
+    "./fertig-themes.css": "./fertig-themes.css",
+    "./fertig-themes.min.css": "./fertig-themes.min.css",
     "./package.json": "./package.json"
   },
   "files": [
     "fertig.css",
     "fertig.min.css",
+    "fertig-classes.css",
+    "fertig-classes.min.css",
+    "fertig-themes.css",
+    "fertig-themes.min.css",
     "README.md",
     "LICENSE"
   ],

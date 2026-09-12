@@ -7,7 +7,7 @@ A classless CSS framework for finished interfaces. Link one file and write
 semantic HTML; fertig styles the page, forms, tables, dialogs, popovers,
 navigation, feedback, and common layout patterns.
 
-**41.2 KB raw · 9.4 KB gzipped · no build step · no dependencies · no JavaScript.**
+**42.2 KB raw · 9.5 KB gzipped · no build step · no dependencies · no JavaScript.**
 
 ## Use
 
@@ -22,7 +22,7 @@ npm install fertig
 Or use the CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@4/fertig.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fertig@5/fertig.min.css">
 ```
 
 That is the complete setup. See the [documentation](https://moji2002.github.io/fertig/docs.html),

@@ -6,7 +6,7 @@ const { version } = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'dist');
-const pages = ['index.html', 'docs.html', 'components.html', 'blocks.html'];
+const pages = ['index.html', 'docs.html', 'components.html', 'blocks.html', 'playground.html'];
 const failures = [];
 const expect = (condition, message) => {
   if (!condition) failures.push(message);

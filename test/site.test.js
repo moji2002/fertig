@@ -5,7 +5,7 @@ const { spawnSync } = require('node:child_process');
 const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
-const pages = ['index.html', 'docs.html', 'components.html', 'blocks.html'];
+const pages = ['index.html', 'docs.html', 'components.html', 'blocks.html', 'playground.html'];
 
 const build = spawnSync('npm', ['run', 'site', '--silent'], {
   cwd: root,
@@ -90,7 +90,7 @@ test('the install examples reflow before their code becomes cramped', () => {
   assert.match(css, /\.doc-body > #install pre code\s*\{[^}]*white-space:\s*pre-wrap;[^}]*overflow-wrap:\s*anywhere;/);
   assert.match(css, /main > #install\s*\{/);
   assert.doesNotMatch(css, /\n#install\s*\{/);
-  assert.match(source, /https:\/\/cdn\.jsdelivr\.net\/npm\/fertig@4\/fertig\.min\.css/);
+  assert.match(source, /https:\/\/cdn\.jsdelivr\.net\/npm\/fertig@5\/fertig\.min\.css/);
 });
 
 test('every catalogue component exposes a working copy action', () => {

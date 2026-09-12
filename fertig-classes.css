@@ -1,0 +1,383 @@
+/*! fertig-classes v5.0.0 — optional class aliases and new components for fertig. MIT */
+
+/* Re-opening the layer declared in fertig.css: this file adds class aliases
+   over the ARIA/data-attribute selectors in the base, plus new components
+   that only exist in the class-based mode. Every rule here re-uses the
+   existing tokens — nothing new is declared. */
+
+@layer fertig {
+
+/* ---- semantic colour contract --------------------------------
+   The class layer paints tones, dots and steps with these, so a named theme
+   in fertig-themes.css can re-tint the whole sheet from one place. Unthemed,
+   they sit on the ramps the base already ships. */
+:root {
+  --fertig-primary: var(--fertig-ac);
+  --fertig-secondary: light-dark(var(--fertig-violet-700), var(--fertig-violet-300));
+  --fertig-neutral: var(--fertig-mut);
+  --fertig-info:    light-dark(var(--fertig-blue-700),  var(--fertig-blue-300));
+  --fertig-success: light-dark(var(--fertig-green-700), var(--fertig-green-300));
+  --fertig-warning: light-dark(var(--fertig-amber-700), var(--fertig-amber-300));
+  --fertig-error:   light-dark(var(--fertig-red-700),   var(--fertig-red-300));
+  --fertig-on-primary: var(--fertig-on-ac);
+  --fertig-on-secondary: light-dark(#f7f8fb, #14101e);
+  --fertig-on-neutral: var(--fertig-fg);
+  --fertig-on-info:    light-dark(#f7f8fb, #0b1030);
+  --fertig-on-success: light-dark(#f7f8fb, #081c10);
+  --fertig-on-warning: #241a04;   /* amber holds dark ink; high-vis warning fills sit at the 3:1 non-text bar (WCAG 1.4.11) by design */
+  --fertig-on-error:   light-dark(#f7f8fb, #170a0a);
+}
+
+/* ---- aliases: surface, empty, skeleton, avatar ------------------ */
+
+.surface       { background: var(--fertig-el); border: 1px solid var(--fertig-bd);
+                 border-radius: var(--fertig-rw); padding: 1rem; box-shadow: var(--fertig-up) }
+.surface-flat  { background: var(--fertig-face); border: 1px solid var(--fertig-bd);
+                 border-radius: var(--fertig-rw); padding: 1rem; box-shadow: none }
+.surface-outline { background: transparent; border: 1px solid var(--fertig-bd);
+                   border-radius: var(--fertig-rw); padding: 1rem; box-shadow: none }
+
+.empty {
+  display: grid; justify-items: center; gap: .6rem; text-align: center;
+  padding: clamp(2rem, 7vw, 4rem); border: 1px dashed var(--fertig-bd);
+  border-radius: var(--fertig-rw); background: color-mix(in srgb, var(--fertig-face) 45%, transparent);
+}
+.empty > * { max-inline-size: 32rem; margin-block: 0 }
+
+.skeleton {
+  color: transparent; border-radius: var(--fertig-r); pointer-events: none;
+  user-select: none; min-height: 1em;
+  background: linear-gradient(90deg, var(--fertig-face),
+              color-mix(in srgb, var(--fertig-fg) 9%, var(--fertig-face)), var(--fertig-face));
+  background-size: 200% 100%;
+}
+@media (prefers-reduced-motion: no-preference) and (update: fast) {
+  .skeleton { animation: fertig-shimmer 1.4s linear infinite }
+}
+
+.avatar {
+  display: inline-grid; place-items: center; flex: none; overflow: hidden;
+  inline-size: 2.5rem; aspect-ratio: 1; border-radius: 50%;
+  background: var(--fertig-face); border: 1px solid var(--fertig-bd);
+  font-size: .8em; font-weight: 700; color: var(--fertig-mut); object-fit: cover;
+}
+.avatar-sm { inline-size: 1.75rem; font-size: .7em }
+.avatar-lg { inline-size: 3.5rem; font-size: 1em }
+
+/* ---- aliases: buttons ------------------------------------------- */
+
+.btn {
+  display: inline-block; text-decoration: none; text-align: center;
+  padding: .55em 1.2em; background: var(--fertig-face); color: var(--fertig-fg); cursor: pointer;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r);
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--fertig-sh) 9%, transparent),
+              0 1px 2px var(--fertig-sh1);
+  font: inherit; font-weight: 550; min-width: 5rem;
+}
+.btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--fertig-fg) 6%, var(--fertig-face));
+  border-color: color-mix(in srgb, var(--fertig-fg) 20%, var(--fertig-bd));
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--fertig-sh) 9%, transparent), var(--fertig-up2);
+  translate: 0 -1px;
+}
+.btn:active:not(:disabled) { translate: 0 1px; box-shadow: none }
+.btn:disabled { background: var(--fertig-face); border-color: var(--fertig-bd); color: var(--fertig-mut); box-shadow: none }
+
+.btn-primary {
+  background: var(--fertig-ac); border-color: transparent; color: var(--fertig-on-ac);
+  box-shadow: 0 2px 0 0 color-mix(in srgb, var(--fertig-sh) 30%, transparent);
+}
+.btn-primary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--fertig-ac), #fff 9%);
+  translate: 0;
+  box-shadow: 0 2px 0 0 color-mix(in srgb, var(--fertig-sh) 34%, transparent),
+              0 8px 18px -8px color-mix(in srgb, var(--fertig-sh) 34%, transparent);
+}
+.btn-primary:active:not(:disabled) { translate: 0 1px; box-shadow: none }
+.btn-primary:disabled { background: var(--fertig-face); border-color: var(--fertig-bd); color: var(--fertig-mut); box-shadow: none }
+
+.btn-ghost  { background: none; border-color: transparent; box-shadow: none }
+.btn-ghost:hover:not(:disabled) { background: var(--fertig-face); border-color: var(--fertig-bd); translate: 0; box-shadow: none }
+.btn-ghost:active:not(:disabled) { translate: 0; box-shadow: none }
+
+.btn-soft {
+  background: color-mix(in srgb, var(--fertig-ac) 13%, var(--fertig-el));
+  border-color: transparent; box-shadow: none; color: var(--fertig-ac);
+}
+.btn-soft:hover:not(:disabled) { background: color-mix(in srgb, var(--fertig-ac) 20%, var(--fertig-el)); translate: 0; box-shadow: none }
+
+.btn-outline { background: transparent; border-color: var(--fertig-bd); box-shadow: none }
+.btn-outline:hover:not(:disabled) { border-color: var(--fertig-ac); translate: 0; box-shadow: none }
+
+.btn-link {
+  background: none; border: 0; box-shadow: none; min-width: 0; padding-inline: .2em;
+  color: var(--fertig-ac); text-decoration: underline; text-underline-offset: 3px;
+}
+.btn-link:hover:not(:disabled) { background: none; text-decoration-thickness: 2px; translate: 0; box-shadow: none }
+
+.btn-sm  { padding: .2em .7em; font-size: .85em; min-width: 0 }
+.btn-lg  { padding: .55em 1.5em; font-size: 1.05em }
+.btn-block { display: block; width: 100%; min-width: 0 }
+
+/* ---- aliases: badge tones --------------------------------------- */
+
+.badge-success { color: var(--fertig-success); background: color-mix(in srgb, var(--fertig-success) 12%, var(--fertig-el)); border-color: color-mix(in srgb, var(--fertig-success) 24%, transparent) }
+.badge-info    { color: var(--fertig-info);    background: color-mix(in srgb, var(--fertig-info) 12%, var(--fertig-el));    border-color: color-mix(in srgb, var(--fertig-info) 24%, transparent) }
+.badge-warning { color: var(--fertig-warning); background: color-mix(in srgb, var(--fertig-warning) 12%, var(--fertig-el)); border-color: color-mix(in srgb, var(--fertig-warning) 24%, transparent) }
+.badge-error   { color: var(--fertig-error);   background: color-mix(in srgb, var(--fertig-error) 12%, var(--fertig-el));   border-color: color-mix(in srgb, var(--fertig-error) 24%, transparent) }
+
+/* ---- aliases: card ---------------------------------------------- */
+
+.card-header { padding-inline: 0 }
+.card-title  { margin-top: -.1rem; font-weight: 650 }
+.card-footer { margin-top: auto; padding-inline: 0; color: var(--fertig-mut); font-size: .85em }
+.card-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; padding-inline: 0 }
+.card-bordered { border: 1px solid var(--fertig-bd) }
+
+/* ---- aliases: form ---------------------------------------------- */
+
+.form-control {
+  display: block; width: 100%; padding: .6em .8em; background: var(--fertig-el);
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-r); box-shadow: none;
+}
+.form-label { display: block; font-size: .85em; color: var(--fertig-mut) }
+.form-legend {
+  float: left; width: 100%; margin-bottom: .8rem; padding: 0 0 .6rem;
+  border-bottom: 1px solid var(--fertig-bd); font-size: .95em; font-weight: 700; color: var(--fertig-fg);
+}
+
+.input-group {
+  display: flex; align-items: center; inline-size: 100%; overflow: clip;
+  background: var(--fertig-el); border: 1px solid transparent;
+  border-radius: var(--fertig-r); box-shadow: var(--fertig-dn);
+}
+.input-group .form-control,
+.input-group > :is(input, select, textarea) {
+  flex: 1 1 auto; min-inline-size: 0; border: 0; border-radius: 0;
+  background-color: transparent; box-shadow: none; outline: 0;
+}
+.input-group-addon {
+  flex: none; padding-inline: .75em; color: var(--fertig-mut); white-space: nowrap;
+}
+.input-group-action {
+  align-self: stretch; min-width: 0; border: 0; border-radius: 0;
+  background: transparent; box-shadow: none;
+}
+.input-group:focus-within {
+  border-color: color-mix(in srgb, var(--fertig-ac) 55%, transparent);
+  box-shadow: var(--fertig-up), 0 0 0 3px color-mix(in srgb, var(--fertig-ac) 16%, transparent);
+}
+.input-otp {
+  inline-size: min(100%, 16ch); font: 650 1.25rem/1.4 var(--fertig-fm);
+  letter-spacing: .55em; text-indent: .55em; text-align: center;
+}
+
+/* ---- aliases: alert / aside tones -------------------------------- */
+
+.alert           { border: 1px solid color-mix(in srgb, var(--fertig-ac) 26%, transparent); border-radius: var(--fertig-rw); background: color-mix(in srgb, var(--fertig-ac) 9%, var(--fertig-el)); padding: .85rem 1.15rem; margin-block: 1.1rem }
+.alert-success   { --fertig-ac: var(--fertig-green-700) }
+.alert-info      { --fertig-ac: var(--fertig-blue-700) }
+.alert-warning   { --fertig-ac: var(--fertig-amber-700) }
+.alert-error     { --fertig-ac: var(--fertig-red-700) }
+
+/* ---- aliases: table --------------------------------------------- */
+
+.table       { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .92em; border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); overflow: hidden }
+.table-zebra tbody tr:nth-child(even) { background: var(--fertig-face) }
+
+/* ---- aliases: tabs ---------------------------------------------- */
+
+.tabs {
+  display: flex; gap: .15rem; max-inline-size: 100%; overflow-x: auto;
+  margin: 1.1rem 0; padding: .25rem; border: 0; border-radius: var(--fertig-rp);
+  background: var(--fertig-face); scrollbar-width: none;
+}
+.tab {
+  flex: none; background: none; border: 0; box-shadow: none; min-width: 0; color: var(--fertig-mut);
+  padding: .4em .9em; border-radius: var(--fertig-rp); margin: 0;
+}
+.tab:hover:not(:disabled) { background: var(--fertig-face); color: var(--fertig-fg) }
+.tab-active { background: var(--fertig-el); color: var(--fertig-fg); box-shadow: var(--fertig-up) }
+
+/* ---- aliases: menu ---------------------------------------------- */
+
+.menu {
+  list-style: none; padding: 0; margin: 1.1rem 0;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw);
+  background: var(--fertig-el); box-shadow: var(--fertig-up);
+}
+.menu > li { padding: .55rem .85rem }
+.menu > li + li { border-top: 1px solid var(--fertig-bd) }
+
+/* ---- aliases: item ---------------------------------------------- */
+
+.item {
+  display: flex; align-items: center; gap: .8rem; min-inline-size: 0;
+  padding: .7rem .8rem; border-radius: var(--fertig-r); background: var(--fertig-el);
+  border: 1px solid var(--fertig-bd);
+}
+
+/* ---- aliases: group / segmented --------------------------------- */
+
+.group {
+  display: inline-flex; vertical-align: middle; max-inline-size: 100%; padding: .2rem;
+  overflow: auto clip; overscroll-behavior-x: contain;
+  border-radius: var(--fertig-rp); background: var(--fertig-face);
+}
+.group > * { border: 0; border-radius: var(--fertig-rp); margin: 0; box-shadow: none; min-width: 0 }
+.group > :focus-visible { outline-offset: -3px }
+
+/* ---- aliases: dialog / drawer / toast / popover ----------------- */
+
+.dialog {
+  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid var(--fertig-bd);
+  border-radius: var(--fertig-rw); padding: 1.25rem; max-width: min(30rem, 92dvw);
+  box-shadow: var(--fertig-up2), 0 28px 70px -24px color-mix(in srgb, var(--fertig-sh) 34%, transparent);
+}
+.popover {
+  background: var(--fertig-el); color: var(--fertig-fg); border: 1px solid var(--fertig-bd);
+  border-radius: var(--fertig-rw); padding: .35rem; min-width: 12rem;
+  max-block-size: 60dvh; overflow: auto; font-size: .95em;
+  box-shadow: var(--fertig-up2), 0 24px 44px -18px color-mix(in srgb, var(--fertig-sh) 28%, transparent);
+}
+
+/* ---- aliases: switch -------------------------------------------- */
+
+.switch {
+  appearance: none; width: 2.5em; height: 1.45em; border-radius: var(--fertig-rp); border: 0;
+  background: color-mix(in srgb, var(--fertig-fg) 20%, transparent);
+  position: relative; cursor: pointer; vertical-align: -.3em; margin-inline-end: .5em;
+}
+.switch::after {
+  content: ""; position: absolute; inset-block-start: .14em; inset-inline-start: .14em;
+  width: 1.17em; height: 1.17em; border-radius: 50%; background: #fff; box-shadow: var(--fertig-up);
+  transition: translate .16s var(--fertig-ease-out);
+}
+.switch:checked { background: var(--fertig-ac) }
+.switch:checked::after { translate: 1.05em 0 }
+
+/* ---- aliases: tooltip ------------------------------------------- */
+
+.tooltip { position: relative }
+.tooltip::after {
+  content: attr(data-tooltip); position: absolute;
+  inset-block-end: 100%; inset-inline-start: 50%;
+  translate: -50% -.45em; z-index: 10; white-space: nowrap; pointer-events: none;
+  background: light-dark(#1d1d1f, #3a3a40); color: #f7f8fb; font-size: .8em;
+  padding: .25em .55em; border-radius: var(--fertig-r); box-shadow: var(--fertig-up2);
+  opacity: 0; transition: opacity .12s var(--fertig-ease-out);
+}
+.tooltip:hover::after, .tooltip:focus-visible::after { opacity: 1 }
+
+/* ---- new: stats ------------------------------------------------- */
+
+.stats {
+  display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+.stat {
+  background: var(--fertig-el); border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw);
+  padding: 1rem; display: flex; flex-direction: column; gap: .3rem;
+}
+.stat-value { font-size: 1.8rem; font-weight: 700; line-height: 1.2 }
+.stat-title { font-size: .78em; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--fertig-mut) }
+
+/* ---- new: steps ------------------------------------------------- */
+
+.steps {
+  display: flex; gap: 0; counter-reset: step;
+  border: 1px solid var(--fertig-bd); border-radius: var(--fertig-rw); overflow: hidden;
+}
+.step {
+  flex: 1; padding: .7rem 1rem; background: var(--fertig-el);
+  border-right: 1px solid var(--fertig-bd); counter-increment: step;
+  display: flex; align-items: center; gap: .5rem; font-size: .9em;
+}
+.step:last-child { border-right: 0 }
+.step::before {
+  content: counter(step); display: inline-grid; place-items: center;
+  width: 1.4em; height: 1.4em; border-radius: 50%; font-size: .75em; font-weight: 700;
+  background: var(--fertig-face); border: 1px solid var(--fertig-bd); color: var(--fertig-mut);
+}
+.step[data-active] { background: color-mix(in srgb, var(--fertig-ac) 8%, var(--fertig-el)); color: var(--fertig-ac) }
+.step[data-active]::before {
+  background: var(--fertig-ac); border-color: transparent; color: var(--fertig-on-ac);
+}
+.step[data-done]::before { background: var(--fertig-success); border-color: transparent; color: var(--fertig-on-success); content: "✓" }
+.step[data-done]::after { content: none }
+
+/* ---- new: timeline ---------------------------------------------- */
+
+.timeline {
+  border-inline-start: 2px solid var(--fertig-bd); margin: 1rem 0; padding: 0;
+}
+.timeline-entry {
+  position: relative; padding: .5rem 0 .5rem 1.2rem;
+}
+.timeline-entry::before {
+  content: ""; position: absolute; inset-inline-start: calc(-1rem - 1px);
+  top: .7rem; width: .55rem; height: .55rem; border-radius: 50%;
+  background: var(--fertig-face); border: 2px solid var(--fertig-bd);
+}
+.timeline-entry[data-active]::before { background: var(--fertig-ac); border-color: var(--fertig-ac) }
+.timeline-time { font-size: .78em; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--fertig-mut) }
+.timeline-content { font-size: .92em }
+
+/* ---- new: chat -------------------------------------------------- */
+
+.chat { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0 }
+.chat-bubble {
+  max-width: 75%; padding: .55rem .9rem; border-radius: var(--fertig-rw);
+  font-size: .92em; line-height: 1.55;
+}
+.chat-bubble-user {
+  align-self: end; background: var(--fertig-ac); color: var(--fertig-on-ac);
+  border-bottom-end-radius: .2rem;
+}
+.chat-bubble-bot {
+  align-self: start; background: var(--fertig-face); border: 1px solid var(--fertig-bd);
+  border-bottom-start-radius: .2rem;
+}
+.chat-meta { font-size: .72em; color: var(--fertig-mut); margin-top: .2rem }
+
+/* ---- new: join -------------------------------------------------- */
+
+.join { display: inline-flex; border-radius: var(--fertig-rw); overflow: hidden }
+.join > * { border-radius: 0; border: 0; box-shadow: none }
+.join > * + * { border-left: 1px solid color-mix(in srgb, var(--fertig-fg) 10%, transparent) }
+.join-vertical { flex-direction: column }
+.join-vertical > * + * { border-left: 0; border-top: 1px solid color-mix(in srgb, var(--fertig-fg) 10%, transparent) }
+
+/* ---- new: indicator --------------------------------------------- */
+
+.indicator {
+  position: relative; display: inline-block;
+}
+.indicator-dot {
+  position: absolute; inset-inline-end: -.15em; inset-block-start: -.15em;
+  width: .55rem; height: .55rem; border-radius: 50%;
+  background: var(--fertig-ac); border: 2px solid var(--fertig-el);
+}
+.indicator-dot-success { background: var(--fertig-green-700) }
+.indicator-dot-warning { background: var(--fertig-amber-700) }
+.indicator-dot-error   { background: var(--fertig-red-700) }
+
+/* ---- new: btn-group --------------------------------------------- */
+
+.btn-group {
+  display: inline-flex; border-radius: var(--fertig-rp); overflow: hidden;
+  border: 1px solid var(--fertig-bd);
+}
+.btn-group > .btn { border-radius: 0; border: 0; box-shadow: none; min-width: 0 }
+.btn-group > .btn + .btn { border-left: 1px solid color-mix(in srgb, var(--fertig-fg) 10%, transparent) }
+.btn-group-sm > .btn { padding: .2em .7em; font-size: .85em }
+
+/* ---- new: form-control-group ------------------------------------ */
+
+.form-control-group {
+  display: grid; gap: .35rem; align-content: start;
+}
+.form-control-group > * { margin-block: 0 }
+.form-control-group > :is(small, [role=alert]) { font-size: .82em }
+.form-control-group > [role=alert] { color: light-dark(var(--fertig-red-700), var(--fertig-red-300)) }
+
+}

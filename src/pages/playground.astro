@@ -1,0 +1,132 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { site } from "../lib/site";
+---
+
+<SiteLayout
+  title="Playground — fertig"
+  description="Edit HTML and CSS live against fertig, layer on the optional classes and named themes, and see the result instantly."
+  active="playground"
+  pageTitle="Playground"
+  pageIntro="Edit HTML and CSS live, layer on classes and named themes, and see the result instantly."
+>
+  <main id="main-content" class="pg-wrap wrap-wide" data-playground>
+    <div class="pg-toolbar">
+      <strong>HTML</strong>
+      <label class="pg-check"><input type="checkbox" data-pg-classes> classes layer</label>
+      <label class="pg-check"><input type="checkbox" data-pg-themes> themes layer</label>
+      <label class="pg-check">
+        Theme
+        <select data-pg-theme aria-label="Preview theme">
+          <option value="dark">Base dark</option>
+          <option value="light">Base light</option>
+          <option value="forest">Forest</option>
+          <option value="aqua">Aqua</option>
+          <option value="retro">Retro</option>
+          <option value="coffee">Coffee</option>
+          <option value="night">Night</option>
+          <option value="cyberpunk">Cyberpunk</option>
+          <option value="synthwave">Synthwave</option>
+          <option value="blossom">Blossom</option>
+        </select>
+      </label>
+      <button type="button" class="pg-reset" data-pg-reset>Reset</button>
+    </div>
+
+    <div class="pg-panes">
+      <div class="pg-pane pg-html">
+        <div class="pg-pane-head"><strong>HTML</strong></div>
+        <div class="pg-editor-stack">
+          <pre class="pg-hl" aria-hidden="true"><code class="language-html"></code></pre>
+          <textarea class="pg-code" data-pg-html spellcheck="false" rows="20" wrap="soft" aria-label="HTML source">&lt;main class="grid gap-lg"&gt;
+  &lt;header class="page-head"&gt;
+    &lt;h1 class="page-title"&gt;Playground&lt;/h1&gt;
+    &lt;p class="muted page-intro"&gt;Edit this HTML and CSS to see fertig in action.&lt;/p&gt;
+  &lt;/header&gt;
+
+  &lt;section class="band page"&gt;
+    &lt;div class="panel"&gt;
+      &lt;h2&gt;Buttons&lt;/h2&gt;
+      &lt;p&gt;A complete set of functional and semantic buttons.&lt;/p&gt;
+      &lt;div class="cluster"&gt;
+        &lt;button type="button" class="button"&gt;Default&lt;/button&gt;
+        &lt;button type="button" class="button primary"&gt;Primary&lt;/button&gt;
+        &lt;button type="button" class="button success"&gt;Success&lt;/button&gt;
+        &lt;button type="button" class="button warning"&gt;Warning&lt;/button&gt;
+        &lt;button type="button" class="button danger"&gt;Danger&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="panel"&gt;
+      &lt;h2&gt;Form elements&lt;/h2&gt;
+      &lt;div class="cols"&gt;
+        &lt;div&gt;
+          &lt;label for="pg-name"&gt;Your name&lt;/label&gt;
+          &lt;input id="pg-name" type="text" placeholder="Ada Lovelace" required&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label for="pg-colour"&gt;Favourite colour&lt;/label&gt;
+          &lt;select id="pg-colour"&gt;
+            &lt;option&gt;Blue&lt;/option&gt;
+            &lt;option&gt;Green&lt;/option&gt;
+            &lt;option&gt;Purple&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="panel"&gt;
+      &lt;h2&gt;Definition list&lt;/h2&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;Layer&lt;/dt&gt;
+        &lt;dd&gt;A CSS cascade layer — unlayered code beats layered code without &lt;code&gt;!important&lt;/code&gt;.&lt;/dd&gt;
+        &lt;dt&gt;Theme&lt;/dt&gt;
+        &lt;dd&gt;A named palette built on the same token surface. Add &lt;code&gt;data-theme="forest"&lt;/code&gt; and the whole chrome restyles.&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/main&gt;</textarea>
+        </div>
+      </div>
+
+      <div class="pg-pane pg-css">
+        <div class="pg-pane-head"><strong>CSS</strong></div>
+        <div class="pg-editor-stack">
+          <pre class="pg-hl" aria-hidden="true"><code class="language-css"></code></pre>
+          <textarea class="pg-code" data-pg-css spellcheck="false" rows="20" wrap="soft" aria-label="Custom CSS">/* fertig is layer-less: your unlayered CSS beats it without !important. */
+.panel &#123;
+  border: 1px solid var(--fertig-ac);
+  background: color-mix(in srgb, var(--fertig-bg) 92%, var(--fertig-ac));
+&#125;
+.grid &#123;
+  display: grid;
+  gap: var(--fertig-g);
+  inline-size: min(var(--fertig-w), 100% - 2 * 1.15rem);
+  margin-inline: auto;
+&#125;
+.cluster &#123; display: flex; flex-wrap: wrap; gap: .4rem .6rem; align-items: center &#125;
+.cols &#123; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--fertig-g) &#125;
+.band &#123; padding-block: var(--fertig-g); padding-inline: 1.15rem &#125;
+.gap-lg &#123; gap: clamp(1.5rem, 4vw, 2.5rem) &#125;</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-preview-head">
+      <strong>Preview</strong>
+      <span data-pg-status>Live</span>
+    </div>
+    <div class="pg-preview">
+      <iframe
+        class="pg-iframe"
+        data-pg-preview
+        data-stylesheet={`fertig.css?v=${site.hashes.fertig}`}
+        data-classesheet={`fertig-classes.css?v=${site.hashes.classes}`}
+        data-themesheet={`fertig-themes.css?v=${site.hashes.themes}`}
+        title="Live playground preview"
+        sandbox="allow-same-origin"
+        srcdoc="<!doctype html><title>Live preview loading</title>"
+      ></iframe>
+    </div>
+  </main>
+</SiteLayout>

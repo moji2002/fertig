@@ -61,20 +61,24 @@ const row = (name, buf) =>
   `brotli ${String(brotliCompressSync(buf).length).padStart(5)} B`;
 
 const build = () => {
-  const src = fs.readFileSync('fertig.css', 'utf8');
-  const banner = src.match(/\/\*![^]*?\*\//);
-  if (!banner) throw new Error('fertig.css is missing its /*! … */ banner');
-  if (braces(src) !== 0) throw new Error('unbalanced braces in source');
+  const sources = fs.readdirSync('.')
+    .filter(name => /^fertig[^.]*\.css$/.test(name))
+    .sort();
+  if (sources.length === 0) throw new Error('no fertig*.css sources found');
 
-  const builds = [
-    ['fertig.css', src],
-    ['fertig.min.css', banner[0] + minifyCss(src) + '\n'],
-  ];
+  for (const srcName of sources) {
+    const src = fs.readFileSync(srcName, 'utf8');
+    const banner = src.match(/\/\*![^]*?\*\//);
+    if (!banner) throw new Error(`${srcName} is missing its /*! … */ banner`);
+    if (braces(src) !== 0) throw new Error(`unbalanced braces in ${srcName}`);
 
-  for (const [name, css] of builds) {
-    if (braces(css) !== 0) throw new Error(`unbalanced braces in ${name}`);
-    if (name !== 'fertig.css') fs.writeFileSync(name, css);
-    console.log(row(name, Buffer.from(css)));
+    const minName = srcName.replace(/\.css$/, '') + '.min.css';
+    const min = banner[0] + minifyCss(src) + '\n';
+
+    if (braces(min) !== 0) throw new Error(`unbalanced braces in ${minName}`);
+    fs.writeFileSync(minName, min);
+    console.log(row(srcName, Buffer.from(src)));
+    console.log(row(minName, Buffer.from(min)));
   }
 };
 

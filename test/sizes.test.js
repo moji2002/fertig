@@ -29,7 +29,12 @@ function createFixture(t) {
   const root = mkdtempSync(path.join(tmpdir(), 'fertig-sizes-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
 
-  for (const file of ['fertig.css', 'fertig.min.css', ...syncedFiles]) {
+  for (const file of [
+    'fertig.css', 'fertig.min.css',
+    'fertig-classes.css', 'fertig-classes.min.css',
+    'fertig-themes.css', 'fertig-themes.min.css',
+    ...syncedFiles,
+  ]) {
     const target = path.join(root, file);
     mkdirSync(path.dirname(target), { recursive: true });
     copyFileSync(path.join(repo, file), target);

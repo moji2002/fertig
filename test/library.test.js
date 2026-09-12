@@ -46,14 +46,20 @@ test('modern defaults stay opaque and use a shared rounded-control scale', () =>
   assert.match(css, /--fertig-r:\s*10px/);
   assert.match(css, /border-radius:\s*var\(--fertig-r\)/);
   assert.ok(buttonDefaults, 'missing default button rule');
-  assert.match(buttonDefaults, /box-shadow:\s*none/);
+  assert.doesNotMatch(buttonDefaults, /box-shadow:\s*none/);
+  assert.match(buttonDefaults, /box-shadow:\s*0\s*1px\s*0\s*0\s*color-mix/);
   assert.doesNotMatch(buttonDefaults, /translate/);
   assert.doesNotMatch(css, /filled buttons get a lit top edge/);
-  assert.equal(
-    css.includes(':is(button,[type=submit],[type=button],[type=reset],a.primary,a[role=button]):active'),
-    false,
+  assert.match(
+    css,
+    /:is\(button, \[type=submit\], \[type=button\], \[type=reset\], a\.primary,[\s\S]*?a\[role=button\]\):active:not\(:disabled\) \{[\s\S]*?translate: 0 1px; box-shadow: none;/,
+    'buttons press down by sinking the edge shadow on :active',
   );
-  assert.doesNotMatch(css, /:is\(\[type=submit\], \.primary\)[^{]*\{[^}]*box-shadow/);
+  assert.match(
+    css,
+    /\[type=submit\], \.primary \{[\s\S]*?box-shadow:\s*0\s*2px\s*0\s*0\s*color-mix/,
+    'filled buttons carry the bottom-edge shadow',
+  );
   assert.match(rootTokens, /--fertig-fg:\s*light-dark\(oklch\(22% \.02 260\),\s*oklch\(95% \.012 260\)\)/);
   assert.doesNotMatch(rootTokens, /--fertig-fg:[^;]*(?:#000(?:000)?|#fff(?:fff)?)/i);
   assert.doesNotMatch(rootTokens, /--fertig-on-ac:[^;]*(?:#000(?:000)?|#fff(?:fff)?)/i);
@@ -74,8 +80,9 @@ test('a wide toolbar stays full bleed while its contents use the wide column', (
 test('disabled buttons cannot retain an enabled filled treatment', () => {
   assert.ok(disabledButtonRule, 'missing disabled button override');
   assert.match(disabledButtonRule, /background:\s*var\(--fertig-face\)/);
-  assert.match(disabledButtonRule, /border-color:\s*transparent/);
+  assert.match(disabledButtonRule, /border-color:\s*var\(--fertig-bd\)/);
   assert.match(disabledButtonRule, /color:\s*var\(--fertig-mut\)/);
+  assert.match(disabledButtonRule, /box-shadow:\s*none/);
   assert.ok(
     css.indexOf(':is(button,[type=submit],[type=button],[type=reset]):disabled') >
       css.indexOf('[type=submit], .primary'),

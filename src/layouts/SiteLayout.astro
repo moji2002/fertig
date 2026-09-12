@@ -10,7 +10,7 @@ interface Props {
   canonical?: string;
   ogTitle?: string;
   ogDescription?: string;
-  active?: "index" | "customize" | "docs" | "components" | "blocks";
+  active?: "index" | "customize" | "docs" | "components" | "blocks" | "playground";
   pageTitle?: string;
   pageIntro?: string;
   langs?: string[];
@@ -69,6 +69,7 @@ const canonicalUrl = `https://moji2002.github.io/fertig/${canonical}`;
         document.documentElement.dataset.theme === "dark" ? "#0b0e14" : "#f4f6f9";
     </script>
     <link rel="stylesheet" href={`fertig.css?v=${site.hashes.fertig}`} />
+    <link rel="stylesheet" href={`fertig-themes.css?v=${site.hashes.themes}`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />

@@ -3,47 +3,67 @@
    Everything here is delegated from the document, so the markup stays free of
    event attributes and the pages work with a strict Content-Security-Policy. */
 
-/* Which theme is actually showing. Both the showcase and the customiser
-   need it, and the answer is the attribute, not the OS preference. */
-const isDarkTheme = () => document.documentElement.dataset.theme === "dark";
-
-const syncThemeToggle = () => {
-  const control = document.querySelector("[data-theme-toggle]");
-  if (!control) return;
-  const themeColor = document.getElementById("theme-color");
-  if (themeColor) themeColor.content = isDarkTheme() ? "#23262b" : "#fafbfc";
-  const target = isDarkTheme() ? "light" : "dark";
-  const label = `Switch to ${target} theme`;
-  control.setAttribute("aria-label", label);
-  control.title = label;
+/* The name on <html data-theme>. "dark" and "light" are the base pair built
+   into fertig.css; any other value is one of the named themes from
+   fertig-themes.css. The chrome follows what the sheet actually does, so the
+   swatch in the toolbar and every preview inherit it without restating it. */
+const BASE_THEMES = ["dark", "light"];
+const THEME_LABELS = {
+  dark: "Base dark", light: "Base light", forest: "Forest", aqua: "Aqua",
+  retro: "Retro", coffee: "Coffee", night: "Night", cyberpunk: "Cyberpunk",
+  synthwave: "Synthwave", blossom: "Blossom",
 };
-addEventListener("DOMContentLoaded", syncThemeToggle);
+const currentTheme = () => document.documentElement.dataset.theme || "dark";
+const isNamedTheme = () => !BASE_THEMES.includes(currentTheme());
+const isDarkTheme = () => currentTheme() === "dark";
+const themeButton = document.querySelector("[data-theme-toggle]");
 
-/* The theme toggle is the one control on the site that needs scripting.
-   The site is dark by default and remembers what you picked after that; the
-   library itself still follows the OS, which is what a stylesheet should do.
-   The initial theme is set by an inline script in the <head> rather than here,
-   because a deferred script runs after first paint and you would see a flash
-   of the wrong theme. */
+const syncThemeMenu = () => {
+  const theme = currentTheme();
+  document.querySelectorAll("[data-theme-pick]").forEach(button => {
+    button.setAttribute("aria-checked", String(button.dataset.themePick === theme));
+  });
+  const themeColor = document.getElementById("theme-color");
+  if (themeColor) themeColor.content = theme === "light" ? "#fafbfc" : "#23262b";
+  if (themeButton) {
+    const label = THEME_LABELS[theme];
+    themeButton.setAttribute("aria-label", label
+      ? `Choose a colour theme — currently ${label}`
+      : "Choose a colour theme");
+  }
+};
+addEventListener("DOMContentLoaded", syncThemeMenu);
+
+/* Pick a theme from the menu. The theme lives on <html data-theme>, so fertig
+   does the restyling — this only moves the attribute and remembers the choice
+   for the next visit. Transitions are cut for the one frame the palette flips
+   in, the same frame-rule the old day/night toggle used. */
 addEventListener("click", e => {
-  if (!e.target.closest("[data-theme-toggle]")) return;
+  const pick = e.target.closest("[data-theme-pick]");
+  if (!pick) return;
   const root = document.documentElement;
-  const next = root.dataset.theme === "dark" ? "light" : "dark";
-  /* Transitions are cut for the frame the scheme flips in. A transitioned
-     `color` whose value comes from light-dark() holds the branch it started
-     on when the flip is a color-scheme change: measured on the nav, the links
-     stayed on the light branch (2.06:1 on the dark bar) until the transition
-     was taken out of the picture, at which point they resolved correctly. */
-  root.dataset.themeSwitching = "";
-  root.dataset.theme = next;
-  syncThemeToggle();
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    delete root.dataset.themeSwitching;
-  }));
-  try { localStorage.setItem("fertig-theme", next); } catch {}
-  /* the customiser's contrast readout depends on which theme is showing */
+  const next = pick.dataset.themePick;
+  if (next !== root.dataset.theme) {
+    root.dataset.themeSwitching = "";
+    root.dataset.theme = next;
+    try { localStorage.setItem("fertig-theme", next); } catch {}
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      delete root.dataset.themeSwitching;
+    }));
+  }
+  syncThemeMenu();
+  /* the hero preview, the playground, and the customiser all follow the theme */
   dispatchEvent(new Event("themechange"));
+  pick.closest("[popover]")?.hidePopover?.();
 });
+
+/* Keep aria-expanded truthful while the native popover toggles itself open. */
+addEventListener("toggle", e => {
+  const menu = e.target;
+  if (!(menu instanceof HTMLElement) || menu.id !== "theme-menu") return;
+  const open = e.newState === "open" || menu.matches(":popover-open");
+  themeButton?.setAttribute("aria-expanded", String(open));
+}, true);
 
 /* Every form here is a demo with nowhere to submit to. */
 addEventListener("submit", e => e.preventDefault());
@@ -148,16 +168,20 @@ addEventListener("DOMContentLoaded", () => {
   };
 
   const render = () => {
-    const theme = isDarkTheme() ? "dark" : "light";
-    const stylesheet = new URL(preview.dataset.stylesheet || "fertig.css", document.baseURI);
-    const policy = `default-src 'none'; style-src ${stylesheet.origin}; form-action 'none'; base-uri 'none'`;
+    const theme = currentTheme();
+    const sheets = [new URL(preview.dataset.stylesheet || "fertig.css", document.baseURI)];
+    if (isNamedTheme() && preview.dataset.themesheet) {
+      sheets.push(new URL(preview.dataset.themesheet, document.baseURI));
+    }
+    const origins = [...new Set(sheets.map(sheet => sheet.origin))].join(" ");
+    const policy = `default-src 'none'; style-src ${origins}; form-action 'none'; base-uri 'none'`;
     preview.srcdoc = `<!doctype html>
 <html data-theme="${theme}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="${escapeAttribute(policy)}">
-    <link rel="stylesheet" href="${escapeAttribute(stylesheet.href)}">
+    ${sheets.map(sheet => `<link rel="stylesheet" href="${escapeAttribute(sheet.href)}">`).join("\n    ")}
   </head>
   <body>${editor.value}</body>
 </html>`;
@@ -531,4 +555,101 @@ addEventListener("DOMContentLoaded", () => {
   }));
   stage.dataset.accent = dots[0].dataset.accent;
 
+});
+
+/* The playground: two editors and a live preview in its own iframe. The layer
+   switches prove the cascade rule the docs describe — unlayered user CSS beats
+   the library, and the optional files join the same @layer — so a preview is
+   worth more here than a paragraph. Inline styles are allowed on purpose. */
+addEventListener("DOMContentLoaded", () => {
+  const playground = document.querySelector("[data-playground]");
+  const htmlEditor = playground?.querySelector("[data-pg-html]");
+  const cssEditor = playground?.querySelector("[data-pg-css]");
+  const preview = playground?.querySelector("[data-pg-preview]");
+  if (!(htmlEditor instanceof HTMLTextAreaElement) ||
+      !(cssEditor instanceof HTMLTextAreaElement) ||
+      !(preview instanceof HTMLIFrameElement)) return;
+
+  const editors = [
+    {
+      editor: htmlEditor,
+      mirror: playground.querySelector(".pg-html .pg-hl code"),
+      stack: htmlEditor.closest(".pg-editor-stack"),
+      language: "html",
+    },
+    {
+      editor: cssEditor,
+      mirror: playground.querySelector(".pg-css .pg-hl code"),
+      stack: cssEditor.closest(".pg-editor-stack"),
+      language: "css",
+    },
+  ];
+  const classesToggle = playground.querySelector("[data-pg-classes]");
+  const themesToggle = playground.querySelector("[data-pg-themes]");
+  const themeSelect = playground.querySelector("[data-pg-theme]");
+  const resetButton = playground.querySelector("[data-pg-reset]");
+  const initialHtml = htmlEditor.value;
+  const initialCss = cssEditor.value;
+  const escapeAttribute = value => value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+
+  const paint = ({ editor, mirror, stack, language }) => {
+    if (!(stack instanceof HTMLElement) || !(mirror instanceof HTMLElement)) return;
+    const scrollbarWidth = editor.offsetWidth - editor.clientWidth;
+    stack.style.setProperty("--pg-gutter", `${scrollbarWidth}px`);
+    if (!highlightCode(mirror, `${editor.value}\n`, language)) return;
+    stack.dataset.highlighted = "";
+    mirror.parentElement.scrollTop = editor.scrollTop;
+  };
+
+  const render = () => {
+    const sheets = [new URL(preview.dataset.stylesheet || "fertig.css", document.baseURI)];
+    if (classesToggle?.checked && preview.dataset.classesheet) {
+      sheets.push(new URL(preview.dataset.classesheet, document.baseURI));
+    }
+    if (themesToggle?.checked && preview.dataset.themesheet) {
+      sheets.push(new URL(preview.dataset.themesheet, document.baseURI));
+    }
+    const origins = [...new Set(sheets.map(sheet => sheet.origin))].join(" ");
+    const policy = `default-src 'none'; style-src 'unsafe-inline' ${origins}; form-action 'none'; base-uri 'none'`;
+    preview.srcdoc = `<!doctype html>
+<html data-theme="${themeSelect?.value || "dark"}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="${escapeAttribute(policy)}">
+    ${sheets.map(sheet => `<link rel="stylesheet" href="${escapeAttribute(sheet.href)}">`).join("\n    ")}
+    <style>${cssEditor.value}</style>
+  </head>
+  <body>${htmlEditor.value}</body>
+</html>`;
+  };
+
+  let frame = 0;
+  const update = () => {
+    editors.forEach(editor => paint(editor));
+    render();
+  };
+  const scheduleUpdate = () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(update);
+  };
+  editors.forEach(({ editor }) =>
+    editor.addEventListener("input", scheduleUpdate));
+  [classesToggle, themesToggle, themeSelect].forEach(control =>
+    control?.addEventListener("input", render));
+
+  resetButton?.addEventListener("click", () => {
+    htmlEditor.value = initialHtml;
+    cssEditor.value = initialCss;
+    if (classesToggle) classesToggle.checked = false;
+    if (themesToggle) themesToggle.checked = false;
+    if (themeSelect) themeSelect.value = "dark";
+    update();
+  });
+
+  update();
 });

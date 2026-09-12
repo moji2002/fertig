@@ -13,6 +13,8 @@ export const site = {
   version: packageJson.version,
   hashes: {
     fertig: hash("fertig.css"),
+    classes: hash("fertig-classes.css"),
+    themes: hash("fertig-themes.css"),
     site: hash("site.css"),
     script: hash("site.js"),
   },

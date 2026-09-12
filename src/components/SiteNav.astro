@@ -1,9 +1,22 @@
 ---
 interface Props {
-  active?: "index" | "customize" | "docs" | "components" | "blocks";
+  active?: "index" | "customize" | "docs" | "components" | "blocks" | "playground";
 }
 
 const { active } = Astro.props;
+
+const themes = [
+  ["base-dark", "dark", "Base dark"],
+  ["base-light", "light", "Base light"],
+  ["named", "forest", "Forest"],
+  ["named", "aqua", "Aqua"],
+  ["named", "retro", "Retro"],
+  ["named", "coffee", "Coffee"],
+  ["named", "night", "Night"],
+  ["named", "cyberpunk", "Cyberpunk"],
+  ["named", "synthwave", "Synthwave"],
+  ["named", "blossom", "Blossom"],
+] as const;
 ---
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -18,14 +31,33 @@ const { active } = Astro.props;
       <li><a href="index.html#customize" aria-current={active === "customize" ? "page" : undefined}>Customise</a></li>
       <li><a href="docs.html" aria-current={active === "docs" ? "page" : undefined}>Docs</a></li>
       <li><a href="components.html" aria-current={active === "components" ? "page" : undefined}>Components</a></li>
+      <li><a href="playground.html" aria-current={active === "playground" ? "page" : undefined}>Playground</a></li>
       <li><a href="blocks.html" aria-current={active === "blocks" ? "page" : undefined}>Blocks</a></li>
       <li class="nav-github">
         <a href="https://github.com/moji2002/fertig">GitHub<svg class="icon" aria-hidden="true"><use href="icons.svg#arrow-right"></use></svg></a>
       </li>
     </ul>
-    <button data-size="sm" data-icon data-theme-toggle aria-label="Switch theme">
-      <svg class="icon sun" aria-hidden="true"><use href="icons.svg#sun"></use></svg>
-      <svg class="icon moon" aria-hidden="true"><use href="icons.svg#moon"></use></svg>
-    </button>
+    <div class="bar-controls">
+      <button
+        type="button"
+        class="theme-toggle"
+        data-theme-toggle
+        popovertarget="theme-menu"
+        aria-haspopup="menu"
+        aria-expanded="false"
+        aria-label="Choose a colour theme"
+      >
+        <svg class="icon" aria-hidden="true"><use href="icons.svg#palette"></use></svg>
+        <i class="swatch" aria-hidden="true"></i>
+      </button>
+      <div id="theme-menu" class="theme-menu" popover="auto" role="menu" aria-label="Colour themes">
+        {themes.map(([kind, value, label]) => (
+          <button type="button" role="menuitemradio" aria-checked="false" data-theme-pick={value} data-theme-kind={kind}>
+            <i class="swatch" aria-hidden="true"></i>{label}
+            <svg class="icon" aria-hidden="true"><use href="icons.svg#check"></use></svg>
+          </button>
+        ))}
+      </div>
+    </div>
   </div>
 </nav>

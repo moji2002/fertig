@@ -39,10 +39,14 @@ const setVersion = (directory, version) => {
   writeJson(manifestPath, manifest);
   writeJson(lockPath, lock);
 
-  for (const name of ['fertig.css', 'fertig.min.css']) {
+  for (const name of [
+    'fertig.css', 'fertig.min.css',
+    'fertig-classes.css', 'fertig-classes.min.css',
+    'fertig-themes.css', 'fertig-themes.min.css',
+  ]) {
     const file = path.join(directory, name);
     const css = readFileSync(file, 'utf8').replace(
-      /(\/\*! fertig v)\d+\.\d+\.\d+(-[^ ]+)?/,
+      /(\/\*! fertig[\w-]* v)\d+\.\d+\.\d+(-[^ ]+)?/,
       `$1${version}`,
     );
     writeFileSync(file, css);
@@ -59,6 +63,8 @@ const makeFixture = t => {
   for (const relative of new Set([
     ...tracked,
     'tools/sync-release.js',
+    'fertig-classes.css', 'fertig-classes.min.css',
+    'fertig-themes.css', 'fertig-themes.min.css',
   ])) {
     const source = path.join(root, relative);
     if (!existsSync(source)) continue;

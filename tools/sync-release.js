@@ -49,9 +49,11 @@ const normalizeVersionMetadata = (relative, contents) => {
       return rootVersions <= 2 ? match.replace(/:[^:]+$/, ': "<version>",') : match;
     });
   }
-  if (relative === 'fertig.css' || relative === 'fertig.min.css') {
+  if (relative === 'fertig.css' || relative === 'fertig.min.css' ||
+      relative === 'fertig-classes.css' || relative === 'fertig-classes.min.css' ||
+      relative === 'fertig-themes.css' || relative === 'fertig-themes.min.css') {
     return contents.replace(
-      /(\/\*! fertig v)[0-9A-Za-z.+-]+(\s+—)/,
+      /(\/\*! fertig[\w-]* v)[0-9A-Za-z.+-]+(\s+—)/,
       '$1<version>$2',
     );
   }
@@ -70,6 +72,10 @@ const fingerprint = () => {
       'package-lock.json',
       'fertig.css',
       'fertig.min.css',
+      'fertig-classes.css',
+      'fertig-classes.min.css',
+      'fertig-themes.css',
+      'fertig-themes.min.css',
     ].includes(relative)
       ? Buffer.from(normalizeVersionMetadata(relative, raw.toString('utf8')))
       : raw;
@@ -87,13 +93,17 @@ const versions = () => {
   const manifest = JSON.parse(read('package.json'));
   const lock = JSON.parse(read('package-lock.json'));
   const bannerVersion = relative => read(relative)
-    .match(/\/\*! fertig v([^ ]+) /)?.[1];
+    .match(/\/\*! fertig[\w-]* v([^ ]+) /)?.[1];
   return {
     manifest: manifest.version,
     lock: lock.version,
     lockRoot: lock.packages?.['']?.version,
     source: bannerVersion('fertig.css'),
     minified: bannerVersion('fertig.min.css'),
+    classes: bannerVersion('fertig-classes.css'),
+    classesMinified: bannerVersion('fertig-classes.min.css'),
+    themes: bannerVersion('fertig-themes.css'),
+    themesMinified: bannerVersion('fertig-themes.min.css'),
   };
 };
 
@@ -141,10 +151,18 @@ const setVersion = version => {
   writeJson('package-lock.json', lock);
 
   const source = read('fertig.css').replace(
-    /(\/\*! fertig v)[0-9A-Za-z.+-]+(\s+—)/,
+    /(\/\*! fertig[\w-]* v)[0-9A-Za-z.+-]+(\s+—)/,
     `$1${version}$2`,
   );
   writeFileSync(path.join(root, 'fertig.css'), source);
+
+  for (const name of ['fertig-classes.css', 'fertig-themes.css']) {
+    const updated = read(name).replace(
+      /(\/\*! fertig[\w-]* v)[0-9A-Za-z.+-]+(\s+—)/,
+      `$1${version}$2`,
+    );
+    writeFileSync(path.join(root, name), updated);
+  }
 };
 
 const build = () => run(process.execPath, ['build.js']);

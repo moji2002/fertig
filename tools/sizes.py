@@ -14,11 +14,19 @@ import sys
 from pathlib import Path
 
 
-BUILDS = ('fertig.css', 'fertig.min.css')
+BUILDS = (
+    'fertig.css',
+    'fertig.min.css',
+    'fertig-classes.css',
+    'fertig-classes.min.css',
+    'fertig-themes.css',
+    'fertig-themes.min.css',
+)
 STATE = Path(__file__).with_name('sizes.json')
 
 # (literal template, expected occurrence count). Available fields are
-# {source_raw}, {source_gzip}, {min_raw}, and {min_gzip}.
+# {source_raw}, {source_gzip}, {min_raw}, {min_gzip},
+# {classes_min_raw}, {classes_min_gzip}, {themes_min_raw}, and {themes_min_gzip}.
 CLAIMS = {
     'README.md': (
         ('**{min_raw} raw · {min_gzip} gzipped · no build step', 1),
@@ -52,17 +60,28 @@ def measure(path):
     return {'raw': f'{raw / 1024:.1f} KB', 'gzip': f'{compressed / 1024:.1f} KB'}
 
 
-def values(measurements):
+def values(measurements, fallback=None):
+    def pick(name):
+        return measurements[name] if name in measurements else fallback[name]
+
+    base = pick('fertig.css')
+    base_min = pick('fertig.min.css')
+    classes = pick('fertig-classes.min.css')
+    themes = pick('fertig-themes.min.css')
     return {
-        'source_raw': measurements['fertig.css']['raw'],
-        'source_gzip': measurements['fertig.css']['gzip'],
-        'min_raw': measurements['fertig.min.css']['raw'],
-        'min_gzip': measurements['fertig.min.css']['gzip'],
+        'source_raw': base['raw'],
+        'source_gzip': base['gzip'],
+        'min_raw': base_min['raw'],
+        'min_gzip': base_min['gzip'],
+        'classes_min_raw': classes['raw'],
+        'classes_min_gzip': classes['gzip'],
+        'themes_min_raw': themes['raw'],
+        'themes_min_gzip': themes['gzip'],
     }
 
 
 def plan_updates(before, after):
-    old_values = values(before)
+    old_values = values(before, after)
     new_values = values(after)
     planned = {}
     failures = []
@@ -140,12 +159,12 @@ def main(check=False):
         failures = []
         tolerated = []
         for build in BUILDS:
-            if was[build]['raw'] != now[build]['raw']:
+            if was.get(build, {}).get('raw') != now[build]['raw']:
                 failures.append(
-                    f'{build} raw: recorded {was[build]["raw"]}, '
+                    f'{build} raw: recorded {was.get(build, {}).get("raw")}, '
                     f'measured {now[build]["raw"]}'
                 )
-            if was[build]['gzip'] != now[build]['gzip']:
+            if was.get(build, {}).get('gzip') != now[build]['gzip']:
                 before = float(was[build]['gzip'].removesuffix(' KB'))
                 current = float(now[build]['gzip'].removesuffix(' KB'))
                 if abs(before - current) <= 0.1000001:
@@ -176,12 +195,13 @@ def main(check=False):
         print(f'\nerror: {error}', file=sys.stderr)
         return 1
 
-    changes = [
-        (was[build][kind], now[build][kind])
-        for build in BUILDS
-        for kind in ('raw', 'gzip')
-        if was[build][kind] != now[build][kind]
-    ]
+    changes = []
+    for build in BUILDS:
+        old_build = was.get(build, {})
+        for kind in ('raw', 'gzip'):
+            old = old_build.get(kind)
+            if old != now[build][kind]:
+                changes.append((old or 'new build', now[build][kind]))
     if not changes:
         print('\nclaims already match the build.')
         return 0

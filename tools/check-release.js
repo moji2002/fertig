@@ -38,6 +38,24 @@ if (banner) {
 expect(minified.startsWith(`/*! fertig v${version} `),
   `fertig.min.css banner does not use v${version}`);
 
+for (const baseName of ['fertig-classes', 'fertig-themes']) {
+  const sourceName = `${baseName}.css`;
+  const minName = `${baseName}.min.css`;
+  const optionalSource = read(sourceName);
+  const optionalMin = read(minName);
+  const optionalBanner = optionalSource.match(/\/\*![^]*?\*\//)?.[0];
+  expect(Boolean(optionalBanner), `${sourceName} is missing its release banner`);
+  if (optionalBanner) {
+    expect(optionalBanner.includes(`${baseName} v${version}`),
+      `${sourceName} banner does not use v${version}`);
+    const generated = `${optionalBanner}${minifyCss(optionalSource)}\n`;
+    expect(optionalMin === generated,
+      `${minName} is stale; run npm run build`);
+  }
+  expect(optionalMin.startsWith(`/*! ${baseName} v${version} `),
+    `${minName} banner does not use v${version}`);
+}
+
 const bytes = Buffer.from(minified);
 const sizes = {
   raw: bytes.length,
@@ -45,7 +63,7 @@ const sizes = {
   brotli: brotliCompressSync(bytes).length,
 };
 const budgets = {
-  raw: 42 * 1024,
+  raw: 44 * 1024,
   gzip: 10 * 1024,
   brotli: 9 * 1024,
 };
@@ -54,8 +72,27 @@ for (const kind of Object.keys(budgets)) {
     `${kind} bundle is ${sizes[kind]} B; budget is ${budgets[kind]} B`);
 }
 
+const optionalBudgets = {
+  'fertig-classes.min.css': { raw: 16 * 1024, gzip: 4 * 1024, brotli: 3.2 * 1024 },
+  'fertig-themes.min.css': { raw: 5.5 * 1024, gzip: 1.1 * 1024, brotli: 0.9 * 1024 },
+};
+for (const [file, budget] of Object.entries(optionalBudgets)) {
+  const bytes = Buffer.from(read(file));
+  for (const [kind, limit] of Object.entries(budget)) {
+    const actual = kind === 'raw'
+      ? bytes.length
+      : (kind === 'gzip' ? gzipSync : brotliCompressSync)(bytes, { level: 9 }).length;
+    expect(actual <= limit,
+      `${file} ${kind} is ${actual} B; budget is ${limit} B`);
+  }
+}
+
 const recorded = JSON.parse(read('tools/sizes.json'));
-for (const file of ['fertig.css', 'fertig.min.css']) {
+for (const file of [
+  'fertig.css', 'fertig.min.css',
+  'fertig-classes.css', 'fertig-classes.min.css',
+  'fertig-themes.css', 'fertig-themes.min.css',
+]) {
   const content = Buffer.from(read(file));
   const actual = {
     raw: format(content.length),
@@ -95,6 +132,7 @@ for (const [key, target] of Object.entries(manifest.exports)) {
 const publicFiles = [
   'README.md', 'llms.txt', 'src/pages/index.astro', 'src/pages/docs.astro',
   'src/pages/components.astro', 'src/pages/blocks.astro',
+  'src/pages/playground.astro',
   'src/layouts/SiteLayout.astro', 'src/components/PageHeader.astro',
   'src/components/SiteFooter.astro', 'src/components/SiteNav.astro',
 ];
