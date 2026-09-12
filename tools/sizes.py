@@ -60,14 +60,11 @@ def measure(path):
     return {'raw': f'{raw / 1024:.1f} KB', 'gzip': f'{compressed / 1024:.1f} KB'}
 
 
-def values(measurements, fallback=None):
-    def pick(name):
-        return measurements[name] if name in measurements else fallback[name]
-
-    base = pick('fertig.css')
-    base_min = pick('fertig.min.css')
-    classes = pick('fertig-classes.min.css')
-    themes = pick('fertig-themes.min.css')
+def values(measurements):
+    base = measurements['fertig.css']
+    base_min = measurements['fertig.min.css']
+    classes = measurements['fertig-classes.min.css']
+    themes = measurements['fertig-themes.min.css']
     return {
         'source_raw': base['raw'],
         'source_gzip': base['gzip'],
@@ -81,7 +78,7 @@ def values(measurements, fallback=None):
 
 
 def plan_updates(before, after):
-    old_values = values(before, after)
+    old_values = values(before)
     new_values = values(after)
     planned = {}
     failures = []
@@ -147,6 +144,14 @@ def main(check=False):
     was = json.loads(STATE.read_text(encoding='utf-8'))
 
     if check:
+        missing = [build for build in BUILDS if build not in was]
+        if missing:
+            print(
+                '\nerror: size state is missing entries: ' + ', '.join(missing) +
+                '\nrun npm run sizes',
+                file=sys.stderr,
+            )
+            return 1
         try:
             # Claims describe the recorded display values. Validate those
             # contexts independently from today's compressor: zlib releases
@@ -159,12 +164,12 @@ def main(check=False):
         failures = []
         tolerated = []
         for build in BUILDS:
-            if was.get(build, {}).get('raw') != now[build]['raw']:
+            if was[build]['raw'] != now[build]['raw']:
                 failures.append(
-                    f'{build} raw: recorded {was.get(build, {}).get("raw")}, '
+                    f'{build} raw: recorded {was[build]["raw"]}, '
                     f'measured {now[build]["raw"]}'
                 )
-            if was.get(build, {}).get('gzip') != now[build]['gzip']:
+            if was[build]['gzip'] != now[build]['gzip']:
                 before = float(was[build]['gzip'].removesuffix(' KB'))
                 current = float(now[build]['gzip'].removesuffix(' KB'))
                 if abs(before - current) <= 0.1000001:
@@ -197,11 +202,10 @@ def main(check=False):
 
     changes = []
     for build in BUILDS:
-        old_build = was.get(build, {})
         for kind in ('raw', 'gzip'):
-            old = old_build.get(kind)
+            old = was[build][kind]
             if old != now[build][kind]:
-                changes.append((old or 'new build', now[build][kind]))
+                changes.append((old, now[build][kind]))
     if not changes:
         print('\nclaims already match the build.')
         return 0
